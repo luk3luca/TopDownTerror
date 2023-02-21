@@ -1,5 +1,5 @@
 package it.unibs.mainApp;
 
-public interface Gun {
+public class Gun extends DungeonObject{
 
 }

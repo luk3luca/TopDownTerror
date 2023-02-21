@@ -1,5 +1,5 @@
 package it.unibs.mainApp;
 
-public class Player {
+public class Player extends DungeonObject{
 
 }

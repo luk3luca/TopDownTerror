@@ -1,5 +1,5 @@
 package it.unibs.mainApp;
 
-public class Bullet {
+public class Bullet extends DungeonObject {
 
 }

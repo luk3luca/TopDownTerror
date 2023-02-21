@@ -1,5 +1,5 @@
 package it.unibs.mainApp;
 
-public interface Tile {
+public abstract class Tile extends DungeonObject{
 
 }

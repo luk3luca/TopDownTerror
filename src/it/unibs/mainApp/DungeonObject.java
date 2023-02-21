@@ -1,5 +1,12 @@
 package it.unibs.mainApp;
 
-public class DungeonObject {
+import java.awt.Color;
+import java.awt.Shape;
 
+public class DungeonObject {
+	private double[] position = {0, 0};
+	private Shape shape;
+	private Color color;
+	
+	
 }

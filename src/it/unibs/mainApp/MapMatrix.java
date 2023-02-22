@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class MapMatrix {
-	public static final int HEIGHT = 64;
-	public static final int WIDTH = 80;
+	public static final int HEIGHT = 40;
+	public static final int WIDTH = 56;
 	public static final double WALL_PROBABILITY = 0.2;
 	
 	public static final int SPAWN_H = 4;

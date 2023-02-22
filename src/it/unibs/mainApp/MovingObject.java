@@ -5,7 +5,7 @@ import java.awt.Shape;
 import java.awt.geom.Area;
 
 public class MovingObject extends DungeonObject {
-	protected double[] position = {0,0,0};
+	
 	protected double speed = 0;
 	protected boolean isAlive = true;
 	
@@ -31,10 +31,4 @@ public class MovingObject extends DungeonObject {
 	//TODO metodi per le collisioni 
 	
 	
-	/*GETTERS AND SETTERS*/
-	public void setPosition(double x,double y, double r) {
-		this.position[0] = x;
-		this.position[1] = y;
-		this.position[2] = r;
-	}
 }

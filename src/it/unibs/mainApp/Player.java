@@ -4,10 +4,10 @@ import java.awt.Color;
 import java.awt.Shape;
 
 public class Player extends MovingObject{
-	private static final double SPEED = 100.;
+	private static final double VELOCITY = 100.;
 
 	public Player() {
-		super(SPEED);
+		super(VELOCITY);
 		
 	}
 

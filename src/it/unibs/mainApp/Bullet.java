@@ -4,7 +4,7 @@ import java.awt.Polygon;
 import java.awt.geom.Area;
 
 public class Bullet extends MovingObject {
-	private static final double SPEED = 100.;
+	private static final double VELOCITY = 100.;
 
 	
 	protected Player player;
@@ -13,11 +13,11 @@ public class Bullet extends MovingObject {
 	private int fuel;
 		
 	public Bullet(Player p, Gun g) {
-		super(SPEED);
+		super(VELOCITY);
 
 		this.player = p;
 		this.gun = g;
-		//TODO velocità fissa in base alla velocità del player
+		//TODO velocitï¿½ fissa in base alla velocitï¿½ del player
 		
 		this.shape = new Area (new Polygon(
 				new int[] {-5,0,5,0,-5},
@@ -34,7 +34,7 @@ public class Bullet extends MovingObject {
 		
 		if(--fuel <=0) {
 			isAlive = false;
-			//TODO settare velocità = 0
+			//TODO settare velocitï¿½ = 0
 		}
 	}	
 }

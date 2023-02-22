@@ -1,16 +1,13 @@
 package it.unibs.mainApp;
 
-import java.awt.Color;
-import java.awt.Shape;
-import java.awt.geom.Area;
 
 public class MovingObject extends DungeonObject {
 	
-	protected double speed = 0;
+	protected double velocity = 0;
 	protected boolean isAlive = true;
 	
 	public MovingObject(double speed) {
-		this.speed = speed;
+		this.velocity = speed;
 	}
 
 	public boolean isAlive() {
@@ -21,10 +18,17 @@ public class MovingObject extends DungeonObject {
 		position[2] += r;
 	}
 	
-	
+	public double getVelocity() {
+		return velocity;
+	}
+
+	public void setVelocity(double velocity) {
+		this.velocity = velocity;
+	}
+
 	public void stepNext() {
-		position[0] = position[0] + 1;
-		position[1] = position[1];
+		position[0] = position[0] + this.velocity;
+		position[1] = position[1] + this.velocity;
 		position[2] = position[2];
 	}
 	

@@ -6,10 +6,7 @@ import java.util.*;
 import javax.swing.JPanel;
 
 public class PnlMap extends JPanel {
-	private static final int NUM_TILE_HEIGHT = 64;
-	private static final int NUM_TILE_WIDTH = 128;
-	
-	
+		
 	int[][] mapMatrix = MapMatrix.getMatrix();
 	
 	//TODO aggiugnere array
@@ -43,7 +40,7 @@ public class PnlMap extends JPanel {
 						tiles.add(buildWall(y,x, tileDim));
 						break;
 					case 2:
-						tiles.add(builSpawn(y,x, tileDim));
+						tiles.add(buildSpawn(y,x, tileDim));
 						break;
 					default:
 						break;
@@ -66,13 +63,13 @@ public class PnlMap extends JPanel {
 		return new T_Wall(y * tileDim, x * tileDim, tileDim, false);
 	}
 
-	private T_Spawn builSpawn(int y, int x, int tileDim) {
+	private T_Spawn buildSpawn(int y, int x, int tileDim) {
 		Color c = Color.RED;
 		return new T_Spawn(y * tileDim, x * tileDim, tileDim, true, c);
 	}
 	
 	
 	private int getCellSize() {
-		return Math.min(getWidth(), getHeight())/NUM_TILE_HEIGHT; 
+		return Math.min(getWidth() / MapMatrix.WIDTH, getHeight()) / MapMatrix.HEIGHT; 
 	}
 }

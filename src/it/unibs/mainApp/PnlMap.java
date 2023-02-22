@@ -71,6 +71,6 @@ public class PnlMap extends JPanel {
 	
 	
 	private int getCellSize() {
-		return Math.min(getWidth() / MapMatrix.WIDTH, getHeight()) / MapMatrix.HEIGHT; 
+		return Math.min(getWidth() / MapMatrix.WIDTH, getHeight() / MapMatrix.HEIGHT); 
 	}
 }

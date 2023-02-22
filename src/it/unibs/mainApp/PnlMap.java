@@ -67,7 +67,7 @@ public class PnlMap extends JPanel {
 	}
 
 	private T_Spawn builSpawn(int y, int x, int tileDim) {
-		Color c = Color.BLACK;
+		Color c = Color.RED;
 		return new T_Spawn(y * tileDim, x * tileDim, tileDim, true, c);
 	}
 	

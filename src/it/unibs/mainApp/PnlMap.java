@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 public class PnlMap extends JPanel {
 	int[][] mapMatrix = MapMatrix.getMatrix();
 	ArrayList<Tile> walls = new ArrayList<Tile>();
-	
+	//TODO aggiugnere array
 	public PnlMap() {
 		
 	}
@@ -22,19 +22,44 @@ public class PnlMap extends JPanel {
 		 int height = getHeight();
 		 
 		 int tileDim = Math.min(width / MapMatrix.WIDTH, height/ MapMatrix.HEIGHT) ;
-		 g2.setColor(Color.GRAY);
-		 
+		 g2.setColor(Color.GRAY);	 
+	}
+	//TODO disegnare mappa
+	private void printMap(Graphics2D g2, int tileDim) {
+		for(int y = 0; y < MapMatrix.HEIGHT; y++) {
+			for(int x = 0; x < MapMatrix.WIDTH; x++) {
+				//TODO aggiungere costruttori, array, disegno
+				//TODO contatore per spawn-colori
+				switch(mapMatrix[y][x]) {
+					case 0:
+						buildPavement(y, x, tileDim);
+						break;
+					case 1:
+						buildWall();
+						break;
+					case 2:
+						builSpawn();
+						break;
+					default:
+						break;
+				}
+			}
+		}
 	}
 	
-	private void printMap(Graphics2D g2, int tileDim) {
-		for(int i = 0; i < MapMatrix.HEIGHT; i++) {
-			for(int j = 0; j < MapMatrix.WIDTH; j++) {
-				
-			}
-			System.out.println();
-		}
-
+	private T_Pavement buildPavement(int y, int x, int tileDim) {
 		
+		return new T_Pavement(y * tileDim, x * tileDim, tileDim, true);
+	}
+	
+	private T_Wall buildWall(int y, int x, int tileDim) {
+		
+		return new T_Wall(y * tileDim, x * tileDim, tileDim, true);
+	}
+
+	private T_Spawn builSpawn(int y, int x, int tileDim) {
+		Color c = Color.BLACK;
+		return new T_Spawn(y * tileDim, x * tileDim, tileDim, true, c);
 	}
 	
 }

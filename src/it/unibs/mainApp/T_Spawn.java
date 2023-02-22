@@ -3,9 +3,9 @@ package it.unibs.mainApp;
 import java.awt.Color;
 
 public class T_Spawn extends Tile {
-
-	public T_Spawn(boolean walkable, int dimension, Color c) {
-		super(walkable, dimension);
+	//TODO aggiungere controllo per non sparare/prendere danni
+	public T_Spawn(int y, int x, int dimension, boolean walkable, Color c) {
+		super(y, x, dimension, walkable);
 		this.setColor(c);
 	}
 

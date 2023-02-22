@@ -6,7 +6,6 @@ import java.awt.geom.Area;
 public class Bullet extends MovingObject {
 	private static final double VELOCITY = 100.;
 
-	
 	protected Player player;
 	protected Gun gun;
 
@@ -17,7 +16,7 @@ public class Bullet extends MovingObject {
 
 		this.player = p;
 		this.gun = g;
-		//TODO velocit� fissa in base alla velocit� del player
+		//TODO velocitA fissa in base alla velocita del player
 		
 		this.shape = new Area (new Polygon(
 				new int[] {-5,0,5,0,-5},
@@ -27,14 +26,13 @@ public class Bullet extends MovingObject {
 		
 	}
 	
-	
+	//TODO morte del proiettile in base a distanza percorsa
 	@Override
 	public void stepNext() {
 		super.stepNext();
 		
 		if(--fuel <=0) {
 			isAlive = false;
-			//TODO settare velocit� = 0
 		}
 	}	
 }

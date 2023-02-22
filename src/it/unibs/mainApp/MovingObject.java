@@ -26,6 +26,7 @@ public class MovingObject extends DungeonObject {
 		this.velocity = velocity;
 	}
 
+	//TODO velocita rotazione
 	public void stepNext() {
 		position[0] = position[0] + this.velocity;
 		position[1] = position[1] + this.velocity;

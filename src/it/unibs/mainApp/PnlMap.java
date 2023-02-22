@@ -6,7 +6,8 @@ import java.util.*;
 import javax.swing.JPanel;
 
 public class PnlMap extends JPanel {
-		
+	private static final long serialVersionUID = 1L;
+
 	int[][] mapMatrix = MapMatrix.getMatrix();
 	
 	//TODO aggiugnere array

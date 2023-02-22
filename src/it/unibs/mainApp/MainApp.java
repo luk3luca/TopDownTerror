@@ -1,5 +1,6 @@
 package it.unibs.mainApp;
 
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -40,7 +41,7 @@ public class MainApp {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		PnlMap pnlMap = new PnlMap();
-		frame.getContentPane().add(pnlMap);
+		frame.getContentPane().add(pnlMap, BorderLayout.CENTER);
 	}
 
 }

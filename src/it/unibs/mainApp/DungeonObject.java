@@ -11,10 +11,7 @@ public class DungeonObject {
 	protected Shape shape;
 	private Color color;
 	
-	public DungeonObject(double[] position, Shape shape, Color color) {
-		this.position = position;
-		this.shape = shape;
-		this.color = color;
+	public DungeonObject() {
 	}
 
 	public double getX() {

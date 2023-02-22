@@ -1,10 +1,9 @@
 package it.unibs.mainApp;
 
-import java.awt.Color;
 import java.awt.Polygon;
 import java.awt.geom.Area;
 
-public class Bullet extends DungeonObject {
+public class Bullet extends MovementObject {
 
 	protected Player player;
 	protected Gun gun;
@@ -32,7 +31,7 @@ public class Bullet extends DungeonObject {
 		
 		if(--fuel <=0) {
 			isAlive = false;
-			this.setVelocity(0, 0, 0);
+			//TODO settare velocità = 0
 		}
-		
+	}	
 }

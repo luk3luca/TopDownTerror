@@ -1,11 +1,15 @@
 package it.unibs.mainApp;
 
+import java.awt.Color;
+import java.awt.Shape;
 import java.awt.geom.Area;
 
-import it.unibs.pajc.SpaceObject;
-
-public class MovementObject {
+public class MovementObject extends DungeonObject {
 	
+	public MovementObject() {
+		
+	}
+
 	private static final double VELOCITY = 100.;
 	
 	protected double[] position = {0,0,0};

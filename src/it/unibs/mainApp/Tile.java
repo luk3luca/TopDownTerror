@@ -7,9 +7,10 @@ public abstract class Tile extends DungeonObject{
 	private boolean walkable;
 	private int dimension;
 	
-	public Tile(double[] position, Shape shape, Color color) {
-		super(position, shape, color);
-		
+	public Tile(boolean walkable, int dimension) {
+		super();
+		this.walkable = walkable;
+		this.dimension = dimension;
 	}
 	
 	

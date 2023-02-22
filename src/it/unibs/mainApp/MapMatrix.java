@@ -13,13 +13,19 @@ public class MapMatrix {
 	
 	public static int[][] matrix = new int[HEIGHT][WIDTH];
 	
+	/*
 	public static void main(String[] args) {
 		//fillWithZeros();
 		fillTheMap();
 		addSpawn();
 		print();
 	}
+	*/
+	
 	public static int[][] getMatrix() {
+		fillTheMap();
+		addSpawn();
+		print();
 		return matrix;
 	}
 	

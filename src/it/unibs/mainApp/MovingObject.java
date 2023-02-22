@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Area;
 
-public class MovementObject extends DungeonObject {
+public class MovingObject extends DungeonObject {
 	
-	public MovementObject() {
+	public MovingObject() {
 		
 	}
 

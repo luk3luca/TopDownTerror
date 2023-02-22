@@ -3,7 +3,7 @@ package it.unibs.mainApp;
 import java.awt.Polygon;
 import java.awt.geom.Area;
 
-public class Bullet extends MovementObject {
+public class Bullet extends MovingObject {
 
 	protected Player player;
 	protected Gun gun;

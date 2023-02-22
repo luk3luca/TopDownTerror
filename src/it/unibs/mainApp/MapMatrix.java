@@ -8,7 +8,7 @@ public class MapMatrix {
 	public static final int WIDTH = 80;
 	public static final double WALL_PROBABILITY = 0.2;
 	
-	public static final int SPAWN_H = 3;
+	public static final int SPAWN_H = 4;
 	public static final int SPAWN_W = 6;
 	
 	public static int[][] matrix = new int[HEIGHT][WIDTH];
@@ -51,6 +51,7 @@ public class MapMatrix {
 		return new Random().nextFloat() > WALL_PROBABILITY ? 0 : 1;
 	}
 	
+	/*
 	private static void addSpawn() {
 		matrix[0][0] = 2;
 		matrix[0][WIDTH/2 - SPAWN_W/2 -1] = 2;
@@ -59,6 +60,24 @@ public class MapMatrix {
 		matrix[HEIGHT - SPAWN_H - 1][0] = 2;
 		matrix[HEIGHT - SPAWN_H - 1][WIDTH/2 - SPAWN_W/2 - 1] = 2;
 		matrix[HEIGHT - SPAWN_H - 1][WIDTH - SPAWN_W] = 2;
+	}
+	*/
+	
+	private static void addSpawn() {
+		fillSpawn(0, 0);
+		fillSpawn(0, WIDTH/2 - SPAWN_W/2);
+		fillSpawn(0, WIDTH - SPAWN_W);
+		
+		fillSpawn(HEIGHT - SPAWN_H,0);
+		fillSpawn(HEIGHT - SPAWN_H, WIDTH/2 - SPAWN_W/2);
+		fillSpawn(HEIGHT - SPAWN_H, WIDTH - SPAWN_W);
+	}
+	
+	private static void fillSpawn(int y, int x) {
+		for(int i = y; i < y + SPAWN_H; i++) {
+			for (int j = x; j < x + SPAWN_W; j++)
+				matrix[i][j] = 2;
+		}
 	}
 	
 	

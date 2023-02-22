@@ -4,12 +4,12 @@ import java.awt.*;
 
 import javax.swing.JPanel;
 
-public class Map extends JPanel {
+public class PnlMap extends JPanel {
 	
 	/**
 	 * Create the panel.
 	 */	
-	public Map() {
+	public PnlMap() {
 		
 	}
 	

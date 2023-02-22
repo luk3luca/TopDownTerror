@@ -7,13 +7,16 @@ public abstract class Tile extends DungeonObject{
 	private int x;
 	private int y;
 	private boolean walkable;
-	private int dimension;
+	private int dimY;
+	private int dimX;
 	
-	public Tile(int y, int x, int dim1, int dim2, boolean walkable) {
+	//Si danno 2 dimensioni, per spawn si puo creare rettangolo
+	public Tile(int y, int x, int dimY, int dimX, boolean walkable) {
 		super();
 		this.walkable = walkable;
-		this.dimension = dimension;
-		this.shape = new Area(new Rectangle(x, y, dim2, dim1));
+		this.dimY = dimY;
+		this.dimX = dimX;
+		this.shape = new Area(new Rectangle(x, y, dimX, dimY));
 	}
 	
 	

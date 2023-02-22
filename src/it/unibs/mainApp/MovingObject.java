@@ -5,16 +5,13 @@ import java.awt.Shape;
 import java.awt.geom.Area;
 
 public class MovingObject extends DungeonObject {
-	
-	public MovingObject() {
-		
-	}
-
-	private static final double VELOCITY = 100.;
-	
 	protected double[] position = {0,0,0};
-	protected double velocity = VELOCITY;
+	protected double speed = 0;
 	protected boolean isAlive = true;
+	
+	public MovingObject(double speed) {
+		this.speed = speed;
+	}
 
 	public boolean isAlive() {
 		return isAlive;
@@ -26,9 +23,9 @@ public class MovingObject extends DungeonObject {
 	
 	
 	public void stepNext() {
-		position[0] = position[0] + VELOCITY;
-		position[1] = position[1] + VELOCITY;
-		position[2] = position[2] + VELOCITY;
+		position[0] = position[0] + 1;
+		position[1] = position[1];
+		position[2] = position[2];
 	}
 	
 	//TODO metodi per le collisioni 

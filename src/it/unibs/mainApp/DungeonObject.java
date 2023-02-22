@@ -5,8 +5,6 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 
 public class DungeonObject {
-	
-	
 	protected double[] position = {0, 0, 0};
 	protected Shape shape;
 	private Color color;

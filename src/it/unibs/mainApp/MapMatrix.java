@@ -80,9 +80,15 @@ public class MapMatrix {
 	}
 	
 	private static void fillSpawn(int y, int x) {
+		boolean first = true;
 		for(int i = y; i < y + SPAWN_H; i++) {
 			for (int j = x; j < x + SPAWN_W; j++)
-				matrix[i][j] = 2;
+				if(first) {
+					matrix[i][j] = 2;
+					first = false;
+				}
+				else
+					matrix[i][j] = 3;
 		}
 	}
 	

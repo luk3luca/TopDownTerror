@@ -29,6 +29,7 @@ public class PnlMap extends JPanel {
 	
 	//TODO disegnare mappa
 	private void printMap(Graphics2D g2, int tileDim) {
+		int spawnCounter = 1;
 		for(int y = 0; y < MapMatrix.HEIGHT; y++) {
 			for(int x = 0; x < MapMatrix.WIDTH; x++) {
 				//TODO aggiungere costruttori, array, disegno
@@ -41,7 +42,8 @@ public class PnlMap extends JPanel {
 						tiles.add(buildWall(y,x, tileDim));
 						break;
 					case 2:
-						tiles.add(buildSpawn(y,x, tileDim));
+						tiles.add(buildSpawn(y,x, tileDim, spawnCounter));
+						spawnCounter++;
 						break;
 					default:
 						break;
@@ -64,9 +66,10 @@ public class PnlMap extends JPanel {
 		return new T_Wall(y * tileDim, x * tileDim, tileDim, false);
 	}
 
-	private T_Spawn buildSpawn(int y, int x, int tileDim) {
-		Color c = Color.RED;
-		return new T_Spawn(y * tileDim, x * tileDim, tileDim, true, c);
+	private T_Spawn buildSpawn(int y, int x, int tileDim, int spawnCounter) {
+		Color c = TeamColors.getColorAlpha(spawnCounter);
+		//Color c = Color.CYAN;
+		return new T_Spawn(y * tileDim, x * tileDim, tileDim * MapMatrix.SPAWN_H, tileDim * MapMatrix.SPAWN_W, true, c);
 	}
 	
 	

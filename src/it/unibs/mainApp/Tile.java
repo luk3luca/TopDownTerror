@@ -9,11 +9,11 @@ public abstract class Tile extends DungeonObject{
 	private boolean walkable;
 	private int dimension;
 	
-	public Tile(int y, int x, int dimension, boolean walkable) {
+	public Tile(int y, int x, int dim1, int dim2, boolean walkable) {
 		super();
 		this.walkable = walkable;
 		this.dimension = dimension;
-		this.shape = new Area(new Rectangle(x, y, dimension, dimension));
+		this.shape = new Area(new Rectangle(x, y, dim2, dim1));
 	}
 	
 	

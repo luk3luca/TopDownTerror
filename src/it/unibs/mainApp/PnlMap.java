@@ -13,6 +13,7 @@ public class PnlMap extends JPanel {
 	//TODO aggiugnere array
 	ArrayList<Tile> tiles = new ArrayList<Tile>();
 	
+	
 	public PnlMap() {
 		
 	}

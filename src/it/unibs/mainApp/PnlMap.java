@@ -8,14 +8,11 @@ import javax.swing.JPanel;
 public class PnlMap extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	int[][] mapMatrix = MapMatrix.getMatrix();
-	
-	//TODO aggiugnere array
-	ArrayList<Tile> tiles = new ArrayList<Tile>();
-	
+	private int[][] mapMatrix = MapMatrix.getMatrix();
+	private ArrayList<Tile> tiles = new ArrayList<Tile>();
+	private int tileDim;
 	
 	public PnlMap() {
-		
 	}
 	
 	@Override
@@ -23,7 +20,7 @@ public class PnlMap extends JPanel {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
 		
-		int tileDim = getCellSize();
+		this.tileDim = getCellSize();
 		g2.setColor(Color.GRAY); 
 		printMap(g2, tileDim);
 	}
@@ -73,8 +70,14 @@ public class PnlMap extends JPanel {
 		return new T_Spawn(y * tileDim, x * tileDim, tileDim * MapMatrix.SPAWN_H, tileDim * MapMatrix.SPAWN_W, true, c);
 	}
 	
-	//
 	private int getCellSize() {
 		return Math.min(getWidth() / MapMatrix.WIDTH, getHeight() / MapMatrix.HEIGHT); 
 	}
+
+	public int getTileDim() {
+		return tileDim;
+	}
+
+	
+
 }

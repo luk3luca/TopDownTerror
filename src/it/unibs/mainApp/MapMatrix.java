@@ -9,7 +9,7 @@ public class MapMatrix {
 	public static final int HEIGHT = 20;
 	public static final int WIDTH = 26;
 
-	public static final double WALL_PROBABILITY = 0.2;
+	public static final double WALL_PROBABILITY = 0.17;
 	
 	//public static final int SPAWN_H = 4;
 	//public static final int SPAWN_W = 6;

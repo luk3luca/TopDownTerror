@@ -37,7 +37,7 @@ public class MainApp {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1400, 900);
+		frame.setBounds(100, 100, 1300, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		PnlMap pnlMap = new PnlMap();

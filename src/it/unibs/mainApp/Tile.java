@@ -16,7 +16,7 @@ public abstract class Tile extends DungeonObject{
 		this.walkable = walkable;
 		this.dimY = dimY;
 		this.dimX = dimX;
-		this.shape = new Area(new Rectangle(x, y, dimX, dimY));
+		this.shape = new Area(new Rectangle(x, y, this.dimX, this.dimY));
 	}
 	
 	

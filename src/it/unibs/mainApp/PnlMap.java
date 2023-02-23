@@ -72,7 +72,7 @@ public class PnlMap extends JPanel {
 		return new T_Spawn(y * tileDim, x * tileDim, tileDim * MapMatrix.SPAWN_H, tileDim * MapMatrix.SPAWN_W, true, c);
 	}
 	
-	
+	//
 	private int getCellSize() {
 		return Math.min(getWidth() / MapMatrix.WIDTH, getHeight() / MapMatrix.HEIGHT); 
 	}

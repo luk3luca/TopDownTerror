@@ -42,17 +42,17 @@ public enum TeamColors {
 	public static Color getColorAlpha(int i) {
 	    switch (i) {
 	        case 1:
-	            return new Color(255,0,0,64);
+	            return new Color(255,100,100);
 	        case 2:
-	            return new Color(255,255,0,64);
+	            return new Color(255,255,100);
 	        case 3:
-	            return new Color(255,0,255,64);
+	            return new Color(255,100,255);
 	        case 4:
-	            return new Color(0,255,0,64);
+	            return new Color(100,255,100);
 	        case 5:
-	            return new Color(255,200,0,64);
+	            return new Color(255,200,100);
 	        case 6:
-	            return new Color(0,255,255,64);
+	            return new Color(100,255,255);
 	        default:
 	            throw new IllegalArgumentException("Invalid color number: " + i);
 	    }

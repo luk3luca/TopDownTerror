@@ -37,7 +37,6 @@ public abstract class Tile extends DungeonObject{
 		return x;
 	}
 	
-	@Override
 	public double getY() {
 		return y;
 	}

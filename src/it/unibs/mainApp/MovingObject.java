@@ -15,7 +15,7 @@ public class MovingObject extends DungeonObject {
 	}
 	
 	public void rotate (double r) {
-		position[2] += r;
+		this.angle += r;
 	}
 	
 	public double getVelocity() {
@@ -28,9 +28,9 @@ public class MovingObject extends DungeonObject {
 
 	//TODO velocita rotazione
 	public void stepNext() {
-		position[0] = position[0] + this.velocity;
-		position[1] = position[1] + this.velocity;
-		position[2] = position[2];
+		this.posX += this.velocity;		//TODO m_velocity
+		this.posY += this.velocity;	
+		this.angle += this.velocity;	//TODO a_velocity
 	}
 	
 	//TODO metodi per le collisioni 

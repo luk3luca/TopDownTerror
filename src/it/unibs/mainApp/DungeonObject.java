@@ -5,37 +5,43 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 
 public class DungeonObject {
-	protected double[] position = {0, 0, 0};
+	protected double posX;
+	protected double posY;
+	protected double angle = 0;
 	protected Shape shape;
 	private Color color;
 	
 	public DungeonObject() {
 	}
 
-	public double getX() {
-		return position[0];
-	}
-	public double getY() {
-		return position[1];
-	}
-	public double getR() {
-		return position[2];
+	public double getPosX() {
+		return posX;
 	}
 	
-	public void setX(double p) {
-		position[0] = p;
+	public void setPosX(double posX) {
+		this.posX = posX;
 	}
-	public void setY(double p) {
-		position[1] = p;
+
+	public double getPosY() {
+		return posY;
 	}
-	public void setR(double p) {
-		position[2] = p;
+
+	public void setPosY(double posY) {
+		this.posY = posY;
+	}
+
+	public double getAngle() {
+		return angle;
+	}
+
+	public void setAngle(double angle) {
+		this.angle = angle;
 	}
 
 	public Shape getShape() {
 		AffineTransform t = new AffineTransform();
-		t.translate(position[0], position[1]);
-		t.rotate(position[2]);
+		t.translate(this.posX, this.posY);
+		t.rotate(this.angle);
 		return t.createTransformedShape(shape);
 	}
 

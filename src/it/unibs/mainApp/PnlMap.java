@@ -73,8 +73,9 @@ public class PnlMap extends JPanel {
 			}
 		}
 
+		Player p = new Player("mario", spawns[0]);
 		
-		
+		g2.fill(p.getShape());
 	}
 	
 	private T_Pavement buildPavement(int y, int x, int tileDim) {
@@ -91,7 +92,7 @@ public class PnlMap extends JPanel {
 		return new T_Spawn(y * tileDim, x * tileDim, tileDim * MapMatrix.SPAWN_H, tileDim * MapMatrix.SPAWN_W, true, c);
 	}
 	
-	private int getCellSize() {
+	private  int getCellSize() {
 		return Math.min(getWidth() / MapMatrix.WIDTH, getHeight() / MapMatrix.HEIGHT); 
 	}
 }

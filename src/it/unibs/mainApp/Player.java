@@ -39,15 +39,15 @@ public class Player extends MovingObject{
 		this.color = spawn.getColor();
 		//this.spawnX = spawn.getSpawnX();
 		//this.spawnY = spawn.getSpawnY();
-		setPosX(spawn.getSpawnX());
-		setPosX(spawn.getSpawnY());
+		setPosX(spawn.getSpawnX() - 10.);
+		setPosY(spawn.getSpawnY() - 10.);
 		
 		//Area shapeArea = new Area(new Ellipse2D.Double(spawnX, spawnY, 10., 10.));
-		Area shapeArea = new Area(new Ellipse2D.Double(0, 0, 10., 10.));
-		shapeArea.add(new Area(new Line2D.Double(5., 5., 5., 15.)));
+		Area shapeArea = new Area(new Ellipse2D.Double(0, 0, 20., 20.));
+		shapeArea.add(new Area(new Line2D.Double(15., 15., 15., 15.)));
 		this.shape = shapeArea;
 	}
 	
-	
+	 
 
 }

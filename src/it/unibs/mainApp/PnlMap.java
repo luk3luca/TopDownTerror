@@ -64,9 +64,10 @@ public class PnlMap extends JPanel {
 			if(t.getImage() != null) {
 				g2.drawImage(t.getImage(),(int)t.getX(),(int)t.getY(),tileDim,tileDim,null);
 			}
-			
 		}
-	}
+		
+		
+			}
 	
 	private T_Pavement buildPavement(int y, int x, int tileDim) {
 		return new T_Pavement(y * tileDim, x * tileDim, tileDim, true);

@@ -14,7 +14,7 @@ public class Player extends MovingObject{
 	private String name;
 	private Color color;
 	private int hp;
-	private Gun gun = Gun.PISTOL;
+	private Gun gun;
 	private T_Spawn spawn;
 	private int magMax;
 	private int ammoLeft;
@@ -25,17 +25,18 @@ public class Player extends MovingObject{
 	private int kills;
 	private int deaths;
 
-	public Player(String name, Color color, int hp, Gun gun, T_Spawn spawn, int magMax, int ammoLeft) {
+	public Player(String name, Gun gun, T_Spawn spawn, int magMax) {
 		super(M_VELOCITY, R_VELOCITY);
 		this.name = name;
 		this.spawn = spawn;
-		this.color = spawn.getColor();
-		this.hp = HP;
-		this.magMax = gun.getMaxAmmo();
 		this.ammoLeft = magMax;
+		this.gun = gun;
+		this.hp = HP;
 		this.kills = 0;
 		this.deaths = 0;
 		
+		this.color = spawn.getColor();
+		this.magMax = gun.getMaxAmmo();
 		this.spawnX = spawn.getSpawnX();
 		this.spawnY = spawn.getSpawnY();
 

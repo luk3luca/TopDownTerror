@@ -16,8 +16,9 @@ public class MovingObject {
 	protected Shape shape;
 	private Color color;
 	
-	public MovingObject(double speed) {
-		this.m_velocity = speed;
+	public MovingObject(double m_velocity, double r_velocity) {
+		this.m_velocity = m_velocity;
+		this.r_velocity = r_velocity;
 	}
 	
 	public double getPosX() {

@@ -4,7 +4,8 @@ import java.awt.Polygon;
 import java.awt.geom.Area;
 
 public class Bullet extends MovingObject {
-	private static final double VELOCITY = 100.;
+	private static final double M_VELOCITY = 10;
+	//private static final double R_VELOCITY = 0;
 
 	protected Player player;
 	protected Gun gun;
@@ -12,7 +13,7 @@ public class Bullet extends MovingObject {
 	private int fuel;
 		
 	public Bullet(Player p, Gun g) {
-		super(VELOCITY);
+		super(M_VELOCITY, 0);
 
 		this.player = p;
 		this.gun = g;

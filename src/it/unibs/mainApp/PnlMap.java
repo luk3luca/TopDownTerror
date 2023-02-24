@@ -14,6 +14,7 @@ public class PnlMap extends JPanel {
 	
 	//TODO aggiugnere array
 	ArrayList<Tile> tiles = new ArrayList<Tile>();
+	T_Spawn[] spawns = new T_Spawn[6];
 	
 	public PnlMap() {
 	}
@@ -43,7 +44,9 @@ public class PnlMap extends JPanel {
 						tiles.add(buildWall(y,x, tileDim));
 						break;
 					case 2:
-						tiles.add(buildSpawn(y,x, tileDim, spawnCounter));
+						T_Spawn s = buildSpawn(y,x, tileDim, spawnCounter);
+						tiles.add(s);
+						spawns[spawnCounter - 1] = s;
 						spawnCounter++;
 						break;
 					default:

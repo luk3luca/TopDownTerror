@@ -7,6 +7,19 @@ public class T_Spawn extends Tile {
 	
 	private int spawnXCenter;
 	private int spawnYCenter;
+	private boolean isTop;
+	
+	/*
+	public T_Spawn(int y, int x, int dimY, int dimX, boolean walkable, boolean isTop, Color c) {
+		super(y, x, dimY, dimX, walkable, imagePath);
+		this.isTop = isTop;
+		this.setColor(c);
+		
+		int tileDim = (dimX / MapMatrix.SPAWN_W);
+		this.spawnXCenter = dimX / 2 + x * tileDim;
+		this.spawnYCenter = dimY / 2 + y * tileDim;
+	}
+	*/
 	
 	public T_Spawn(int y, int x, int dimY, int dimX, boolean walkable, Color c) {
 		super(y, x, dimY, dimX, walkable, imagePath);
@@ -16,6 +29,7 @@ public class T_Spawn extends Tile {
 		this.spawnXCenter = dimX / 2 + x * tileDim;
 		this.spawnYCenter = dimY / 2 + y * tileDim;
 	}
+
 
 	public int getSpawnX() {
 		return spawnXCenter;

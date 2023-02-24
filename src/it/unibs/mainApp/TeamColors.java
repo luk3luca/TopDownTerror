@@ -3,12 +3,12 @@ package it.unibs.mainApp;
 import java.awt.*;
 
 public enum TeamColors {
-	RED(1, Color.RED, new Color(255,0,0,64)),
-	YELLOW(2, Color.YELLOW, new Color(255,255,0,64)),
-	MAGENTA(3, Color.MAGENTA, new Color(255,0,255,64)),
-	GREEN(4, Color.GREEN, new Color(0,255,0,64)),
-	ORANGE(5, Color.ORANGE, new Color(255,200,0,64)),
-	CYAN(6, Color.CYAN, new Color(0,255,255,64));
+	RED(1, Color.RED, new Color(255,100,100)),
+	YELLOW(2, Color.YELLOW, new Color(255,255,100)),
+	MAGENTA(3, Color.MAGENTA, new Color(255,100,255)),
+	GREEN(4, Color.GREEN, new Color(100,255,100)),
+	ORANGE(5, Color.ORANGE, new Color(255,200,100)),
+	CYAN(6, Color.CYAN, new Color(100,255,255));
 
 	private int number;
     private Color color;

@@ -15,9 +15,7 @@ public class PnlMap extends JPanel {
 	//TODO aggiugnere array
 	ArrayList<Tile> tiles = new ArrayList<Tile>();
 	
-	
 	public PnlMap() {
-		
 	}
 	
 	@Override
@@ -72,7 +70,6 @@ public class PnlMap extends JPanel {
 	}
 	
 	private T_Wall buildWall(int y, int x, int tileDim) {
-		
 		return new T_Wall(y * tileDim, x * tileDim, tileDim, false);
 	}
 
@@ -82,7 +79,6 @@ public class PnlMap extends JPanel {
 		return new T_Spawn(y * tileDim, x * tileDim, tileDim * MapMatrix.SPAWN_H, tileDim * MapMatrix.SPAWN_W, true, c);
 	}
 	
-	//
 	private int getCellSize() {
 		return Math.min(getWidth() / MapMatrix.WIDTH, getHeight() / MapMatrix.HEIGHT); 
 	}

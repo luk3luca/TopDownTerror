@@ -52,12 +52,12 @@ public class MovingObject {
 	public Shape getShape() {
 		AffineTransform t = new AffineTransform();
 		t.translate(this.posX, this.posY);
-		t.rotate(this.angle);
-		/*
+		//t.rotate(this.angle);
+		
 		t.rotate(this.angle, 
-				this.getPosX() + Battlefield.BATTLEFIELD_TILEDIM/2, 
-				this.getPosY() + Battlefield.BATTLEFIELD_TILEDIM/2);
-				*/
+				Battlefield.BATTLEFIELD_TILEDIM/4, 
+				Battlefield.BATTLEFIELD_TILEDIM/4);
+				
 		/*
 		t.rotate(this.angle, 
 				this.getPosX(), 

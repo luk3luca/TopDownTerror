@@ -75,6 +75,7 @@ public class Battlefield {
 	//COLLISIONI MOVING OBJECT <--> MOVING OBJECT 
 
 	//COLLISIONI MOVING OBJECT <--> TILES
+	//CREARE ARRAYLIST DI MURI E FARE IL CONTROLLO SOLO SU QUELLO, NON SERVE CONSIDERARE IL CAMMINABILE
 	private void detectCollision() {
 		int nObjs = tiles.size();
 		if(nObjs < 2)
@@ -85,7 +86,6 @@ public class Battlefield {
 		
 		for(int i=0; i<player.length ; i++) {
 			for(int j=0; j<nObjs ; j++) {
-				
 				if(objs[j].checkCollision(player[i])){
 					//TODO  METTERE IL PLAYER NELLA POSIZIONE PRECEDENTE A QUANDO HA COLPITO IL MUTO / SETTARE VELOCITA' A ZERO MA --> CAMBIA METODO PER SPOSTAMENTO 
 					player[i].setPosX(0);

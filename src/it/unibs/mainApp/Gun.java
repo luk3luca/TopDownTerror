@@ -33,7 +33,7 @@ public class Gun {
 		this.color = color;
 	}
 	
-	public Shape getShape(double posX, double posY) {
+	public Shape getShape(double posX, double posY, double angle) {
 		Area gunArea = new Area(new Rectangle2D.Double(Battlefield.BATTLEFIELD_TILEDIM/4 - 1, 
 													   Battlefield.BATTLEFIELD_TILEDIM/4, 
 													   2., 
@@ -41,7 +41,7 @@ public class Gun {
 		this.shape = gunArea;
 		AffineTransform t = new AffineTransform();
 		t.translate(posX, posY);
-		//t.rotate(angle);
+		t.rotate(angle);
 		/*
 		t.rotate(this.angle, 
 				this.getPosX() + Battlefield.BATTLEFIELD_TILEDIM/2, 

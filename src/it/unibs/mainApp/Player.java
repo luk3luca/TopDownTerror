@@ -47,13 +47,13 @@ public class Player extends MovingObject{
 														0.,
 														Battlefield.BATTLEFIELD_TILEDIM/2, 
 														Battlefield.BATTLEFIELD_TILEDIM/2));
-		
+		/*
 		Area gunArea = new Area(new Rectangle2D.Double(Battlefield.BATTLEFIELD_TILEDIM/4 - 1, 
 													   Battlefield.BATTLEFIELD_TILEDIM/4, 
 													   2., 
 													   Battlefield.BATTLEFIELD_TILEDIM * gun.getRange()));
 		playerArea.add(gunArea);
-		
+		*/
 		this.shape = playerArea;
 	}
 

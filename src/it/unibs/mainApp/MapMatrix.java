@@ -7,7 +7,7 @@ public class MapMatrix {
 	//public static final int HEIGHT = 40;
 	//public static final int WIDTH = 56;
 	public static final int HEIGHT = 20;
-	public static final int WIDTH = 27;
+	public static final int WIDTH = 30;
 
 	public static final double WALL_PROBABILITY = 0.17;
 	
@@ -26,7 +26,7 @@ public class MapMatrix {
 		print();
 	}
 	*/
-	
+	 
 	public static int[][] getMatrix() {
 		fillTheMap();
 		addSpawn();

@@ -10,16 +10,13 @@ import javax.swing.Timer;
 
 public class PnlMap extends JPanel {
 	private static final long serialVersionUID = 1L;
-
-	int[][] mapMatrix = MapMatrix.getMatrix();
 	
-	//TODO aggiugnere array
-	ArrayList<Tile> tiles = new ArrayList<Tile>();
-	T_Spawn[] spawns = new T_Spawn[6];
+	Battlefield model;
 	
-	public PnlMap() {
+	public PnlMap(Battlefield model) {
+		this.model = model;
+		
 		Timer t = new Timer(10, e->{ //10 milli secondi 
-			
 			repaint();
 		});
 		
@@ -31,68 +28,28 @@ public class PnlMap extends JPanel {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
 		
-		int tileDim = getCellSize();
-		g2.setColor(Color.GRAY); 
-		printMap(g2, tileDim);
+		printMap(g2);
 	}
-	
-	//TODO disegnare mappa
-	private void printMap(Graphics2D g2, int tileDim) {
-		int spawnCounter = 1;
-		for(int y = 0; y < MapMatrix.HEIGHT; y++) {
-			for(int x = 0; x < MapMatrix.WIDTH; x++) {
-				//TODO aggiungere costruttori, array, disegno
-				//TODO contatore per spawn-colori
-				switch(mapMatrix[y][x]) {
-					case 0:
-						tiles.add(buildPavement(y, x, tileDim));
-						break;
-					case 1:
-						tiles.add(buildWall(y,x, tileDim));
-						break;
-					case 2:
-						T_Spawn s = buildSpawn(y,x, tileDim, spawnCounter);
-						tiles.add(s);
-						spawns[spawnCounter - 1] = s;
-						spawnCounter++;
-						break;
-					default:
-						break;
-				}
-			}
-		}
+	 
+	private void printMap(Graphics2D g2) {
 		
-		for(Tile t: tiles) {
+		for(Tile t: model.tiles) {
 			
 			g2.setColor(t.getColor());
 			g2.fill(t.getShape());
 			
-			
 			if(t.getImage() != null) {
-				g2.drawImage(t.getImage(),(int)t.getX(),(int)t.getY(),tileDim,tileDim,null);
+				g2.drawImage(t.getImage(),(int)t.getX(),(int)t.getY(),Battlefield.BATTLEFIELD_TILEDIM,Battlefield.BATTLEFIELD_TILEDIM,null);
 			}
+			
 		}
-
-		Player p = new Player("mario", spawns[0]);
 		
-		g2.fill(p.getShape());
+		//TODO capire come mai quando crea player lo spawn associato è vuoto 
+		
+		for(int i=0; i < model.player.length; i++) {
+			g2.setColor(model.player[i].getColor());
+			g2.fill(model.player[i].getShape());
+		}
 	}
 	
-	private T_Pavement buildPavement(int y, int x, int tileDim) {
-		return new T_Pavement(y * tileDim, x * tileDim, tileDim, true);
-	}
-	
-	private T_Wall buildWall(int y, int x, int tileDim) {
-		return new T_Wall(y * tileDim, x * tileDim, tileDim, false);
-	}
-
-	private T_Spawn buildSpawn(int y, int x, int tileDim, int spawnCounter) {
-		Color c = TeamColors.getColorAlpha(spawnCounter);
-		//Color c = Color.CYAN;
-		return new T_Spawn(y * tileDim, x * tileDim, tileDim * MapMatrix.SPAWN_H, tileDim * MapMatrix.SPAWN_W, true, c);
-	}
-	
-	private  int getCellSize() {
-		return Math.min(getWidth() / MapMatrix.WIDTH, getHeight() / MapMatrix.HEIGHT); 
-	}
 }

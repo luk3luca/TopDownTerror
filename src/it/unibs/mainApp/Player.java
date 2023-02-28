@@ -6,6 +6,7 @@ import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 
 public class Player extends MovingObject{
 	private static final double M_VELOCITY = 0.1;
@@ -26,8 +27,8 @@ public class Player extends MovingObject{
 	private int kills;
 	private int deaths;
 
-	public Player(String name, T_Spawn spawn) {
-		super(M_VELOCITY, R_VELOCITY);
+	public Player(String name, T_Spawn spawn, Color color) {
+		super(M_VELOCITY, R_VELOCITY,color );
 		this.name = name;
 		this.spawn = spawn;
 		this.magMax = gun.getMaxAmmo();
@@ -36,18 +37,17 @@ public class Player extends MovingObject{
 		this.kills = 0;
 		this.deaths = 0;
 		
-		this.color = spawn.getColor();
 		//this.spawnX = spawn.getSpawnX();
 		//this.spawnY = spawn.getSpawnY();
-		setPosX(spawn.getSpawnX() - 10.);
-		setPosY(spawn.getSpawnY() - 10.);
+		setPosX(spawn.getSpawnX() - Battlefield.BATTLEFIELD_TILEDIM/4 );
+		setPosY(spawn.getSpawnY() - Battlefield.BATTLEFIELD_TILEDIM/4);
 		
 		//Area shapeArea = new Area(new Ellipse2D.Double(spawnX, spawnY, 10., 10.));
-		Area shapeArea = new Area(new Ellipse2D.Double(0, 0, 20., 20.));
-		shapeArea.add(new Area(new Line2D.Double(15., 15., 15., 15.)));
+		Area shapeArea = new Area(new Ellipse2D.Double(0.,0.,20., 20.));
+		shapeArea.add(new Area(new Rectangle2D.Double( Battlefield.BATTLEFIELD_TILEDIM/4, Battlefield.BATTLEFIELD_TILEDIM/4, 1., 30.)));
 		this.shape = shapeArea;
 	}
 	
-	 
-
+	  
+ 
 }

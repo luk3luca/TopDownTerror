@@ -16,9 +16,10 @@ public class MovingObject {
 	protected Shape shape;
 	private Color color;
 	
-	public MovingObject(double m_velocity, double r_velocity) {
+	public MovingObject(double m_velocity, double r_velocity, Color color) {
 		this.m_velocity = m_velocity;
 		this.r_velocity = r_velocity;
+		this.color = color;
 	}
 	
 	public double getPosX() {
@@ -97,5 +98,5 @@ public class MovingObject {
 	
 	//TODO metodi per le collisioni 
 	
-	
+	 
 }

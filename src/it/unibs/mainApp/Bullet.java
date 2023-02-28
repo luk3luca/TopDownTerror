@@ -1,5 +1,6 @@
 package it.unibs.mainApp;
 
+import java.awt.Color;
 import java.awt.Polygon;
 import java.awt.geom.Area;
 
@@ -13,7 +14,7 @@ public class Bullet extends MovingObject {
 	private int fuel;
 		
 	public Bullet(Player p, Gun g) {
-		super(M_VELOCITY, 0);
+		super(M_VELOCITY, 0,Color.BLACK);
 
 		this.player = p;
 		this.gun = g;

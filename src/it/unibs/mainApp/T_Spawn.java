@@ -23,12 +23,14 @@ public class T_Spawn extends Tile {
 	
 	public T_Spawn(int y, int x, int dimY, int dimX, boolean walkable, Color c) {
 		super(y, x, dimY, dimX, walkable, imagePath);
+		
 		this.setColor(c);
 		
 		int tileDim = (dimX / MapMatrix.SPAWN_W);
-		this.spawnXCenter = dimX / 2 + x * tileDim;
-		this.spawnYCenter = dimY / 2 + y * tileDim;
-	}
+		this.spawnXCenter = dimX / 2 + x ;
+		this.spawnYCenter = dimY / 2 + y ;
+		
+	} 
 
 
 	public int getSpawnX() {

@@ -2,6 +2,7 @@ package it.unibs.mainApp;
 
 import java.awt.Color;
 
+
 public class T_Spawn extends Tile {
 	private static final String imagePath = null;
 	
@@ -43,5 +44,11 @@ public class T_Spawn extends Tile {
 	
 	//TODO aggiungere controllo per non sparare/prendere danni
 
+	@Override
+	public boolean checkCollision(MovingObject o) {
+		return (o instanceof Player) ? 
+				false: 
+				super.checkCollision(o);
+	}
 
 }

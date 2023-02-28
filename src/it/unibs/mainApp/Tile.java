@@ -1,7 +1,6 @@
 package it.unibs.mainApp;
 
 import java.awt.geom.Area;
-
 import javax.swing.ImageIcon;
 
 import java.awt.*;
@@ -66,6 +65,15 @@ public class Tile {
 	public void setColor(Color color) {
 		this.color = color;
 	}
+	
+	//COLLISION DETECTION
+	public boolean checkCollision(MovingObject o) {
+		Area  a = new Area(this.getShape());
+		a.intersect(new Area(o.getShape()));
+		return !a.isEmpty();
+	}
+	
+		
 
 	
 	

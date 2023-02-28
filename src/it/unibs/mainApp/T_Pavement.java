@@ -10,5 +10,13 @@ public class T_Pavement extends Tile {
 		super(y, x, dimension, dimension, walkable,imagePath);
 		this.setColor(Color.GRAY);
 	}
+	
+	@Override
+	public boolean checkCollision(MovingObject o) {
+		return (o instanceof Player) ? 
+				false: 
+				super.checkCollision(o);
+	}
+
 
 }

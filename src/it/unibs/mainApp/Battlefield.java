@@ -1,16 +1,18 @@
 package it.unibs.mainApp;
 
 import java.awt.Color;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 public class Battlefield {                                
 	protected static final int BATTLEFIELD_TILEDIM = 40;
-	protected static final int BATTLEFIELD_WIDTH = BATTLEFIELD_TILEDIM * (MapMatrix.WIDTH + 1);
-	protected static final int BATTLEFIELD_HEIGHT = BATTLEFIELD_TILEDIM * (MapMatrix.HEIGHT + 1);
+	protected static final int BATTLEFIELD_WIDTH = BATTLEFIELD_TILEDIM * (MapMatrix.WIDTH );
+	protected static final int BATTLEFIELD_HEIGHT = BATTLEFIELD_TILEDIM * (MapMatrix.HEIGHT );
 	 
 	protected ArrayList<Tile> tiles = new ArrayList<Tile>();
 	protected T_Spawn[] spawns = new T_Spawn[6];
 	protected Player[] player = new Player[6];
+	protected Rectangle2D.Double borders = new Rectangle2D.Double(0.,0.,BATTLEFIELD_WIDTH,BATTLEFIELD_HEIGHT); //bordi logici dell'universo 
 	
 	private int[][] mapMatrix = MapMatrix.getMatrix();
 	
@@ -50,11 +52,6 @@ public class Battlefield {
 		}
 	}
 	
-	
-	
-	 
-	
-	
 	private T_Pavement buildPavement(int y, int x, int tileDim) {
 		return new T_Pavement(y * tileDim, x * tileDim, tileDim, true);
 	}
@@ -69,7 +66,36 @@ public class Battlefield {
 	}
 
 	public void stepNext() {
-		
+		detectCollision();
 	}
+	
+	
+	/*----------------GESTIONE COLLISIONI----------------*/
+
+	//COLLISIONI MOVING OBJECT <--> MOVING OBJECT 
+
+	//COLLISIONI MOVING OBJECT <--> TILES
+	private void detectCollision() {
+		int nObjs = tiles.size();
+		if(nObjs < 2)
+			return;
+		
+		Tile[] objs = new Tile[nObjs];
+		tiles.toArray(objs);
+		
+		for(int i=0; i<player.length ; i++) {
+			for(int j=0; j<nObjs ; j++) {
+				
+				if(objs[j].checkCollision(player[i])){
+					//TODO  METTERE IL PLAYER NELLA POSIZIONE PRECEDENTE A QUANDO HA COLPITO IL MUTO / SETTARE VELOCITA' A ZERO MA --> CAMBIA METODO PER SPOSTAMENTO 
+					player[i].setPosX(0);
+					player[i].setPosY(0);
+				} 
+				
+			}
+		}
+	}
+	
+	
 	
 }

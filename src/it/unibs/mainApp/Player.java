@@ -9,7 +9,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 public class Player extends MovingObject{
-	private static final double M_VELOCITY = 0.8;
+	protected static final double M_VELOCITY = 0.8;
 	private static final double R_VELOCITY = 0.02;
 	private static final int HP = 100;
 

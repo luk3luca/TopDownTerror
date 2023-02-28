@@ -26,7 +26,7 @@ public class T_Spawn extends Tile {
 		
 		this.setColor(c);
 		
-		int tileDim = (dimX / MapMatrix.SPAWN_W);
+		//int tileDim = (dimX / MapMatrix.SPAWN_W);
 		this.spawnXCenter = dimX / 2 + x ;
 		this.spawnYCenter = dimY / 2 + y ;
 		

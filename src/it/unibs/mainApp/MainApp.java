@@ -32,7 +32,7 @@ public class MainApp {
 		frame = new JFrame();
 		frame.setBounds(100, 100, Battlefield.BATTLEFIELD_WIDTH, Battlefield.BATTLEFIELD_HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
+		//frame.setResizable(false);
 		
 		PnlMap pnlMap = new PnlMap(model);
 		frame.getContentPane().add(pnlMap, BorderLayout.CENTER);

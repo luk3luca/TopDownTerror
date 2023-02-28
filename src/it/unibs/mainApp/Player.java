@@ -43,10 +43,25 @@ public class Player extends MovingObject{
 		setPosY(spawn.getSpawnY() - Battlefield.BATTLEFIELD_TILEDIM/4);
 		
 		//Area shapeArea = new Area(new Ellipse2D.Double(spawnX, spawnY, 10., 10.));
-		Area shapeArea = new Area(new Ellipse2D.Double(0.,0.,Battlefield.BATTLEFIELD_TILEDIM/2, Battlefield.BATTLEFIELD_TILEDIM/2));
-		shapeArea.add(new Area(new Rectangle2D.Double( Battlefield.BATTLEFIELD_TILEDIM/4, Battlefield.BATTLEFIELD_TILEDIM/4, 1., 30.)));
-		this.shape = shapeArea;
+		Area playerArea = new Area(new Ellipse2D.Double(0.,
+														0.,
+														Battlefield.BATTLEFIELD_TILEDIM/2, 
+														Battlefield.BATTLEFIELD_TILEDIM/2));
+		/*
+		Area gunArea = new Area(new Rectangle2D.Double(Battlefield.BATTLEFIELD_TILEDIM/4 - 1, 
+													   Battlefield.BATTLEFIELD_TILEDIM/4, 
+													   2., 
+													   Battlefield.BATTLEFIELD_TILEDIM * gun.getRange()));
+		playerArea.add(gunArea);
+		*/
+		this.shape = playerArea;
 	}
+
+	public Gun getGun() {
+		return gun;
+	}
+	
+	
 	
 	  
  

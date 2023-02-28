@@ -3,8 +3,7 @@ package it.unibs.mainApp;
 import java.awt.Color;
 import java.util.ArrayList;
 
-public class Battlefield {
-
+public class Battlefield {                                
 	protected static final int BATTLEFIELD_TILEDIM = 40;
 	protected static final int BATTLEFIELD_WIDTH = BATTLEFIELD_TILEDIM * (MapMatrix.WIDTH + 1);
 	protected static final int BATTLEFIELD_HEIGHT = BATTLEFIELD_TILEDIM * (MapMatrix.HEIGHT + 1);

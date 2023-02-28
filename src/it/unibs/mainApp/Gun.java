@@ -2,14 +2,17 @@ package it.unibs.mainApp;
 
 import java.awt.Color;
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
 
 public class Gun {
-	public final static Gun SNIPER = new Gun("Sniper rifle", 6, 3., 7, 6., 80, new Color(0,0,102)); 				// #000066
+	public final static Gun SNIPER = new Gun("Ballista", 6, 3., 7, 6., 80, new Color(0,0,102)); 				// #000066
 	public final static Gun AR = new Gun("AK-47", 4, 0.5, 25, 4., 20, new Color(128, 0, 32));						// #800020
 	public final static Gun SHOTGUN = new Gun("Il pompa del nonno", 2, 0.8, 5, 3., 50, new Color(135, 38, 87));	// #872657
 	public final static Gun PISTOL = new Gun("Tac-45", 4, 0.8, 12, 3., 15, new Color(0, 191, 255));				// #00BFFF
 	public final static Gun SMG = new Gun("MP7", 3, 0.25, 30, 4., 12, new Color(130, 38, 176));					// #8226b0
-	public final static Gun BOW = new Gun("Sniper rifle", 6, 6., 1, 1., 100, new Color(255,255,255));				// #FFFFFF
+	public final static Gun BOW = new Gun("Bow", 6, 6., 1, 1., 100, new Color(255,255,255));				// #FFFFFF
 	
 	//TODO COSTRUIRE GUN
 	private String name;
@@ -19,6 +22,7 @@ public class Gun {
 	private double reload;
 	private int dmg;
 	private Color color;
+	private Shape shape;
 	
 	public Gun(String name, int range, double rate, int maxAmmo, double reload, int dmg, Color color) {
 		this.name = name;
@@ -28,6 +32,29 @@ public class Gun {
 		this.dmg = dmg;
 		this.color = color;
 	}
+	
+	public Shape getShape(double posX, double posY) {
+		Area gunArea = new Area(new Rectangle2D.Double(Battlefield.BATTLEFIELD_TILEDIM/4 - 1, 
+													   Battlefield.BATTLEFIELD_TILEDIM/4, 
+													   2., 
+													   Battlefield.BATTLEFIELD_TILEDIM * this.range));
+		this.shape = gunArea;
+		AffineTransform t = new AffineTransform();
+		t.translate(posX, posY);
+		//t.rotate(angle);
+		/*
+		t.rotate(this.angle, 
+				this.getPosX() + Battlefield.BATTLEFIELD_TILEDIM/2, 
+				this.getPosY() + Battlefield.BATTLEFIELD_TILEDIM/2);
+				*/
+		/*
+		t.rotate(this.angle, 
+				this.getPosX(), 
+				this.getPosY());
+				*/
+		return t.createTransformedShape(shape);
+	}
+
 
 	public static Gun getSniper() {
 		return SNIPER;

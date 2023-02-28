@@ -53,6 +53,16 @@ public class MovingObject {
 		AffineTransform t = new AffineTransform();
 		t.translate(this.posX, this.posY);
 		t.rotate(this.angle);
+		/*
+		t.rotate(this.angle, 
+				this.getPosX() + Battlefield.BATTLEFIELD_TILEDIM/2, 
+				this.getPosY() + Battlefield.BATTLEFIELD_TILEDIM/2);
+				*/
+		/*
+		t.rotate(this.angle, 
+				this.getPosX(), 
+				this.getPosY());
+				*/
 		return t.createTransformedShape(shape);
 	}
 

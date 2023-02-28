@@ -9,8 +9,8 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 public class Player extends MovingObject{
-	private static final double M_VELOCITY = 0.1;
-	private static final double R_VELOCITY = 0.1;
+	private static final double M_VELOCITY = 0.8;
+	private static final double R_VELOCITY = 0.02;
 	private static final int HP = 100;
 
 	private String name;
@@ -43,7 +43,7 @@ public class Player extends MovingObject{
 		setPosY(spawn.getSpawnY() - Battlefield.BATTLEFIELD_TILEDIM/4);
 		
 		//Area shapeArea = new Area(new Ellipse2D.Double(spawnX, spawnY, 10., 10.));
-		Area shapeArea = new Area(new Ellipse2D.Double(0.,0.,20., 20.));
+		Area shapeArea = new Area(new Ellipse2D.Double(0.,0.,Battlefield.BATTLEFIELD_TILEDIM/2, Battlefield.BATTLEFIELD_TILEDIM/2));
 		shapeArea.add(new Area(new Rectangle2D.Double( Battlefield.BATTLEFIELD_TILEDIM/4, Battlefield.BATTLEFIELD_TILEDIM/4, 1., 30.)));
 		this.shape = shapeArea;
 	}

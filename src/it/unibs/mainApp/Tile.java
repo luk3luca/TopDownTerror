@@ -16,7 +16,7 @@ public class Tile {
 	private Shape shape;
 	private Color color;
 	private String imagePath;
-	
+	  
 	//Si danno 2 dimensioni, per spawn si puo creare rettangolo
 	public Tile(int y, int x, int dimY, int dimX, boolean walkable, String imagePath) {
 		this.posX = x;

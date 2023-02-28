@@ -1,6 +1,8 @@
 package it.unibs.mainApp;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.*;
 
@@ -8,7 +10,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class PnlMap extends JPanel {
+
+public class PnlMap extends JPanel implements KeyListener {
 	private static final long serialVersionUID = 1L;
 	
 	Battlefield model;
@@ -17,16 +20,24 @@ public class PnlMap extends JPanel {
 		this.model = model;
 		
 		Timer t = new Timer(10, e->{ //10 milli secondi 
-			repaint();
+			applyControls();
+			model.stepNext();
+			repaint(); 
 		});
 		
 		t.start();
-	}
+		
+		//eventi della tastiera girati al pannello 
+		this.setFocusable(true);	
+		this.requestFocusInWindow();
+		this.addKeyListener(this);
+	} 
 	
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); 
 		
 		printMap(g2);
 	}
@@ -49,6 +60,47 @@ public class PnlMap extends JPanel {
 		for(int i=0; i < model.player.length; i++) {
 			g2.setColor(model.player[i].getColor());
 			g2.fill(model.player[i].getShape());
+		}
+	}
+	
+	
+	//GESTIONE EVENTI TASTIERA
+	private ArrayList<Integer> currentActiveControls = new ArrayList<>();
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(!currentActiveControls.contains(e.getKeyCode()))
+				currentActiveControls.add(e.getKeyCode());
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		currentActiveControls.remove((Object)e.getKeyCode());
+	}
+	
+	private void applyControls() {
+		
+		Player p = model.player[0];
+		if(p == null)
+			return;
+		
+		
+		for(Integer keycode: currentActiveControls) {
+			switch(keycode) {
+			case KeyEvent.VK_W: p.setPosY(p.getPosY() - p.getM_velocity()); break;
+			case KeyEvent.VK_A: p.setPosX(p.getPosX() - p.getM_velocity()); break;
+			case KeyEvent.VK_S: p.setPosY(p.getPosY() + p.getM_velocity()); break;
+			case KeyEvent.VK_D: p.setPosX(p.getPosX() + p.getM_velocity()); break;
+			case KeyEvent.VK_I:  break;
+			case KeyEvent.VK_J: p.rotate(- p.getR_velocity()); break;
+			case KeyEvent.VK_L: p.rotate(p.getR_velocity()); break;
+			
+			}
 		}
 	}
 	

@@ -33,21 +33,11 @@ public class T_Spawn extends Tile {
 	} 
 
 
-	public int getSpawnX() {
-		return spawnXCenter;
-	}
+	public int getSpawnX() { return spawnXCenter; }
+	public void setSpawnX(int spawnX) { this.spawnXCenter = spawnX; }
 
-	public void setSpawnX(int spawnX) {
-		this.spawnXCenter = spawnX;
-	}
-
-	public int getSpawnY() {
-		return spawnYCenter;
-	}
-
-	public void setSpawnY(int spawnY) {
-		this.spawnYCenter = spawnY;
-	}
+	public int getSpawnY() { return spawnYCenter; }
+	public void setSpawnY(int spawnY) { this.spawnYCenter = spawnY; }
 	
 	
 	

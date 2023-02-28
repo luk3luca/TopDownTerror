@@ -51,7 +51,7 @@ public class Battlefield {
 		}
 	}
 	
-	
+	 
 	
 	
 	private T_Pavement buildPavement(int y, int x, int tileDim) {
@@ -66,4 +66,9 @@ public class Battlefield {
 		Color c = TeamColors.getColorAlpha(spawnCounter);
 		return new T_Spawn(y * tileDim, x * tileDim, tileDim * MapMatrix.SPAWN_H, tileDim * MapMatrix.SPAWN_W, true, c);
 	}
+
+	public void stepNext() {
+		
+	}
+	
 }

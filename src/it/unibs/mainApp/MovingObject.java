@@ -22,46 +22,25 @@ public class MovingObject {
 		this.color = color;
 	}
 	
-	public double getPosX() {
-		return posX;
-	}
+	public double getPosX() { return posX; }
+	public void setPosX(double posX) { this.posX = posX; }
+
+	public double getPosY() { return posY; }
+	public void setPosY(double posY) { this.posY = posY; }
+
+	public double getAngle() { return angle; }
+	public void setAngle(double angle) { this.angle = angle; }
 	
-	public void setPosX(double posX) {
-		this.posX = posX;
-	}
+	public double getM_velocity() { return m_velocity; }
+	public void setM_velocity(double m_velocity) { this.m_velocity = m_velocity; }
 
-	public double getPosY() {
-		return posY;
-	}
+	public double getR_velocity() { return r_velocity; }
+	public void setR_velocity(double r_velocity) { this.r_velocity = r_velocity; }
 
-	public void setPosY(double posY) {
-		this.posY = posY;
-	}
-
-	public double getAngle() {
-		return angle;
-	}
-
-	public void setAngle(double angle) {
-		this.angle = angle;
-	}
+	public Color getColor() { return color; }
+	public void setColor(Color color) { this.color = color; }
 	
-	public double getM_velocity() {
-		return m_velocity;
-	}
-
-	public void setM_velocity(double m_velocity) {
-		this.m_velocity = m_velocity;
-	}
-
-	public double getR_velocity() {
-		return r_velocity;
-	}
-
-	public void setR_velocity(double r_velocity) {
-		this.r_velocity = r_velocity;
-	}
-
+	
 	public boolean isAlive() {
 		return isAlive;
 	}
@@ -81,19 +60,12 @@ public class MovingObject {
 		this.shape = shape;
 	}
 
-	public Color getColor() {
-		return color;
-	}
-
-	public void setColor(Color color) {
-		this.color = color;
-	}
 	
 	//TODO velocita rotazione
 	public void stepNext() {
-		this.posX += this.m_velocity;
-		this.posY += this.m_velocity;	
-		rotate(r_velocity);
+//		this.posX += this.m_velocity;
+//		this.posY += this.m_velocity;	
+//		rotate(r_velocity);
 	}
 	
 	//TODO metodi per le collisioni 

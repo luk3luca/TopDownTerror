@@ -58,9 +58,15 @@ public class PnlMap extends JPanel implements KeyListener {
 		//TODO capire come mai quando crea player lo spawn associato è vuoto 
 		
 		for(int i=0; i < model.player.length; i++) {
-			g2.setColor(model.player[i].getColor());
-			g2.fill(model.player[i].getShape());
-			g2.fill(model.player[i].getGun().getShape(model.player[i].getPosX(), model.player[i].getPosY(), 0));
+			Player p = model.player[i];
+			
+			g2.setColor(p.getGun().getColor());
+			g2.fill(p.getGun().getShape(p.getPosX(), p.getPosY(), p.getAngle()));
+			
+			g2.setColor(p.getColor());
+			g2.fill(p.getShape());
+			
+			
 		}
 	}
 	
@@ -94,6 +100,7 @@ public class PnlMap extends JPanel implements KeyListener {
 		for(Integer keycode: currentActiveControls) {
 			switch(keycode) {
 			case KeyEvent.VK_W: p.setPosY(p.getPosY() - p.getM_velocity()); break;
+									
 			case KeyEvent.VK_A: p.setPosX(p.getPosX() - p.getM_velocity()); break;
 			case KeyEvent.VK_S: p.setPosY(p.getPosY() + p.getM_velocity()); break;
 			case KeyEvent.VK_D: p.setPosX(p.getPosX() + p.getM_velocity()); break;

@@ -106,13 +106,19 @@ public class Battlefield {
 				if(objs[j].checkCollision(player[i])){
 					//TODO  METTERE IL PLAYER NELLA POSIZIONE PRECEDENTE A QUANDO HA COLPITO IL MURO / SETTARE VELOCITA' A ZERO MA --> CAMBIA METODO PER SPOSTAMENTO 
 					
-					//if () {
-						player[i].setPosX(player[i].getPosX()-Player.M_VELOCITY);
-						player[i].setPosY(player[i].getPosY()-Player.M_VELOCITY);
-					//}else if (){
-						//player[i].setPosX(player[i].getPosX()+1);
-						//player[i].setPosY(player[i].getPosY()+1);
-					//}
+					if (player[i].getPosX() < objs[j].getX()) {
+		                player[i].setPosX(objs[j].getX() - BATTLEFIELD_TILEDIM/2);
+		            }
+		            if (player[i].getPosX() + BATTLEFIELD_TILEDIM/2  > objs[j].getX() + BATTLEFIELD_TILEDIM) {
+		                player[i].setPosX(objs[j].getX() + BATTLEFIELD_TILEDIM);
+		            }
+		            if (player[i].getPosY() < objs[j].getY()) {
+		            	player[i].setPosY(objs[j].getY() - BATTLEFIELD_TILEDIM/2);
+		            }
+		            if (player[i].getPosY() + BATTLEFIELD_TILEDIM/2 > objs[j].getY() + BATTLEFIELD_TILEDIM) {
+		            	player[i].setPosY(objs[j].getY() + BATTLEFIELD_TILEDIM);
+		            }
+					
 					
 				} 
 				

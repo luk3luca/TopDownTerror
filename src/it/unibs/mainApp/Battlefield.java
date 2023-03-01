@@ -12,7 +12,7 @@ public class Battlefield {
 	protected ArrayList<Tile> tiles = new ArrayList<Tile>();
 	protected T_Spawn[] spawns = new T_Spawn[6];
 	protected Player[] player = new Player[6];
-	protected Rectangle2D.Double borders = new Rectangle2D.Double(0.,0.,BATTLEFIELD_WIDTH,BATTLEFIELD_HEIGHT); //bordi logici dell'universo 
+	//protected Rectangle2D.Double borders = new Rectangle2D.Double(0.,0.,BATTLEFIELD_WIDTH,BATTLEFIELD_HEIGHT); //bordi logici dell'universo 
 	
 	private int[][] mapMatrix = MapMatrix.getMatrix();
 	
@@ -64,8 +64,21 @@ public class Battlefield {
 		Color c = TeamColors.getColorAlpha(spawnCounter);
 		return new T_Spawn(y * tileDim, x * tileDim, tileDim * MapMatrix.SPAWN_H, tileDim * MapMatrix.SPAWN_W, true, c);
 	}
+	
+	public void checkBorder() {
+		for (int i = 0; i < player.length; i++) {
+			if (player[i].posX >= BATTLEFIELD_WIDTH - BATTLEFIELD_TILEDIM/2  || player[i].posY >= BATTLEFIELD_HEIGHT - BATTLEFIELD_TILEDIM/2 ) {
+				player[i].setPosX(player[i].getPosX() - Player.M_VELOCITY);
+				player[i].setPosY(player[i].getPosY() - Player.M_VELOCITY);
+			}else if (player[i].posX <= 0 || player[i].posY <= 0) {
+				player[i].setPosX(player[i].getPosX() + Player.M_VELOCITY);
+				player[i].setPosY(player[i].getPosY() + Player.M_VELOCITY);
+			}
+		}
+	}
 
 	public void stepNext() {
+		checkBorder();
 		detectCollision();
 	}
 	
@@ -85,11 +98,20 @@ public class Battlefield {
 		tiles.toArray(objs);
 		
 		for(int i=0; i<player.length ; i++) {
+			double posX = player[i].getPosX();
+			double posY = player[i].getPosY();
 			for(int j=0; j<nObjs ; j++) {
 				if(objs[j].checkCollision(player[i])){
-					//TODO  METTERE IL PLAYER NELLA POSIZIONE PRECEDENTE A QUANDO HA COLPITO IL MUTO / SETTARE VELOCITA' A ZERO MA --> CAMBIA METODO PER SPOSTAMENTO 
-					player[i].setPosX(0);
-					player[i].setPosY(0);
+					//TODO  METTERE IL PLAYER NELLA POSIZIONE PRECEDENTE A QUANDO HA COLPITO IL MURO / SETTARE VELOCITA' A ZERO MA --> CAMBIA METODO PER SPOSTAMENTO 
+					
+					//if () {
+						player[i].setPosX(player[i].getPosX()-1);
+						player[i].setPosY(player[i].getPosY()-1);
+					//}else if (){
+						player[i].setPosX(player[i].getPosX()+1);
+						player[i].setPosY(player[i].getPosY()+1);
+					//}
+					
 				} 
 				
 			}

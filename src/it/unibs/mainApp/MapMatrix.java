@@ -30,7 +30,7 @@ public class MapMatrix {
 	public static int[][] getMatrix() {
 		fillTheMap();
 		addSpawn();
-		print();
+		//print();
 		return matrix;
 	}
 	

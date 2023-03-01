@@ -19,7 +19,7 @@ public class PnlMap extends JPanel implements KeyListener {
 	public PnlMap(Battlefield model) {
 		this.model = model;
 		
-		Timer t = new Timer(10, e->{ //10 milli secondi 
+		Timer t = new Timer(10, e->{ // 10 MILLISECONDI
 			applyControls();
 			model.stepNext();
 			repaint(); 
@@ -27,7 +27,7 @@ public class PnlMap extends JPanel implements KeyListener {
 		
 		t.start();
 		
-		//eventi della tastiera girati al pannello 
+		//EVENTI DELLA TASTIERA GIRATI SUL PANNELLO
 		this.setFocusable(true);	
 		this.requestFocusInWindow();
 		this.addKeyListener(this);
@@ -55,7 +55,7 @@ public class PnlMap extends JPanel implements KeyListener {
 			
 		}
 		
-		//TODO capire come mai quando crea player lo spawn associato è vuoto 
+		//TODO capire come mai quando crea player lo spawn associato ï¿½ vuoto 
 		
 		for(int i=0; i < model.player.length; i++) {
 			Player p = model.player[i];
@@ -92,7 +92,7 @@ public class PnlMap extends JPanel implements KeyListener {
 	
 	private void applyControls() {
 		
-		Player p = model.player[0];
+		Player p = model.player[5];
 		if(p == null)
 			return;
 		

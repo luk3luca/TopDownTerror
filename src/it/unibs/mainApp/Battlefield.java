@@ -12,6 +12,7 @@ public class Battlefield {
 	protected ArrayList<Tile> tiles = new ArrayList<Tile>();
 	protected T_Spawn[] spawns = new T_Spawn[6];
 	protected Player[] player = new Player[6];
+	protected ArrayList<T_Wall> walls = new ArrayList<>();
 	//protected Rectangle2D.Double borders = new Rectangle2D.Double(0.,0.,BATTLEFIELD_WIDTH,BATTLEFIELD_HEIGHT); //bordi logici dell'universo 
 	
 	private int[][] mapMatrix = MapMatrix.getMatrix();
@@ -32,6 +33,7 @@ public class Battlefield {
 						break;
 					case 1:
 						tiles.add(buildWall(y,x, BATTLEFIELD_TILEDIM));
+						walls.add(buildWall(y,x, BATTLEFIELD_TILEDIM));
 						break;
 					case 2:
 						T_Spawn s = buildSpawn(y,x, BATTLEFIELD_TILEDIM, spawnCounter);
@@ -90,12 +92,12 @@ public class Battlefield {
 	//COLLISIONI MOVING OBJECT <--> TILES
 	//CREARE ARRAYLIST DI MURI E FARE IL CONTROLLO SOLO SU QUELLO, NON SERVE CONSIDERARE IL CAMMINABILE
 	private void detectCollision() {
-		int nObjs = tiles.size();
+		int nObjs = walls.size();
 		if(nObjs < 2)
 			return;
 		
 		Tile[] objs = new Tile[nObjs];
-		tiles.toArray(objs);
+		walls.toArray(objs);
 		
 		for(int i=0; i<player.length ; i++) {
 			double posX = player[i].getPosX();
@@ -105,11 +107,11 @@ public class Battlefield {
 					//TODO  METTERE IL PLAYER NELLA POSIZIONE PRECEDENTE A QUANDO HA COLPITO IL MURO / SETTARE VELOCITA' A ZERO MA --> CAMBIA METODO PER SPOSTAMENTO 
 					
 					//if () {
-						player[i].setPosX(player[i].getPosX()-1);
-						player[i].setPosY(player[i].getPosY()-1);
+						player[i].setPosX(player[i].getPosX()-Player.M_VELOCITY);
+						player[i].setPosY(player[i].getPosY()-Player.M_VELOCITY);
 					//}else if (){
-						player[i].setPosX(player[i].getPosX()+1);
-						player[i].setPosY(player[i].getPosY()+1);
+						//player[i].setPosX(player[i].getPosX()+1);
+						//player[i].setPosY(player[i].getPosY()+1);
 					//}
 					
 				} 

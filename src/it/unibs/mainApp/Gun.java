@@ -7,6 +7,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
 public class Gun  {
+	public final static double GUN_WIDTH = 4.;
 	public final static Gun SNIPER = new Gun("Ballista", 6, 3., 7, 6., 80, new Color(0,0,102)); 				// #000066
 	public final static Gun AR = new Gun("AK-47", 4, 0.5, 25, 4., 20, new Color(128, 0, 32));						// #800020
 	public final static Gun SHOTGUN = new Gun("Il pompa del nonno", 2, 0.8, 5, 3., 50, new Color(135, 38, 87));	// #872657
@@ -36,9 +37,9 @@ public class Gun  {
 	}
 	
 	public Shape getShape(double posX, double posY, double angle) {
-		Area gunArea = new Area(new Rectangle2D.Double(Battlefield.BATTLEFIELD_TILEDIM/4 - 1, 
+		Area gunArea = new Area(new Rectangle2D.Double(Battlefield.BATTLEFIELD_TILEDIM/4 - GUN_WIDTH/2, 
 													   Battlefield.BATTLEFIELD_TILEDIM/4, 
-													   2., 
+													   GUN_WIDTH, 
 													   Battlefield.BATTLEFIELD_TILEDIM * this.range));
 		this.shape = gunArea;
 		AffineTransform t = new AffineTransform();

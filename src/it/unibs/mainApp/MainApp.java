@@ -10,6 +10,7 @@ public class MainApp {
 	private JFrame frame;
 
 	public static void main(String[] args) {
+		System.out.println("start");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

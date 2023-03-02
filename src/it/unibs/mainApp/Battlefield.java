@@ -207,19 +207,23 @@ public class Battlefield {
 				player[i].setPosX(rightTile.getX() - BATTLEFIELD_TILEDIM/2);
 				System.out.println("BL");
 			}
-			else if(player[i].isTopCollision()) {
+			else if(player[i].isTopCollision()) {		//TODO FIX
 				player[i].setPosY(topTile.getY() + BATTLEFIELD_TILEDIM);
+				player[i].setPosX(player[i].getPosX());
 				System.out.println("T");
 			}
-			else if(player[i].isBottomCollision()) {
+			else if(player[i].isBottomCollision()) {	//TODO FIX
 				player[i].setPosY(bottomTile.getY() - BATTLEFIELD_TILEDIM/2);
+				player[i].setPosX(player[i].getPosX());
 				System.out.println("B");
 			}
 			else if(player[i].isLeftCollision()) {
+				player[i].setPosY(player[i].getPosY());
 				player[i].setPosX(leftTile.getX() + BATTLEFIELD_TILEDIM);
 				System.out.println("L");
 			}
 			else if(player[i].isRightCollision()) {
+				player[i].setPosY(player[i].getPosY());
 				player[i].setPosX(rightTile.getX() - BATTLEFIELD_TILEDIM/2);
 				System.out.println("R");
 			}

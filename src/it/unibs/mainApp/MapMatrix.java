@@ -4,17 +4,11 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class MapMatrix {
-	//public static final int HEIGHT = 40;
-	//public static final int WIDTH = 56;
-	public static final int HEIGHT = 20;
-	public static final int WIDTH = 30;
-
-	public static final double WALL_PROBABILITY = 0.17;
-	
-	//public static final int SPAWN_H = 4;
-	//public static final int SPAWN_W = 6;
+	public static final int HEIGHT = 22;
+	public static final int WIDTH = 32;
 	public static final int SPAWN_H = 3;
-	public static final int SPAWN_W = 5;
+	public static final int SPAWN_W = 4;
+	public static final double WALL_PROBABILITY = 0.17;
 	
 	public static int[][] matrix = new int[HEIGHT][WIDTH];
 	
@@ -42,9 +36,14 @@ public class MapMatrix {
 	*/
 	
 	private static void fillTheMap() {
-		for(int i = 0; i < HEIGHT; i++) {
+		Arrays.fill(matrix[0], 1);
+		Arrays.fill(matrix[HEIGHT - 1], 1);
+		for(int i = 1; i < HEIGHT - 1; i++) {
 			for(int j = 0; j < WIDTH; j++) {
-				matrix[i][j] = WallOrNot();
+				if(j == 0 || j == WIDTH - 1)
+					matrix[i][j] = 1;
+				else
+					matrix[i][j] = WallOrNot();
 			}
 		}
 	}
@@ -75,13 +74,13 @@ public class MapMatrix {
 	*/
 	
 	private static void addSpawn() {
-		fillSpawn(0, 0);
-		fillSpawn(0, WIDTH/2 - SPAWN_W/2);
-		fillSpawn(0, WIDTH - SPAWN_W);
+		fillSpawn(1, 1);
+		fillSpawn(1, WIDTH/2 - SPAWN_W/2);
+		fillSpawn(1, WIDTH - SPAWN_W - 1);
 		
-		fillSpawn(HEIGHT - SPAWN_H,0);
-		fillSpawn(HEIGHT - SPAWN_H, WIDTH/2 - SPAWN_W/2);
-		fillSpawn(HEIGHT - SPAWN_H, WIDTH - SPAWN_W);
+		fillSpawn(HEIGHT - SPAWN_H - 1,1);
+		fillSpawn(HEIGHT - SPAWN_H - 1, WIDTH/2 - SPAWN_W/2);
+		fillSpawn(HEIGHT - SPAWN_H - 1, WIDTH - SPAWN_W - 1);
 	}
 	
 	private static void fillSpawn(int y, int x) {

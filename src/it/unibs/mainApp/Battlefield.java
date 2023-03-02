@@ -5,7 +5,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 public class Battlefield {                                
-	protected static final int BATTLEFIELD_TILEDIM = 30;
+	protected static final int BATTLEFIELD_TILEDIM = 32;
 	protected static final int BATTLEFIELD_WIDTH = BATTLEFIELD_TILEDIM * (MapMatrix.WIDTH + 1);
 	protected static final int BATTLEFIELD_HEIGHT = BATTLEFIELD_TILEDIM * (MapMatrix.HEIGHT + 2);
 	 

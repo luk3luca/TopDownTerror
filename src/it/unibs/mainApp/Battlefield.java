@@ -41,6 +41,9 @@ public class Battlefield {
 						spawns[spawnCounter - 1] = s;
 						spawnCounter++;
 						break;
+					case 3:
+						tiles.add(buildPavement(y, x, BATTLEFIELD_TILEDIM));
+						break;
 					default:
 						break;
 				}
@@ -81,7 +84,7 @@ public class Battlefield {
 
 	public void stepNext() {
 		checkBorder();
-		detectCollision();
+		checkCollision();
 	}
 	
 	
@@ -98,10 +101,12 @@ public class Battlefield {
 		
 		Tile[] objs = new Tile[nObjs];
 		walls.toArray(objs);
-		
+		/*
 		for(int i=0; i<player.length ; i++) {
 			boolean x = true;
 			for(int j=0; j<nObjs ; j++) {
+				
+				
 				if(objs[j].checkCollision(player[i])){
 					//TODO  METTERE IL PLAYER NELLA POSIZIONE PRECEDENTE A QUANDO HA COLPITO IL MURO / SETTARE VELOCITA' A ZERO MA --> CAMBIA METODO PER SPOSTAMENTO 
 					
@@ -134,17 +139,59 @@ public class Battlefield {
 						player[i].setPosY(objs[j].getY()- BATTLEFIELD_TILEDIM/2);
 						System.out.println("top collision");
 					}
-					*/
-					
-					
-					
 					
 				} 
+				*/
+			}
+	
+	
+	private void checkCollision() {
+		for(int i=0; i<player.length ; i++) {
+			//Player p = player[i];
+			int playerSquareX = (int)((player[i].getPosX() * MapMatrix.WIDTH) / BATTLEFIELD_WIDTH);
+			int playerSquareY = (int)((player[i].getPosY() * MapMatrix.HEIGHT) / BATTLEFIELD_HEIGHT);
+			System.out.println(playerSquareY);
+			int[] topSquare = {playerSquareY - 1, playerSquareX};
+			int[] bottomSquare = {playerSquareY + 1, playerSquareX};
+			int[] leftSquare = {playerSquareY, playerSquareX - 1};
+			int[] rightSquare = {playerSquareY, playerSquareX + 1};
+			
+			Tile topTile = tiles.get(topSquare[0]*MapMatrix.WIDTH + topSquare[1]);
+			Tile bottomTile = tiles.get(bottomSquare[0]*MapMatrix.WIDTH + bottomSquare[1]);
+			Tile leftTile = tiles.get(leftSquare[0]*MapMatrix.WIDTH + leftSquare[1]);
+			Tile rightTile = tiles.get(rightSquare[0]*MapMatrix.WIDTH + rightSquare[1]);
+			
+			player[i].setTopCollision(topTile.checkCollision(player[i]));
+			player[i].setBottomCollision(bottomTile.checkCollision(player[i]));
+			player[i].setLeftCollision(leftTile.checkCollision(player[i]));
+			player[i].setRightCollision(rightTile.checkCollision(player[i]));
+			
+			if(player[i].isTopCollision() && player[i].isLeftCollision()) {
+				System.out.println("TL");
+			}
+			else if(player[i].isTopCollision() && player[i].isRightCollision()) {
+				
+			}
+			else if(player[i].isBottomCollision() && player[i].isLeftCollision()) {
+				
+			}
+			else if(player[i].isBottomCollision() && player[i].isRightCollision()) {
+				
+			}
+			else if(player[i].isTopCollision()) {
+				
+			}
+			else if(player[i].isBottomCollision()) {
+				
+			}
+			else if(player[i].isLeftCollision()) {
+				
+			}
+			else if(player[i].isRightCollision()) {
 				
 			}
 		}
 	}
-	
 	
 	
 }

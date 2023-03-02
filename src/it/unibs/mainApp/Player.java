@@ -26,6 +26,11 @@ public class Player extends MovingObject{
 
 	private int kills;
 	private int deaths;
+	
+	private boolean topCollision = false;
+	private boolean bottomCollision = false;
+	private boolean leftCollision = false;
+	private boolean rightCollision = false;
 
 	public Player(String name, T_Spawn spawn, Color color) {
 		super(M_VELOCITY, R_VELOCITY,color );
@@ -37,12 +42,10 @@ public class Player extends MovingObject{
 		this.kills = 0;
 		this.deaths = 0;
 		
-		//this.spawnX = spawn.getSpawnX();
-		//this.spawnY = spawn.getSpawnY();
+		
+		
 		setPosX(spawn.getSpawnX() - Battlefield.BATTLEFIELD_TILEDIM/4 );
 		setPosY(spawn.getSpawnY() - Battlefield.BATTLEFIELD_TILEDIM/4);
-		
-		//Area shapeArea = new Area(new Ellipse2D.Double(spawnX, spawnY, 10., 10.));
 		Area playerArea = new Area(new Ellipse2D.Double(0.,
 														0.,
 														Battlefield.BATTLEFIELD_TILEDIM/2, 
@@ -59,6 +62,38 @@ public class Player extends MovingObject{
 
 	public Gun getGun() {
 		return gun;
+	}
+
+	public boolean isTopCollision() {
+		return topCollision;
+	}
+
+	public void setTopCollision(boolean topCollision) {
+		this.topCollision = topCollision;
+	}
+
+	public boolean isBottomCollision() {
+		return bottomCollision;
+	}
+
+	public void setBottomCollision(boolean bottomCollision) {
+		this.bottomCollision = bottomCollision;
+	}
+
+	public boolean isLeftCollision() {
+		return leftCollision;
+	}
+
+	public void setLeftCollision(boolean leftCollision) {
+		this.leftCollision = leftCollision;
+	}
+
+	public boolean isRightCollision() {
+		return rightCollision;
+	}
+
+	public void setRightCollision(boolean rightCollision) {
+		this.rightCollision = rightCollision;
 	}
 
 	

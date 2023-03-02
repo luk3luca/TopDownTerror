@@ -92,7 +92,7 @@ public class PnlMap extends JPanel implements KeyListener {
 	
 	private void applyControls() {
 		
-		Player p = model.player[5];
+		Player p = model.player[0];
 		if(p == null)
 			return;
 		

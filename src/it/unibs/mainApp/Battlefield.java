@@ -108,14 +108,11 @@ public class Battlefield {
 					
 					if (player[i].getPosX() < objs[j].getX()) {
 		                player[i].setPosX(objs[j].getX() - BATTLEFIELD_TILEDIM/2);
-		            }
-		            if (player[i].getPosX() + BATTLEFIELD_TILEDIM/2  > objs[j].getX() + BATTLEFIELD_TILEDIM) {
+		            }else if (player[i].getPosX() + BATTLEFIELD_TILEDIM/2  > objs[j].getX() + BATTLEFIELD_TILEDIM) {
 		                player[i].setPosX(objs[j].getX() + BATTLEFIELD_TILEDIM);
-		            }
-		            if (player[i].getPosY() < objs[j].getY()) {
+		            }else if (player[i].getPosY() < objs[j].getY()) {
 		            	player[i].setPosY(objs[j].getY() - BATTLEFIELD_TILEDIM/2);
-		            }
-		            if (player[i].getPosY() + BATTLEFIELD_TILEDIM/2 > objs[j].getY() + BATTLEFIELD_TILEDIM) {
+		            }else if (player[i].getPosY() + BATTLEFIELD_TILEDIM/2 > objs[j].getY() + BATTLEFIELD_TILEDIM) {
 		            	player[i].setPosY(objs[j].getY() + BATTLEFIELD_TILEDIM);
 		            }
 					

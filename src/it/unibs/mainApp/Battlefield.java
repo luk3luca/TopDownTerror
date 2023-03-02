@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 public class Battlefield {                                
 	protected static final int BATTLEFIELD_TILEDIM = 40;
-	protected static final int BATTLEFIELD_WIDTH = BATTLEFIELD_TILEDIM * (MapMatrix.WIDTH );
-	protected static final int BATTLEFIELD_HEIGHT = BATTLEFIELD_TILEDIM * (MapMatrix.HEIGHT );
+	protected static final int BATTLEFIELD_WIDTH = BATTLEFIELD_TILEDIM * (MapMatrix.WIDTH + 1);
+	protected static final int BATTLEFIELD_HEIGHT = BATTLEFIELD_TILEDIM * (MapMatrix.HEIGHT + 1);
 	 
 	protected ArrayList<Tile> tiles = new ArrayList<Tile>();
 	protected T_Spawn[] spawns = new T_Spawn[6];

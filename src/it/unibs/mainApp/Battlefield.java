@@ -105,15 +105,38 @@ public class Battlefield {
 				if(objs[j].checkCollision(player[i])){
 					//TODO  METTERE IL PLAYER NELLA POSIZIONE PRECEDENTE A QUANDO HA COLPITO IL MURO / SETTARE VELOCITA' A ZERO MA --> CAMBIA METODO PER SPOSTAMENTO 
 					
+					
 					if (player[i].getPosX() < objs[j].getX()) {
 		                player[i].setPosX(player[i].getPosX() - Player.M_VELOCITY);
 		            }else if (player[i].getPosX() + BATTLEFIELD_TILEDIM/2  > objs[j].getX() + BATTLEFIELD_TILEDIM) {
 		                player[i].setPosX(player[i].getPosX() + Player.M_VELOCITY);
-		            }else if (player[i].getPosY() < objs[j].getY()) {
+		            }
+					if (player[i].getPosY() < objs[j].getY()) {
 		            	player[i].setPosY(player[i].getPosY() - Player.M_VELOCITY);
 		            }else if (player[i].getPosY() + BATTLEFIELD_TILEDIM/2 > objs[j].getY() + BATTLEFIELD_TILEDIM) {
 		            	player[i].setPosY(player[i].getPosY() + Player.M_VELOCITY);
 		            }
+		            
+					/*
+					if(player[i].getPosX() + BATTLEFIELD_TILEDIM/2 > objs[j].getX()) {
+						player[i].setPosX(objs[j].getX() - BATTLEFIELD_TILEDIM/2);
+						System.out.println("left collision");
+					}
+					else if(player[i].getPosX() < objs[j].getX()+ BATTLEFIELD_TILEDIM) {
+						player[i].setPosX(objs[j].getX() + BATTLEFIELD_TILEDIM);
+						System.out.println("right collision");
+					}
+					if(player[i].getPosY() < objs[j].getY() + BATTLEFIELD_TILEDIM) {
+						player[i].setPosY(objs[j].getY());
+						System.out.println("bottom collision");
+					}					
+					else if(player[i].getPosY() + BATTLEFIELD_TILEDIM/2 > objs[j].getY()) {
+						player[i].setPosY(objs[j].getY()- BATTLEFIELD_TILEDIM/2);
+						System.out.println("top collision");
+					}
+					*/
+					
+					
 					
 					
 				} 

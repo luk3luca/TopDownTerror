@@ -28,19 +28,30 @@ public class Tile {
 		this.shape = new Area(new Rectangle(x, y, this.dimX, this.dimY));
 		this.imagePath = imagePath;
 	}
-	
-	/*
-	public Shape getShape() {
-		AffineTransform t = new AffineTransform();
-		t.translate(this.posX, this.posY);
-		return t.createTransformedShape(shape);
+
+	public Tile(int y, int x, int dimY, int dimX, boolean walkable) {
+		this.posX = x;
+		this.posY = y;
+		this.dimY = dimY;
+		this.dimX = dimX;
+		
+		this.walkable = walkable;
+		
+		this.shape = new Area(new Rectangle(x, y, this.dimX, this.dimY));
 	}
-	*/
+
 	
 	public Shape getShape() {
 		return this.shape;
 	}
 
+	public boolean isWalkable() {
+		return walkable;
+	}
+
+	public void setWalkable(boolean walkable) {
+		this.walkable = walkable;
+	}
 	
 	public Image getImage(){
 		return  new ImageIcon(imagePath).getImage();

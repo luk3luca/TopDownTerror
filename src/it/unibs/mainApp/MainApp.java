@@ -27,7 +27,6 @@ public class MainApp {
 		model = new Battlefield();
 		initialize();
 	}
-
 	
 	private void initialize() {
 		frame = new JFrame();

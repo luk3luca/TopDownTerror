@@ -7,7 +7,8 @@ public class T_Pavement extends Tile {
 	private static String imagePath = "src/images/smoothStone.png";
 	
 	public T_Pavement(int y, int x, int dimension, boolean walkable) {
-		super(y, x, dimension, dimension, walkable,imagePath);
+		//super(y, x, dimension, dimension, walkable,imagePath);
+		super(y, x, dimension, dimension, walkable);
 		this.setColor(Color.GRAY);
 	}
 	

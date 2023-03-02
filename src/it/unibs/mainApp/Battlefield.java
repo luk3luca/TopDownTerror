@@ -100,20 +100,19 @@ public class Battlefield {
 		walls.toArray(objs);
 		
 		for(int i=0; i<player.length ; i++) {
-			double posX = player[i].getPosX();
-			double posY = player[i].getPosY();
+			boolean x = true;
 			for(int j=0; j<nObjs ; j++) {
 				if(objs[j].checkCollision(player[i])){
 					//TODO  METTERE IL PLAYER NELLA POSIZIONE PRECEDENTE A QUANDO HA COLPITO IL MURO / SETTARE VELOCITA' A ZERO MA --> CAMBIA METODO PER SPOSTAMENTO 
 					
 					if (player[i].getPosX() < objs[j].getX()) {
-		                player[i].setPosX(objs[j].getX() - BATTLEFIELD_TILEDIM/2);
+		                player[i].setPosX(player[i].getPosX() - Player.M_VELOCITY);
 		            }else if (player[i].getPosX() + BATTLEFIELD_TILEDIM/2  > objs[j].getX() + BATTLEFIELD_TILEDIM) {
-		                player[i].setPosX(objs[j].getX() + BATTLEFIELD_TILEDIM);
+		                player[i].setPosX(player[i].getPosX() + Player.M_VELOCITY);
 		            }else if (player[i].getPosY() < objs[j].getY()) {
-		            	player[i].setPosY(objs[j].getY() - BATTLEFIELD_TILEDIM/2);
+		            	player[i].setPosY(player[i].getPosY() - Player.M_VELOCITY);
 		            }else if (player[i].getPosY() + BATTLEFIELD_TILEDIM/2 > objs[j].getY() + BATTLEFIELD_TILEDIM) {
-		            	player[i].setPosY(objs[j].getY() + BATTLEFIELD_TILEDIM);
+		            	player[i].setPosY(player[i].getPosY() + Player.M_VELOCITY);
 		            }
 					
 					

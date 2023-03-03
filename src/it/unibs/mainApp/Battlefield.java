@@ -22,7 +22,6 @@ public class Battlefield {
 		buildPlayer();
 	}
 	
-	
 	private void buildMap() {
 		int spawnCounter = 1;
 		for(int y = 0; y < MapMatrix.HEIGHT; y++) {
@@ -110,7 +109,6 @@ public class Battlefield {
 		return false;
 	}
 	
-	
 	private void checkCollision() {
 		for(int i=0; i<player.length ; i++) {
 			//Player p = player[i];
@@ -128,93 +126,69 @@ public class Battlefield {
 			Tile leftTile = tiles.get(leftSquare[0]*MapMatrix.WIDTH + leftSquare[1]);
 			Tile rightTile = tiles.get(rightSquare[0]*MapMatrix.WIDTH + rightSquare[1]);			
 			
-			if(!isCrossWalkable(topTile, bottomTile, leftTile, rightTile)) {
-				crossCollision(player[i], topTile, bottomTile, leftTile, rightTile);
-			}
-			else {
-				angleCollision(player[i],playerSquareX ,playerSquareY );
-			}
-			
-				
-		
-			
-			
+			player[i].resetCollision();
+			crossCollision(player[i], topTile, bottomTile, leftTile, rightTile);
+			angleCollision(player[i],playerSquareX ,playerSquareY );			
 		}
 	}
 	
-	
+	// Controllo delle collisioni sui muri supra, sotto, destra, sisnistra del player
 	private void crossCollision(Player player,Tile topTile, Tile bottomTile,Tile leftTile, Tile rightTile) {
-		if(topTile.isWalkable() == false) {
+		//Controllo collisioni per ogni Tile
+		//TopTile
+		if(!topTile.isWalkable())
 			player.setTopCollision(topTile.checkCollision(player));
-			//System.out.println("top:" + topTile.getClass());
-		}else {
-			player.setTopCollision(false);
-		}
-		if(bottomTile.isWalkable() == false) {
-			//System.out.println("bottom:" + bottomTile.getClass());
+		
+		//BottomTile
+		if(!bottomTile.isWalkable())
 			player.setBottomCollision(bottomTile.checkCollision(player));
-		}else {
-			player.setBottomCollision(false);
-		}
-		if(leftTile.isWalkable() == false) {
+		
+		//LeftTile
+		if(!leftTile.isWalkable())
 			player.setLeftCollision(leftTile.checkCollision(player));
-			//System.out.println("left:" + leftTile.getClass());
-		}else {
-			player.setLeftCollision(false);
-		}
-		if(rightTile.isWalkable() == false) {
+		
+		//RightTile
+		if(!rightTile.isWalkable())
 			player.setRightCollision(rightTile.checkCollision(player));
-			//System.out.println("right:" + rightTile.getClass());
-		}else {
-			player.setRightCollision(false);
-		}
 		
-		
+		//Gestione delle collisioni, 4 angoli e 4 pareti
 		if(player.isTopCollision() && player.isLeftCollision()) {
-			player.setPosY(topTile.getY() + BATTLEFIELD_TILEDIM);
-			player.setPosX(leftTile.getX() + BATTLEFIELD_TILEDIM);
-			System.out.println("TL");
+			player.setPosY(player.getPosY() + 1);
+			player.setPosX(player.getPosX() + 1);
 		}
 		else if(player.isTopCollision() && player.isRightCollision()) {
-			player.setPosY(topTile.getY() + BATTLEFIELD_TILEDIM);
-			player.setPosX(rightTile.getX() - BATTLEFIELD_TILEDIM/2);
-			System.out.println("TR");
+			player.setPosY(player.getPosY() + 1);
+			player.setPosX(player.getPosX() - 1);
 		}
 		else if(player.isBottomCollision() && player.isLeftCollision()) {
-			player.setPosY(bottomTile.getY() - BATTLEFIELD_TILEDIM/2);
-			player.setPosX(leftTile.getX() + BATTLEFIELD_TILEDIM);
-			System.out.println("BL");
+			player.setPosY(player.getPosY() - 1);
+			player.setPosX(player.getPosX() + 1);
 		}
 		else if(player.isBottomCollision() && player.isRightCollision()) {
-			player.setPosY(bottomTile.getY() - BATTLEFIELD_TILEDIM/2);
-			player.setPosX(rightTile.getX() - BATTLEFIELD_TILEDIM/2);
-			System.out.println("BL");
+			player.setPosY(player.getPosY() - 1);
+			player.setPosX(player.getPosX() - 1);
 		}
-		else if(player.isTopCollision()) {		//TODO FIX
-			player.setPosY(topTile.getY() + BATTLEFIELD_TILEDIM);
-			player.setPosX(player.getPosX());
-			System.out.println("T");
+		else if(player.isTopCollision()) {
+			player.setPosY(player.getPosY() + 1);
+			//player.setPosX(player.getPosX());
 		}
-		else if(player.isBottomCollision()) {	//TODO FIX
-			player.setPosY(bottomTile.getY() - BATTLEFIELD_TILEDIM/2);
-			player.setPosX(player.getPosX());
-			System.out.println("B");
+		else if(player.isBottomCollision()) {
+			player.setPosY(player.getPosY() - 1);
+			//player.setPosX(player.getPosX());
 		}
 		else if(player.isLeftCollision()) {
-			player.setPosY(player.getPosY());
-			player.setPosX(leftTile.getX() + BATTLEFIELD_TILEDIM);
-			System.out.println("L");
+			//player.setPosY(player.getPosY());
+			player.setPosX(player.getPosX() + 1);
 		}
 		else if(player.isRightCollision()) {
-			player.setPosY(player.getPosY());
-			player.setPosX(rightTile.getX() - BATTLEFIELD_TILEDIM/2);
-			System.out.println("R");
+			//player.setPosY(player.getPosY());
+			player.setPosX(player.getPosX() - 1);
 		}
 	}
 	
+	// Controllo e gestione delle collisioni con gli spigoli
 	private void angleCollision(Player player,int playerSquareX, int playerSquareY ) {
-		
-		
+		// COordinate spipgoli
 		int[] topLeftSquare = {playerSquareY - 1 > 0 ? playerSquareY - 1 : 0, playerSquareX - 1 > 0 ? playerSquareX - 1 : 0};
 		int[] topRightSquare = {playerSquareY - 1 > 0 ? playerSquareY - 1 : 0, playerSquareX + 1 < MapMatrix.WIDTH ? playerSquareX + 1 : MapMatrix.WIDTH - 1};
 		int[] bottomLeftSquare = {playerSquareY + 1 < MapMatrix.HEIGHT ? playerSquareY + 1 : MapMatrix.HEIGHT - 1, playerSquareX - 1 > 0 ? playerSquareX - 1 : 0};
@@ -225,50 +199,37 @@ public class Battlefield {
 		Tile bottomLeftTile = tiles.get(bottomLeftSquare[0]*MapMatrix.WIDTH + bottomLeftSquare[1]);
 		Tile bottomRightTile = tiles.get(bottomRightSquare[0]*MapMatrix.WIDTH + bottomRightSquare[1]);		
 		
-		if(!topLeftTile.isWalkable()) {
+		// Controllo collisione con spigoli
+		if(!topLeftTile.isWalkable())
 			player.setTopLeftCollision(topLeftTile.checkCollision(player));
-			//System.out.println("top:" + topTile.getClass());
-		}else {
-			player.setTopLeftCollision(false);
-		}
-		if(!topRightTile.isWalkable()) {
-			//System.out.println("bottom:" + bottomTile.getClass());
+
+		if(!topRightTile.isWalkable())
 			player.setTopRightCollision(topRightTile.checkCollision(player));
-		}else {
-			player.setTopRightCollision(false);
-		}
-		if(!bottomLeftTile.isWalkable()) {
+		
+		if(!bottomLeftTile.isWalkable())
 			player.setBottomLeftCollision(bottomLeftTile.checkCollision(player));
-			//System.out.println("left:" + leftTile.getClass());
-		}else {
-			player.setBottomLeftCollision(false);
-		}
-		if(!bottomRightTile.isWalkable()) {
+		
+		if(!bottomRightTile.isWalkable())
 			player.setBottomRightCollision(bottomRightTile.checkCollision(player));
-			//System.out.println("right:" + rightTile.getClass());
-		}else {
-			player.setBottomRightCollision(false);
+		
+		// Gestione collisioni con spigoli
+		if(player.isTopLeftCollision()) {		
+			player.setPosY(player.getPosY() + 1);
+			player.setPosX(player.getPosX() + 1);
 		}
-		
-		
-		
-//		if(player.isTopLeftCollision()) {		
-//			player.setPosY();
-//			player.setPosX();
-//		}
-//		else if(player.isTopRightCollision()) {
-//			player.setPosY();
-//			player.setPosX();
-//		}
-//		else if(player.isBottomLeftCollision()) {
-//			player.setPosY();
-//			player.setPosX();
-//		}
-//		else 
-		
+		if(player.isTopRightCollision()) {
+			player.setPosY(player.getPosY() + 1);
+			player.setPosX(player.getPosX() - 1);
+
+		}
+		if(player.isBottomLeftCollision()) {
+			player.setPosY(player.getPosY() - 1);
+			player.setPosX(player.getPosX() + 1);
+
+		}
 		if(player.isBottomRightCollision()) {
-			player.setPosY(bottomRightTile.getY() - (BATTLEFIELD_TILEDIM * (Math.sqrt(2)+ 1)/4) );
-			player.setPosX(bottomRightTile.getX() - (BATTLEFIELD_TILEDIM * (Math.sqrt(2)+ 1)/4) );
+			player.setPosY(player.getPosY() - 1);
+			player.setPosX(player.getPosX() - 1);
 		}
 	}
 }

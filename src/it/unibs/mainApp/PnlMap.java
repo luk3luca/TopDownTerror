@@ -101,24 +101,35 @@ public class PnlMap extends JPanel implements KeyListener {
 			switch(keycode) {
 			case KeyEvent.VK_W: {
 				if(currentActiveControls.contains(KeyEvent.VK_A) || currentActiveControls.contains(KeyEvent.VK_D))
-					p.setPosY(p.getPosY() - (p.getM_velocity() / 2));
+					p.setPosY(p.getPosY() - (p.getM_velocity() / Math.sqrt(2)));
 				else
 					p.setPosY(p.getPosY() - p.getM_velocity()); 
 				break;
 			}
-			case KeyEvent.VK_A: p.setPosX(p.getPosX() - p.getM_velocity()); break;
+			case KeyEvent.VK_A: {
+				if(currentActiveControls.contains(KeyEvent.VK_W) || currentActiveControls.contains(KeyEvent.VK_S))
+					p.setPosX(p.getPosX() - p.getM_velocity() / Math.sqrt(2)); 
+				else
+					p.setPosX(p.getPosX() - p.getM_velocity());
+				break;
+			}
 			case KeyEvent.VK_S: {
 				if(currentActiveControls.contains(KeyEvent.VK_A) || currentActiveControls.contains(KeyEvent.VK_D))
-					p.setPosY(p.getPosY() + p.getM_velocity()/2); 
+					p.setPosY(p.getPosY() + p.getM_velocity() / Math.sqrt(2)); 
 				else
 					p.setPosY(p.getPosY() + p.getM_velocity());
 				break;
 			}
-			case KeyEvent.VK_D: p.setPosX(p.getPosX() + p.getM_velocity()); break;
-			case KeyEvent.VK_I:  break;
-			case KeyEvent.VK_J: p.rotate(- p.getR_velocity()); break;
-			case KeyEvent.VK_L: p.rotate(p.getR_velocity()); break;
-			
+			case KeyEvent.VK_D: {
+				if(currentActiveControls.contains(KeyEvent.VK_W) || currentActiveControls.contains(KeyEvent.VK_S))
+					p.setPosX(p.getPosX() + p.getM_velocity() / Math.sqrt(2));
+				else
+					p.setPosX(p.getPosX() + p.getM_velocity()); 
+				break;
+			}
+			case KeyEvent.VK_I, KeyEvent.VK_UP:  break;
+			case KeyEvent.VK_J, KeyEvent.VK_LEFT: p.rotate(- p.getR_velocity()); break;
+			case KeyEvent.VK_L, KeyEvent.VK_RIGHT: p.rotate(p.getR_velocity()); break;
 			}
 		}
 	}

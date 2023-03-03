@@ -23,8 +23,8 @@ public class T_Spawn extends Tile {
 	*/
 	
 	public T_Spawn(int y, int x, int dimY, int dimX, boolean walkable, Color c) {
-		super(y, x, dimY, dimX, walkable, imagePath);
-//		super(y, x, dimY / MapMatrix.SPAWN_H, dimX / MapMatrix.SPAWN_W, walkable);
+		//super(y, x, dimY, dimX, walkable, imagePath);
+		super(y, x, dimY / MapMatrix.SPAWN_H, dimX / MapMatrix.SPAWN_W, walkable);
 		this.setColor(c);
 		
 		//int tileDim = (dimX / MapMatrix.SPAWN_W);

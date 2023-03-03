@@ -26,9 +26,7 @@ public class Tile {
 		this.walkable = walkable;
 		
 		this.shape = new Area(new Rectangle(x, y, this.dimX, this.dimY));
-
 		this.imagePath = imagePath;
-		
 	}
 
 	public Tile(int y, int x, int dimY, int dimX, boolean walkable) {

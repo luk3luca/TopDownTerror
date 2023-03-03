@@ -144,16 +144,7 @@ public class Player extends MovingObject{
 		this.bottomLeftCollision = false;
 		this.bottomRightCollision = false; 
 	}
-	
-	
-	
-//	public boolean isCrossWalkable() {
-//		if(!topCollision && !bottomCollision && !leftCollision && !rightCollision) {
-//			return true;
-//		}
-//		return false;
-//	}
-	
+
 	
 	  
  

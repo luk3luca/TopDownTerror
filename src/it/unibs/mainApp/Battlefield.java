@@ -69,20 +69,20 @@ public class Battlefield {
 		return new T_Spawn(y * tileDim, x * tileDim, tileDim * MapMatrix.SPAWN_H, tileDim * MapMatrix.SPAWN_W, true, c);
 	}
 	
-	public void checkBorder() {
-		for (int i = 0; i < player.length; i++) {
-			if (player[i].posX >= BATTLEFIELD_WIDTH - BATTLEFIELD_TILEDIM/2  || player[i].posY >= BATTLEFIELD_HEIGHT - BATTLEFIELD_TILEDIM/2 ) {
-				player[i].setPosX(player[i].getPosX() - Player.M_VELOCITY);
-				player[i].setPosY(player[i].getPosY() - Player.M_VELOCITY);
-			}else if (player[i].posX <= 0 || player[i].posY <= 0) {
-				player[i].setPosX(player[i].getPosX() + Player.M_VELOCITY);
-				player[i].setPosY(player[i].getPosY() + Player.M_VELOCITY);
-			}
-		}
-	}
+//	public void checkBorder() {
+//		for (int i = 0; i < player.length; i++) {
+//			if (player[i].posX >= BATTLEFIELD_WIDTH - BATTLEFIELD_TILEDIM/2  || player[i].posY >= BATTLEFIELD_HEIGHT - BATTLEFIELD_TILEDIM/2 ) {
+//				player[i].setPosX(player[i].getPosX() - Player.M_VELOCITY);
+//				player[i].setPosY(player[i].getPosY() - Player.M_VELOCITY);
+//			}else if (player[i].posX <= 0 || player[i].posY <= 0) {
+//				player[i].setPosX(player[i].getPosX() + Player.M_VELOCITY);
+//				player[i].setPosY(player[i].getPosY() + Player.M_VELOCITY);
+//			}
+//		}
+//	}
 
 	public void stepNext() {
-		checkBorder();
+		//checkBorder();
 		checkCollision();
 	}
 	
@@ -92,7 +92,6 @@ public class Battlefield {
 	// TODO COLLISIONI MOVING OBJECT <--> MOVING OBJECT 
 
 	//COLLISIONI MOVING OBJECT <--> TILES
-	//CREARE ARRAYLIST DI MURI E FARE IL CONTROLLO SOLO SU QUELLO, NON SERVE CONSIDERARE IL CAMMINABILE
 	private void detectCollision() {
 		int nObjs = walls.size();
 		if(nObjs < 2)
@@ -103,37 +102,31 @@ public class Battlefield {
 		
 	}
 	
-	private boolean isCrossWalkable(Tile topTile, Tile bottomTile,Tile leftTile, Tile rightTile) {
-		if(topTile.isWalkable() && bottomTile.isWalkable() && leftTile.isWalkable() && rightTile.isWalkable())
-			return true;
-		return false;
-	}
-	
 	private void checkCollision() {
 		for(int i=0; i<player.length ; i++) {
-			//Player p = player[i];
+			// Riquadro in cui si trova il centro del player
 			int playerSquareX = (int)((player[i].getPosX() + BATTLEFIELD_TILEDIM/4) / BATTLEFIELD_TILEDIM);
 			int playerSquareY = (int)((player[i].getPosY() + BATTLEFIELD_TILEDIM/4 )/ BATTLEFIELD_TILEDIM);
-			//System.out.println(playerSquareY + " " + playerSquareX);
-			
-			int[] topSquare = {playerSquareY - 1 > 0 ? playerSquareY - 1 : 0, playerSquareX};
-			int[] bottomSquare = {playerSquareY + 1 < MapMatrix.HEIGHT ? playerSquareY + 1 : MapMatrix.HEIGHT - 1, playerSquareX};
-			int[] leftSquare = {playerSquareY, playerSquareX - 1 > 0 ? playerSquareX - 1 : 0};
-			int[] rightSquare = {playerSquareY, playerSquareX + 1 < MapMatrix.WIDTH ? playerSquareX + 1 : MapMatrix.WIDTH - 1};
-			
-			Tile topTile = tiles.get(topSquare[0]*MapMatrix.WIDTH + topSquare[1]);
-			Tile bottomTile = tiles.get(bottomSquare[0]*MapMatrix.WIDTH + bottomSquare[1]);
-			Tile leftTile = tiles.get(leftSquare[0]*MapMatrix.WIDTH + leftSquare[1]);
-			Tile rightTile = tiles.get(rightSquare[0]*MapMatrix.WIDTH + rightSquare[1]);			
 			
 			player[i].resetCollision();
-			crossCollision(player[i], topTile, bottomTile, leftTile, rightTile);
-			angleCollision(player[i],playerSquareX ,playerSquareY );			
+			crossCollision(player[i], playerSquareX ,playerSquareY);
+			angleCollision(player[i],playerSquareX ,playerSquareY);			
 		}
 	}
 	
 	// Controllo delle collisioni sui muri supra, sotto, destra, sisnistra del player
-	private void crossCollision(Player player,Tile topTile, Tile bottomTile,Tile leftTile, Tile rightTile) {
+	private void crossCollision(Player player,int playerSquareX, int playerSquareY) {
+		// Coordinate delle Tile da controllare per collisioni, con controllo per out of bounds
+		int[] topSquare = {playerSquareY - 1 > 0 ? playerSquareY - 1 : 0, playerSquareX};
+		int[] bottomSquare = {playerSquareY + 1 < MapMatrix.HEIGHT ? playerSquareY + 1 : MapMatrix.HEIGHT - 1, playerSquareX};
+		int[] leftSquare = {playerSquareY, playerSquareX - 1 > 0 ? playerSquareX - 1 : 0};
+		int[] rightSquare = {playerSquareY, playerSquareX + 1 < MapMatrix.WIDTH ? playerSquareX + 1 : MapMatrix.WIDTH - 1};
+		
+		Tile topTile = tiles.get(topSquare[0]*MapMatrix.WIDTH + topSquare[1]);
+		Tile bottomTile = tiles.get(bottomSquare[0]*MapMatrix.WIDTH + bottomSquare[1]);
+		Tile leftTile = tiles.get(leftSquare[0]*MapMatrix.WIDTH + leftSquare[1]);
+		Tile rightTile = tiles.get(rightSquare[0]*MapMatrix.WIDTH + rightSquare[1]);
+		
 		//Controllo collisioni per ogni Tile
 		//TopTile
 		if(!topTile.isWalkable())
@@ -194,6 +187,7 @@ public class Battlefield {
 		int[] bottomLeftSquare = {playerSquareY + 1 < MapMatrix.HEIGHT ? playerSquareY + 1 : MapMatrix.HEIGHT - 1, playerSquareX - 1 > 0 ? playerSquareX - 1 : 0};
 		int[] bottomRightSquare = {playerSquareY + 1 < MapMatrix.HEIGHT ? playerSquareY + 1 : MapMatrix.HEIGHT - 1, playerSquareX + 1 < MapMatrix.WIDTH ? playerSquareX + 1 : MapMatrix.WIDTH - 1};
 		
+		// Spigoli con cui puo' collidere
 		Tile topLeftTile = tiles.get(topLeftSquare[0]*MapMatrix.WIDTH + topLeftSquare[1]);
 		Tile topRightTile = tiles.get(topRightSquare[0]*MapMatrix.WIDTH + topRightSquare[1]);
 		Tile bottomLeftTile = tiles.get(bottomLeftSquare[0]*MapMatrix.WIDTH + bottomLeftSquare[1]);
@@ -232,4 +226,6 @@ public class Battlefield {
 			player.setPosX(player.getPosX() - 1);
 		}
 	}
+
+	
 }

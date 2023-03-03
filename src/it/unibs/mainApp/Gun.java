@@ -46,16 +46,7 @@ public class Gun  {
 		t.translate(posX, posY);
 		t.rotate(angle,Battlefield.BATTLEFIELD_TILEDIM/4, 
 				Battlefield.BATTLEFIELD_TILEDIM/4);
-		/*
-		t.rotate(this.angle, 
-				this.getPosX() + Battlefield.BATTLEFIELD_TILEDIM/2, 
-				this.getPosY() + Battlefield.BATTLEFIELD_TILEDIM/2);
-				*/
-		/*
-		t.rotate(this.angle, 
-				this.getPosX(), 
-				this.getPosY());
-				*/
+		
 		return t.createTransformedShape(shape);
 	}
 

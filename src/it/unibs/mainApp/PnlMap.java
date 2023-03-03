@@ -82,7 +82,7 @@ public class PnlMap extends JPanel implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if(!currentActiveControls.contains(e.getKeyCode()))
-				currentActiveControls.add(e.getKeyCode());
+			currentActiveControls.add(e.getKeyCode());
 	}
 
 	@Override
@@ -99,10 +99,21 @@ public class PnlMap extends JPanel implements KeyListener {
 		
 		for(Integer keycode: currentActiveControls) {
 			switch(keycode) {
-			case KeyEvent.VK_W: p.setPosY(p.getPosY() - p.getM_velocity()); break;
-									
+			case KeyEvent.VK_W: {
+				if(currentActiveControls.contains(KeyEvent.VK_A) || currentActiveControls.contains(KeyEvent.VK_D))
+					p.setPosY(p.getPosY() - (p.getM_velocity() / 2));
+				else
+					p.setPosY(p.getPosY() - p.getM_velocity()); 
+				break;
+			}
 			case KeyEvent.VK_A: p.setPosX(p.getPosX() - p.getM_velocity()); break;
-			case KeyEvent.VK_S: p.setPosY(p.getPosY() + p.getM_velocity()); break;
+			case KeyEvent.VK_S: {
+				if(currentActiveControls.contains(KeyEvent.VK_A) || currentActiveControls.contains(KeyEvent.VK_D))
+					p.setPosY(p.getPosY() + p.getM_velocity()/2); 
+				else
+					p.setPosY(p.getPosY() + p.getM_velocity());
+				break;
+			}
 			case KeyEvent.VK_D: p.setPosX(p.getPosX() + p.getM_velocity()); break;
 			case KeyEvent.VK_I:  break;
 			case KeyEvent.VK_J: p.rotate(- p.getR_velocity()); break;

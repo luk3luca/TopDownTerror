@@ -25,14 +25,12 @@ public class Bullet extends MovingObject {
 				new int[] {3,3,0,-3,-3},
 				5						 
 				));
-		
 	}
 	
 	//TODO morte del proiettile in base a distanza percorsa
 	@Override
 	public void stepNext() {
 		super.stepNext();
-		
 		if(--fuel <=0) {
 			isAlive = false;
 		}

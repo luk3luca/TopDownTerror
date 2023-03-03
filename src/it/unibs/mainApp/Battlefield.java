@@ -13,6 +13,7 @@ public class Battlefield {
 	protected T_Spawn[] spawns = new T_Spawn[6];
 	protected Player[] player = new Player[6];
 	protected ArrayList<T_Wall> walls = new ArrayList<>();
+	protected ArrayList<Bullet> bullet = new ArrayList<>();
 	//protected Rectangle2D.Double borders = new Rectangle2D.Double(0.,0.,BATTLEFIELD_WIDTH,BATTLEFIELD_HEIGHT); //bordi logici dell'universo 
 	
 	private int[][] mapMatrix = MapMatrix.getMatrix();
@@ -107,6 +108,7 @@ public class Battlefield {
 			// Riquadro in cui si trova il centro del player
 			int playerSquareX = (int)((player[i].getPosX() + BATTLEFIELD_TILEDIM/4) / BATTLEFIELD_TILEDIM);
 			int playerSquareY = (int)((player[i].getPosY() + BATTLEFIELD_TILEDIM/4 )/ BATTLEFIELD_TILEDIM);
+			
 			
 			player[i].resetCollision();
 			crossCollision(player[i], playerSquareX ,playerSquareY);

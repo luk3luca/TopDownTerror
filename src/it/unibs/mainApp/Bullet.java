@@ -2,6 +2,8 @@ package it.unibs.mainApp;
 
 import java.awt.Color;
 import java.awt.Polygon;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 
 public class Bullet extends MovingObject {
@@ -33,6 +35,14 @@ public class Bullet extends MovingObject {
 				5						 
 				));
 	}
+	public Shape getShape() {
+		AffineTransform t = new AffineTransform();
+		t.translate(this.posX, this.posY);		
+		t.rotate(this.angle);
+
+		return t.createTransformedShape(shape);
+	}
+
 	
 	//TODO morte del proiettile in base a distanza percorsa
 	@Override

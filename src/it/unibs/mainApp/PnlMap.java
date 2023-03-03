@@ -15,6 +15,8 @@ public class PnlMap extends JPanel implements KeyListener {
 	private static final long serialVersionUID = 1L;
 	
 	Battlefield model;
+	private int countRate;
+	
 	
 	public PnlMap(Battlefield model) {
 		this.model = model;
@@ -22,6 +24,7 @@ public class PnlMap extends JPanel implements KeyListener {
 		Timer t = new Timer(10, e->{ // 10 MILLISECONDI
 			applyControls();
 			model.stepNext();
+			countRate-=10;
 			repaint(); 
 		});
 		
@@ -131,11 +134,16 @@ public class PnlMap extends JPanel implements KeyListener {
 				p.setPosX(p.getPosX() + p.getM_velocity()); 
 				break;
 			}
-			case KeyEvent.VK_I, KeyEvent.VK_UP: model.bullet.add(new Bullet(p, p.getGun())); break;
+			case KeyEvent.VK_I, KeyEvent.VK_UP: 
+				if(countRate<=0) {
+					model.bullet.add(new Bullet(p, p.getGun()));
+					countRate = (int) (p.getGun().getRate()*1000);	
+				}
+				break;
 			case KeyEvent.VK_J, KeyEvent.VK_LEFT: p.rotate(- p.getR_velocity()); break;
 			case KeyEvent.VK_L, KeyEvent.VK_RIGHT: p.rotate(p.getR_velocity()); break;
-			
-			
+			 
+			 
 			}
 		}
 	}

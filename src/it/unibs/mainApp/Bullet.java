@@ -13,7 +13,7 @@ public class Bullet extends MovingObject {
 	protected Player player;
 	protected Gun gun;
 
-	private int fuel;
+	private int fuel = 2;
 		
 	public Bullet(Player p, Gun g) {
 		super(M_VELOCITY, 0,Color.RED);
@@ -35,6 +35,7 @@ public class Bullet extends MovingObject {
 				5						 
 				));
 	}
+	
 	public Shape getShape() {
 		AffineTransform t = new AffineTransform();
 		t.translate(this.posX, this.posY);		

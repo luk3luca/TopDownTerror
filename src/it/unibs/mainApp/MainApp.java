@@ -13,7 +13,7 @@ public class MainApp {
 		System.out.println("start");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
+				try { 
 					MainApp window = new MainApp();
 					window.frame.setVisible(true);
 				} catch (Exception e) {

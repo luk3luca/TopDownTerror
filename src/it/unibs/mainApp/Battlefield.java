@@ -19,7 +19,7 @@ public class Battlefield {
 
 	protected ArrayList<Bullet> bullet = new ArrayList<>();
 	//protected Rectangle2D.Double borders = new Rectangle2D.Double(0.,0.,BATTLEFIELD_WIDTH,BATTLEFIELD_HEIGHT); //bordi logici dell'universo 
-	
+	 
 
 	private int[][] mapMatrix = MapMatrix.getMatrix();
 	
@@ -98,16 +98,16 @@ public class Battlefield {
     }
     private void removeDust() {
         ArrayList<Bullet> dust = new ArrayList<>();
-
+ 
         bullet.forEach(o -> {
             if (!o.isAlive()) {
-                dust.add(o);
-            }
+                dust.add(o); 
+            } 
         });
 
         dust.forEach(bullet::remove);
 
-    }
+    } 
 	
 	
 	
@@ -123,7 +123,7 @@ public class Battlefield {
 		
 		Tile[] objs = new Tile[nObjs];
 		walls.toArray(objs);
-		
+		 
 	}
 	
 	private void checkCollision() {

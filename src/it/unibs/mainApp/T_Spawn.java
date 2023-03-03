@@ -1,6 +1,6 @@
 package it.unibs.mainApp;
 
-import java.awt.Color;
+import java.awt.Color; 
 
 
 public class T_Spawn extends Tile {

@@ -47,10 +47,9 @@ public class Bullet extends MovingObject {
 
 	
 	//TODO morte del proiettile in base a distanza percorsa
-	@Override
+	
 	public void stepNext() {
 		this.accelerate();
-		super.stepNext();
 		if(--fuel <=0) {
 			isAlive = false;
 		}

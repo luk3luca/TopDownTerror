@@ -66,16 +66,7 @@ public class MovingObject {
 	public void setShape(Shape shape) {
 		this.shape = shape;
 	}
-
-	
-	//TODO velocita rotazione
-	public void stepNext() {
-//		this.posX += this.m_velocity;
-//		this.posY += this.m_velocity;	
-//		rotate(r_velocity);
-	}
-	
-	//TODO metodi per le collisioni 
+	//TODO metodi per le collisioni  
 	
 	 
 }

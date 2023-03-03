@@ -83,7 +83,7 @@ public class PnlMap extends JPanel implements KeyListener {
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
-	}
+	}  
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -126,7 +126,7 @@ public class PnlMap extends JPanel implements KeyListener {
 				
 				p.setPosY(p.getPosY() + p.getM_velocity());
 				break;
-			}
+			} 
 			case KeyEvent.VK_D: {
 				if(currentActiveControls.contains(KeyEvent.VK_W) || currentActiveControls.contains(KeyEvent.VK_S))
 					p.setM_velocity(p.getM_velocity() / Math.sqrt(2));

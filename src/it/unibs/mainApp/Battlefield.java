@@ -56,9 +56,10 @@ public class Battlefield {
 	private void buildPlayer() {
 		for(int i=0; i < player.length; i++) {
 			player[i] = new Player("player " + i , spawns[i], TeamColors.getColor(i + 1));
+			if(i > 2)
+				player[i].setAngle(-Math.PI/2);
 		}
-	}
-	
+	}	
 	private T_Pavement buildPavement(int y, int x, int tileDim) {
 		return new T_Pavement(y * tileDim, x * tileDim, tileDim, true);
 	}

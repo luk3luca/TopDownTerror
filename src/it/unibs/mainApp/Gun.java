@@ -6,7 +6,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
-public class Gun  {
+public class Gun extends MovingObject {
 	public final static double GUN_WIDTH = 4.;
 	public final static Gun SNIPER = new Gun("Ballista", 6, 3., 7, 6., 80, new Color(0,0,102)); 				// #000066
 	public final static Gun AR = new Gun("AK-47", 4, 0.5, 25, 4., 20, new Color(128, 0, 32));						// #800020
@@ -15,41 +15,43 @@ public class Gun  {
 	public final static Gun SMG = new Gun("MP7", 3, 0.25, 30, 4., 12, new Color(130, 38, 176));					// #8226b0
 	public final static Gun BOW = new Gun("Bow", 6, 6., 1, 1., 100, new Color(255,255,255));				// #FFFFFF
 	
-	//TODO COSTRUIRE GUN
 	private String name;
 	private int range;
 	private double rate;
 	private int maxAmmo;
 	private double reload;
 	private int dmg;
-	private Color color;
-	private Shape shape;
-	
-	private Player player;
 	
 	public Gun(String name, int range, double rate, int maxAmmo, double reload, int dmg, Color color) {
+		super();
 		this.name = name;
 		this.range = range;
 		this.rate = rate;
 		this.maxAmmo = maxAmmo;
 		this.dmg = dmg;
 		this.color = color;
+		
+		Area gunArea = new Area(new Rectangle2D.Double(Battlefield.BATTLEFIELD_TILEDIM/4, 
+				   Battlefield.BATTLEFIELD_TILEDIM/4 - GUN_WIDTH/2, 
+				   Battlefield.BATTLEFIELD_TILEDIM * this.range,
+				   GUN_WIDTH));
+		this.shape = gunArea;
 	}
 	
-	public Shape getShape(double posX, double posY, double angle) {
-		Area gunArea = new Area(new Rectangle2D.Double(Battlefield.BATTLEFIELD_TILEDIM/4 - GUN_WIDTH/2, 
-													   Battlefield.BATTLEFIELD_TILEDIM/4, 
-													   GUN_WIDTH, 
-													   Battlefield.BATTLEFIELD_TILEDIM * this.range));
-		this.shape = gunArea;
+	public void setPlayerInfo(double posX, double posY, double angle) {
+		this.posX = posX;
+		this.posY = posY;
+		this.angle = angle;
+	}
+	
+	@Override
+	public Shape getShape() {
 		AffineTransform t = new AffineTransform();
 		t.translate(posX, posY);
 		t.rotate(angle,Battlefield.BATTLEFIELD_TILEDIM/4, 
 				Battlefield.BATTLEFIELD_TILEDIM/4);
-		
 		return t.createTransformedShape(shape);
 	}
-
 
 	public static Gun getSniper() {
 		return SNIPER;

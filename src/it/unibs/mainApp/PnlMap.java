@@ -59,13 +59,12 @@ public class PnlMap extends JPanel implements KeyListener {
 		
 		for(int i=0; i < model.player.length; i++) {
 			Player p = model.player[i];
-			
+			p.getGun().setPlayerInfo(p.getPosX(), p.getPosY(), p.getAngle());
 			g2.setColor(p.getGun().getColor());
-			g2.fill(p.getGun().getShape(p.getPosX(), p.getPosY(), p.getAngle()));
+			g2.fill(p.getGun().getShape());
 			
 			g2.setColor(p.getColor());
 			g2.fill(p.getShape());
-
 		}
 		
 		for (int i = 0; i < model.bullet.size(); i++) {

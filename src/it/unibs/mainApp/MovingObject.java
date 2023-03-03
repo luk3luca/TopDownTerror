@@ -14,13 +14,17 @@ public class MovingObject {
 	protected boolean isAlive = true;
 	
 	protected Shape shape;
-	private Color color;
+	protected Color color;
 	
 	public MovingObject(double m_velocity, double r_velocity, Color color) {
 		this.m_velocity = m_velocity;
 		this.r_velocity = r_velocity;
 		this.color = color;
 	}
+	
+	public MovingObject() {
+	}
+
 	
 	public double getPosX() { return posX; }
 	public void setPosX(double posX) { this.posX = posX; }

@@ -39,13 +39,12 @@ public class Player extends MovingObject{
 		super(M_VELOCITY, R_VELOCITY,color );
 		this.name = name;
 		this.spawn = spawn;
+		this.angle = Math.PI/2;
 		this.magMax = gun.getMaxAmmo();
 		this.ammoLeft = magMax;
 		this.hp = HP;
 		this.kills = 0;
 		this.deaths = 0;
-		
-		
 		
 		setPosX(spawn.getSpawnX() - Battlefield.BATTLEFIELD_TILEDIM/4 );
 		setPosY(spawn.getSpawnY() - Battlefield.BATTLEFIELD_TILEDIM/4);
@@ -53,14 +52,10 @@ public class Player extends MovingObject{
 														0.,
 														Battlefield.BATTLEFIELD_TILEDIM/2, 
 														Battlefield.BATTLEFIELD_TILEDIM/2));
-		/*
-		Area gunArea = new Area(new Rectangle2D.Double(Battlefield.BATTLEFIELD_TILEDIM/4 - 1, 
-													   Battlefield.BATTLEFIELD_TILEDIM/4, 
-													   2., 
-													   Battlefield.BATTLEFIELD_TILEDIM * gun.getRange()));
-		playerArea.add(gunArea);
-		*/
+		
 		this.shape = playerArea;
+		System.out.println(getPosX() + " " + getPosY() + " " + getAngle());
+		this.gun.setPlayerInfo(getPosX(), getPosY(), getAngle());
 	}
 
 	public Gun getGun() {

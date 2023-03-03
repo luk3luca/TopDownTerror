@@ -13,8 +13,6 @@ public class Battlefield {
 	protected T_Spawn[] spawns = new T_Spawn[6];
 	protected Player[] player = new Player[6];
 	protected ArrayList<T_Wall> walls = new ArrayList<>();
-	//protected Rectangle2D.Double borders = new Rectangle2D.Double(0.,0.,BATTLEFIELD_WIDTH,BATTLEFIELD_HEIGHT); //bordi logici dell'universo 
-	
 	private int[][] mapMatrix = MapMatrix.getMatrix();
 	
 	public Battlefield() {
@@ -83,6 +81,7 @@ public class Battlefield {
 
 	public void stepNext() {
 		//checkBorder();
+		
 		checkCollision();
 	}
 	
@@ -107,7 +106,7 @@ public class Battlefield {
 			// Riquadro in cui si trova il centro del player
 			int playerSquareX = (int)((player[i].getPosX() + BATTLEFIELD_TILEDIM/4) / BATTLEFIELD_TILEDIM);
 			int playerSquareY = (int)((player[i].getPosY() + BATTLEFIELD_TILEDIM/4 )/ BATTLEFIELD_TILEDIM);
-			
+
 			player[i].resetCollision();
 			crossCollision(player[i], playerSquareX ,playerSquareY);
 			angleCollision(player[i],playerSquareX ,playerSquareY);			
@@ -146,36 +145,36 @@ public class Battlefield {
 		
 		//Gestione delle collisioni, 4 angoli e 4 pareti
 		if(player.isTopCollision() && player.isLeftCollision()) {
-			player.setPosY(player.getPosY() + 1);
-			player.setPosX(player.getPosX() + 1);
+			player.setPosY(player.getPosY() + player.getM_velocity());
+			player.setPosX(player.getPosX() + player.getM_velocity());
 		}
 		else if(player.isTopCollision() && player.isRightCollision()) {
-			player.setPosY(player.getPosY() + 1);
-			player.setPosX(player.getPosX() - 1);
+			player.setPosY(player.getPosY() + player.getM_velocity());
+			player.setPosX(player.getPosX() - player.getM_velocity());
 		}
 		else if(player.isBottomCollision() && player.isLeftCollision()) {
-			player.setPosY(player.getPosY() - 1);
-			player.setPosX(player.getPosX() + 1);
+			player.setPosY(player.getPosY() - player.getM_velocity());
+			player.setPosX(player.getPosX() + player.getM_velocity());
 		}
 		else if(player.isBottomCollision() && player.isRightCollision()) {
-			player.setPosY(player.getPosY() - 1);
-			player.setPosX(player.getPosX() - 1);
+			player.setPosY(player.getPosY() - player.getM_velocity());
+			player.setPosX(player.getPosX() - player.getM_velocity());
 		}
 		else if(player.isTopCollision()) {
-			player.setPosY(player.getPosY() + 1);
+			player.setPosY(player.getPosY() + Player.M_VELOCITY);
 			//player.setPosX(player.getPosX());
 		}
 		else if(player.isBottomCollision()) {
-			player.setPosY(player.getPosY() - 1);
+			player.setPosY(player.getPosY() - Player.M_VELOCITY);
 			//player.setPosX(player.getPosX());
 		}
 		else if(player.isLeftCollision()) {
 			//player.setPosY(player.getPosY());
-			player.setPosX(player.getPosX() + 1);
+			player.setPosX(player.getPosX() + Player.M_VELOCITY);
 		}
 		else if(player.isRightCollision()) {
 			//player.setPosY(player.getPosY());
-			player.setPosX(player.getPosX() - 1);
+			player.setPosX(player.getPosX() - Player.M_VELOCITY);
 		}
 	}
 	
@@ -208,22 +207,22 @@ public class Battlefield {
 		
 		// Gestione collisioni con spigoli
 		if(player.isTopLeftCollision()) {		
-			player.setPosY(player.getPosY() + 1);
-			player.setPosX(player.getPosX() + 1);
+			player.setPosY(player.getPosY() + player.getM_velocity());
+			player.setPosX(player.getPosX() + player.getM_velocity());
 		}
 		if(player.isTopRightCollision()) {
-			player.setPosY(player.getPosY() + 1);
-			player.setPosX(player.getPosX() - 1);
+			player.setPosY(player.getPosY() + player.getM_velocity());
+			player.setPosX(player.getPosX() - player.getM_velocity());
 
 		}
 		if(player.isBottomLeftCollision()) {
-			player.setPosY(player.getPosY() - 1);
-			player.setPosX(player.getPosX() + 1);
+			player.setPosY(player.getPosY() - player.getM_velocity());
+			player.setPosX(player.getPosX() + player.getM_velocity());
 
 		}
 		if(player.isBottomRightCollision()) {
-			player.setPosY(player.getPosY() - 1);
-			player.setPosX(player.getPosX() - 1);
+			player.setPosY(player.getPosY() - player.getM_velocity());
+			player.setPosX(player.getPosX() - player.getM_velocity());
 		}
 	}
 

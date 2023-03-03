@@ -148,8 +148,8 @@ public class Battlefield {
 	private void checkCollision() {
 		for(int i=0; i<player.length ; i++) {
 			//Player p = player[i];
-			int playerSquareX = (int)(player[i].getPosX() / BATTLEFIELD_TILEDIM);
-			int playerSquareY = (int)(player[i].getPosY() / BATTLEFIELD_TILEDIM);
+			int playerSquareX = (int)((player[i].getPosX() + BATTLEFIELD_TILEDIM/4) / BATTLEFIELD_TILEDIM);
+			int playerSquareY = (int)((player[i].getPosY() + BATTLEFIELD_TILEDIM/4 )/ BATTLEFIELD_TILEDIM);
 			//System.out.println(playerSquareY + " " + playerSquareX);
 			
 			int[] topSquare = {playerSquareY - 1 > 0 ? playerSquareY - 1 : 0, playerSquareX};
@@ -165,18 +165,26 @@ public class Battlefield {
 			if(topTile.isWalkable() == false) {
 				player[i].setTopCollision(topTile.checkCollision(player[i]));
 				//System.out.println("top:" + topTile.getClass());
+			}else {
+				player[i].setTopCollision(false);
 			}
 			if(bottomTile.isWalkable() == false) {
 				//System.out.println("bottom:" + bottomTile.getClass());
 				player[i].setBottomCollision(bottomTile.checkCollision(player[i]));
+			}else {
+				player[i].setBottomCollision(false);
 			}
 			if(leftTile.isWalkable() == false) {
 				player[i].setLeftCollision(leftTile.checkCollision(player[i]));
 				//System.out.println("left:" + leftTile.getClass());
+			}else {
+				player[i].setLeftCollision(false);
 			}
 			if(rightTile.isWalkable() == false) {
 				player[i].setRightCollision(rightTile.checkCollision(player[i]));
 				//System.out.println("right:" + rightTile.getClass());
+			}else {
+				player[i].setRightCollision(false);
 			}
 								
 			/*

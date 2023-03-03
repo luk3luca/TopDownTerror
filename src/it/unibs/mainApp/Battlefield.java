@@ -3,6 +3,9 @@ package it.unibs.mainApp;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Iterator;
+
+
 
 public class Battlefield {                                
 	protected static final int BATTLEFIELD_TILEDIM = 32;
@@ -56,10 +59,9 @@ public class Battlefield {
 	private void buildPlayer() {
 		for(int i=0; i < player.length; i++) {
 			player[i] = new Player("player " + i , spawns[i], TeamColors.getColor(i + 1));
-			if(i > 2)
-				player[i].setAngle(-Math.PI/2);
 		}
-	}	
+	}
+	
 	private T_Pavement buildPavement(int y, int x, int tileDim) {
 		return new T_Pavement(y * tileDim, x * tileDim, tileDim, true);
 	}
@@ -86,12 +88,27 @@ public class Battlefield {
 //	}
 
 	public void stepNext() {
-		//checkBorder();
-		for(Bullet b:bullet) {
-			b.stepNext();
-		}
-		checkCollision();
-	}
+        //checkBorder();
+        for (Bullet bullet : bullet) {
+            bullet.stepNext();
+        }
+        checkCollision();
+        removeDust();
+
+    }
+    private void removeDust() {
+        ArrayList<Bullet> dust = new ArrayList<>();
+
+        bullet.forEach(o -> {
+            if (!o.isAlive()) {
+                dust.add(o);
+            }
+        });
+
+        dust.forEach(bullet::remove);
+
+    }
+	
 	
 	
 	/*----------------GESTIONE COLLISIONI----------------*/

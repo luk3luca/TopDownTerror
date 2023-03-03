@@ -13,13 +13,14 @@ public class Bullet extends MovingObject {
 	protected Player player;
 	protected Gun gun;
 
-	private int fuel = 2;
+	private int fuel;
 		
 	public Bullet(Player p, Gun g) {
 		super(M_VELOCITY, 0,Color.RED);
 
 		this.player = p;
 		this.gun = g;
+		this.fuel = (int) (gun.getRange() * Battlefield.BATTLEFIELD_TILEDIM/M_VELOCITY);
 		//TODO velocitA fissa in base alla velocita del player
 		
 		this.setPosX(p.getPosX() + Battlefield.BATTLEFIELD_TILEDIM/4);

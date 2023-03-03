@@ -142,7 +142,8 @@ public class PnlMap extends JPanel implements KeyListener {
 				break;
 			case KeyEvent.VK_J, KeyEvent.VK_LEFT: p.rotate(- p.getR_velocity()); break;
 			case KeyEvent.VK_L, KeyEvent.VK_RIGHT: p.rotate(p.getR_velocity()); break;
-			 
+			case KeyEvent.VK_K, KeyEvent.VK_DOWN: // reload gun			
+			
 			 
 			}
 		}

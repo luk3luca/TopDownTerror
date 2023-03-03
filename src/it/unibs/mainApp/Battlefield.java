@@ -101,48 +101,14 @@ public class Battlefield {
 		
 		Tile[] objs = new Tile[nObjs];
 		walls.toArray(objs);
-		/*
-		for(int i=0; i<player.length ; i++) {
-			boolean x = true;
-			for(int j=0; j<nObjs ; j++) {
-				
-				
-				if(objs[j].checkCollision(player[i])){
-					//TODO  METTERE IL PLAYER NELLA POSIZIONE PRECEDENTE A QUANDO HA COLPITO IL MURO / SETTARE VELOCITA' A ZERO MA --> CAMBIA METODO PER SPOSTAMENTO 
-					
-					
-					if (player[i].getPosX() < objs[j].getX()) {
-		                player[i].setPosX(player[i].getPosX() - Player.M_VELOCITY);
-		            }else if (player[i].getPosX() + BATTLEFIELD_TILEDIM/2  > objs[j].getX() + BATTLEFIELD_TILEDIM) {
-		                player[i].setPosX(player[i].getPosX() + Player.M_VELOCITY);
-		            }
-					if (player[i].getPosY() < objs[j].getY()) {
-		            	player[i].setPosY(player[i].getPosY() - Player.M_VELOCITY);
-		            }else if (player[i].getPosY() + BATTLEFIELD_TILEDIM/2 > objs[j].getY() + BATTLEFIELD_TILEDIM) {
-		            	player[i].setPosY(player[i].getPosY() + Player.M_VELOCITY);
-		            }
-		            
-					/*
-					if(player[i].getPosX() + BATTLEFIELD_TILEDIM/2 > objs[j].getX()) {
-						player[i].setPosX(objs[j].getX() - BATTLEFIELD_TILEDIM/2);
-						System.out.println("left collision");
-					}
-					else if(player[i].getPosX() < objs[j].getX()+ BATTLEFIELD_TILEDIM) {
-						player[i].setPosX(objs[j].getX() + BATTLEFIELD_TILEDIM);
-						System.out.println("right collision");
-					}
-					if(player[i].getPosY() < objs[j].getY() + BATTLEFIELD_TILEDIM) {
-						player[i].setPosY(objs[j].getY());
-						System.out.println("bottom collision");
-					}					
-					else if(player[i].getPosY() + BATTLEFIELD_TILEDIM/2 > objs[j].getY()) {
-						player[i].setPosY(objs[j].getY()- BATTLEFIELD_TILEDIM/2);
-						System.out.println("top collision");
-					}
-					
-				} 
-				*/
-			}
+		
+	}
+	
+	private boolean isCrossWalkable(Tile topTile, Tile bottomTile,Tile leftTile, Tile rightTile) {
+		if(topTile.isWalkable() && bottomTile.isWalkable() && leftTile.isWalkable() && rightTile.isWalkable())
+			return true;
+		return false;
+	}
 	
 	
 	private void checkCollision() {
@@ -162,110 +128,147 @@ public class Battlefield {
 			Tile leftTile = tiles.get(leftSquare[0]*MapMatrix.WIDTH + leftSquare[1]);
 			Tile rightTile = tiles.get(rightSquare[0]*MapMatrix.WIDTH + rightSquare[1]);			
 			
-			if(topTile.isWalkable() == false) {
-				player[i].setTopCollision(topTile.checkCollision(player[i]));
-				//System.out.println("top:" + topTile.getClass());
-			}else {
-				player[i].setTopCollision(false);
+			if(!isCrossWalkable(topTile, bottomTile, leftTile, rightTile)) {
+				crossCollision(player[i], topTile, bottomTile, leftTile, rightTile);
 			}
-			if(bottomTile.isWalkable() == false) {
-				//System.out.println("bottom:" + bottomTile.getClass());
-				player[i].setBottomCollision(bottomTile.checkCollision(player[i]));
-			}else {
-				player[i].setBottomCollision(false);
-			}
-			if(leftTile.isWalkable() == false) {
-				player[i].setLeftCollision(leftTile.checkCollision(player[i]));
-				//System.out.println("left:" + leftTile.getClass());
-			}else {
-				player[i].setLeftCollision(false);
-			}
-			if(rightTile.isWalkable() == false) {
-				player[i].setRightCollision(rightTile.checkCollision(player[i]));
-				//System.out.println("right:" + rightTile.getClass());
-			}else {
-				player[i].setRightCollision(false);
-			}
-								
-			/*
-			System.out.println("top:" + player[i].isTopCollision());
-			System.out.println("bottom:" + player[i].isBottomCollision());
-			System.out.println("left:" + player[i].isLeftCollision());
-			System.out.println("right:" + player[i].isRightCollision());
-			*/
-			
-			
-			if(player[i].isTopCollision() && player[i].isLeftCollision()) {
-				player[i].setPosY(topTile.getY() + BATTLEFIELD_TILEDIM);
-				player[i].setPosX(leftTile.getX() + BATTLEFIELD_TILEDIM);
-				System.out.println("TL");
-			}
-			else if(player[i].isTopCollision() && player[i].isRightCollision()) {
-				player[i].setPosY(topTile.getY() + BATTLEFIELD_TILEDIM);
-				player[i].setPosX(rightTile.getX() - BATTLEFIELD_TILEDIM/2);
-				System.out.println("TR");
-			}
-			else if(player[i].isBottomCollision() && player[i].isLeftCollision()) {
-				player[i].setPosY(bottomTile.getY() - BATTLEFIELD_TILEDIM/2);
-				player[i].setPosX(leftTile.getX() + BATTLEFIELD_TILEDIM);
-				System.out.println("BL");
-			}
-			else if(player[i].isBottomCollision() && player[i].isRightCollision()) {
-				player[i].setPosY(bottomTile.getY() - BATTLEFIELD_TILEDIM/2);
-				player[i].setPosX(rightTile.getX() - BATTLEFIELD_TILEDIM/2);
-				System.out.println("BL");
-			}
-			else if(player[i].isTopCollision()) {		//TODO FIX
-				player[i].setPosY(topTile.getY() + BATTLEFIELD_TILEDIM);
-				player[i].setPosX(player[i].getPosX());
-				System.out.println("T");
-			}
-			else if(player[i].isBottomCollision()) {	//TODO FIX
-				player[i].setPosY(bottomTile.getY() - BATTLEFIELD_TILEDIM/2);
-				player[i].setPosX(player[i].getPosX());
-				System.out.println("B");
-			}
-			else if(player[i].isLeftCollision()) {
-				player[i].setPosY(player[i].getPosY());
-				player[i].setPosX(leftTile.getX() + BATTLEFIELD_TILEDIM);
-				System.out.println("L");
-			}
-			else if(player[i].isRightCollision()) {
-				player[i].setPosY(player[i].getPosY());
-				player[i].setPosX(rightTile.getX() - BATTLEFIELD_TILEDIM/2);
-				System.out.println("R");
+			else {
+				angleCollision(player[i],playerSquareX ,playerSquareY );
 			}
 			
-			//player[i].resetCollision();
-			/*
-			if(player[i].isTopCollision() && player[i].isLeftCollision()) {
-				System.out.println("TL");
-			}
-			else if(player[i].isTopCollision() && player[i].isRightCollision()) {
-				System.out.println("TR");
-			}
-			else if(player[i].isBottomCollision() && player[i].isLeftCollision()) {
-				System.out.println("BL");
-			}
-			else if(player[i].isBottomCollision() && player[i].isRightCollision()) {
-				System.out.println("BL");
-			}
-			else if(player[i].isTopCollision()) {
-				System.out.println("T");
-			}
-			else if(player[i].isBottomCollision()) {
-				System.out.println("B");
-			}
-			else if(player[i].isLeftCollision()) {
-				System.out.println("L");
-			}
-			else if(player[i].isRightCollision()) {
-				System.out.println("R");
-			}
-			*/
+				
+		
+			
 			
 		}
 	}
 	
 	
+	private void crossCollision(Player player,Tile topTile, Tile bottomTile,Tile leftTile, Tile rightTile) {
+		if(topTile.isWalkable() == false) {
+			player.setTopCollision(topTile.checkCollision(player));
+			//System.out.println("top:" + topTile.getClass());
+		}else {
+			player.setTopCollision(false);
+		}
+		if(bottomTile.isWalkable() == false) {
+			//System.out.println("bottom:" + bottomTile.getClass());
+			player.setBottomCollision(bottomTile.checkCollision(player));
+		}else {
+			player.setBottomCollision(false);
+		}
+		if(leftTile.isWalkable() == false) {
+			player.setLeftCollision(leftTile.checkCollision(player));
+			//System.out.println("left:" + leftTile.getClass());
+		}else {
+			player.setLeftCollision(false);
+		}
+		if(rightTile.isWalkable() == false) {
+			player.setRightCollision(rightTile.checkCollision(player));
+			//System.out.println("right:" + rightTile.getClass());
+		}else {
+			player.setRightCollision(false);
+		}
+		
+		
+		if(player.isTopCollision() && player.isLeftCollision()) {
+			player.setPosY(topTile.getY() + BATTLEFIELD_TILEDIM);
+			player.setPosX(leftTile.getX() + BATTLEFIELD_TILEDIM);
+			System.out.println("TL");
+		}
+		else if(player.isTopCollision() && player.isRightCollision()) {
+			player.setPosY(topTile.getY() + BATTLEFIELD_TILEDIM);
+			player.setPosX(rightTile.getX() - BATTLEFIELD_TILEDIM/2);
+			System.out.println("TR");
+		}
+		else if(player.isBottomCollision() && player.isLeftCollision()) {
+			player.setPosY(bottomTile.getY() - BATTLEFIELD_TILEDIM/2);
+			player.setPosX(leftTile.getX() + BATTLEFIELD_TILEDIM);
+			System.out.println("BL");
+		}
+		else if(player.isBottomCollision() && player.isRightCollision()) {
+			player.setPosY(bottomTile.getY() - BATTLEFIELD_TILEDIM/2);
+			player.setPosX(rightTile.getX() - BATTLEFIELD_TILEDIM/2);
+			System.out.println("BL");
+		}
+		else if(player.isTopCollision()) {		//TODO FIX
+			player.setPosY(topTile.getY() + BATTLEFIELD_TILEDIM);
+			player.setPosX(player.getPosX());
+			System.out.println("T");
+		}
+		else if(player.isBottomCollision()) {	//TODO FIX
+			player.setPosY(bottomTile.getY() - BATTLEFIELD_TILEDIM/2);
+			player.setPosX(player.getPosX());
+			System.out.println("B");
+		}
+		else if(player.isLeftCollision()) {
+			player.setPosY(player.getPosY());
+			player.setPosX(leftTile.getX() + BATTLEFIELD_TILEDIM);
+			System.out.println("L");
+		}
+		else if(player.isRightCollision()) {
+			player.setPosY(player.getPosY());
+			player.setPosX(rightTile.getX() - BATTLEFIELD_TILEDIM/2);
+			System.out.println("R");
+		}
+	}
+	
+	private void angleCollision(Player player,int playerSquareX, int playerSquareY ) {
+		
+		
+		int[] topLeftSquare = {playerSquareY - 1 > 0 ? playerSquareY - 1 : 0, playerSquareX - 1 > 0 ? playerSquareX - 1 : 0};
+		int[] topRightSquare = {playerSquareY - 1 > 0 ? playerSquareY - 1 : 0, playerSquareX + 1 < MapMatrix.WIDTH ? playerSquareX + 1 : MapMatrix.WIDTH - 1};
+		int[] bottomLeftSquare = {playerSquareY + 1 < MapMatrix.HEIGHT ? playerSquareY + 1 : MapMatrix.HEIGHT - 1, playerSquareX - 1 > 0 ? playerSquareX - 1 : 0};
+		int[] bottomRightSquare = {playerSquareY + 1 < MapMatrix.HEIGHT ? playerSquareY + 1 : MapMatrix.HEIGHT - 1, playerSquareX + 1 < MapMatrix.WIDTH ? playerSquareX + 1 : MapMatrix.WIDTH - 1};
+		
+		Tile topLeftTile = tiles.get(topLeftSquare[0]*MapMatrix.WIDTH + topLeftSquare[1]);
+		Tile topRightTile = tiles.get(topRightSquare[0]*MapMatrix.WIDTH + topRightSquare[1]);
+		Tile bottomLeftTile = tiles.get(bottomLeftSquare[0]*MapMatrix.WIDTH + bottomLeftSquare[1]);
+		Tile bottomRightTile = tiles.get(bottomRightSquare[0]*MapMatrix.WIDTH + bottomRightSquare[1]);		
+		
+		if(!topLeftTile.isWalkable()) {
+			player.setTopLeftCollision(topLeftTile.checkCollision(player));
+			//System.out.println("top:" + topTile.getClass());
+		}else {
+			player.setTopLeftCollision(false);
+		}
+		if(!topRightTile.isWalkable()) {
+			//System.out.println("bottom:" + bottomTile.getClass());
+			player.setTopRightCollision(topRightTile.checkCollision(player));
+		}else {
+			player.setTopRightCollision(false);
+		}
+		if(!bottomLeftTile.isWalkable()) {
+			player.setBottomLeftCollision(bottomLeftTile.checkCollision(player));
+			//System.out.println("left:" + leftTile.getClass());
+		}else {
+			player.setBottomLeftCollision(false);
+		}
+		if(!bottomRightTile.isWalkable()) {
+			player.setBottomRightCollision(bottomRightTile.checkCollision(player));
+			//System.out.println("right:" + rightTile.getClass());
+		}else {
+			player.setBottomRightCollision(false);
+		}
+		
+		
+		
+//		if(player.isTopLeftCollision()) {		
+//			player.setPosY();
+//			player.setPosX();
+//		}
+//		else if(player.isTopRightCollision()) {
+//			player.setPosY();
+//			player.setPosX();
+//		}
+//		else if(player.isBottomLeftCollision()) {
+//			player.setPosY();
+//			player.setPosX();
+//		}
+//		else 
+		
+		if(player.isBottomRightCollision()) {
+			player.setPosY(bottomRightTile.getY() - (BATTLEFIELD_TILEDIM * (Math.sqrt(2)+ 1)/4) );
+			player.setPosX(bottomRightTile.getX() - (BATTLEFIELD_TILEDIM * (Math.sqrt(2)+ 1)/4) );
+		}
+	}
 }

@@ -31,6 +31,11 @@ public class Player extends MovingObject{
 	private boolean bottomCollision = false;
 	private boolean leftCollision = false;
 	private boolean rightCollision = false;
+	
+	private boolean topLeftCollision = false;
+	private boolean topRightCollision = false;
+	private boolean bottomLeftCollision = false;
+	private boolean bottomRightCollision = false; 
 
 	public Player(String name, T_Spawn spawn, Color color) {
 		super(M_VELOCITY, R_VELOCITY,color );
@@ -96,17 +101,58 @@ public class Player extends MovingObject{
 		this.rightCollision = rightCollision;
 	}
 
+
+	public boolean isTopLeftCollision() {
+		return topLeftCollision;
+	}
+
+	public void setTopLeftCollision(boolean topLeftCollision) {
+		this.topLeftCollision = topLeftCollision;
+	}
+
+	public boolean isTopRightCollision() {
+		return topRightCollision;
+	}
+
+	public void setTopRightCollision(boolean topRightCollision) {
+		this.topRightCollision = topRightCollision;
+	}
+
+	public boolean isBottomLeftCollision() {
+		return bottomLeftCollision;
+	}
+
+	public void setBottomLeftCollision(boolean bottomLeftCollision) {
+		this.bottomLeftCollision = bottomLeftCollision;
+	}
+
+	public boolean isBottomRightCollision() {
+		return bottomRightCollision;
+	}
+
+	public void setBottomRightCollision(boolean bottomRightCollision) {
+		this.bottomRightCollision = bottomRightCollision;
+	}
+
 	public void resetCollision() {
 		this.topCollision = false;
 		this.bottomCollision = false;
 		this.leftCollision = false;
 		this.rightCollision = false;
+		this.topLeftCollision = false;
+		this.topRightCollision = false;
+		this.bottomLeftCollision = false;
+		this.bottomRightCollision = false; 
 	}
-
 	
 	
 	
-	
+//	public boolean isCrossWalkable() {
+//		if(!topCollision && !bottomCollision && !leftCollision && !rightCollision) {
+//			return true;
+//		}
+//		return false;
+//	}
 	
 	
 	  

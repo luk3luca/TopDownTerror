@@ -86,7 +86,9 @@ public class Battlefield {
 
 	public void stepNext() {
 		//checkBorder();
-		
+		for(Bullet b:bullet) {
+			b.stepNext();
+		}
 		checkCollision();
 	}
 	

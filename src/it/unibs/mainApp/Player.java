@@ -147,6 +147,15 @@ public class Player extends MovingObject{
 	}
 	
 
+	public void resetVelocity(){
+		this.setM_velocity(M_VELOCITY);
+	}
+/*
+	public void fire() {
+		Bullet b = new Bullet(this, gun);
+	}
+*/
+
 	  
  
 }

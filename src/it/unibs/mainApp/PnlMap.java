@@ -65,8 +65,12 @@ public class PnlMap extends JPanel implements KeyListener {
 			
 			g2.setColor(p.getColor());
 			g2.fill(p.getShape());
-			
-			
+
+		}
+		
+		for (int i = 0; i < model.bullet.size(); i++) {
+			g2.setColor(model.bullet.get(i).getColor());
+			g2.fill(model.bullet.get(i).getShape());
 		}
 	}
 	
@@ -98,38 +102,41 @@ public class PnlMap extends JPanel implements KeyListener {
 		
 		
 		for(Integer keycode: currentActiveControls) {
+			p.resetVelocity();
 			switch(keycode) {
 			case KeyEvent.VK_W: {
 				if(currentActiveControls.contains(KeyEvent.VK_A) || currentActiveControls.contains(KeyEvent.VK_D))
-					p.setPosY(p.getPosY() - (p.getM_velocity() / Math.sqrt(2)));
-				else
+					p.setM_velocity(p.getM_velocity() / Math.sqrt(2));
+					
 					p.setPosY(p.getPosY() - p.getM_velocity()); 
 				break;
 			}
 			case KeyEvent.VK_A: {
-				if(currentActiveControls.contains(KeyEvent.VK_W) || currentActiveControls.contains(KeyEvent.VK_S))
-					p.setPosX(p.getPosX() - p.getM_velocity() / Math.sqrt(2)); 
-				else
-					p.setPosX(p.getPosX() - p.getM_velocity());
+				if(currentActiveControls.contains(KeyEvent.VK_W) || currentActiveControls.contains(KeyEvent.VK_S)) 
+					p.setM_velocity(p.getM_velocity() / Math.sqrt(2));
+				
+				p.setPosX(p.getPosX() - p.getM_velocity());
 				break;
 			}
 			case KeyEvent.VK_S: {
 				if(currentActiveControls.contains(KeyEvent.VK_A) || currentActiveControls.contains(KeyEvent.VK_D))
-					p.setPosY(p.getPosY() + p.getM_velocity() / Math.sqrt(2)); 
-				else
-					p.setPosY(p.getPosY() + p.getM_velocity());
+					p.setM_velocity(p.getM_velocity() / Math.sqrt(2));
+				
+				p.setPosY(p.getPosY() + p.getM_velocity());
 				break;
 			}
 			case KeyEvent.VK_D: {
 				if(currentActiveControls.contains(KeyEvent.VK_W) || currentActiveControls.contains(KeyEvent.VK_S))
-					p.setPosX(p.getPosX() + p.getM_velocity() / Math.sqrt(2));
-				else
-					p.setPosX(p.getPosX() + p.getM_velocity()); 
+					p.setM_velocity(p.getM_velocity() / Math.sqrt(2));
+					
+				p.setPosX(p.getPosX() + p.getM_velocity()); 
 				break;
 			}
-			case KeyEvent.VK_I, KeyEvent.VK_UP:  break;
+			case KeyEvent.VK_I, KeyEvent.VK_UP: model.bullet.add(new Bullet(p, p.getGun())); break;
 			case KeyEvent.VK_J, KeyEvent.VK_LEFT: p.rotate(- p.getR_velocity()); break;
 			case KeyEvent.VK_L, KeyEvent.VK_RIGHT: p.rotate(p.getR_velocity()); break;
+			
+			
 			}
 		}
 	}

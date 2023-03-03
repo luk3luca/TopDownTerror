@@ -102,7 +102,6 @@ public class Gun  {
 	public Color getColor() {
 		return color;
 	}
-	
 
 	
 }

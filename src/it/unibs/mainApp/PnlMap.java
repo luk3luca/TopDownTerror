@@ -65,12 +65,8 @@ public class PnlMap extends JPanel implements KeyListener {
 			
 			g2.setColor(p.getColor());
 			g2.fill(p.getShape());
-
-		}
-		
-		for (int i = 0; i < model.bullet.size(); i++) {
-			g2.setColor(model.bullet.get(i).getColor());
-			g2.fill(model.bullet.get(i).getShape());
+			
+			
 		}
 	}
 	
@@ -131,7 +127,7 @@ public class PnlMap extends JPanel implements KeyListener {
 					p.setPosX(p.getPosX() + p.getM_velocity()); 
 				break;
 			}
-			case KeyEvent.VK_I, KeyEvent.VK_UP: model.bullet.add(new Bullet(p, p.getGun())); break;
+			case KeyEvent.VK_I, KeyEvent.VK_UP:  break;
 			case KeyEvent.VK_J, KeyEvent.VK_LEFT: p.rotate(- p.getR_velocity()); break;
 			case KeyEvent.VK_L, KeyEvent.VK_RIGHT: p.rotate(p.getR_velocity()); break;
 			}

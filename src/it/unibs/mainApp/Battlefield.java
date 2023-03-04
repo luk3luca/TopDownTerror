@@ -90,6 +90,7 @@ public class Battlefield {
         removeDust();
 
     }
+	
     private void removeDust() {
         ArrayList<Bullet> dust = new ArrayList<>();
  
@@ -112,9 +113,7 @@ public class Battlefield {
 			player[i].resetCollision();
 			crossCollision(player[i], playerSquareX, playerSquareY);
 			angleCollision(player[i],playerSquareX, playerSquareY);		
-			checkGunRangeCollision(player[i], playerSquareX, playerSquareY, i);
-			
-			
+			checkGunRangeCollision(player[i], playerSquareX, playerSquareY, i);			
 		}
 	}
 	// TODO COLLISIONI MOVING OBJECT <--> MOVING OBJECT 

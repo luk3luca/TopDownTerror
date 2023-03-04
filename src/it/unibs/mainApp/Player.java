@@ -67,11 +67,33 @@ public class Player extends MovingObject{
 		System.out.println(getPosX() + " " + getPosY() + " " + getAngle());
 		this.gun.setPlayerInfo(getPosX(), getPosY(), getAngle());
 	}
+	
+	public void reloadAmmo() {
+		reload = true;
+		Timer timer = new Timer();
+		TimerTask tt = new TimerTask() {
+			@Override
+			public void run() {
+				ammoLeft = magMax;
+				reload = false;
+			}
+		};
+		timer.schedule(tt, (int)gun.getReload() * 1000);
+	}
+
+	public Bullet fire() {
+		if(ammoLeft == 0)
+			reloadAmmo();
+		if(this.reload == true)
+			return null;
+		return new Bullet(this, gun);
+	}
+
+
 
 	public Gun getGun() {
 		return gun;
 	}
-	
 	
 	public boolean isReload() {
 		return reload;
@@ -166,31 +188,7 @@ public class Player extends MovingObject{
 		this.setM_velocity(M_VELOCITY);
 	}
 	
-	public void ammo() {
-		if (ammoLeft>0) {
-			this.ammoLeft += -1;
-		}else if(ammoLeft == 0){
-			reload = true;
-			Timer timer = new Timer();
-			TimerTask tt = new TimerTask() {
-				
-				@Override
-				public void run() {
-					ammoLeft = magMax;
-					reload = false;
-					
-				}
-			};
-			timer.schedule(tt, (int)gun.getReload());
-			
-		}
-	}
-/*
-	public void fire() {
-		Bullet b = new Bullet(this, gun);
-	}
-*/
-	
+		
 	  
  
 }

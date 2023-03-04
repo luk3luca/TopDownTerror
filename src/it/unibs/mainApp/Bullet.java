@@ -28,8 +28,6 @@ public class Bullet extends MovingObject {
 		
 		this.setAngle(p.getAngle());
 		
-		
-		
 		this.shape = new Area (new Polygon(
 				new int[] {5,0,-5,-5,0},
 				new int[] {0,-3,-3,3,3},

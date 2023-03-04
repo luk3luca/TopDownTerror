@@ -256,7 +256,7 @@ public class Battlefield {
 			int upperY = Math.min(MapMatrix.HEIGHT, playerSquareY + range + 1);
 			int upperX = Math.min(MapMatrix.WIDTH, playerSquareX + range + 1);
 			//System.out.println("(" + lowerX + "," + lowerY + ") ("+ upperX + "," + upperY + ")");
-			Point2D playerP = new Point2D.Double(player.getPosX(), player.getPosY());
+			Point2D playerP = new Point2D.Double(player.getPosX() + BATTLEFIELD_TILEDIM/4, player.getPosY() + BATTLEFIELD_TILEDIM/4);
 			ArrayList<Point2D> collisionsP = new ArrayList<>();
 			
 			for(int i = lowerY; i < upperY; i++) {

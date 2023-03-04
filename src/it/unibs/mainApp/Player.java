@@ -26,7 +26,7 @@ public class Player extends MovingObject{
 
 	private int kills;
 	private int deaths;
-	private boolean reload = false;
+	private boolean reloading = false;
 	
 	private boolean topCollision = false;
 	private boolean bottomCollision = false;
@@ -95,12 +95,18 @@ public class Player extends MovingObject{
 		return gun;
 	}
 	
+<<<<<<< Updated upstream
 	public boolean isReload() {
 		return reload;
+=======
+	
+	public boolean isReloading() {
+		return reloading;
+>>>>>>> Stashed changes
 	}
 
-	public void setReload(boolean reload) {
-		this.reload = reload;
+	public void setReloading(boolean reloading) {
+		this.reloading = reloading;
 	}
 
 	public int getAmmoLeft() {
@@ -188,7 +194,57 @@ public class Player extends MovingObject{
 		this.setM_velocity(M_VELOCITY);
 	}
 	
+<<<<<<< Updated upstream
 		
 	  
  
+=======
+	public boolean checkAmmo() {
+		if (ammoLeft == 0)
+			return false;
+		else {
+			return true;
+		}
+				
+	}
+	
+	public void checkAmmoLeft() {
+		if (ammoLeft>0) {
+			this.ammoLeft -= 1;
+		}else if(ammoLeft == 0){
+			reloadAmmo();
+		}
+	}
+	
+	private Timer timerReload = new Timer();
+	
+	public void reloadAmmo() {
+		if(reloading)
+			return;
+		
+		System.out.println("reloading");
+		reloading = true;
+		TimerTask tt = new TimerTask() {	
+			@Override
+			public void run() {
+				ammoLeft = magMax;
+				reloading = false;
+			}
+		};
+		this.timerReload.schedule(tt, (long)(gun.getReload() * 1000));
+	}
+	
+	public void removeAmmo() {
+		this.ammoLeft -= 1;
+	}
+
+	// TODO this method
+	public Bullet fire() {
+//		if(!reloading)
+//			return new Bullet(this, gun);
+		
+		
+		return null;
+	}
+>>>>>>> Stashed changes
 }

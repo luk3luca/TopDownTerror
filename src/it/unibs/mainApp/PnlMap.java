@@ -102,7 +102,6 @@ public class PnlMap extends JPanel implements KeyListener {
 		if(p == null)
 			return;
 		
-		
 		for(Integer keycode: currentActiveControls) {
 			p.resetVelocity();
 			switch(keycode) {
@@ -112,27 +111,28 @@ public class PnlMap extends JPanel implements KeyListener {
 					
 					p.setPosY(p.getPosY() - p.getM_velocity()); 
 				break;
-			}
+				}
 			case KeyEvent.VK_A: {
 				if(currentActiveControls.contains(KeyEvent.VK_W) || currentActiveControls.contains(KeyEvent.VK_S)) 
 					p.setM_velocity(p.getM_velocity() / Math.sqrt(2));
 				
 				p.setPosX(p.getPosX() - p.getM_velocity());
 				break;
-			}
+				}
 			case KeyEvent.VK_S: {
 				if(currentActiveControls.contains(KeyEvent.VK_A) || currentActiveControls.contains(KeyEvent.VK_D))
 					p.setM_velocity(p.getM_velocity() / Math.sqrt(2));
 				
 				p.setPosY(p.getPosY() + p.getM_velocity());
 				break;
-			} 
+				} 
 			case KeyEvent.VK_D: {
 				if(currentActiveControls.contains(KeyEvent.VK_W) || currentActiveControls.contains(KeyEvent.VK_S))
 					p.setM_velocity(p.getM_velocity() / Math.sqrt(2));
 					
 				p.setPosX(p.getPosX() + p.getM_velocity()); 
 				break;
+<<<<<<< Updated upstream
 			}
 			case KeyEvent.VK_I, KeyEvent.VK_UP: 
 //				if(p.getAmmoLeft() == 0)
@@ -143,16 +143,31 @@ public class PnlMap extends JPanel implements KeyListener {
 						model.bullet.add(p.fire());
 						System.out.println(p.getAmmoLeft());
 						p.reloadAmmo();
+=======
+				}
+			case KeyEvent.VK_I, KeyEvent.VK_UP: {
+				if(p.isReloading())
+					break;
+				if (p.checkAmmo()) {
+					if(countRate<=0) {					
+						model.bullet.add(new Bullet(p, p.getGun()));
+						System.out.println(p.getAmmoLeft());
+						countRate = (int) (p.getGun().getRate()*1000);
+						p.removeAmmo();
+>>>>>>> Stashed changes
 					}
-					countRate = (int) (p.getGun().getRate()*1000);	
+				}
+				else {
+					p.reloadAmmo();
 				}
 				
 				break;
+				}
 			case KeyEvent.VK_J, KeyEvent.VK_LEFT: p.rotate(- p.getR_velocity()); break;
 			case KeyEvent.VK_L, KeyEvent.VK_RIGHT: p.rotate(p.getR_velocity()); break;
-			case KeyEvent.VK_K, KeyEvent.VK_DOWN: // reload gun			
+			case KeyEvent.VK_K, KeyEvent.VK_DOWN: p.reloadAmmo(); break;
 			
-			 
+			
 			}
 		}
 	}

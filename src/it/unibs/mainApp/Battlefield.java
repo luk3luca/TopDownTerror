@@ -262,7 +262,7 @@ public class Battlefield {
 					Tile t = tiles.get(i*MapMatrix.WIDTH + j);
 					
 					if(!t.isWalkable()) {
-						player.getGun().setPlayerInfo(player.getPosX(), player.getPosY(), player.getAngle());
+						//player.getGun().setPlayerInfo(player.getPosX(), player.getPosY(), player.getAngle());
 						if(t.checkCollision(player.getGun())) {
 							Area area1 = new Area(player.getGun().getShape());
 							Area area2 = new Area(t.getShape());

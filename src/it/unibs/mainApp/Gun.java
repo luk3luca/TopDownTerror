@@ -6,7 +6,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
-public class Gun extends MovingObject {
+public class Gun extends MovingObject implements Cloneable {
 	public final static double GUN_WIDTH = 4.;
 	public final static Gun SNIPER = new Gun("Ballista", 6, 3., 7, 6., 80, new Color(0,0,102)); 				// #000066
 	public final static Gun AR = new Gun("AK-47", 4, 0.5, 25, 4., 20, new Color(128, 0, 32));						// #800020
@@ -16,26 +16,23 @@ public class Gun extends MovingObject {
 	public final static Gun BOW = new Gun("Bow", 6, 6., 1, 1., 100, new Color(255,255,255));				// #FFFFFF
 	
 	private String name;
-	private int range;
+	private double maxRange;
+	private double range;
 	private double rate;
 	private int maxAmmo;
 	private double reload;
 	private int dmg;
+	protected Shape shape;
 	
-	public Gun(String name, int range, double rate, int maxAmmo, double reload, int dmg, Color color) {
+	public Gun(String name, double maxRange, double rate, int maxAmmo, double reload, int dmg, Color color) {
 		super();
 		this.name = name;
-		this.range = range;
+		this.maxRange = maxRange;
+		this.range = maxRange;
 		this.rate = rate;
 		this.maxAmmo = maxAmmo;
 		this.dmg = dmg;
 		this.color = color;
-		
-		Area gunArea = new Area(new Rectangle2D.Double(Battlefield.BATTLEFIELD_TILEDIM/4, 
-				   Battlefield.BATTLEFIELD_TILEDIM/4 - GUN_WIDTH/2, 
-				   Battlefield.BATTLEFIELD_TILEDIM * this.range,
-				   GUN_WIDTH));
-		this.shape = gunArea;
 	}
 	
 	public void setPlayerInfo(double posX, double posY, double angle) {
@@ -46,12 +43,32 @@ public class Gun extends MovingObject {
 	
 	@Override
 	public Shape getShape() {
+		Area gunArea = new Area(new Rectangle2D.Double(Battlefield.BATTLEFIELD_TILEDIM/4, 
+				   Battlefield.BATTLEFIELD_TILEDIM/4 - GUN_WIDTH/2, 
+				   Battlefield.BATTLEFIELD_TILEDIM * this.range,
+				   GUN_WIDTH));
+		this.shape = gunArea;
 		AffineTransform t = new AffineTransform();
 		t.translate(posX, posY);
 		t.rotate(angle,Battlefield.BATTLEFIELD_TILEDIM/4, 
 				Battlefield.BATTLEFIELD_TILEDIM/4);
 		return t.createTransformedShape(shape);
 	}
+	
+	@Override
+    public Gun clone() throws CloneNotSupportedException {
+        //Gun cloned = (Gun) super.clone();
+        //cloned.shape = (Shape) this.shape.clone();
+        //cloned.color = new Color(this.color.getRGB());
+        //return cloned;
+        try {
+            Gun cloned = (Gun) super.clone();
+            //cloned.shape = (Shape) this.shape.clone();
+            return cloned;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 
 	public static Gun getSniper() {
 		return SNIPER;
@@ -80,9 +97,22 @@ public class Gun extends MovingObject {
 	public String getName() {
 		return name;
 	}
+	
+	public double getMaxRange() {
+		return maxRange;
+	}
 
-	public int getRange() {
+	public void resetRange() {
+		this.range = this.maxRange;
+	}
+
+
+	public double getRange() {
 		return range;
+	}
+	
+	public void setRange(double range) {
+		this.range = range;
 	}
 
 	public double getRate() {

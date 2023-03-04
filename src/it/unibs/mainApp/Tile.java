@@ -79,7 +79,7 @@ public class Tile {
 	
 	//COLLISION DETECTION
 	public boolean checkCollision(MovingObject o) {
-		Area  a = new Area(this.getShape());
+		Area a = new Area(this.getShape());
 		a.intersect(new Area(o.getShape()));
 		return !a.isEmpty();
 	}

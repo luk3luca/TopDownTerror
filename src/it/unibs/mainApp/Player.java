@@ -14,7 +14,7 @@ public class Player extends MovingObject{
 	private String name;
 	private Color color;
 	private int hp;
-	private Gun gun = Gun.PISTOL;
+	private Gun gun;
 	private T_Spawn spawn;
 	private int magMax;
 	private int ammoLeft;
@@ -40,6 +40,13 @@ public class Player extends MovingObject{
 		this.name = name;
 		this.spawn = spawn;
 		this.angle = Math.PI/2;
+		//Clona Gun in modo che si modifichi la costante
+		try {
+			this.gun = Gun.PISTOL.clone();
+		} catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+		
 		this.magMax = gun.getMaxAmmo();
 		this.ammoLeft = magMax;
 		this.hp = HP;

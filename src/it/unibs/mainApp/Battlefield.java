@@ -16,7 +16,7 @@ public class Battlefield {
 	protected ArrayList<Tile> tiles = new ArrayList<Tile>();
 	protected T_Spawn[] spawns = new T_Spawn[6];
 	protected Player[] player = new Player[6];
-	protected ArrayList<T_Wall> walls = new ArrayList<>();
+	protected ArrayList<Tile> wallsAndSpawn = new ArrayList<>();
 
 	protected ArrayList<Bullet> bullet = new ArrayList<>();
 	//protected Rectangle2D.Double borders = new Rectangle2D.Double(0.,0.,BATTLEFIELD_WIDTH,BATTLEFIELD_HEIGHT); //bordi logici dell'universo 
@@ -39,11 +39,12 @@ public class Battlefield {
 						break;
 					case 1:
 						tiles.add(buildWall(y,x, BATTLEFIELD_TILEDIM));
-						walls.add(buildWall(y,x, BATTLEFIELD_TILEDIM));
+						wallsAndSpawn.add(buildWall(y,x, BATTLEFIELD_TILEDIM));
 						break;
 					case 2:
 						T_Spawn s = buildSpawn(y,x, BATTLEFIELD_TILEDIM, spawnCounter);
 						tiles.add(s);
+						wallsAndSpawn.add(s);
 						spawns[spawnCounter - 1] = s;
 						spawnCounter++;
 						break;
@@ -78,24 +79,14 @@ public class Battlefield {
 		return new T_Spawn(y * tileDim, x * tileDim, tileDim * MapMatrix.SPAWN_H, tileDim * MapMatrix.SPAWN_W, true, c);
 	}
 	
-//	public void checkBorder() {
-//		for (int i = 0; i < player.length; i++) {
-//			if (player[i].posX >= BATTLEFIELD_WIDTH - BATTLEFIELD_TILEDIM/2  || player[i].posY >= BATTLEFIELD_HEIGHT - BATTLEFIELD_TILEDIM/2 ) {
-//				player[i].setPosX(player[i].getPosX() - Player.M_VELOCITY);
-//				player[i].setPosY(player[i].getPosY() - Player.M_VELOCITY);
-//			}else if (player[i].posX <= 0 || player[i].posY <= 0) {
-//				player[i].setPosX(player[i].getPosX() + Player.M_VELOCITY);
-//				player[i].setPosY(player[i].getPosY() + Player.M_VELOCITY);
-//			}
-//		}
-//	}
-
+	/*----------------GESTIONE COLLISIONI----------------*/
 	public void stepNext() {
         //checkBorder();
         for (Bullet bullet : bullet) {
             bullet.stepNext();
         }
         checkCollision();
+        bullletWallsCollision();
         removeDust();
 
     }
@@ -107,19 +98,12 @@ public class Battlefield {
                 dust.add(o); 
             } 
         });
-
+        
         dust.forEach(bullet::remove);
 
     } 
-	
-	
-	
-	/*----------------GESTIONE COLLISIONI----------------*/
-
-	// TODO COLLISIONI MOVING OBJECT <--> MOVING OBJECT 
-
-	//COLLISIONI PLAYER <--> WALLS
-	private void checkCollision() {
+    
+    private void checkCollision() {
 		for(int i=0; i<player.length ; i++) {
 			// Riquadro in cui si trova il centro del player
 			int playerSquareX = (int)((player[i].getPosX() + BATTLEFIELD_TILEDIM/4) / BATTLEFIELD_TILEDIM);
@@ -129,9 +113,24 @@ public class Battlefield {
 			crossCollision(player[i], playerSquareX, playerSquareY);
 			angleCollision(player[i],playerSquareX, playerSquareY);		
 			checkGunRangeCollision(player[i], playerSquareX, playerSquareY, i);
+			
+			
 		}
 	}
-	
+	// TODO COLLISIONI MOVING OBJECT <--> MOVING OBJECT 
+
+    private void bullletWallsCollision() {
+    	for(Tile w:wallsAndSpawn) {
+    		bullet.forEach(o -> {
+                if (w.checkCollision(o)) {
+                	o.collided();
+                } 
+            });
+    	}
+    }
+    
+    
+	/*-------PLAYER <--> WALLS-------*/
 		
 	// Controllo delle collisioni sui muri supra, sotto, destra, sisnistra del player
 	private void crossCollision(Player player,int playerSquareX, int playerSquareY) {

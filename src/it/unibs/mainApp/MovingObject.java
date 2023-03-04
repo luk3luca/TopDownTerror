@@ -68,5 +68,7 @@ public class MovingObject {
 	}
 	//TODO metodi per le collisioni  
 	
-	 
+	public void collided() {
+		isAlive = false;
+	}
 }

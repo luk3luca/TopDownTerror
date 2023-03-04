@@ -3,6 +3,8 @@ package it.unibs.mainApp;
 import java.awt.Color;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 
@@ -24,6 +26,7 @@ public class Player extends MovingObject{
 
 	private int kills;
 	private int deaths;
+	private boolean reload = false;
 	
 	private boolean topCollision = false;
 	private boolean bottomCollision = false;
@@ -67,6 +70,19 @@ public class Player extends MovingObject{
 
 	public Gun getGun() {
 		return gun;
+	}
+	
+	
+	public boolean isReload() {
+		return reload;
+	}
+
+	public void setReload(boolean reload) {
+		this.reload = reload;
+	}
+
+	public int getAmmoLeft() {
+		return ammoLeft;
 	}
 
 	public boolean isTopCollision() {
@@ -148,6 +164,26 @@ public class Player extends MovingObject{
 
 	public void resetVelocity(){
 		this.setM_velocity(M_VELOCITY);
+	}
+	
+	public void ammo() {
+		if (ammoLeft>0) {
+			this.ammoLeft += -1;
+		}else if(ammoLeft == 0){
+			reload = true;
+			Timer timer = new Timer();
+			TimerTask tt = new TimerTask() {
+				
+				@Override
+				public void run() {
+					ammoLeft = magMax;
+					reload = false;
+					
+				}
+			};
+			timer.schedule(tt, (int)gun.getReload());
+			
+		}
 	}
 /*
 	public void fire() {

@@ -136,7 +136,11 @@ public class PnlMap extends JPanel implements KeyListener {
 			}
 			case KeyEvent.VK_I, KeyEvent.VK_UP: 
 				if(countRate<=0) {
-					model.bullet.add(new Bullet(p, p.getGun()));
+					if (!p.isReload()) {
+						model.bullet.add(new Bullet(p, p.getGun()));
+						System.out.println(p.getAmmoLeft());
+						p.ammo();
+					}
 					countRate = (int) (p.getGun().getRate()*1000);	
 				}
 				break;

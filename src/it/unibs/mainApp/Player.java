@@ -79,7 +79,7 @@ public class Player extends MovingObject{
 	}
 	
 
-	public boolean shoot() {
+	public boolean shoot() throws InterruptedException {
 	    long currentTime = System.currentTimeMillis();
 
 	    if(isReloadingTime(currentTime)) {
@@ -102,7 +102,7 @@ public class Player extends MovingObject{
 	    return false;
 	}
 	
-	public void reloadAmmo() {
+	public void reloadAmmo() throws InterruptedException {
 	    long currentTime = System.currentTimeMillis();
 
 	    if(isReloadingTime(currentTime) || ammoLeft == magMax) {
@@ -112,7 +112,8 @@ public class Player extends MovingObject{
 	    System.out.println("Reloading");
 	    startReloadTime = currentTime;
 	    reloading = true;
-	    int reloadTime = (int) (this.gun.getReload() * 1000);
+	    int reloadTime = (int) (this.gun.getReload()*1000);
+	    System.out.println("\n\n"+reloadTime + "\n*******");
 	    
 	    Timer timer = new Timer(reloadTime, new ActionListener() {
 			@Override
@@ -122,8 +123,10 @@ public class Player extends MovingObject{
                 //startReloadTime = 0;
             }
         });
+        
         timer.setRepeats(false);
         timer.start();
+        
 	}	
 	
 	public boolean checkAmmo() {

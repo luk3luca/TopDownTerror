@@ -22,7 +22,12 @@ public class PnlMap extends JPanel implements KeyListener {
 		this.model = model;
 		
 		Timer t = new Timer(10, e->{ // 10 MILLISECONDI
-			applyControls();
+			try {
+				applyControls();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			model.stepNext();
 			repaint(); 
 		});
@@ -95,7 +100,7 @@ public class PnlMap extends JPanel implements KeyListener {
 		currentActiveControls.remove((Object)e.getKeyCode());
 	}
 	
-	private void applyControls() {
+	private void applyControls() throws InterruptedException {
 		Player p = model.player[0];
 		if(p == null)
 			return;

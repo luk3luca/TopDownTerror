@@ -33,6 +33,7 @@ public class Gun extends MovingObject implements Cloneable {
 		this.maxAmmo = maxAmmo;
 		this.dmg = dmg;
 		this.color = color;
+		this.reload = reload;
 	}
 	
 	public void setPlayerInfo(double posX, double posY, double angle) {

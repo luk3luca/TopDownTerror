@@ -21,7 +21,9 @@ public class MovingObject {
 		this.r_velocity = r_velocity;
 		this.color = color;
 	}
-
+	
+	public MovingObject() {}
+	
 	public Shape getShape() {
 		AffineTransform t = new AffineTransform();
 		t.translate(this.posX, this.posY);		

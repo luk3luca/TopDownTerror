@@ -79,21 +79,23 @@ public class Player extends MovingObject{
 	}
 	
 
+	// TODO fix doppio reload ranodmico, succede se si tiene premuta spara mentre ricarica
+	// probabilmente se coincidono degli istanti prende ancora come ammoLeft = 0 e fa un altro reload
 	public boolean shoot() throws InterruptedException {
 	    long currentTime = System.currentTimeMillis();
 
 	    if(isReloadingTime(currentTime)) {
-	        System.out.println("shoot: \t\t\t" + currentTime);
-	        System.out.println("reloaad started: \t" + startReloadTime);
+	        // System.out.println("shoot: \t\t\t" + currentTime);
+	        //System.out.println("reloaad started: \t" + startReloadTime);
 	        return false;
 	    }
 
-	    if (ammoLeft == 0) {
+	    if (ammoLeft == 0 || isReloading()) {
 	        reloadAmmo();
 	        return false;
 	    }
 
-	    if(currentTime - lastShotTime >= (this.gun.getRate() * 1000)) {
+	    if(currentTime - lastShotTime > (this.gun.getRate() * 1000)) {
 	        lastShotTime = currentTime;
 	        removeAmmo();
 	        return true;
@@ -113,14 +115,13 @@ public class Player extends MovingObject{
 	    startReloadTime = currentTime;
 	    reloading = true;
 	    int reloadTime = (int) (this.gun.getReload()*1000);
-	    System.out.println("\n\n"+reloadTime + "\n*******");
+	    //System.out.println("\n\n"+reloadTime + "\n*******");
 	    
 	    Timer timer = new Timer(reloadTime, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ammoLeft = magMax;
                 reloading = false;
-                //startReloadTime = 0;
             }
         });
         

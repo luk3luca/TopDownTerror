@@ -41,7 +41,7 @@ public class Bullet extends MovingObject {
 
 	public void stepNext() {
 		this.accelerate();
-		if(--fuel <=0) {
+		if(--fuel < 0) {
 			isAlive = false;
 		}
 	}	

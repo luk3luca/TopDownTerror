@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JProgressBar;
 
 public class MainApp {
 	
@@ -36,6 +37,7 @@ public class MainApp {
 		
 		PnlMap pnlMap = new PnlMap(model);
 		frame.getContentPane().add(pnlMap, BorderLayout.CENTER);
+		
 	}
 
 }

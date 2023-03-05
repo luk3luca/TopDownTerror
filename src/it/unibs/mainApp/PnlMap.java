@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import java.util.*;
 
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.Timer;
 
 
@@ -13,9 +14,10 @@ public class PnlMap extends JPanel implements KeyListener {
 	private static final long serialVersionUID = 1L;
 	
 	Battlefield model;
-
+	
 	public PnlMap(Battlefield model) {
 		this.model = model;
+		this.add(progressBar);
 		
 		Timer t = new Timer(10, e->{ // 10 MILLISECONDI
 			try {
@@ -45,7 +47,6 @@ public class PnlMap extends JPanel implements KeyListener {
 	}
 	 
 	private void printMap(Graphics2D g2) {
-		
 		for(Tile t: model.tiles) {
 			
 			g2.setColor(t.getColor());
@@ -71,8 +72,16 @@ public class PnlMap extends JPanel implements KeyListener {
 			g2.setColor(model.bullet.get(i).getColor());
 			g2.fill(model.bullet.get(i).getShape());
 		}
+		
+		setBar(model.player[0]);
 	}
 	
+	JProgressBar progressBar = new JProgressBar();
+	public void setBar(Player p) {
+		progressBar.setMinimum(0);
+		progressBar.setMaximum(p.getGun().getMaxAmmo());
+		progressBar.setValue(p.getAmmoLeft());
+	}
 	
 	//GESTIONE EVENTI TASTIERA
 	private ArrayList<Integer> currentActiveControls = new ArrayList<>();
@@ -131,8 +140,9 @@ public class PnlMap extends JPanel implements KeyListener {
 				case KeyEvent.VK_I, KeyEvent.VK_UP: {
 					if(p.shoot()) {
 				        model.bullet.add(new Bullet(p, p.getGun()));
+				        System.out.println(p.getAmmoLeft());
 				    }
-				    System.out.println(p.getAmmoLeft());
+				    //System.out.println(p.getAmmoLeft());
 				    break;
 				}
 				case KeyEvent.VK_J, KeyEvent.VK_LEFT: p.rotate(- p.getR_velocity()); break;

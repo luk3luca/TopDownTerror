@@ -97,7 +97,6 @@ public class PnlMap extends JPanel implements KeyListener {
 	}
 	
 	private void applyControls() {
-		
 		Player p = model.player[0];
 		if(p == null)
 			return;
@@ -105,71 +104,50 @@ public class PnlMap extends JPanel implements KeyListener {
 		for(Integer keycode: currentActiveControls) {
 			p.resetVelocity();
 			switch(keycode) {
-			case KeyEvent.VK_W: {
-				if(currentActiveControls.contains(KeyEvent.VK_A) || currentActiveControls.contains(KeyEvent.VK_D))
-					p.setM_velocity(p.getM_velocity() / Math.sqrt(2));
-					
-					p.setPosY(p.getPosY() - p.getM_velocity()); 
-				break;
-				}
-			case KeyEvent.VK_A: {
-				if(currentActiveControls.contains(KeyEvent.VK_W) || currentActiveControls.contains(KeyEvent.VK_S)) 
-					p.setM_velocity(p.getM_velocity() / Math.sqrt(2));
-				
-				p.setPosX(p.getPosX() - p.getM_velocity());
-				break;
-				}
-			case KeyEvent.VK_S: {
-				if(currentActiveControls.contains(KeyEvent.VK_A) || currentActiveControls.contains(KeyEvent.VK_D))
-					p.setM_velocity(p.getM_velocity() / Math.sqrt(2));
-				
-				p.setPosY(p.getPosY() + p.getM_velocity());
-				break;
-				} 
-			case KeyEvent.VK_D: {
-				if(currentActiveControls.contains(KeyEvent.VK_W) || currentActiveControls.contains(KeyEvent.VK_S))
-					p.setM_velocity(p.getM_velocity() / Math.sqrt(2));
-					
-				p.setPosX(p.getPosX() + p.getM_velocity()); 
-				break;
-<<<<<<< Updated upstream
-			}
-			case KeyEvent.VK_I, KeyEvent.VK_UP: 
-//				if(p.getAmmoLeft() == 0)
-//					p.reloadAmmo();
-				if(countRate<=0) {
-					if (!p.isReload()) {
-						//model.bullet.add(new Bullet(p, p.getGun()));
-						model.bullet.add(p.fire());
-						System.out.println(p.getAmmoLeft());
-						p.reloadAmmo();
-=======
-				}
-			case KeyEvent.VK_I, KeyEvent.VK_UP: {
-				if(p.isReloading())
+				case KeyEvent.VK_W: {
+					if(currentActiveControls.contains(KeyEvent.VK_A) || currentActiveControls.contains(KeyEvent.VK_D))
+						p.setM_velocity(p.getM_velocity() / Math.sqrt(2));
+						
+						p.setPosY(p.getPosY() - p.getM_velocity()); 
 					break;
-				if (p.checkAmmo()) {
-					if(countRate<=0) {					
+				}
+				case KeyEvent.VK_A: {
+					if(currentActiveControls.contains(KeyEvent.VK_W) || currentActiveControls.contains(KeyEvent.VK_S)) 
+						p.setM_velocity(p.getM_velocity() / Math.sqrt(2));
+					
+					p.setPosX(p.getPosX() - p.getM_velocity());
+					break;
+				}
+				case KeyEvent.VK_S: {
+					if(currentActiveControls.contains(KeyEvent.VK_A) || currentActiveControls.contains(KeyEvent.VK_D))
+						p.setM_velocity(p.getM_velocity() / Math.sqrt(2));
+					
+					p.setPosY(p.getPosY() + p.getM_velocity());
+					break;
+				} 
+				case KeyEvent.VK_D: {
+					if(currentActiveControls.contains(KeyEvent.VK_W) || currentActiveControls.contains(KeyEvent.VK_S))
+						p.setM_velocity(p.getM_velocity() / Math.sqrt(2));
+						
+					p.setPosX(p.getPosX() + p.getM_velocity()); 
+					break;
+				}
+				case KeyEvent.VK_I, KeyEvent.VK_UP: {
+					if(p.shoot())					
 						model.bullet.add(new Bullet(p, p.getGun()));
-						System.out.println(p.getAmmoLeft());
-						countRate = (int) (p.getGun().getRate()*1000);
-						p.removeAmmo();
->>>>>>> Stashed changes
-					}
+					break;
 				}
-				else {
-					p.reloadAmmo();
+				case KeyEvent.VK_J, KeyEvent.VK_LEFT: p.rotate(- p.getR_velocity()); break;
+				case KeyEvent.VK_L, KeyEvent.VK_RIGHT: p.rotate(p.getR_velocity()); break;
+				case KeyEvent.VK_K, KeyEvent.VK_DOWN: {
+					p.reloadAmmo(); 
+					break;
 				}
-				
-				break;
-				}
-			case KeyEvent.VK_J, KeyEvent.VK_LEFT: p.rotate(- p.getR_velocity()); break;
-			case KeyEvent.VK_L, KeyEvent.VK_RIGHT: p.rotate(p.getR_velocity()); break;
-			case KeyEvent.VK_K, KeyEvent.VK_DOWN: p.reloadAmmo(); break;
-			
-			
 			}
 		}
 	}
+	
+	
+	
 	
 }

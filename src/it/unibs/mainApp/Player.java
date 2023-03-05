@@ -16,6 +16,7 @@ public class Player extends MovingObject{
 	private String name;
 	private Color color;
 	private int hp;
+	// gun logic
 	private Gun gun;
 	private T_Spawn spawn;
 	private int magMax;
@@ -26,8 +27,8 @@ public class Player extends MovingObject{
 
 	private int kills;
 	private int deaths;
-	private boolean reloading = false;
 	
+	// collsion logic
 	private boolean topCollision = false;
 	private boolean bottomCollision = false;
 	private boolean leftCollision = false;
@@ -37,13 +38,20 @@ public class Player extends MovingObject{
 	private boolean topRightCollision = false;
 	private boolean bottomLeftCollision = false;
 	private boolean bottomRightCollision = false; 
+	
+	// shooting logic
+	private boolean reloading = false;
+	private long lastShotTime;
+	private long lastReloadTime;
+	private long reloadStartTime;
+
 
 	public Player(String name, T_Spawn spawn, Color color) {
 		super(M_VELOCITY, R_VELOCITY,color );
 		this.name = name;
 		this.spawn = spawn;
 		this.angle = Math.PI/2;
-		//Clona Gun in modo che si modifichi la costante
+
 		try {
 			this.gun = Gun.PISTOL.clone();
 		} catch (CloneNotSupportedException e) {
@@ -64,45 +72,77 @@ public class Player extends MovingObject{
 														Battlefield.BATTLEFIELD_TILEDIM/2));
 		
 		this.shape = playerArea;
-		System.out.println(getPosX() + " " + getPosY() + " " + getAngle());
+		//System.out.println(getPosX() + " " + getPosY() + " " + getAngle());
 		this.gun.setPlayerInfo(getPosX(), getPosY(), getAngle());
+		
+		this.lastReloadTime = System.currentTimeMillis() - (int)(this.gun.getReload()*1000);
+		this.lastShotTime = 0;
+	}
+	
+	// TODO controllo su time in cui viene avviato reload
+	public boolean shoot() {
+		if(isReloading())
+			return false;
+		
+		long currentTime = System.currentTimeMillis();		
+	
+		if(checkAmmo()) {
+			if(currentTime - lastShotTime >= (this.gun.getRate() * 1000)) {
+				lastShotTime = currentTime;
+				removeAmmo();
+				return true;
+			}
+		} else {
+	        //reloadAmmo();
+	        return false;
+		}
+		return false;
 	}
 	
 	public void reloadAmmo() {
-		reload = true;
-		Timer timer = new Timer();
-		TimerTask tt = new TimerTask() {
-			@Override
-			public void run() {
-				ammoLeft = magMax;
-				reload = false;
-			}
-		};
-		timer.schedule(tt, (int)gun.getReload() * 1000);
+		if (reloading || ammoLeft == magMax) {
+	        return;
+	    }
+	    
+	    reloading = true;
+	    reloadStartTime = System.currentTimeMillis();
+	    
+	    // schedule reload completion after reloadTime
+	    new java.util.Timer().schedule(
+	        new java.util.TimerTask() {
+	            @Override
+	            public void run() {
+	                // reload completed, reset ammo and reloading flag
+	                ammoLeft = magMax;
+	                reloading = false;
+	            }
+	        },
+	        (int)(this.gun.getReload() * 1000)
+	    );
 	}
-
-	public Bullet fire() {
-		if(ammoLeft == 0)
-			reloadAmmo();
-		if(this.reload == true)
-			return null;
-		return new Bullet(this, gun);
+	
+	public boolean checkAmmo() {
+		if (ammoLeft == 0)
+			return false;
+		else {
+			return true;
+		}
+				
 	}
-
-
-
+			
+	public void removeAmmo() {
+		this.ammoLeft -= 1;
+	}
+	
+	
+	
+	
 	public Gun getGun() {
 		return gun;
 	}
 	
-<<<<<<< Updated upstream
-	public boolean isReload() {
-		return reload;
-=======
-	
 	public boolean isReloading() {
 		return reloading;
->>>>>>> Stashed changes
 	}
 
 	public void setReloading(boolean reloading) {
@@ -194,57 +234,5 @@ public class Player extends MovingObject{
 		this.setM_velocity(M_VELOCITY);
 	}
 	
-<<<<<<< Updated upstream
-		
-	  
- 
-=======
-	public boolean checkAmmo() {
-		if (ammoLeft == 0)
-			return false;
-		else {
-			return true;
-		}
-				
-	}
 	
-	public void checkAmmoLeft() {
-		if (ammoLeft>0) {
-			this.ammoLeft -= 1;
-		}else if(ammoLeft == 0){
-			reloadAmmo();
-		}
-	}
-	
-	private Timer timerReload = new Timer();
-	
-	public void reloadAmmo() {
-		if(reloading)
-			return;
-		
-		System.out.println("reloading");
-		reloading = true;
-		TimerTask tt = new TimerTask() {	
-			@Override
-			public void run() {
-				ammoLeft = magMax;
-				reloading = false;
-			}
-		};
-		this.timerReload.schedule(tt, (long)(gun.getReload() * 1000));
-	}
-	
-	public void removeAmmo() {
-		this.ammoLeft -= 1;
-	}
-
-	// TODO this method
-	public Bullet fire() {
-//		if(!reloading)
-//			return new Bullet(this, gun);
-		
-		
-		return null;
-	}
->>>>>>> Stashed changes
 }

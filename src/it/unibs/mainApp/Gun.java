@@ -19,8 +19,8 @@ public class Gun extends MovingObject implements Cloneable {
 	private double maxRange;
 	private double range;
 	private double rate;
-	private int maxAmmo;
 	private double reload;
+	private int maxAmmo;
 	private int dmg;
 	protected Shape shape;
 	
@@ -66,71 +66,36 @@ public class Gun extends MovingObject implements Cloneable {
             throw new AssertionError();
         }
     }
-
-	public static Gun getSniper() {
-		return SNIPER;
-	}
-
-	public static Gun getAr() {
-		return AR;
-	}
-
-	public static Gun getShotgun() {
-		return SHOTGUN;
-	}
-
-	public static Gun getPistol() {
-		return PISTOL;
-	}
-
-	public static Gun getSmg() {
-		return SMG;
-	}
-
-	public static Gun getBow() {
-		return BOW;
-	}
-
-	public String getName() {
-		return name;
-	}
 	
-	public double getMaxRange() {
-		return maxRange;
-	}
-
 	public void resetRange() {
 		this.range = this.maxRange;
 	}
-
-
-	public double getRange() {
-		return range;
-	}
 	
-	public void setRange(double range) {
-		this.range = range;
-	}
+	/*---GETTERS AND SETTERS---*/
+	public static Gun getSniper() {return SNIPER;}
+	public static Gun getAr() {return AR;}
+	public static Gun getShotgun() {return SHOTGUN;}
+	public static Gun getPistol() {return PISTOL;}
+	public static Gun getSmg() {return SMG;}
+	public static Gun getBow() {return BOW;}
 
-	public double getRate() {
-		return rate;
-	}
 
-	public int getMaxAmmo() {
-		return maxAmmo;
-	}
+	
+	public double getMaxRange() {return maxRange;}
+	public double getRange() {return range;}
+	public void setRange(double range) {this.range = range;}
 
-	public double getReload() {
-		return reload;
-	}
+	public String getName() {return name;}
+	
+	public double getRate() {return rate;}
 
-	public int getDmg() {
-		return dmg;
-	}
+	public int getMaxAmmo() {return maxAmmo;}
 
-	public Color getColor() {
-		return color;
-	}
+	public double getReload() {return reload;}
+
+	public int getDmg() {return dmg;}
+
+	public Color getColor() {return color;}
 
 	
 }

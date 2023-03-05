@@ -4,9 +4,7 @@ import java.awt.Color;
 import java.awt.geom.Area;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Battlefield {                                
 	protected static final int BATTLEFIELD_TILEDIM = 32;

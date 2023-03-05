@@ -65,13 +65,13 @@ public class Player extends MovingObject{
 		
 		setPosX(spawn.getSpawnX() - Battlefield.BATTLEFIELD_TILEDIM/4 );
 		setPosY(spawn.getSpawnY() - Battlefield.BATTLEFIELD_TILEDIM/4);
+		
 		Area playerArea = new Area(new Ellipse2D.Double(0.,
 														0.,
 														Battlefield.BATTLEFIELD_TILEDIM/2, 
 														Battlefield.BATTLEFIELD_TILEDIM/2));
 		
 		this.shape = playerArea;
-		//System.out.println(getPosX() + " " + getPosY() + " " + getAngle());
 		this.gun.setPlayerInfo(getPosX(), getPosY(), getAngle());
 		
 		this.startReloadTime = System.currentTimeMillis() - (long)(this.gun.getReload()*1000);
@@ -153,84 +153,6 @@ public class Player extends MovingObject{
 		this.ammoLeft -= 1;
 	}
 	
-	
-	public Gun getGun() {
-		return gun;
-	}
-	
-	public void setReloading(boolean reloading) {
-		this.reloading = reloading;
-	}
-
-	public int getAmmoLeft() {
-		return ammoLeft;
-	}
-
-	public boolean isTopCollision() {
-		return topCollision;
-	}
-
-	public void setTopCollision(boolean topCollision) {
-		this.topCollision = topCollision;
-	}
-
-	public boolean isBottomCollision() {
-		return bottomCollision;
-	}
-
-	public void setBottomCollision(boolean bottomCollision) {
-		this.bottomCollision = bottomCollision;
-	}
-
-	public boolean isLeftCollision() {
-		return leftCollision;
-	}
-
-	public void setLeftCollision(boolean leftCollision) {
-		this.leftCollision = leftCollision;
-	}
-
-	public boolean isRightCollision() {
-		return rightCollision;
-	}
-
-	public void setRightCollision(boolean rightCollision) {
-		this.rightCollision = rightCollision;
-	}
-
-
-	public boolean isTopLeftCollision() {
-		return topLeftCollision;
-	}
-
-	public void setTopLeftCollision(boolean topLeftCollision) {
-		this.topLeftCollision = topLeftCollision;
-	}
-
-	public boolean isTopRightCollision() {
-		return topRightCollision;
-	}
-
-	public void setTopRightCollision(boolean topRightCollision) {
-		this.topRightCollision = topRightCollision;
-	}
-
-	public boolean isBottomLeftCollision() {
-		return bottomLeftCollision;
-	}
-
-	public void setBottomLeftCollision(boolean bottomLeftCollision) {
-		this.bottomLeftCollision = bottomLeftCollision;
-	}
-
-	public boolean isBottomRightCollision() {
-		return bottomRightCollision;
-	}
-
-	public void setBottomRightCollision(boolean bottomRightCollision) {
-		this.bottomRightCollision = bottomRightCollision;
-	}
-
 	public void resetCollision() {
 		this.topCollision = false;
 		this.bottomCollision = false;
@@ -242,10 +164,39 @@ public class Player extends MovingObject{
 		this.bottomRightCollision = false; 
 	}
 	
-
 	public void resetVelocity(){
 		this.setM_velocity(M_VELOCITY);
 	}
 	
+	/*---GETTERS AND SETTERS---*/
+	public Gun getGun() {return gun;}
 	
+	public void setReloading(boolean reloading) {this.reloading = reloading;	}
+	
+	public int getAmmoLeft() {return ammoLeft;}
+
+	public boolean isTopCollision() {return topCollision;}
+	public void setTopCollision(boolean topCollision) {this.topCollision = topCollision;}
+
+	public boolean isBottomCollision() {return bottomCollision;}
+	public void setBottomCollision(boolean bottomCollision) {this.bottomCollision = bottomCollision;}
+
+	public boolean isLeftCollision() {return leftCollision;}
+	public void setLeftCollision(boolean leftCollision) {this.leftCollision = leftCollision;}
+
+	public boolean isRightCollision() {return rightCollision;}
+	public void setRightCollision(boolean rightCollision) {this.rightCollision = rightCollision;}
+
+	public boolean isTopLeftCollision() {return topLeftCollision;}
+	public void setTopLeftCollision(boolean topLeftCollision) {this.topLeftCollision = topLeftCollision;}
+
+	public boolean isTopRightCollision() {return topRightCollision;}
+	public void setTopRightCollision(boolean topRightCollision) {this.topRightCollision = topRightCollision;}
+
+	public boolean isBottomLeftCollision() {return bottomLeftCollision;}
+	public void setBottomLeftCollision(boolean bottomLeftCollision) {this.bottomLeftCollision = bottomLeftCollision;}
+
+	public boolean isBottomRightCollision() {return bottomRightCollision;}
+	public void setBottomRightCollision(boolean bottomRightCollision) {this.bottomRightCollision = bottomRightCollision;}
+
 }

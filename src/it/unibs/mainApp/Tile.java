@@ -22,9 +22,7 @@ public class Tile {
 		this.posY = y;
 		this.dimY = dimY;
 		this.dimX = dimX;
-		
 		this.walkable = walkable;
-		
 		this.shape = new Area(new Rectangle(x, y, this.dimX, this.dimY));
 		this.imagePath = imagePath;
 	}
@@ -34,47 +32,8 @@ public class Tile {
 		this.posY = y;
 		this.dimY = dimY;
 		this.dimX = dimX;
-		
 		this.walkable = walkable;
-		
 		this.shape = new Area(new Rectangle(x, y, this.dimX, this.dimY));
-	}
-
-	
-	public Shape getShape() {
-		return this.shape;
-	}
-
-	public boolean isWalkable() {
-		return walkable;
-	}
-
-	public void setWalkable(boolean walkable) {
-		this.walkable = walkable;
-	}
-	
-	public Image getImage(){
-		return  new ImageIcon(imagePath).getImage();
-	}
-	
-	public double getX() {
-		return posX;
-	}
-	
-	public double getY() {
-		return posY;
-	}
-	
-	public void setShape(Shape shape) {
-		this.shape = shape;
-	}
-
-	public Color getColor() {
-		return color;
-	}
-
-	public void setColor(Color color) {
-		this.color = color;
 	}
 	
 	//COLLISION DETECTION
@@ -85,8 +44,19 @@ public class Tile {
 	}
 	
 		
-
+	/*---GETTERS AND SETTERS---*/
+	public Image getImage(){return  new ImageIcon(imagePath).getImage();}
 	
+	public Shape getShape() {return this.shape;}
+	public void setShape(Shape shape) {this.shape = shape;}
 	
-
+	public boolean isWalkable() {return walkable;}
+	public void setWalkable(boolean walkable) {this.walkable = walkable;}
+	
+	public double getX() {return posX;}
+	public double getY() {return posY;}
+	
+	public Color getColor() {return color;}
+	public void setColor(Color color) {this.color = color;}
+	
 }

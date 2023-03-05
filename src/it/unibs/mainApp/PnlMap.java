@@ -3,10 +3,8 @@ package it.unibs.mainApp;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
 import java.util.*;
 
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -15,9 +13,7 @@ public class PnlMap extends JPanel implements KeyListener {
 	private static final long serialVersionUID = 1L;
 	
 	Battlefield model;
-	private int countRate;
-	
-	
+
 	public PnlMap(Battlefield model) {
 		this.model = model;
 		
@@ -25,7 +21,6 @@ public class PnlMap extends JPanel implements KeyListener {
 			try {
 				applyControls();
 			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			model.stepNext();
@@ -45,7 +40,7 @@ public class PnlMap extends JPanel implements KeyListener {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); 
-		
+		g2.setColor(Color.black);
 		printMap(g2);
 	}
 	 
@@ -61,8 +56,6 @@ public class PnlMap extends JPanel implements KeyListener {
 			}
 			
 		}
-		
-		//TODO capire come mai quando crea player lo spawn associato � vuoto 
 		
 		for(int i=0; i < model.player.length; i++) {
 			Player p = model.player[i];
@@ -86,7 +79,6 @@ public class PnlMap extends JPanel implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
 	}  
 
 	@Override

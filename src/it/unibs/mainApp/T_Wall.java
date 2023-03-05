@@ -12,5 +12,4 @@ public class T_Wall extends Tile{
 		this.setColor(Color.BLACK);
 	}
 	
-	
 }

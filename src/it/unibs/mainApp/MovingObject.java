@@ -21,11 +21,34 @@ public class MovingObject {
 		this.r_velocity = r_velocity;
 		this.color = color;
 	}
-	
-	public MovingObject() {
+
+	public Shape getShape() {
+		AffineTransform t = new AffineTransform();
+		t.translate(this.posX, this.posY);		
+		t.rotate(this.angle, 
+				Battlefield.BATTLEFIELD_TILEDIM/4, 
+				Battlefield.BATTLEFIELD_TILEDIM/4);
+
+		return t.createTransformedShape(shape);
 	}
 
+	public void setShape(Shape shape) {
+		this.shape = shape;
+	}
 	
+	public void rotate (double r) {
+		this.angle += r;
+	}
+	
+	public boolean isAlive() {
+		return isAlive;
+	}
+	
+	public void collided() {
+		isAlive = false;
+	}
+	
+	/*---GETTERS AND SETTERS---*/
 	public double getPosX() { return posX; }
 	public void setPosX(double posX) { this.posX = posX; }
 
@@ -44,31 +67,4 @@ public class MovingObject {
 	public Color getColor() { return color; }
 	public void setColor(Color color) { this.color = color; }
 	
-	
-	public boolean isAlive() {
-		return isAlive;
-	}
-	
-	public void rotate (double r) {
-		this.angle += r;
-	}
-	
-	public Shape getShape() {
-		AffineTransform t = new AffineTransform();
-		t.translate(this.posX, this.posY);		
-		t.rotate(this.angle, 
-				Battlefield.BATTLEFIELD_TILEDIM/4, 
-				Battlefield.BATTLEFIELD_TILEDIM/4);
-
-		return t.createTransformedShape(shape);
-	}
-
-	public void setShape(Shape shape) {
-		this.shape = shape;
-	}
-	//TODO metodi per le collisioni  
-	
-	public void collided() {
-		isAlive = false;
-	}
 }

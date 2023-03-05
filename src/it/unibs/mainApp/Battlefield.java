@@ -18,8 +18,9 @@ public class Battlefield {
 
 	protected ArrayList<Bullet> bullet = new ArrayList<>();
 	//protected Rectangle2D.Double borders = new Rectangle2D.Double(0.,0.,BATTLEFIELD_WIDTH,BATTLEFIELD_HEIGHT); //bordi logici dell'universo 
-	 
-
+	
+	// TODO sostituire tutti i getPos() + BATTLEFIELD_TILEDIM/4 con p.getCenter() 
+	
 	private int[][] mapMatrix = MapMatrix.getMatrix();
 	
 	public Battlefield() {
@@ -103,7 +104,7 @@ public class Battlefield {
     } 
     
     private void checkCollision() {
-		for(int i=0; i<player.length ; i++) {
+		for(int i = 0; i < player.length; i++) {
 			// Riquadro in cui si trova il centro del player
 			int playerSquareX = (int)((player[i].getPosX() + BATTLEFIELD_TILEDIM/4) / BATTLEFIELD_TILEDIM);
 			int playerSquareY = (int)((player[i].getPosY() + BATTLEFIELD_TILEDIM/4 )/ BATTLEFIELD_TILEDIM);
@@ -111,12 +112,66 @@ public class Battlefield {
 			player[i].resetCollision();
 			crossCollision(player[i], playerSquareX, playerSquareY);
 			angleCollision(player[i],playerSquareX, playerSquareY);		
-			checkGunRangeCollision(player[i], playerSquareX, playerSquareY, i);			
+			checkGunRangeCollision(player[i], playerSquareX, playerSquareY, i);
+			checkPlayerCollision(player[i]);
 		}
 	}
     
-	// TODO COLLISIONI MOVING OBJECT <--> MOVING OBJECT 
+	// TODO COLLISIONI MOVING OBJECT <--> MOVING OBJECT
+    // Controllo collisione player player
+    private void checkPlayerCollision(Player p1) {
+    	for (Player p2 : player) {
+            if (p1 != p2) {
+                if (p1.checkCollision(p2)) {
+                	double dx = p1.getPosX() - p2.getPosX();
+                    double dy = p1.getPosY() - p2.getPosY();
+                    //double distance = Math.sqrt(dx*dx + dy*dy);
+                    
+//                    p1.setPosX(p1.getPosX() - 1);
+//                    p1.setPosY(p1.getPosY() - 1);
+//                    p2.setPosX(p2.getPosX() + 1);
+//                    p2.setPosY(p2.getPosY() + 1);
+                    
+                    if(p1.getCenterX() == p2.getCenterX()) {
+                    	if(p2.getPosY() + BATTLEFIELD_TILEDIM/2 < p1.getPosY()) {
+                    		System.out.println("Collided");
+                    		p1.setPosY(p1.getPosY() + 1);
+                    		p1.setPosX(p1.getPosX());
+//                            p2.setPosY(p2.getPosY() - 1);
+//                            p2.setPosX(p2.getPosX());   
+                    	} else if(p1.getPosY() + BATTLEFIELD_TILEDIM/2 < p2.getPosY()) {
+                    		System.out.println("Collided");
+                    		p1.setPosY(p1.getPosY() - 1);
+                    		p1.setPosX(p1.getPosX());
+//                            p2.setPosY(p2.getPosY() + 1);
+//                            p2.setPosX(p2.getPosX());   
+                    	}
+                    }
+                    
+                    if(p1.getPosY() == p2.getPosY()) {
+                    	if(p2.getCenterY() + BATTLEFIELD_TILEDIM/2 < p1.getCenterY()) {
+                    		System.out.println("Collided");
+                    		p1.setPosY(p1.getPosY() + 1);
+                    		p1.setPosX(p1.getPosX());
+                            p2.setPosY(p2.getPosY() - 1);
+                            p2.setPosX(p2.getPosX());   
+                    	} else if(p1.getCenterY() + BATTLEFIELD_TILEDIM/2 < p2.getCenterY()) {
+                    		System.out.println("Collided");
+                    		p1.setPosY(p1.getPosY() - 1);
+                    		p1.setPosX(p1.getPosX());
+                            p2.setPosY(p2.getPosY() + 1);
+                            p2.setPosX(p2.getPosX());   
+                    	}
+                    }
 
+                    
+                }
+            }
+        }	
+    }
+
+    
+    // Controllo collisione bullet-muro
     private void bullletWallsCollision() {
     	for(Tile w:wallsAndSpawn) {
     		bullet.forEach(o -> {
@@ -126,6 +181,9 @@ public class Battlefield {
             });
     	}
     }
+    
+    // Controllo collisione bullet-player, con damage
+
     
     
 	/*-------PLAYER <--> WALLS-------*/
@@ -243,69 +301,69 @@ public class Battlefield {
 	}
 	
 	//COLLISIONI GUN RANGE <--> WALLS
-		// TODO fix controllo sull'angolo del player quando avviene collisione
-		// TODO fix repaint top e left 
-		private void checkGunRangeCollision(Player player, int playerSquareX, int playerSquareY, int n) {
-			int range = (int)Math.ceil(player.getGun().getRange());
-			int lowerY = Math.max(0, playerSquareY - range);
-			int lowerX = Math.max(0, playerSquareX - range);
-			int upperY = Math.min(MapMatrix.HEIGHT, playerSquareY + range + 1);
-			int upperX = Math.min(MapMatrix.WIDTH, playerSquareX + range + 1);
-			//System.out.println("(" + lowerX + "," + lowerY + ") ("+ upperX + "," + upperY + ")");
-			Point2D playerP = new Point2D.Double(player.getPosX() + BATTLEFIELD_TILEDIM/4, player.getPosY() + BATTLEFIELD_TILEDIM/4);
-			ArrayList<Point2D> collisionsP = new ArrayList<>();
-			
-			for(int i = lowerY; i < upperY; i++) {
-				for(int j = lowerX; j < upperX; j++) {
-					Tile t = tiles.get(i*MapMatrix.WIDTH + j);
-					
-					if(!t.isWalkable()) {
-						//player.getGun().setPlayerInfo(player.getPosX(), player.getPosY(), player.getAngle());
-						if(t.checkCollision(player.getGun())) {
-							Area area1 = new Area(player.getGun().getShape());
-							Area area2 = new Area(t.getShape());
-							area1.intersect(area2);
-							//System.out.println(area1.isEmpty());
-							
-							PathIterator path = area1.getPathIterator(null);
-					        while (!path.isDone()) {
-					            double[] coords = new double[6];
-					            int type = path.currentSegment(coords);
-					            if (type == PathIterator.SEG_LINETO) {
-					                Point2D point = new Point2D.Double(coords[0], coords[1]);
-					                collisionsP.add(point);
-					                //System.out.println("Intersection point: (" + (coords[0]) + ", " + (coords[1]) + ")");
-					                //System.out.println("Intersection point: " + point);
-					            }
-					            path.next();
-					        }
+	// TODO fix controllo sull'angolo del player quando avviene collisione
+	// TODO fix repaint top e left 
+	private void checkGunRangeCollision(Player player, int playerSquareX, int playerSquareY, int n) {
+		int range = (int)Math.ceil(player.getGun().getRange());
+		int lowerY = Math.max(0, playerSquareY - range);
+		int lowerX = Math.max(0, playerSquareX - range);
+		int upperY = Math.min(MapMatrix.HEIGHT, playerSquareY + range + 1);
+		int upperX = Math.min(MapMatrix.WIDTH, playerSquareX + range + 1);
+		//System.out.println("(" + lowerX + "," + lowerY + ") ("+ upperX + "," + upperY + ")");
+		Point2D playerP = new Point2D.Double(player.getPosX() + BATTLEFIELD_TILEDIM/4, player.getPosY() + BATTLEFIELD_TILEDIM/4);
+		ArrayList<Point2D> collisionsP = new ArrayList<>();
+
+		for(int i = lowerY; i < upperY; i++) {
+			for(int j = lowerX; j < upperX; j++) {
+				Tile t = tiles.get(i*MapMatrix.WIDTH + j);
+
+				if(!t.isWalkable()) {
+					//player.getGun().setPlayerInfo(player.getPosX(), player.getPosY(), player.getAngle());
+					if(t.checkCollision(player.getGun())) {
+						Area area1 = new Area(player.getGun().getShape());
+						Area area2 = new Area(t.getShape());
+						area1.intersect(area2);
+						//System.out.println(area1.isEmpty());
+
+						PathIterator path = area1.getPathIterator(null);
+						while (!path.isDone()) {
+							double[] coords = new double[6];
+							int type = path.currentSegment(coords);
+							if (type == PathIterator.SEG_LINETO) {
+								Point2D point = new Point2D.Double(coords[0], coords[1]);
+								collisionsP.add(point);
+								//System.out.println("Intersection point: (" + (coords[0]) + ", " + (coords[1]) + ")");
+								//System.out.println("Intersection point: " + point);
+							}
+							path.next();
 						}
 					}
 				}
 			}
-			
-			if(collisionsP.size() > 0) {
-				double newRange = findClosestPoint(collisionsP, playerP);
-				player.getGun().setRange(newRange / BATTLEFIELD_TILEDIM);
-			}
-			else
-				player.getGun().resetRange();
-			//System.out.println(player.getGun().getRange());
 		}
-		
-		private double findClosestPoint(ArrayList<Point2D> collisionsP, Point2D targetPoint) {
-	        Point2D closestPoint = null;
-	        double closestDistance = Double.MAX_VALUE;
-	        
-	        for (Point2D point : collisionsP) {
-	            double distance = targetPoint.distance(point);
-	            if (distance < closestDistance) {
-	                closestDistance = distance;
-	                closestPoint = point;
-	            }
-	        }
-	        
-	        return closestDistance;
-	    }
+
+		if(collisionsP.size() > 0) {
+			double newRange = findClosestPoint(collisionsP, playerP);
+			player.getGun().setRange(newRange / BATTLEFIELD_TILEDIM);
+		}
+		else
+			player.getGun().resetRange();
+		//System.out.println(player.getGun().getRange());
+	}
+
+	private double findClosestPoint(ArrayList<Point2D> collisionsP, Point2D targetPoint) {
+		Point2D closestPoint = null;
+		double closestDistance = Double.MAX_VALUE;
+
+		for (Point2D point : collisionsP) {
+			double distance = targetPoint.distance(point);
+			if (distance < closestDistance) {
+				closestDistance = distance;
+				closestPoint = point;
+			}
+		}
+
+		return closestDistance;
+	}
 	
 }

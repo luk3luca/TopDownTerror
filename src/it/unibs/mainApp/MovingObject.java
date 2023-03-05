@@ -3,6 +3,7 @@ package it.unibs.mainApp;
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
 
 public class MovingObject {
 	protected double posX;
@@ -68,5 +69,12 @@ public class MovingObject {
 
 	public Color getColor() { return color; }
 	public void setColor(Color color) { this.color = color; }
+	
+	public boolean checkCollision(MovingObject o) {
+		Area a = new Area(this.getShape());
+		a.intersect(new Area(o.getShape()));
+		return !a.isEmpty();
+	}
+
 	
 }

@@ -175,6 +175,10 @@ public class Player extends MovingObject{
 	public void setReloading(boolean reloading) {this.reloading = reloading;	}
 	
 	public int getAmmoLeft() {return ammoLeft;}
+	
+	public double getCenterX() { return posX + Battlefield.BATTLEFIELD_TILEDIM/4; }
+
+	public double getCenterY() { return posY + Battlefield.BATTLEFIELD_TILEDIM/4; }
 
 	public boolean isTopCollision() {return topCollision;}
 	public void setTopCollision(boolean topCollision) {this.topCollision = topCollision;}

@@ -116,6 +116,7 @@ public class Battlefield {
 			checkGunRangeCollision(player[i], playerSquareX, playerSquareY, i);			
 		}
 	}
+    
 	// TODO COLLISIONI MOVING OBJECT <--> MOVING OBJECT 
 
     private void bullletWallsCollision() {
@@ -130,7 +131,6 @@ public class Battlefield {
     
     
 	/*-------PLAYER <--> WALLS-------*/
-		
 	// Controllo delle collisioni sui muri supra, sotto, destra, sisnistra del player
 	private void crossCollision(Player player,int playerSquareX, int playerSquareY) {
 		// Coordinate delle Tile da controllare per collisioni, con controllo per out of bounds

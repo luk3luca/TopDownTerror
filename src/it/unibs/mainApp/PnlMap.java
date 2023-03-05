@@ -24,7 +24,6 @@ public class PnlMap extends JPanel implements KeyListener {
 		Timer t = new Timer(10, e->{ // 10 MILLISECONDI
 			applyControls();
 			model.stepNext();
-			countRate-=10;
 			repaint(); 
 		});
 		
@@ -133,9 +132,11 @@ public class PnlMap extends JPanel implements KeyListener {
 					break;
 				}
 				case KeyEvent.VK_I, KeyEvent.VK_UP: {
-					if(p.shoot())					
-						model.bullet.add(new Bullet(p, p.getGun()));
-					break;
+					if(p.shoot()) {
+				        model.bullet.add(new Bullet(p, p.getGun()));
+				    }
+				    System.out.println(p.getAmmoLeft());
+				    break;
 				}
 				case KeyEvent.VK_J, KeyEvent.VK_LEFT: p.rotate(- p.getR_velocity()); break;
 				case KeyEvent.VK_L, KeyEvent.VK_RIGHT: p.rotate(p.getR_velocity()); break;
@@ -146,6 +147,8 @@ public class PnlMap extends JPanel implements KeyListener {
 			}
 		}
 	}
+	
+	
 	
 	
 	

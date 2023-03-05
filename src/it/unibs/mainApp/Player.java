@@ -1,11 +1,11 @@
 package it.unibs.mainApp;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
-import java.util.Timer;
-import java.util.TimerTask;
-
+import javax.swing.Timer;
 
 
 public class Player extends MovingObject{
@@ -16,7 +16,6 @@ public class Player extends MovingObject{
 	private String name;
 	private Color color;
 	private int hp;
-	// gun logic
 	private Gun gun;
 	private T_Spawn spawn;
 	private int magMax;
@@ -43,7 +42,7 @@ public class Player extends MovingObject{
 	private boolean reloading = false;
 	private long lastShotTime;
 	private long lastReloadTime;
-	private long reloadStartTime;
+	private long startReloadTime;
 
 
 	public Player(String name, T_Spawn spawn, Color color) {
@@ -75,51 +74,57 @@ public class Player extends MovingObject{
 		//System.out.println(getPosX() + " " + getPosY() + " " + getAngle());
 		this.gun.setPlayerInfo(getPosX(), getPosY(), getAngle());
 		
-		this.lastReloadTime = System.currentTimeMillis() - (int)(this.gun.getReload()*1000);
+		this.startReloadTime = System.currentTimeMillis() - (long)(this.gun.getReload()*1000);
 		this.lastShotTime = 0;
 	}
 	
-	// TODO controllo su time in cui viene avviato reload
+
 	public boolean shoot() {
-		if(isReloading())
-			return false;
-		
-		long currentTime = System.currentTimeMillis();		
-	
-		if(checkAmmo()) {
-			if(currentTime - lastShotTime >= (this.gun.getRate() * 1000)) {
-				lastShotTime = currentTime;
-				removeAmmo();
-				return true;
-			}
-		} else {
-	        //reloadAmmo();
+	    long currentTime = System.currentTimeMillis();
+
+	    if(isReloadingTime(currentTime)) {
+	        System.out.println("shoot: \t\t\t" + currentTime);
+	        System.out.println("reloaad started: \t" + startReloadTime);
 	        return false;
-		}
-		return false;
+	    }
+
+	    if (ammoLeft == 0) {
+	        reloadAmmo();
+	        return false;
+	    }
+
+	    if(currentTime - lastShotTime >= (this.gun.getRate() * 1000)) {
+	        lastShotTime = currentTime;
+	        removeAmmo();
+	        return true;
+	    }
+
+	    return false;
 	}
 	
 	public void reloadAmmo() {
-		if (reloading || ammoLeft == magMax) {
+	    long currentTime = System.currentTimeMillis();
+
+	    if(isReloadingTime(currentTime) || ammoLeft == magMax) {
 	        return;
 	    }
-	    
+
+	    System.out.println("Reloading");
+	    startReloadTime = currentTime;
 	    reloading = true;
-	    reloadStartTime = System.currentTimeMillis();
+	    int reloadTime = (int) (this.gun.getReload() * 1000);
 	    
-	    // schedule reload completion after reloadTime
-	    new java.util.Timer().schedule(
-	        new java.util.TimerTask() {
-	            @Override
-	            public void run() {
-	                // reload completed, reset ammo and reloading flag
-	                ammoLeft = magMax;
-	                reloading = false;
-	            }
-	        },
-	        (int)(this.gun.getReload() * 1000)
-	    );
-	}
+	    Timer timer = new Timer(reloadTime, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ammoLeft = magMax;
+                reloading = false;
+                //startReloadTime = 0;
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
+	}	
 	
 	public boolean checkAmmo() {
 		if (ammoLeft == 0)
@@ -129,22 +134,27 @@ public class Player extends MovingObject{
 		}
 				
 	}
+	
+	public boolean isReloading() {
+		return reloading;
+	}
+
+	public boolean isReloadingTime(long currentTime) {
+		if(currentTime < (startReloadTime + (this.gun.getReload() * 1000))) {
+			return true;
+		}
+		return false;
+	}
 			
 	public void removeAmmo() {
 		this.ammoLeft -= 1;
 	}
 	
 	
-	
-	
 	public Gun getGun() {
 		return gun;
 	}
 	
-	public boolean isReloading() {
-		return reloading;
-	}
-
 	public void setReloading(boolean reloading) {
 		this.reloading = reloading;
 	}

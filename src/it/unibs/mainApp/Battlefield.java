@@ -60,26 +60,6 @@ public class Battlefield {
 		}
 	}
 	
-	private int getSpawnColor(int y, int x) {
-		if(y < MapMatrix.SPAWN_H + 1) {
-			if(x < MapMatrix.SPAWN_W + 1)
-				return 1;
-			else if(x > MapMatrix.WIDTH/2 - 2 && x < MapMatrix.WIDTH/2 + 1)
-				return 2;
-			else if(x > MapMatrix.WIDTH - MapMatrix.SPAWN_W - 2)
-				return 3;
-		} else if(y > MapMatrix.SPAWN_H - 2) {
-			if(x < MapMatrix.SPAWN_W + 1)
-				return 4;
-			else if(x > MapMatrix.WIDTH/2 - 2 && x < MapMatrix.WIDTH/2 + 1)
-				return 5;
-			else if(x > MapMatrix.WIDTH - MapMatrix.SPAWN_W - 2)
-				return 6;
-		}
-		return 1;
-		
-	}
-
 	private void buildPlayer() {
 		for(int i=0; i < player.length; i++) {
 			player[i] = new Player("player " + i , spawns[i], TeamColors.getColor(i + 1));
@@ -105,7 +85,25 @@ public class Battlefield {
 		Color c = TeamColors.getColorAlpha(spawnCounter);
 		return new T_Spawn(y * tileDim, x * tileDim, tileDim, true, c);
 	}
-
+	
+	private int getSpawnColor(int y, int x) {
+		if(y < MapMatrix.SPAWN_H + 1) {
+			if(x < MapMatrix.SPAWN_W + 1)
+				return 1;
+			else if(x > MapMatrix.WIDTH/2 - 2 && x < MapMatrix.WIDTH/2 + 1)
+				return 2;
+			else if(x > MapMatrix.WIDTH - MapMatrix.SPAWN_W - 2)
+				return 3;
+		} else if(y > MapMatrix.SPAWN_H - 2) {
+			if(x < MapMatrix.SPAWN_W + 1)
+				return 4;
+			else if(x > MapMatrix.WIDTH/2 - 2 && x < MapMatrix.WIDTH/2 + 1)
+				return 5;
+			else if(x > MapMatrix.WIDTH - MapMatrix.SPAWN_W - 2)
+				return 6;
+		}
+		return 1;
+	}
 	
 	/*----------------GESTIONE COLLISIONI----------------*/
 	public void stepNext() {

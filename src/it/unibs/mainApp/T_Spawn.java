@@ -15,7 +15,18 @@ public class T_Spawn extends Tile {
 		this.setColor(c);
 		this.spawnXCenter = dimX / 2 + x ;
 		this.spawnYCenter = dimY / 2 + y ;
-	} 
+	}
+	
+	public T_Spawn(int y, int x, int dim, boolean walkable, Color c) {
+		//super(y, x, dimY, dimX, walkable, imagePath);
+		super(y, x, dim, dim, walkable);
+		this.setColor(c);
+		this.spawnXCenter = dim / 2 + x ;
+		this.spawnYCenter = dim / 2 + y ;
+	}
+
+	
+	
 
 	@Override
 	public boolean checkCollision(MovingObject o) {

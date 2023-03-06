@@ -82,8 +82,27 @@ public class Player extends MovingObject{
 		this.lastShotTime = 0;
 	}
 	
+	
 
 	
+
+
+	public long getStartReloadTime() {
+		return startReloadTime;
+	}
+
+
+
+
+
+
+	public void setStartReloadTime(long startReloadTime) {
+		this.startReloadTime = startReloadTime;
+	}
+
+
+
+
 
 
 	// TODO fix doppio reload ranodmico, succede se si tiene premuta spara mentre ricarica

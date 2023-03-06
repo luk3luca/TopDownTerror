@@ -17,7 +17,8 @@ public class PnlMap extends JPanel implements KeyListener {
 	
 	public PnlMap(Battlefield model) {
 		this.model = model;
-		this.add(progressBar);
+		//this.add(progressBar);
+		this.add(circleProgress2);
 		
 		Timer t = new Timer(10, e->{ // 10 MILLISECONDI
 			try {
@@ -76,12 +77,31 @@ public class PnlMap extends JPanel implements KeyListener {
 		setBar(model.player[0]);
 	}
 	
-	JProgressBar progressBar = new JProgressBar();
+	//JProgressBar progressBar = new JProgressBar();
+	
+	CircleProgress circleProgress = new CircleProgress();
+	CircleProgress circleProgress2 = new CircleProgress();
+	
+	
+	
 	public void setBar(Player p) {
-		progressBar.setMinimum(0);
-		progressBar.setMaximum(p.getGun().getMaxAmmo());
-		progressBar.setValue(p.getAmmoLeft());
+		circleProgress.setMinimum(0);
+		circleProgress.setMaximum(p.getGun().getMaxAmmo());
+		circleProgress.setValue(p.getAmmoLeft());
+		
+		circleProgress2.setMinimum((int) p.getStartReloadTime());
+		circleProgress2.setMaximum((int) p.getStartReloadTime() + (int)(p.getGun().getReload()*1000));
+		circleProgress2.setValue((int) System.currentTimeMillis()); 
+		
+		
 	}
+	
+	
+	
+	
+	
+	
+	
 	
 	//GESTIONE EVENTI TASTIERA
 	private ArrayList<Integer> currentActiveControls = new ArrayList<>();

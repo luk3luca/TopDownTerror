@@ -63,8 +63,12 @@ public class Player extends MovingObject{
 		this.kills = 0;
 		this.deaths = 0;
 		
-		setPosX(spawn.getSpawnX() - Battlefield.BATTLEFIELD_TILEDIM/4 );
-		setPosY(spawn.getSpawnY() - Battlefield.BATTLEFIELD_TILEDIM/4);
+		//PROVA: per provare ad uccidere i player 
+		setPosX(spawn.getSpawnX() + Battlefield.BATTLEFIELD_TILEDIM );
+		setPosY(spawn.getSpawnY() + Battlefield.BATTLEFIELD_TILEDIM);
+		
+//		setPosX(spawn.getSpawnX() - Battlefield.BATTLEFIELD_TILEDIM/4 );
+//		setPosY(spawn.getSpawnY() - Battlefield.BATTLEFIELD_TILEDIM/4);
 		
 		Area playerArea = new Area(new Ellipse2D.Double(0.,
 														0.,
@@ -78,6 +82,9 @@ public class Player extends MovingObject{
 		this.lastShotTime = 0;
 	}
 	
+
+	
+
 
 	// TODO fix doppio reload ranodmico, succede se si tiene premuta spara mentre ricarica
 	// probabilmente se coincidono degli istanti prende ancora come ammoLeft = 0 e fa un altro reload
@@ -172,6 +179,9 @@ public class Player extends MovingObject{
 	/*---GETTERS AND SETTERS---*/
 	public Gun getGun() {return gun;}
 	
+	public int getHp() {return hp;}
+	public void setHp(int hp) {this.hp=hp;}
+	
 	public void setReloading(boolean reloading) {this.reloading = reloading;	}
 	
 	public int getAmmoLeft() {return ammoLeft;}
@@ -203,5 +213,26 @@ public class Player extends MovingObject{
 
 	public boolean isBottomRightCollision() {return bottomRightCollision;}
 	public void setBottomRightCollision(boolean bottomRightCollision) {this.bottomRightCollision = bottomRightCollision;}
+
+
+
+
+
+	public void hitted(Gun gun, Player shooter) {
+		this.hp -= gun.getDmg();
+		if(hp<=0) {
+			this.dead(this);
+			deaths++;
+			shooter.kills++;
+			System.out.println("shooter kills: " + shooter.kills);
+		}
+	}
+	
+	//TODO EVENTUALMENTE METTERE TIMER PER RESPAWN 
+	private void dead(Player p) {
+		p.setHp(HP);
+		setPosX(spawn.getSpawnX() - Battlefield.BATTLEFIELD_TILEDIM/4 );
+		setPosY(spawn.getSpawnY() - Battlefield.BATTLEFIELD_TILEDIM/4);
+	}
 
 }

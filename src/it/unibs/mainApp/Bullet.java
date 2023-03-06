@@ -11,6 +11,7 @@ public class Bullet extends MovingObject {
 
 	protected Player player;
 	protected Gun gun;
+	
 	private int fuel;
 		
 	public Bullet(Player p, Gun g) {
@@ -50,4 +51,11 @@ public class Bullet extends MovingObject {
 		this.setPosX(this.getPosX() + M_VELOCITY * Math.cos(this.angle));
 		this.setPosY(this.getPosY() + M_VELOCITY * Math.sin(this.angle));
 	}
+
+	
+	public Player getPlayer() {return player;}
+
+	public Gun getGun() {return gun;}
+
+
 }

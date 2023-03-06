@@ -5,6 +5,7 @@ import java.awt.geom.Area;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Battlefield {                                
 	protected static final int BATTLEFIELD_TILEDIM = 32;
@@ -112,8 +113,8 @@ public class Battlefield {
             bullet.stepNext();
         }
         checkCollision();
-        bullletWallsCollision();
-        removeDust();
+
+	
 
     }
 	
@@ -135,8 +136,12 @@ public class Battlefield {
 			// Riquadro in cui si trova il centro del player
 			int playerSquareX = (int)((player[i].getPosX() + BATTLEFIELD_TILEDIM/4) / BATTLEFIELD_TILEDIM);
 			int playerSquareY = (int)((player[i].getPosY() + BATTLEFIELD_TILEDIM/4 )/ BATTLEFIELD_TILEDIM);
-
 			player[i].resetCollision();
+			
+			bulletPlayerCollision();
+			bullletWallsCollision();
+	        removeDust();
+	        
 			crossCollision(player[i], playerSquareX, playerSquareY);
 			angleCollision(player[i],playerSquareX, playerSquareY);		
 			checkGunRangeCollision(player[i], playerSquareX, playerSquareY, i);
@@ -210,8 +215,18 @@ public class Battlefield {
     }
     
     // Controllo collisione bullet-player, con damage
-
-    
+    private void bulletPlayerCollision() {
+    	for (Player p: player) {
+    		bullet.forEach(o ->{
+    			// p == player che ha sparato, o.getPlayer() == player colpito. 
+    			if(o.getPlayer()!= p && p.checkCollision(o)) { 
+    				o.collided();
+    				p.hitted(o.getGun(), o.getPlayer());
+    			}
+    		});
+    		removeDust();
+		}
+    }
     
 	/*-------PLAYER <--> WALLS-------*/
 	// Controllo delle collisioni sui muri supra, sotto, destra, sisnistra del player

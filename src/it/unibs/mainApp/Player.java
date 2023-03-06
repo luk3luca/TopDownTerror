@@ -64,11 +64,11 @@ public class Player extends MovingObject{
 		this.deaths = 0;
 		
 		//PROVA: per provare ad uccidere i player 
-		setPosX(spawn.getSpawnX() + Battlefield.BATTLEFIELD_TILEDIM );
-		setPosY(spawn.getSpawnY() + Battlefield.BATTLEFIELD_TILEDIM);
+//		setPosX(spawn.getSpawnX() + Battlefield.BATTLEFIELD_TILEDIM );
+//		setPosY(spawn.getSpawnY() + Battlefield.BATTLEFIELD_TILEDIM);
 		
-//		setPosX(spawn.getSpawnX() - Battlefield.BATTLEFIELD_TILEDIM/4 );
-//		setPosY(spawn.getSpawnY() - Battlefield.BATTLEFIELD_TILEDIM/4);
+		setPosX(spawn.getSpawnX() - Battlefield.BATTLEFIELD_TILEDIM/4 );
+		setPosY(spawn.getSpawnY() - Battlefield.BATTLEFIELD_TILEDIM/4);
 		
 		Area playerArea = new Area(new Ellipse2D.Double(0.,
 														0.,
@@ -213,6 +213,14 @@ public class Player extends MovingObject{
 
 	public boolean isBottomRightCollision() {return bottomRightCollision;}
 	public void setBottomRightCollision(boolean bottomRightCollision) {this.bottomRightCollision = bottomRightCollision;}
+
+
+
+
+
+	public T_Spawn getSpawn() {
+		return spawn;
+	}
 
 
 

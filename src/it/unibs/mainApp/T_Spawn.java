@@ -28,12 +28,12 @@ public class T_Spawn extends Tile {
 	
 	
 
-	@Override
-	public boolean checkCollision(MovingObject o) {
-		return (o instanceof Player) ? 
-				false: 
-				super.checkCollision(o);
-	}
+//	@Override
+//	public boolean checkCollision(MovingObject o) {
+//		return (o instanceof Player) ? 
+//				false: 
+//				super.checkCollision(o);
+//	}
 	
 	/*---GETTERS AND SETTERS---*/
 	public int getSpawnX() { return spawnXCenter; }

@@ -49,8 +49,7 @@ public class Battlefield {
 						spawnCounter++;
 						break;
 					case 3:
-						int nC = getSpawnColor(y, x);						
-//						T_Spawn s2 = buildSpawn(y,x, BATTLEFIELD_TILEDIM, nC);
+						int nC = getSpawnColor(y, x);					
 						T_Spawn s2 = buildTransparentSpawn(y, x, BATTLEFIELD_TILEDIM, nC);
 						tiles.add(s2);
 						wallsAndSpawn.add(s2);
@@ -80,7 +79,7 @@ public class Battlefield {
 
 	private T_Spawn buildSpawn(int y, int x, int tileDim, int spawnCounter) {
 		Color c = TeamColors.getColorAlpha(spawnCounter);
-		return new T_Spawn(y * tileDim, x * tileDim, tileDim * MapMatrix.SPAWN_H, tileDim * MapMatrix.SPAWN_W, false, c);
+		return new T_Spawn(y * tileDim, x * tileDim, tileDim * MapMatrix.SPAWN_H, tileDim * MapMatrix.SPAWN_W, true, c);
 		}
 	
 	private T_Spawn buildTransparentSpawn(int y, int x, int tileDim, int spawnCounter) {
@@ -144,12 +143,11 @@ public class Battlefield {
 	        removeDust();
 	        
 	        
-	        spawns[i].setWalkable(true);//per permettere al player di entrare nel proprio spawn 
-			crossCollision(player[i], playerSquareX, playerSquareY);
+	        crossCollision(player[i], playerSquareX, playerSquareY);
 			angleCollision(player[i],playerSquareX, playerSquareY);		
 			checkGunRangeCollision(player[i], playerSquareX, playerSquareY, i);
 			checkPlayerCollision(player[i]);
-	        spawns[i].setWalkable(false);
+	        
 
 			
 		}

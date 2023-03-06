@@ -37,7 +37,6 @@ public class MainApp {
 		
 		PnlMap pnlMap = new PnlMap(model);
 		frame.getContentPane().add(pnlMap, BorderLayout.CENTER);
-		
 	}
 
 }

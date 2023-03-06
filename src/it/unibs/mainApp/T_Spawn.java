@@ -24,16 +24,6 @@ public class T_Spawn extends Tile {
 		this.spawnXCenter = dim / 2 + x ;
 		this.spawnYCenter = dim / 2 + y ;
 	}
-
-	
-	
-
-//	@Override
-//	public boolean checkCollision(MovingObject o) {
-//		return (o instanceof Player) ? 
-//				false: 
-//				super.checkCollision(o);
-//	}
 	
 	/*---GETTERS AND SETTERS---*/
 	public int getSpawnX() { return spawnXCenter; }

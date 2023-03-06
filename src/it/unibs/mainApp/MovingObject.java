@@ -51,6 +51,12 @@ public class MovingObject {
 		isAlive = false;
 	}
 	
+	public boolean checkCollision(MovingObject o) {
+		Area a = new Area(this.getShape());
+		a.intersect(new Area(o.getShape()));
+		return !a.isEmpty();
+	}
+	
 	/*---GETTERS AND SETTERS---*/
 	public double getPosX() { return posX; }
 	public void setPosX(double posX) { this.posX = posX; }
@@ -70,11 +76,7 @@ public class MovingObject {
 	public Color getColor() { return color; }
 	public void setColor(Color color) { this.color = color; }
 	
-	public boolean checkCollision(MovingObject o) {
-		Area a = new Area(this.getShape());
-		a.intersect(new Area(o.getShape()));
-		return !a.isEmpty();
-	}
+	
 
 	
 }

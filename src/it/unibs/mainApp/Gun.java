@@ -78,24 +78,15 @@ public class Gun extends MovingObject implements Cloneable {
 	public static Gun getPistol() {return PISTOL;}
 	public static Gun getSmg() {return SMG;}
 	public static Gun getBow() {return BOW;}
-
-
 	
 	public double getMaxRange() {return maxRange;}
 	public double getRange() {return range;}
 	public void setRange(double range) {this.range = range;}
-
-	public String getName() {return name;}
-	
+	public String getName() {return name;}	
 	public double getRate() {return rate;}
-
 	public int getMaxAmmo() {return maxAmmo;}
-
 	public double getReload() {return reload;}
-
 	public int getDmg() {return dmg;}
-
 	public Color getColor() {return color;}
 
-	
 }

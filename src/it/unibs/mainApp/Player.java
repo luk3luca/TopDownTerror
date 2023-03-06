@@ -50,6 +50,9 @@ public class Player extends MovingObject{
 		this.name = name;
 		this.spawn = spawn;
 		this.angle = Math.PI/2;
+		this.hp = HP;
+		this.kills = 0;
+		this.deaths = 0;
 
 		try {
 			this.gun = Gun.PISTOL.clone();
@@ -59,13 +62,6 @@ public class Player extends MovingObject{
 		
 		this.magMax = gun.getMaxAmmo();
 		this.ammoLeft = magMax;
-		this.hp = HP;
-		this.kills = 0;
-		this.deaths = 0;
-		
-		//PROVA: per provare ad uccidere i player 
-//		setPosX(spawn.getSpawnX() + Battlefield.BATTLEFIELD_TILEDIM );
-//		setPosY(spawn.getSpawnY() + Battlefield.BATTLEFIELD_TILEDIM);
 		
 		setPosX(spawn.getSpawnX() - Battlefield.BATTLEFIELD_TILEDIM/4 );
 		setPosY(spawn.getSpawnY() - Battlefield.BATTLEFIELD_TILEDIM/4);
@@ -82,28 +78,13 @@ public class Player extends MovingObject{
 		this.lastShotTime = 0;
 	}
 	
-	
-
-	
-
-
 	public long getStartReloadTime() {
 		return startReloadTime;
 	}
 
-
-
-
-
-
 	public void setStartReloadTime(long startReloadTime) {
 		this.startReloadTime = startReloadTime;
 	}
-
-
-
-
-
 
 	// TODO fix doppio reload ranodmico, succede se si tiene premuta spara mentre ricarica
 	// probabilmente se coincidono degli istanti prende ancora come ammoLeft = 0 e fa un altro reload
@@ -111,8 +92,6 @@ public class Player extends MovingObject{
 	    long currentTime = System.currentTimeMillis();
 
 	    if(isReloadingTime(currentTime)) {
-	        // System.out.println("shoot: \t\t\t" + currentTime);
-	        //System.out.println("reloaad started: \t" + startReloadTime);
 	        return false;
 	    }
 
@@ -141,7 +120,6 @@ public class Player extends MovingObject{
 	    startReloadTime = currentTime;
 	    reloading = true;
 	    int reloadTime = (int) (this.gun.getReload()*1000);
-	    //System.out.println("\n\n"+reloadTime + "\n*******");
 	    
 	    Timer timer = new Timer(reloadTime, new ActionListener() {
 			@Override
@@ -150,10 +128,8 @@ public class Player extends MovingObject{
                 reloading = false;
             }
         });
-        
         timer.setRepeats(false);
         timer.start();
-        
 	}	
 	
 	public boolean checkAmmo() {
@@ -161,8 +137,7 @@ public class Player extends MovingObject{
 			return false;
 		else {
 			return true;
-		}
-				
+		}	
 	}
 	
 	public boolean isReloading() {
@@ -193,6 +168,23 @@ public class Player extends MovingObject{
 	
 	public void resetVelocity(){
 		this.setM_velocity(M_VELOCITY);
+	}
+	
+	public void hitted(Gun gun, Player shooter) {
+		this.hp -= gun.getDmg();
+		if(hp<=0) {
+			this.dead(this);
+			deaths++;
+			shooter.kills++;
+			System.out.println("shooter kills: " + shooter.kills);
+		}
+	}
+	
+	//TODO EVENTUALMENTE METTERE TIMER PER RESPAWN 
+	private void dead(Player p) {
+		p.setHp(HP);
+		setPosX(spawn.getSpawnX() - Battlefield.BATTLEFIELD_TILEDIM/4 );
+		setPosY(spawn.getSpawnY() - Battlefield.BATTLEFIELD_TILEDIM/4);
 	}
 	
 	/*---GETTERS AND SETTERS---*/
@@ -233,33 +225,5 @@ public class Player extends MovingObject{
 	public boolean isBottomRightCollision() {return bottomRightCollision;}
 	public void setBottomRightCollision(boolean bottomRightCollision) {this.bottomRightCollision = bottomRightCollision;}
 
-
-
-
-
-	public T_Spawn getSpawn() {
-		return spawn;
-	}
-
-
-
-
-
-	public void hitted(Gun gun, Player shooter) {
-		this.hp -= gun.getDmg();
-		if(hp<=0) {
-			this.dead(this);
-			deaths++;
-			shooter.kills++;
-			System.out.println("shooter kills: " + shooter.kills);
-		}
-	}
-	
-	//TODO EVENTUALMENTE METTERE TIMER PER RESPAWN 
-	private void dead(Player p) {
-		p.setHp(HP);
-		setPosX(spawn.getSpawnX() - Battlefield.BATTLEFIELD_TILEDIM/4 );
-		setPosY(spawn.getSpawnY() - Battlefield.BATTLEFIELD_TILEDIM/4);
-	}
-
+	public T_Spawn getSpawn() {return spawn;}
 }

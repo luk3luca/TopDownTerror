@@ -14,11 +14,14 @@ public class PnlMap extends JPanel implements KeyListener {
 	private static final long serialVersionUID = 1L;
 	
 	Battlefield model;
+	CircleProgress ammoLeft = new CircleProgress();
+	CircleProgress timerReload = new CircleProgress();
+	
 	
 	public PnlMap(Battlefield model) {
 		this.model = model;
-		//this.add(progressBar);
-		this.add(circleProgress2);
+		this.add(ammoLeft);
+		this.add(timerReload);
 		
 		Timer t = new Timer(10, e->{ // 10 MILLISECONDI
 			try {
@@ -49,14 +52,12 @@ public class PnlMap extends JPanel implements KeyListener {
 	 
 	private void printMap(Graphics2D g2) {
 		for(Tile t: model.tiles) {
-			
 			g2.setColor(t.getColor());
 			g2.fill(t.getShape());
 			
 			if(t.getImage() != null) {
 				g2.drawImage(t.getImage(),(int)t.getX(),(int)t.getY(),Battlefield.BATTLEFIELD_TILEDIM,Battlefield.BATTLEFIELD_TILEDIM,null);
 			}
-			
 		}
 		
 		for(int i=0; i < model.player.length; i++) {
@@ -75,33 +76,18 @@ public class PnlMap extends JPanel implements KeyListener {
 		}
 		
 		setBar(model.player[0]);
-	}
-	
-	//JProgressBar progressBar = new JProgressBar();
-	
-	CircleProgress circleProgress = new CircleProgress();
-	CircleProgress circleProgress2 = new CircleProgress();
-	
-	
+	}	
 	
 	public void setBar(Player p) {
-		circleProgress.setMinimum(0);
-		circleProgress.setMaximum(p.getGun().getMaxAmmo());
-		circleProgress.setValue(p.getAmmoLeft());
+		ammoLeft.setMinimum(0);
+		ammoLeft.setMaximum(p.getGun().getMaxAmmo());
+		ammoLeft.setValue(p.getAmmoLeft());
 		
-		circleProgress2.setMinimum((int) p.getStartReloadTime());
-		circleProgress2.setMaximum((int) p.getStartReloadTime() + (int)(p.getGun().getReload()*1000));
-		circleProgress2.setValue((int) System.currentTimeMillis()); 
-		
-		
+		timerReload.setMinimum((int) p.getStartReloadTime());
+		timerReload.setMaximum((int) p.getStartReloadTime() + (int)(p.getGun().getReload()*1000));
+		timerReload.setValue((int) System.currentTimeMillis()); 
 	}
-	
-	
-	
-	
-	
-	
-	
+
 	
 	//GESTIONE EVENTI TASTIERA
 	private ArrayList<Integer> currentActiveControls = new ArrayList<>();
@@ -162,7 +148,6 @@ public class PnlMap extends JPanel implements KeyListener {
 				        model.bullet.add(new Bullet(p, p.getGun()));
 				        System.out.println(p.getAmmoLeft());
 				    }
-				    //System.out.println(p.getAmmoLeft());
 				    break;
 				}
 				case KeyEvent.VK_J, KeyEvent.VK_LEFT: p.rotate(- p.getR_velocity()); break;

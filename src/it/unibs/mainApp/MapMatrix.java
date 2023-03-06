@@ -24,17 +24,9 @@ public class MapMatrix {
 	public static int[][] getMatrix() {
 		fillTheMap();
 		addSpawn();
-		//print();
 		return matrix;
 	}
-	
-	/*
-	private static void fillWithZeros() {
-		for(int[] a: matrix)
-			Arrays.fill(a, 0);
-	}
-	*/
-	
+
 	private static void fillTheMap() {
 		Arrays.fill(matrix[0], 1);
 		Arrays.fill(matrix[HEIGHT - 1], 1);
@@ -47,31 +39,10 @@ public class MapMatrix {
 			}
 		}
 	}
-
-	private static void print() {
-		for(int i = 0; i < HEIGHT; i++) {
-			for(int j = 0; j < WIDTH; j++) {
-				System.out.print(matrix[i][j]);
-			}
-			System.out.println();
-		}
-	}
 	
 	private static int WallOrNot() {
 		return new Random().nextFloat() > WALL_PROBABILITY ? 0 : 1;
 	}
-	
-	/*
-	private static void addSpawn() {
-		matrix[0][0] = 2;
-		matrix[0][WIDTH/2 - SPAWN_W/2 -1] = 2;
-		matrix[0][WIDTH - SPAWN_W] = 2;
-		
-		matrix[HEIGHT - SPAWN_H - 1][0] = 2;
-		matrix[HEIGHT - SPAWN_H - 1][WIDTH/2 - SPAWN_W/2 - 1] = 2;
-		matrix[HEIGHT - SPAWN_H - 1][WIDTH - SPAWN_W] = 2;
-	}
-	*/
 	
 	private static void addSpawn() {
 		fillSpawn(1, 1);
@@ -96,6 +67,12 @@ public class MapMatrix {
 		}
 	}
 	
-	
-	
+	private static void print() {
+		for(int i = 0; i < HEIGHT; i++) {
+			for(int j = 0; j < WIDTH; j++) {
+				System.out.print(matrix[i][j]);
+			}
+			System.out.println();
+		}
+	}
 }

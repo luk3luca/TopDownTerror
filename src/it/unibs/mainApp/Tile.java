@@ -42,7 +42,6 @@ public class Tile {
 		a.intersect(new Area(o.getShape()));
 		return !a.isEmpty();
 	}
-	
 		
 	/*---GETTERS AND SETTERS---*/
 	public Image getImage(){return  new ImageIcon(imagePath).getImage();}

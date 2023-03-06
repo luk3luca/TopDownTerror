@@ -28,8 +28,7 @@ public class Bullet extends MovingObject {
 		this.shape = new Area (new Polygon(
 				new int[] {5,0,-5,-5,0},
 				new int[] {0,-3,-3,3,3},
-				5						 
-				));
+				5));
 	}
 	
 	public Shape getShape() {
@@ -52,10 +51,6 @@ public class Bullet extends MovingObject {
 		this.setPosY(this.getPosY() + M_VELOCITY * Math.sin(this.angle));
 	}
 
-	
 	public Player getPlayer() {return player;}
-
 	public Gun getGun() {return gun;}
-
-
 }

@@ -14,14 +14,13 @@ public class PnlMap extends JPanel implements KeyListener {
 	private static final long serialVersionUID = 1L;
 	
 	Battlefield model;
-	CircleProgress ammoLeft = new CircleProgress();
-	CircleProgress timerReload = new CircleProgress();
-	
+	CircleProgress circle;
 	
 	public PnlMap(Battlefield model) {
 		this.model = model;
-		this.add(ammoLeft);
-		this.add(timerReload);
+		
+		circle = new CircleProgress(model.player[0]);
+		this.add(circle);
 		
 		Timer t = new Timer(10, e->{ // 10 MILLISECONDI
 			try {
@@ -79,13 +78,16 @@ public class PnlMap extends JPanel implements KeyListener {
 	}	
 	
 	public void setBar(Player p) {
-		ammoLeft.setMinimum(0);
-		ammoLeft.setMaximum(p.getGun().getMaxAmmo());
-		ammoLeft.setValue(p.getAmmoLeft());
-		
-		timerReload.setMinimum((int) p.getStartReloadTime());
-		timerReload.setMaximum((int) p.getStartReloadTime() + (int)(p.getGun().getReload()*1000));
-		timerReload.setValue((int) System.currentTimeMillis()); 
+		if(!p.isReloading()) {
+			circle.setMinimum(0);
+			circle.setMaximum(p.getGun().getMaxAmmo());
+			circle.setValue(p.getAmmoLeft());
+		}
+		else {
+			circle.setMinimum((int) p.getStartReloadTime());
+			circle.setMaximum((int) p.getStartReloadTime() + (int)(p.getGun().getReload()*1000));
+			circle.setValue((int) System.currentTimeMillis()); 	
+		}	
 	}
 
 	

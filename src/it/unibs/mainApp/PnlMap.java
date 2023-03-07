@@ -74,23 +74,8 @@ public class PnlMap extends JPanel implements KeyListener {
 			g2.fill(model.bullet.get(i).getShape());
 		}
 		
-//		setBar(model.player[0]);
 		circle.setBar();
 	}	
-	
-//	public void setBar(Player p) {
-//		if(!p.isReloading()) {
-//			circle.setMinimum(0);
-//			circle.setMaximum(p.getGun().getMaxAmmo());
-//			circle.setValue(p.getAmmoLeft());
-//		}
-//		else {
-//			circle.setMinimum((int) p.getStartReloadTime());
-//			circle.setMaximum((int) p.getStartReloadTime() + (int)(p.getGun().getReload()*1000));
-//			circle.setValue((int) System.currentTimeMillis()); 	
-//		}	
-//	}
-
 	
 	//GESTIONE EVENTI TASTIERA
 	private ArrayList<Integer> currentActiveControls = new ArrayList<>();

@@ -79,7 +79,7 @@ public class Battlefield {
 
 	private T_Spawn buildSpawn(int y, int x, int tileDim, int spawnCounter) {
 		Color c = TeamColors.getColorAlpha(spawnCounter);
-		return new T_Spawn(y * tileDim, x * tileDim, tileDim * MapMatrix.SPAWN_H, tileDim * MapMatrix.SPAWN_W, false, c);
+		return new T_Spawn(y * tileDim, x * tileDim, tileDim * MapMatrix.SPAWN_H, tileDim * MapMatrix.SPAWN_W, true, c);
 		}
 	
 	private T_Spawn buildTransparentSpawn(int y, int x, int tileDim, int spawnCounter) {
@@ -145,14 +145,29 @@ public class Battlefield {
 		}
 	}
     
-	// TODO COLLISIONI MOVING OBJECT <--> MOVING OBJECT
-    // Controllo collisione player player
     private void checkPlayerCollision(Player p1) {
     	for (Player p2 : player) {
             if (p1 != p2) {
+			    if(p1.checkCollision(p2)) {
+			    	double dx = p1.getCenterX() - p2.getCenterX();
+                    double dy = p1.getCenterY() - p2.getCenterY();
+			    	double tetha = Math.atan2(dy,dx) + Math.PI; // p1<-->p2 tetha = 0, con p1 sopra p2 tetha = 90
+			    	
+			    	p1.setPosX(p1.getPosX() - Player.M_VELOCITY *Math.cos(tetha));
+			    	p1.setPosY(p1.getPosY() - Player.M_VELOCITY * Math.sin(tetha));	
+			    }
+            }
+    	}
+    }
+    
+	// TODO COLLISIONI MOVING OBJECT <--> MOVING OBJECT
+    // Controllo collisione player player
+    private void checkPlayerCollision2(Player p1) {
+    	for (Player p2 : player) {
+            if (p1 != p2) {
                 if (p1.checkCollision(p2)) {
-                	double dx = p1.getPosX() - p2.getPosX();
-                    double dy = p1.getPosY() - p2.getPosY();
+                	double dx =  p1.getPosX() - p2.getPosX();
+                    double dy =  p1.getPosY() - p2.getPosY();
                     //double distance = Math.sqrt(dx*dx + dy*dy);
                     
 //                    p1.setPosX(p1.getPosX() - 1);
@@ -190,9 +205,7 @@ public class Battlefield {
                             p2.setPosY(p2.getPosY() + 1);
                             p2.setPosX(p2.getPosX());   
                     	}
-                    }
-
-                    
+                    }  
                 }
             }
         }	

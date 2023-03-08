@@ -1,5 +1,7 @@
 package it.unibs.view;
 
-public class PlayerInfo {
+import javax.swing.JPanel;
 
+public class PlayerInfo extends JPanel{
+	Player p;
 }

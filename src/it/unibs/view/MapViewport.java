@@ -1,5 +1,7 @@
 package it.unibs.view;
 
-public class MapViewport {
+import javax.swing.JPanel;
 
+public class MapViewport extends JPanel{
+	
 }

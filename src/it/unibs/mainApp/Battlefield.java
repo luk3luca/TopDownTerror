@@ -6,21 +6,18 @@ import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
-
+//MODEL
+//OK
 public class Battlefield {                                
-	protected static final int BATTLEFIELD_TILEDIM = 32;
-	protected static final int BATTLEFIELD_WIDTH = BATTLEFIELD_TILEDIM * (MapMatrix.WIDTH + 1);
-	protected static final int BATTLEFIELD_HEIGHT = BATTLEFIELD_TILEDIM * (MapMatrix.HEIGHT + 2);
-	 
-	protected ArrayList<Tile> tiles = new ArrayList<Tile>();
-	protected T_Spawn[] spawns = new T_Spawn[6];
-	protected Player[] player = new Player[6];
-	protected ArrayList<Tile> wallsAndSpawn = new ArrayList<>();
-
-	protected ArrayList<Bullet> bullet = new ArrayList<>();
-	//protected Rectangle2D.Double borders = new Rectangle2D.Double(0.,0.,BATTLEFIELD_WIDTH,BATTLEFIELD_HEIGHT); //bordi logici dell'universo 
-	
-	// TODO sostituire tutti i getPos() + BATTLEFIELD_TILEDIM/4 con p.getCenter() 
+	public static final int BATTLEFIELD_TILEDIM = 32;
+	public static final int BATTLEFIELD_WIDTH = BATTLEFIELD_TILEDIM * (MapMatrix.WIDTH + 1);
+	public static final int BATTLEFIELD_HEIGHT = BATTLEFIELD_TILEDIM * (MapMatrix.HEIGHT + 2);
+		
+	public ArrayList<Tile> tiles = new ArrayList<Tile>();
+	public T_Spawn[] spawns = new T_Spawn[6];
+	public ArrayList<Tile> wallsAndSpawn = new ArrayList<>();
+	public Player[] player = new Player[6];
+	public ArrayList<Bullet> bullet = new ArrayList<>();
 	
 	private int[][] mapMatrix = MapMatrix.getMatrix();
 	
@@ -159,58 +156,6 @@ public class Battlefield {
             }
     	}
     }
-    
-	// TODO COLLISIONI MOVING OBJECT <--> MOVING OBJECT
-    // Controllo collisione player player
-    private void checkPlayerCollision2(Player p1) {
-    	for (Player p2 : player) {
-            if (p1 != p2) {
-                if (p1.checkCollision(p2)) {
-                	double dx =  p1.getPosX() - p2.getPosX();
-                    double dy =  p1.getPosY() - p2.getPosY();
-                    //double distance = Math.sqrt(dx*dx + dy*dy);
-                    
-//                    p1.setPosX(p1.getPosX() - 1);
-//                    p1.setPosY(p1.getPosY() - 1);
-//                    p2.setPosX(p2.getPosX() + 1);
-//                    p2.setPosY(p2.getPosY() + 1);
-                    
-                    if(p1.getCenterX() == p2.getCenterX()) {
-                    	if(p2.getPosY() + BATTLEFIELD_TILEDIM/2 < p1.getPosY()) {
-                    		System.out.println("Collided");
-                    		p1.setPosY(p1.getPosY() + 1);
-                    		p1.setPosX(p1.getPosX());
-//                            p2.setPosY(p2.getPosY() - 1);
-//                            p2.setPosX(p2.getPosX());   
-                    	} else if(p1.getPosY() + BATTLEFIELD_TILEDIM/2 < p2.getPosY()) {
-                    		System.out.println("Collided");
-                    		p1.setPosY(p1.getPosY() - 1);
-                    		p1.setPosX(p1.getPosX());
-//                            p2.setPosY(p2.getPosY() + 1);
-//                            p2.setPosX(p2.getPosX());   
-                    	}
-                    }
-                    
-                    if(p1.getPosY() == p2.getPosY()) {
-                    	if(p2.getCenterY() + BATTLEFIELD_TILEDIM/2 < p1.getCenterY()) {
-                    		System.out.println("Collided");
-                    		p1.setPosY(p1.getPosY() + 1);
-                    		p1.setPosX(p1.getPosX());
-                            p2.setPosY(p2.getPosY() - 1);
-                            p2.setPosX(p2.getPosX());   
-                    	} else if(p1.getCenterY() + BATTLEFIELD_TILEDIM/2 < p2.getCenterY()) {
-                    		System.out.println("Collided");
-                    		p1.setPosY(p1.getPosY() - 1);
-                    		p1.setPosX(p1.getPosX());
-                            p2.setPosY(p2.getPosY() + 1);
-                            p2.setPosX(p2.getPosX());   
-                    	}
-                    }  
-                }
-            }
-        }	
-    }
-
     
     // Controllo collisione bullet-muro
     private void bullletWallsCollision() {

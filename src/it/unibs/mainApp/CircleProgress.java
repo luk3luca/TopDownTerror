@@ -11,7 +11,7 @@ import java.awt.geom.Arc2D;
 import javax.swing.JComponent;
 import javax.swing.JProgressBar;
 import javax.swing.plaf.basic.BasicProgressBarUI;
-
+//OK
 public class CircleProgress extends JProgressBar {
 	
 	private Player p;

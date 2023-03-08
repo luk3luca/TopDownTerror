@@ -2,7 +2,7 @@ package it.unibs.mainApp;
 
 import java.util.Arrays;
 import java.util.Random;
-
+//OK ma si dovrebbero fare stanze e corridoi
 public class MapMatrix {
 	public static final int HEIGHT = 22;
 	public static final int WIDTH = 32;

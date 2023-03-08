@@ -4,7 +4,7 @@ import java.awt.geom.Area;
 import javax.swing.ImageIcon;
 
 import java.awt.*;
-
+//OK
 public class Tile {
 	private int posX;
 	private int posY;

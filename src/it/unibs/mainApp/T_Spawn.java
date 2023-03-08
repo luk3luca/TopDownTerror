@@ -1,7 +1,7 @@
 package it.unibs.mainApp;
 
 import java.awt.Color; 
-
+//OK
 public class T_Spawn extends Tile {
 	private static final String imagePath = null;
 	

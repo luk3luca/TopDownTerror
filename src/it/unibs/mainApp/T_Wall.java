@@ -1,7 +1,7 @@
 package it.unibs.mainApp;
 
 import java.awt.*;
-
+//OK
 public class T_Wall extends Tile{
 	
 	private static String imagePath = "src/images/brick.png";

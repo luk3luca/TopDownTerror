@@ -5,7 +5,7 @@ import java.awt.Polygon;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
-
+//OK
 public class Bullet extends MovingObject {
 	private static final double M_VELOCITY = 15;
 

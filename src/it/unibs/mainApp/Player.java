@@ -7,7 +7,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import javax.swing.Timer;
 
-
+//OK
 public class Player extends MovingObject{
 	protected static final double M_VELOCITY = 1.;
 	private static final double R_VELOCITY = 0.02;

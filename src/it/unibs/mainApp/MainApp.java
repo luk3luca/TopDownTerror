@@ -5,7 +5,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JProgressBar;
-
+//aggiunta di controller
 public class MainApp {
 	
 	private JFrame frame;

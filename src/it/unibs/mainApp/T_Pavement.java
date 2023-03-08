@@ -1,7 +1,7 @@
 package it.unibs.mainApp;
 
 import java.awt.Color;
-
+//OK
 public class T_Pavement extends Tile {
 	
 	private static String imagePath = "src/images/smoothStone.png";

@@ -8,7 +8,6 @@ import javax.swing.JFrame;
 import javax.swing.event.ChangeEvent;
 
 import it.unibs.mainApp.Battlefield;
-import it.unibs.pajc.baseGame.Player;
 
 public class ServerController {
 	//private GameView view
@@ -17,7 +16,7 @@ public class ServerController {
 	private ExecutorService executor;
 	
 	public ServerController(JFrame frame) {
-		this.frame = frame;
+		//this.frame = frame;
 		
 	}
 	

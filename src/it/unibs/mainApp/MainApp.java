@@ -1,10 +1,7 @@
 package it.unibs.mainApp;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
-import javax.swing.JProgressBar;
 
 //import it.unibs.client.ClientController;
 import it.unibs.server.ServerController;

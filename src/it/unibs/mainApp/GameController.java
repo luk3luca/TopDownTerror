@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
+import javax.swing.Timer;
 
 public class GameController {
 	protected JFrame frame;
@@ -18,10 +19,13 @@ public class GameController {
 		PnlMap pnlMap = new PnlMap(model);
 		frame.getContentPane().add(pnlMap, BorderLayout.CENTER);
 		
-		KeyListener hostKeys = new MyKeyboard(model.player[2], model);
+		MyKeyboard hostKeys = new MyKeyboard(model.player[2], model);
 		pnlMap.addKeyListener(hostKeys);
 		
+		Timer t = new Timer(10, e->{ // 10 MILLISECONDI
+			hostKeys.applyControls();
+		});
 		
-	}
-	
+		t.start();
+		}
 }

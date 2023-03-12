@@ -10,7 +10,7 @@ import javax.swing.JProgressBar;
 import javax.swing.Timer;
 
 
-public class PnlMap extends JPanel implements KeyListener {
+public class PnlMap extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	Battlefield model;
@@ -23,11 +23,12 @@ public class PnlMap extends JPanel implements KeyListener {
 		this.add(circle);
 		
 		Timer t = new Timer(10, e->{ // 10 MILLISECONDI
-			try {
-				applyControls();
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
+			
+//			try {
+//				applyControls();
+//			} catch (InterruptedException e1) {
+//				e1.printStackTrace();
+//			}
 			model.stepNext();
 			repaint(); 
 		});
@@ -37,7 +38,7 @@ public class PnlMap extends JPanel implements KeyListener {
 		//EVENTI DELLA TASTIERA GIRATI SUL PANNELLO
 		this.setFocusable(true);	
 		this.requestFocusInWindow();
-		this.addKeyListener(this);
+		//this.addKeyListener(this);
 	} 
 	
 	@Override
@@ -76,81 +77,5 @@ public class PnlMap extends JPanel implements KeyListener {
 		
 		circle.setBar();
 	}	
-	
-	//GESTIONE EVENTI TASTIERA
-	private ArrayList<Integer> currentActiveControls = new ArrayList<>();
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-	}  
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		if(!currentActiveControls.contains(e.getKeyCode()))
-			currentActiveControls.add(e.getKeyCode());
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		currentActiveControls.remove((Object)e.getKeyCode());
-	}
-	
-	private void applyControls() throws InterruptedException {
-		Player p = model.player[0];
-		if(p == null)
-			return;
-		
-		for(Integer keycode: currentActiveControls) {
-			p.resetVelocity();
-			switch(keycode) {
-				case KeyEvent.VK_W: {
-					if(currentActiveControls.contains(KeyEvent.VK_A) || currentActiveControls.contains(KeyEvent.VK_D))
-						p.setM_velocity(p.getM_velocity() / Math.sqrt(2));
-						
-						p.setPosY(p.getPosY() - p.getM_velocity()); 
-					break;
-				}
-				case KeyEvent.VK_A: {
-					if(currentActiveControls.contains(KeyEvent.VK_W) || currentActiveControls.contains(KeyEvent.VK_S)) 
-						p.setM_velocity(p.getM_velocity() / Math.sqrt(2));
-					
-					p.setPosX(p.getPosX() - p.getM_velocity());
-					break;
-				}
-				case KeyEvent.VK_S: {
-					if(currentActiveControls.contains(KeyEvent.VK_A) || currentActiveControls.contains(KeyEvent.VK_D))
-						p.setM_velocity(p.getM_velocity() / Math.sqrt(2));
-					
-					p.setPosY(p.getPosY() + p.getM_velocity());
-					break;
-				} 
-				case KeyEvent.VK_D: {
-					if(currentActiveControls.contains(KeyEvent.VK_W) || currentActiveControls.contains(KeyEvent.VK_S))
-						p.setM_velocity(p.getM_velocity() / Math.sqrt(2));
-						
-					p.setPosX(p.getPosX() + p.getM_velocity()); 
-					break;
-				}
-				case KeyEvent.VK_I, KeyEvent.VK_UP: {
-					if(p.shoot()) {
-				        model.bullet.add(new Bullet(p, p.getGun()));
-				        System.out.println(p.getAmmoLeft());
-				    }
-				    break;
-				}
-				case KeyEvent.VK_J, KeyEvent.VK_LEFT: p.rotate(- p.getR_velocity()); break;
-				case KeyEvent.VK_L, KeyEvent.VK_RIGHT: p.rotate(p.getR_velocity()); break;
-				case KeyEvent.VK_K, KeyEvent.VK_DOWN: {
-					p.reloadAmmo(); 
-					break;
-				}
-			}
-		}
-	}
-	
-	
-	
-	
-	
-	
 }

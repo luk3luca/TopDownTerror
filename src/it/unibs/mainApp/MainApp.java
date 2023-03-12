@@ -16,7 +16,6 @@ public class MainApp {
 	//ClientController clientController;
 	
 	Battlefield model;
-	
 	private JFrame frame;
 
 	public static void main(String[] args) {

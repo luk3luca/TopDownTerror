@@ -9,7 +9,7 @@ import javax.swing.Timer;
 
 //OK
 public class Player extends MovingObject{
-	protected static final double M_VELOCITY = 1.;
+	protected static final double M_VELOCITY = 2.;
 	private static final double R_VELOCITY = 0.02;
 	private static final int HP = 100;
 

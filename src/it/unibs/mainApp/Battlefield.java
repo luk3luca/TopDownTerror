@@ -9,7 +9,7 @@ import java.util.Iterator;
 //MODEL
 //OK
 public class Battlefield {                                
-	public static final int BATTLEFIELD_TILEDIM = 32;
+	public static final int BATTLEFIELD_TILEDIM = 32 * 2;
 	public static final int BATTLEFIELD_WIDTH = BATTLEFIELD_TILEDIM * (MapMatrix.WIDTH + 1);
 	public static final int BATTLEFIELD_HEIGHT = BATTLEFIELD_TILEDIM * (MapMatrix.HEIGHT + 2);
 		

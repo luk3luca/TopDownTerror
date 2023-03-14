@@ -1,10 +1,9 @@
 package it.unibs.mainApp;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.*;
 import javax.swing.JFrame;
 import javax.swing.Timer;
-import it.unibs.view.MapViewport;
+import it.unibs.view.*;
 
 public class GameController {
 	protected JFrame frame;
@@ -14,22 +13,23 @@ public class GameController {
 	public GameController(JFrame frame, Battlefield model) {
 		this.frame = frame;
 		frame.setBackground(Color.black);
-		frame.setBounds(100, 100, Battlefield.BATTLEFIELD_WIDTH, Battlefield.BATTLEFIELD_HEIGHT);
+		frame.setBounds(100, 100, 1200, 1400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		PnlMap pnlMap = new PnlMap(model);
-		frame.getContentPane().add(pnlMap, BorderLayout.CENTER);		
+		MapViewport map = new MapViewport(model, model.player[0]);
+		frame.getContentPane().add(map, BorderLayout.CENTER);
 		
-//		MapViewport map = new MapViewport(model, model.player[0]);
-//		frame.getContentPane().add(map, BorderLayout.CENTER);
-//		frame.setBounds(100, 100, Battlefield.BATTLEFIELD_HEIGHT, Battlefield.BATTLEFIELD_HEIGHT);
-//		
+//		PnlMap pnlMap = new PnlMap(model);
+//		frame.getContentPane().add(pnlMap, BorderLayout.EAST);		
 		
-		//GESTIONE TASTIERA 
+		//GESTIONE TASTIERA
 		MyKeyboard hostKeys = new MyKeyboard(model.player[0], model);
-		pnlMap.addKeyListener(hostKeys);
+		map.addKeyListener(hostKeys);
+		
 		Timer t = new Timer(10, e->{ // 10 MILLISECONDI
 			hostKeys.applyControls();
+			model.stepNext();
+			map.repaint();
 		});
 		t.start(); 
 		

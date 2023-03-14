@@ -13,7 +13,7 @@ public class Bullet extends MovingObject {
 	protected Gun gun;
 	
 	private int fuel;
-		
+		 
 	public Bullet(Player p, Gun g) {
 		super(M_VELOCITY, 0,Color.RED);
 

@@ -52,7 +52,7 @@ public class Battlefield {
 						wallsAndSpawn.add(s2);
 						break;
 					default:
-						break;
+						break; 
 				}
 			}
 		}

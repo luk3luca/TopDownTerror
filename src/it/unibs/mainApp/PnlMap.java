@@ -19,21 +19,14 @@ public class PnlMap extends JPanel  {
 		//this.addKeyListener(this);
 	} 
 	
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D)g;
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); 
-		
-	    
-		
-		// DA SPOSTARE IN UNA CLASSE MINIMAP PER AVERE DUE PANNELLI DISTINITI
-		g2.translate(getWidth() - 350 ,0);
-		g2.scale(1/6., 1/6.);
-		printMap(g2);
-		g2.scale(6., 6.);
-		g2.translate(- (getWidth() -350), 0);
-	}
+	
+//	@Override
+//	protected void paintComponent(Graphics g) {
+//		super.paintComponent(g);
+//		Graphics2D g2 = (Graphics2D)g;
+//		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); 
+//		
+//	}
 	 
 	protected void printMap(Graphics2D g2) {
 		

@@ -1,33 +1,49 @@
+
 package it.unibs.view;
 
-import java.awt.geom.Rectangle2D;
+import java.awt.*;
 
-import javax.swing.JPanel;
+import it.unibs.mainApp.*;
 
-import it.unibs.mainApp.Battlefield;
-import it.unibs.mainApp.MapMatrix;
-import it.unibs.mainApp.Player;
-import it.unibs.mainApp.PnlMap;
+public class PlayerViewport extends PnlMap {
+    private static final long serialVersionUID = 1L;
 
-public class PlayerViewport extends JPanel{
-	private static final long serialVersionUID = 1L;
-	private static final int SIDE = Battlefield.BATTLEFIELD_TILEDIM * MapMatrix.HEIGHT/2;
-	
-	Player p;
-	PnlMap pnlMap;
-	private Rectangle2D.Double viewport = new Rectangle2D.Double(
-												p.getCenterX() - SIDE/2, 
-												p.getCenterY() - SIDE/2, 
-												SIDE, 
-												SIDE);
-	
-	public void setViewport(Rectangle2D.Double newViewport) {
-		this.viewport = newViewport;
-		repaint();
-	}
-	
-	public PlayerViewport(Player p) {
-		this.p = p;
-	}
+    private Player p;
+    public PlayerViewport(Battlefield model, Player p) {
+    	super(model);
+        this.p = p;
+        this.setFocusable(true);	
+		this.requestFocusInWindow();
+    }
 
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D)g;
+		
+		// Calcola la posizione della viewport
+	    int viewportSize = Battlefield.BATTLEFIELD_HEIGHT / 2; // dimensione della viewport quadrata
+	    int viewportX = (int) (p.getPosX() - viewportSize / 2);
+	    int viewportY = (int) (p.getPosY() - viewportSize / 2);
+	    
+	    //TRASLA LA VIEWPORT IN ALTO A SINISTRA
+	    g2.translate(-viewportX, -viewportY);
+	    
+	    // Imposta il rettangolo di clipping sulla viewport
+	    Rectangle viewport = new Rectangle(viewportX, viewportY, viewportSize, viewportSize);
+	    g2.setClip(viewport);
+	    
+	    //RETTANGOLO NERO PER IL CONTORNO DELLA MAPPA
+	    g2.setColor(Color.BLACK);
+	    g2.fillRect(-Battlefield.BATTLEFIELD_HEIGHT/4,
+	    			-Battlefield.BATTLEFIELD_HEIGHT/4,
+	    			Battlefield.BATTLEFIELD_WIDTH + Battlefield.BATTLEFIELD_HEIGHT/2,
+	    			3* Battlefield.BATTLEFIELD_HEIGHT/2);
+	    
+	    printMap(g2);
+	    
+	    // Ripristina il rettangolo di clipping
+	    g2.setClip(null);
+    }
 }
+

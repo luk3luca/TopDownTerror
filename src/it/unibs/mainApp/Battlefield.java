@@ -300,11 +300,12 @@ public class Battlefield {
 	// TODO fix controllo sull'angolo del player quando avviene collisione
 	private void checkGunRangeCollision(Player player, int playerSquareX, int playerSquareY, int n) {
 		int range = (int)Math.ceil(player.getGun().getRange());
-		int lowerY = Math.max(0, playerSquareY - range);
-		int lowerX = Math.max(0, playerSquareX - range);
+		int lowerY = Math.max(0, playerSquareY - range - 1);
+		int lowerX = Math.max(0, playerSquareX - range - 1);
 		int upperY = Math.min(MapMatrix.HEIGHT, playerSquareY + range + 1);
 		int upperX = Math.min(MapMatrix.WIDTH, playerSquareX + range + 1);
-		Point2D playerP = new Point2D.Double(player.getPosX() + BATTLEFIELD_TILEDIM/4, player.getPosY() + BATTLEFIELD_TILEDIM/4);
+		
+		Point2D playerP = new Point2D.Double(player.getCenterX(), player.getCenterY());
 		ArrayList<Point2D> collisionsP = new ArrayList<>();
 
 		for(int i = lowerY; i < upperY; i++) {
@@ -328,31 +329,31 @@ public class Battlefield {
 							path.next();
 						}
 					}
+					else
+					    player.getGun().resetRange();
 				}
 			}
 		}
 
 		if(collisionsP.size() > 0) {
-			double newRange = findClosestPoint(collisionsP, playerP);
-			player.getGun().setRange(newRange / BATTLEFIELD_TILEDIM);
+		    Point2D closestPoint = findClosestPoint(collisionsP, playerP);
+		    double newRange = closestPoint.distance(playerP);
+		    player.getGun().setRange(newRange / BATTLEFIELD_TILEDIM);
 		}
-		else
-			player.getGun().resetRange();
 	}
 
-	private double findClosestPoint(ArrayList<Point2D> collisionsP, Point2D targetPoint) {
-		Point2D closestPoint = null;
-		double closestDistance = Double.MAX_VALUE;
+	private Point2D findClosestPoint(ArrayList<Point2D> collisionsP, Point2D targetPoint) {
+	    Point2D closestPoint = null;
+	    double closestDistance = Double.MAX_VALUE;
 
-		for (Point2D point : collisionsP) {
-			double distance = targetPoint.distance(point);
-			if (distance < closestDistance) {
-				closestDistance = distance;
-				closestPoint = point;
-			}
-		}
+	    for (Point2D point : collisionsP) {
+	        double distance = targetPoint.distance(point);
+	        if (distance < closestDistance) {
+	            closestDistance = distance;
+	            closestPoint = point;
+	        }
+	    }
 
-		return closestDistance;
-	}
-	
+	    return closestPoint;
+	}	
 }

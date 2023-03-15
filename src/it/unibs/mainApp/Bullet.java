@@ -7,7 +7,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 //OK
 public class Bullet extends MovingObject {
-	private static final double M_VELOCITY = 15;
+	private static final double M_VELOCITY = 20;
 
 	protected Player player;
 	protected Gun gun;

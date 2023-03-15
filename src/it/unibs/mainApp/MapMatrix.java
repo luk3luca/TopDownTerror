@@ -5,6 +5,7 @@ import java.util.*;
 public class MapMatrix {
 	public static final int HEIGHT = 22;
 	public static final int WIDTH = 32;
+	public static final int N_SPAWNS = 6;
 	public static final int SPAWN_H = 2;
 	public static final int SPAWN_W = 2;
 	public static final double WALL_PROBABILITY = 0.17;
@@ -14,11 +15,11 @@ public class MapMatrix {
 	private static final int SPAWN = 2;
 	private static final int SPAWN_ZONE = 3;
 	
-	public static int[][] matrix = new int[HEIGHT][WIDTH];
+	//public static int[][] matrix = new int[HEIGHT][WIDTH];
 	
 //	public static int[][] matrix = {
 //		    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-//		    {1,2,3,0,0,0,0,0,0,0,0,1,0,0,0,2,3,1,0,1,0,0,0,0,0,1,1,1,0,2,3,1},
+//		    {1,2,3,0,0,0,0,0,0,0,0,0,0,0,0,2,3,1,0,1,0,0,0,0,0,1,1,1,0,2,3,1},
 //		    {1,3,3,0,1,1,1,1,1,1,1,1,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,0,3,3,1},
 //		    {1,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,1,1,0,0,0,0,0,1,0,0,0,0,0,0,1},
 //		    {1,1,1,1,1,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,0,0,0,1},
@@ -26,7 +27,7 @@ public class MapMatrix {
 //		    {1,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,1,1,1,1,1},
 //		    {1,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1},
 //		    {1,0,1,1,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,1,0,1},
-//		    {1,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1},
+//		    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 //		    {1,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1},
 //		    {1,1,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,1,1,0,0,1,0,0,0,0,1,0,0,0,0,1},
 //		    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -42,20 +43,46 @@ public class MapMatrix {
 //	};
 	
 	
-//	public static void main(String[] args) {
-//		//fillTheMap();
-//		//addSpawn();
-//		//System.out.println(canReachAnotherSpawn(1, 15));
-//		checkMap();
-//		print();
-//	}
+	public static int[][] matrix = {
+		    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+		    {1,2,3,0,0,0,0,0,0,0,0,0,0,0,0,2,3,1,0,1,0,0,0,0,0,1,1,1,0,2,3,1},
+		    {1,3,3,0,1,1,1,1,1,1,1,1,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,0,3,3,1},
+		    {1,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,1,1,0,0,0,0,0,1,0,0,0,0,0,0,1},
+		    {1,1,1,1,1,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,0,0,0,1},
+		    {1,0,0,1,1,0,0,0,0,1,0,1,1,0,0,1,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,1},
+		    {1,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,1,1,1,1,1},
+		    {1,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1},
+		    {1,0,1,1,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,1,0,1},
+		    {1,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1},
+		    {1,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1},
+		    {1,1,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,1,1,0,0,1,0,0,0,0,1,0,0,0,0,1},
+		    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		    {1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1,0,1,0,1},
+		    {1,0,0,0,0,1,0,0,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,1,0,0,1,0,0,1},
+		    {1,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1},
+		    {1,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1},
+		    {1,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1},
+		    {1,2,3,0,0,0,0,0,1,0,0,1,0,1,0,2,3,0,0,0,0,0,0,0,0,0,0,0,0,2,3,1},
+		    {1,3,3,1,1,0,1,1,0,0,0,0,0,0,0,3,3,0,0,1,0,1,0,0,0,0,0,0,0,3,3,1},
+		    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+	};
+	
+	public static void main(String[] args) {
+		//fillTheMap();
+		//addSpawn();
+		//System.out.println(canReachAnotherSpawn(1, 15));
+		//System.out.println(all2sVisited());
+		//System.out.println(checkMap());
+		print();
+	}
 	
 	 
 	public static int[][] getMatrix() {
 		fillTheMap();
 		addSpawn();
-		if(!checkMap())
-			getMatrix();
+		//if(!checkMap())
+			//getMatrix();
 		
 		return matrix;
 	}
@@ -109,65 +136,179 @@ public class MapMatrix {
 		}
 	}
 	
-	private static boolean checkMap() {
-		for(int i = 1; i < HEIGHT - 1; i++) {
-			for(int j = 0; j < WIDTH; j++) {
-				if(matrix[i][j] == SPAWN) {
-					if(!canReachAnotherSpawn(i, j)) {
-						return false;
-					}
-				}
-			}
-		}
-		return true;
-	}
+
+//	private static boolean checkMap() {
+//	    // Find all spawn points
+//	    List<int[]> spawnPoints = new ArrayList<>();
+//	    for (int row = 0; row < HEIGHT; row++) {
+//	        for (int col = 0; col < WIDTH; col++) {
+//	            if (matrix[row][col] == SPAWN) {
+//	                spawnPoints.add(new int[] {row, col});
+//	            }
+//	        }
+//	    }
+//	    System.out.println(spawnPoints.size());
+//
+//	    // Check if all spawn points are connected
+//	    Set<int[]> visited = new HashSet<>();
+//	    Queue<int[]> queue = new ArrayDeque<>();
+//	    queue.offer(spawnPoints.get(0));
+//	    visited.add(spawnPoints.get(0));
+//	    int count = 1;
+//
+//	    while (!queue.isEmpty()) {
+//	        int[] curr = queue.poll();
+//	        int row = curr[0];
+//	        int col = curr[1];
+//
+//	        // Check neighbors
+//	        int[][] neighbors = {{row-1, col}, {row+1, col}, {row, col-1}, {row, col+1}};
+//	        for (int[] neighbor : neighbors) {
+//	            int neighborRow = neighbor[0];
+//	            int neighborCol = neighbor[1];
+//
+//	            if (neighborRow >= 0 && neighborRow < HEIGHT && neighborCol >= 0 && neighborCol < WIDTH) {
+//	                if (matrix[neighborRow][neighborCol] == SPAWN && !visited.contains(neighbor)) {
+//	                    queue.offer(neighbor);
+//	                    visited.add(neighbor);
+//	                    count++;
+//	                } else if ((matrix[neighborRow][neighborCol] == SPAWN_ZONE || matrix[neighborRow][neighborCol] == PAVEMENT) && !visited.contains(neighbor)) {
+//	                    visited.add(neighbor);
+//	                }
+//	            }
+//	        }
+//	    }
+//
+//	    return count == N_SPAWNS;
+//	}
+
 	
-	//Breadth-first search (BFS) algorithm
-	private static boolean canReachAnotherSpawn(int startCol, int startRow) {
-	    // Check if the starting position is a spawn cell
-	    if (matrix[startCol][startRow] != SPAWN) {
-	        return false;
-	    }
 
-	    // Set up the BFS
-	    Queue<int[]> queue = new ArrayDeque<>();
-	    Set<String> visited = new HashSet<>();
-	    queue.offer(new int[] { startCol, startRow });
-	    visited.add(startCol + "," + startRow);
-
-	    // Start BFS
-	    while (!queue.isEmpty()) {
-	        int[] current = queue.poll();
-	        int row = current[0];
-	        int col = current[1];
-
-	        // Check if we have reached another spawn cell
-	        if (matrix[row][col] == SPAWN && (row != startCol || col != startRow)) {
-	            return true;
-	        }
-
-	        // Add neighboring cells to the queue
-	        if (row > 0 && (matrix[row-1][col] == SPAWN || matrix[row-1][col] == SPAWN_ZONE || matrix[row-1][col] == PAVEMENT) && !visited.contains((row-1) + "," + col)) {
-	            queue.offer(new int[] { row-1, col });
-	            visited.add((row-1) + "," + col);
-	        }
-	        if (row < HEIGHT-1 && (matrix[row+1][col] == SPAWN || matrix[row+1][col] == SPAWN_ZONE || matrix[row+1][col] == PAVEMENT) && !visited.contains((row+1) + "," + col)) {
-	            queue.offer(new int[] { row+1, col });
-	            visited.add((row+1) + "," + col);
-	        }
-	        if (col > 0 && (matrix[row][col-1] == SPAWN || matrix[row][col-1] == SPAWN_ZONE || matrix[row][col-1] == PAVEMENT) && !visited.contains(row + "," + (col-1))) {
-	            queue.offer(new int[] { row, col-1 });
-	            visited.add(row + "," + (col-1));
-	        }
-	        if (col < WIDTH-1 && (matrix[row][col+1] == SPAWN || matrix[row][col+1] == SPAWN_ZONE || matrix[row][col+1] == PAVEMENT) && !visited.contains(row + "," + (col+1))) {
-	            queue.offer(new int[] { row, col+1 });
-	            visited.add(row + "," + (col+1));
-	        }
-	    }
-
-	    // No other spawn cells were found
-	    return false;
-	}
+//	----------------------------------------------------------
+//	private static boolean checkMap() {
+//		for(int i = 1; i < HEIGHT - 1; i++) {
+//			for(int j = 0; j < WIDTH; j++) {
+//				if(matrix[i][j] == SPAWN) {
+//					if(!canReachAnotherSpawn(i, j)) {
+//						return false;
+//					}
+//				}
+//			}
+//		}
+//		return true;
+//	}
+//	
+//	//Breadth-first search (BFS) algorithm
+//	private static boolean canReachAnotherSpawn(int startCol, int startRow) {
+//	    // Check if the starting position is a spawn cell
+//	    if (matrix[startCol][startRow] != SPAWN) {
+//	        return false;
+//	    }
+//
+//	    // Set up the BFS
+//	    Queue<int[]> queue = new ArrayDeque<>();
+//	    Set<String> visited = new HashSet<>();
+//	    queue.offer(new int[] { startCol, startRow });
+//	    visited.add(startCol + "," + startRow);
+//
+//	    // Start BFS
+//	    while (!queue.isEmpty()) {
+//	        int[] current = queue.poll();
+//	        int row = current[0];
+//	        int col = current[1];
+//
+//	        // Check if we have reached another spawn cell
+//	        if (matrix[row][col] == SPAWN && (row != startCol || col != startRow)) {
+//	            return true;
+//	        }
+//
+//	        // Add neighboring cells to the queue
+//	        if (row > 0 && (matrix[row-1][col] == SPAWN || matrix[row-1][col] == SPAWN_ZONE || matrix[row-1][col] == PAVEMENT) && !visited.contains((row-1) + "," + col)) {
+//	            queue.offer(new int[] { row-1, col });
+//	            visited.add((row-1) + "," + col);
+//	        }
+//	        if (row < HEIGHT-1 && (matrix[row+1][col] == SPAWN || matrix[row+1][col] == SPAWN_ZONE || matrix[row+1][col] == PAVEMENT) && !visited.contains((row+1) + "," + col)) {
+//	            queue.offer(new int[] { row+1, col });
+//	            visited.add((row+1) + "," + col);
+//	        }
+//	        if (col > 0 && (matrix[row][col-1] == SPAWN || matrix[row][col-1] == SPAWN_ZONE || matrix[row][col-1] == PAVEMENT) && !visited.contains(row + "," + (col-1))) {
+//	            queue.offer(new int[] { row, col-1 });
+//	            visited.add(row + "," + (col-1));
+//	        }
+//	        if (col < WIDTH-1 && (matrix[row][col+1] == SPAWN || matrix[row][col+1] == SPAWN_ZONE || matrix[row][col+1] == PAVEMENT) && !visited.contains(row + "," + (col+1))) {
+//	            queue.offer(new int[] { row, col+1 });
+//	            visited.add(row + "," + (col+1));
+//	        }
+//	    }
+//
+//	    // No other spawn cells were found
+//	    return false;
+//	}
+	
+	
+//	-------------------------------------------------------
+//	private static boolean allSpawnsConnected() {
+//	    // Initialize variables
+//	    boolean[] visited = new boolean[N_SPAWNS];
+//	    Queue<Integer> queue = new LinkedList<>();
+//
+//	    // Perform BFS from first spawn
+//	    queue.add(0);
+//	    visited[0] = true;
+//
+//	    // Continue BFS from each unvisited spawn
+//	    while (!queue.isEmpty()) {
+//	        int spawn = queue.remove();
+//
+//	        // Check if all spawns have been visited
+//	        boolean allVisited = true;
+//	        for (int i = 0; i < N_SPAWNS; i++) {
+//	            if (!visited[i]) {
+//	                allVisited = false;
+//	                break;
+//	            }
+//	        }
+//	        if (allVisited) {
+//	            return true;
+//	        }
+//
+//	        // Add neighboring spawns to queue
+//	        for (int i = 0; i < N_SPAWNS; i++) {
+//	            if (i != spawn && isConnected(spawn, i) && !visited[i]) {
+//	                queue.add(i);
+//	                visited[i] = true;
+//	            }
+//	        }
+//	    }
+//
+//	    return false;  // Not all spawns are connected
+//	}
+//
+//	private static boolean isConnected(int spawn1, int spawn2) {
+//	    // Perform BFS from spawn1 to check if it reaches spawn2
+//	    Queue<Integer> queue = new LinkedList<>();
+//	    Set<Integer> visited = new HashSet<>();
+//
+//	    queue.add(spawn1);
+//	    visited.add(spawn1);
+//
+//	    while (!queue.isEmpty()) {
+//	        int currentSpawn = queue.remove();
+//
+//	        if (currentSpawn == spawn2) {
+//	            return true;
+//	        }
+//
+//	        for (int i = 0; i < N_SPAWNS; i++) {
+//	            if (i != currentSpawn && matrix[currentSpawn][i] == SPAWN && !visited.contains(i)) {
+//	                queue.add(i);
+//	                visited.add(i);
+//	            }
+//	        }
+//	    }
+//
+//	    return false;  // spawn1 does not connect to spawn2
+//	}
 	
 	
 }

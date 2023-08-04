@@ -4,12 +4,19 @@ import java.awt.Color;
 import java.awt.geom.Area;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 //MODEL
 //OK
+<<<<<<< Updated upstream
 public class Battlefield {                                
 	public static final int BATTLEFIELD_TILEDIM = 32;
+=======
+public class Battlefield  implements Serializable{                                
+	private static final long serialVersionUID = 1L;
+	public static final int BATTLEFIELD_TILEDIM = 32 * 2;
+>>>>>>> Stashed changes
 	public static final int BATTLEFIELD_WIDTH = BATTLEFIELD_TILEDIM * (MapMatrix.WIDTH + 1);
 	public static final int BATTLEFIELD_HEIGHT = BATTLEFIELD_TILEDIM * (MapMatrix.HEIGHT + 2);
 		
@@ -26,7 +33,7 @@ public class Battlefield {
 		buildPlayer();
 	}
 	
-	private void buildMap() {
+	public void buildMap() {
 		int spawnCounter = 1;
 		for(int y = 0; y < MapMatrix.HEIGHT; y++) {
 			for(int x = 0; x < MapMatrix.WIDTH; x++) {
@@ -232,7 +239,7 @@ public class Battlefield {
 		}
 		else if(player.isTopCollision()) {
 			player.setPosY(player.getPosY() + player.getM_velocity());
-			//player.setPosX(player.getPosX());ì
+			//player.setPosX(player.getPosX());ï¿½
 		}
 		else if(player.isBottomCollision()) {
 			player.setPosY(player.getPosY() - player.getM_velocity());

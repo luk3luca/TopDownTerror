@@ -1,9 +1,16 @@
 package it.unibs.mainApp;
 
+<<<<<<< Updated upstream
 import java.awt.Color; 
 
 
 public class T_Spawn extends Tile {
+=======
+import java.awt.Color;
+import java.io.Serializable; 
+//OK
+public class T_Spawn extends Tile implements Serializable {
+>>>>>>> Stashed changes
 	private static final String imagePath = null;
 	
 	private int spawnXCenter;

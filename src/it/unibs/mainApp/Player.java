@@ -3,6 +3,7 @@ package it.unibs.mainApp;
 import java.awt.Color;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+<<<<<<< Updated upstream
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -10,6 +11,15 @@ import java.util.TimerTask;
 
 public class Player extends MovingObject{
 	protected static final double M_VELOCITY = 1.;
+=======
+import java.io.Serializable;
+
+import javax.swing.Timer;
+
+//OK
+public class Player extends MovingObject implements Serializable{
+	protected static final double M_VELOCITY = 2.;
+>>>>>>> Stashed changes
 	private static final double R_VELOCITY = 0.02;
 	private static final int HP = 100;
 
@@ -58,10 +68,15 @@ public class Player extends MovingObject{
 		
 		setPosX(spawn.getSpawnX() - Battlefield.BATTLEFIELD_TILEDIM/4 );
 		setPosY(spawn.getSpawnY() - Battlefield.BATTLEFIELD_TILEDIM/4);
+<<<<<<< Updated upstream
 		Area playerArea = new Area(new Ellipse2D.Double(0.,
+=======
+		
+		Ellipse2D.Double playerArea = new Ellipse2D.Double(0.,
+>>>>>>> Stashed changes
 														0.,
 														Battlefield.BATTLEFIELD_TILEDIM/2, 
-														Battlefield.BATTLEFIELD_TILEDIM/2));
+														Battlefield.BATTLEFIELD_TILEDIM/2);
 		
 		this.shape = playerArea;
 		System.out.println(getPosX() + " " + getPosY() + " " + getAngle());

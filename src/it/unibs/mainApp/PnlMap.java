@@ -1,10 +1,16 @@
 package it.unibs.mainApp;
 
 import java.awt.*;
+<<<<<<< Updated upstream
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.*;
+=======
+import java.util.ArrayList;
+
+import javax.swing.JPanel;
+>>>>>>> Stashed changes
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -13,6 +19,7 @@ import javax.swing.Timer;
 
 public class PnlMap extends JPanel implements KeyListener {
 	private static final long serialVersionUID = 1L;
+<<<<<<< Updated upstream
 	
 	Battlefield model;
 	private int countRate;
@@ -29,6 +36,17 @@ public class PnlMap extends JPanel implements KeyListener {
 		});
 		
 		t.start();
+=======
+	private ArrayList<Tile> tiles;
+
+	CircleProgress circle;
+	
+	public PnlMap(ArrayList<Tile> t) {
+//		this.model = model;
+//		circle = new CircleProgress(model.player[0]);
+	
+		this.tiles = t;
+>>>>>>> Stashed changes
 		
 		//EVENTI DELLA TASTIERA GIRATI SUL PANNELLO
 		this.setFocusable(true);	
@@ -47,8 +65,12 @@ public class PnlMap extends JPanel implements KeyListener {
 	 
 	private void printMap(Graphics2D g2) {
 		
+<<<<<<< Updated upstream
 		for(Tile t: model.tiles) {
 			
+=======
+		for(Tile t:tiles) {
+>>>>>>> Stashed changes
 			g2.setColor(t.getColor());
 			g2.fill(t.getShape());
 			
@@ -58,6 +80,7 @@ public class PnlMap extends JPanel implements KeyListener {
 			
 		}
 		
+<<<<<<< Updated upstream
 		//TODO capire come mai quando crea player lo spawn associato � vuoto 
 		
 		for(int i=0; i < model.player.length; i++) {
@@ -84,6 +107,25 @@ public class PnlMap extends JPanel implements KeyListener {
 		// TODO Auto-generated method stub
 		
 	}  
+=======
+//		for(int i=0; i < model.player.length; i++) {
+//			Player p = model.player[i];
+//			p.getGun().setPlayerInfo(p.getPosX(), p.getPosY(), p.getAngle());
+//			g2.setColor(p.getGun().getColor());
+//			g2.fill(p.getGun().getShape());
+//			
+//			g2.setColor(p.getColor());
+//			g2.fill(p.getShape());
+//		}
+//		
+//		for (int i = 0; i < model.bullet.size(); i++) {
+//			g2.setColor(model.bullet.get(i).getColor());
+//			g2.fill(model.bullet.get(i).getShape());
+//		}
+//		
+//		circle.setBar();
+	}	
+>>>>>>> Stashed changes
 
 	@Override
 	public void keyPressed(KeyEvent e) {

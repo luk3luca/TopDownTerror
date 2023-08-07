@@ -5,14 +5,10 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
-<<<<<<< Updated upstream
-
-public class Gun extends MovingObject implements Cloneable {
-=======
 import java.io.Serializable;
+
 //OK
 public class Gun extends MovingObject implements Cloneable, Serializable {
->>>>>>> Stashed changes
 	public final static double GUN_WIDTH = 4.;
 	public final static Gun SNIPER = new Gun("Ballista", 6, 3., 7, 6., 80, new Color(0,0,102)); 				// #000066
 	public final static Gun AR = new Gun("AK-47", 4, 0.5, 25, 4., 20, new Color(128, 0, 32));						// #800020

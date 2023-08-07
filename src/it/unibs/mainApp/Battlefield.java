@@ -9,15 +9,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Battlefield {                                
-	protected static final int BATTLEFIELD_TILEDIM = 32;
-	protected static final int BATTLEFIELD_WIDTH = BATTLEFIELD_TILEDIM * (MapMatrix.WIDTH + 1);
-	protected static final int BATTLEFIELD_HEIGHT = BATTLEFIELD_TILEDIM * (MapMatrix.HEIGHT + 2);
+	public static final int BATTLEFIELD_TILEDIM = 64;
+	public static final int BATTLEFIELD_WIDTH = BATTLEFIELD_TILEDIM * (MapMatrix.WIDTH + 1);
+	public static final int BATTLEFIELD_HEIGHT = BATTLEFIELD_TILEDIM * (MapMatrix.HEIGHT + 2);
 	 
-	protected ArrayList<Tile> tiles = new ArrayList<Tile>();
+	public ArrayList<Tile> tiles = new ArrayList<Tile>();
 	protected T_Spawn[] spawns = new T_Spawn[6];
-	protected Player[] player = new Player[6];
+	public Player[] player = new Player[6];
 	protected ArrayList<Tile> wallsAndSpawn = new ArrayList<>();
-
 	protected ArrayList<Bullet> bullet = new ArrayList<>();
 	//protected Rectangle2D.Double borders = new Rectangle2D.Double(0.,0.,BATTLEFIELD_WIDTH,BATTLEFIELD_HEIGHT); //bordi logici dell'universo 
 	 

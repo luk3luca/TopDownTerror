@@ -18,7 +18,7 @@ public class ServerController {
 	private ObjectInputStream objInputStream;
 	private ObjectOutputStream objOutputStream;
 	
-	public Battlefield battlefield; // metti privato
+	private Battlefield model; // metti privato
 	private JFrame frame;
 	private ExecutorService executor;
 	
@@ -56,10 +56,10 @@ public boolean startServer() {
 	}
 	
 	public void initializeGame() {
-		battlefield = new Battlefield();
+		model = new Battlefield();
 		
-		sendToClient(battlefield.tiles);
-		sendToClient(battlefield.player);
+		sendToClient(model.tiles);
+		sendToClient(model.player);
 		
 		
 //		for(Player p:battlefield.player)

@@ -1,14 +1,5 @@
 package it.unibs.mainApp;
 
-<<<<<<< Updated upstream
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-
-public class MainApp {
-	
-=======
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
@@ -25,7 +16,6 @@ public class MainApp {
 	ServerController serverController;
 	public JLabel lblDescription;
 	
->>>>>>> Stashed changes
 	private JFrame frame;
 
 	public static void main(String[] args) {
@@ -40,24 +30,6 @@ public class MainApp {
 				}
 			}
 		});
-<<<<<<< Updated upstream
-	} 
-	Battlefield model;
-	public MainApp() {
-		model = new Battlefield();
-		initialize();
-	}
-	
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, Battlefield.BATTLEFIELD_WIDTH, Battlefield.BATTLEFIELD_HEIGHT);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//frame.setResizable(false);
-		
-		PnlMap pnlMap = new PnlMap(model);
-		frame.getContentPane().add(pnlMap, BorderLayout.CENTER);
-	}
-=======
 	}
 	
 	public MainApp() {
@@ -77,7 +49,7 @@ public class MainApp {
 	private void startGameMenu() {
 		
 		frame = new JFrame();
-		frame.setBounds(100, 100, 985, 452);
+		frame.setBounds(100, 100, 1000, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//frame.requestFocus();
 		frame.setResizable(false);
@@ -162,6 +134,5 @@ public class MainApp {
 		
 	}
 
->>>>>>> Stashed changes
 
 }

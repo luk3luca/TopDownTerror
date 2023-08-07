@@ -6,13 +6,9 @@ import java.io.Serializable;
 import javax.swing.ImageIcon;
 
 import java.awt.*;
-<<<<<<< Updated upstream
 
-public class Tile {
-=======
-//OK
 public class Tile implements Serializable{
->>>>>>> Stashed changes
+
 	private int posX;
 	private int posY;
 	private int dimY;
@@ -31,12 +27,8 @@ public class Tile implements Serializable{
 		this.dimX = dimX;
 		
 		this.walkable = walkable;
-<<<<<<< Updated upstream
-		
-		this.shape = new Area(new Rectangle(x, y, this.dimX, this.dimY));
-=======
+
 		this.shape = new Rectangle(x, y, this.dimX, this.dimY);
->>>>>>> Stashed changes
 		this.imagePath = imagePath;
 	}
 
@@ -47,12 +39,8 @@ public class Tile implements Serializable{
 		this.dimX = dimX;
 		
 		this.walkable = walkable;
-<<<<<<< Updated upstream
-		
-		this.shape = new Area(new Rectangle(x, y, this.dimX, this.dimY));
-=======
+
 		this.shape = new Rectangle(x, y, this.dimX, this.dimY);
->>>>>>> Stashed changes
 	}
 
 	

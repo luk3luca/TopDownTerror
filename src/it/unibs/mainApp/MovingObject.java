@@ -3,8 +3,9 @@ package it.unibs.mainApp;
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.io.Serializable;
 
-public class MovingObject {
+public class MovingObject implements Serializable{
 	protected double posX;
 	protected double posY;
 	protected double angle = 0;
@@ -16,10 +17,10 @@ public class MovingObject {
 	protected Shape shape;
 	protected Color color;
 	
-	public MovingObject(double m_velocity, double r_velocity, Color color) {
+	public MovingObject(double m_velocity, double r_velocity) {
 		this.m_velocity = m_velocity;
 		this.r_velocity = r_velocity;
-		this.color = color;
+//		this.color = color;
 	}
 	
 	public MovingObject() {

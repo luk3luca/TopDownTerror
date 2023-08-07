@@ -16,8 +16,8 @@ public class Bullet extends MovingObject {
 	private int fuel;
 		
 	public Bullet(Player p, Gun g) {
-		super(M_VELOCITY, 0,Color.RED);
-
+		super(M_VELOCITY, 0);
+		this.setColor(Color.RED);
 		this.player = p;
 		this.gun = g;
 		this.fuel = (int) (gun.getRange() * Battlefield.BATTLEFIELD_TILEDIM/M_VELOCITY);

@@ -57,15 +57,20 @@ public boolean startServer() {
 	
 	public void initializeGame() {
 		model = new Battlefield();
-		
 		sendToClient(model.tiles);
 		sendToClient(model.player);
 		
 		
-//		for(Player p:battlefield.player)
-//		{
-//			System.out.println(p.getColor());
-//		}
+		
+		
+		 
+		for(Player p: model.player)
+		{
+			System.out.println(p.getPosX());
+			System.out.println(p.getPosY());
+			System.out.println(p.getAngle()+"AAAAAAAA");
+		}
+		
 		
 //		sendToClient(battlefield.player);
 		

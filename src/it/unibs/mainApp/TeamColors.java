@@ -1,8 +1,9 @@
 package it.unibs.mainApp;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public enum TeamColors {
+public enum TeamColors{
 	RED(1, Color.RED, new Color(255,120,120)),
 	YELLOW(2, Color.YELLOW, new Color(255,255,140)),
 	MAGENTA(3, Color.MAGENTA, new Color(255,140,255)),

@@ -59,7 +59,9 @@ public class Battlefield {
 	
 	private void buildPlayer() {
 		for(int i=0; i < player.length; i++) {
-			player[i] = new Player("player " + i , spawns[i], TeamColors.getColor(i + 1));
+			Color c = TeamColors.getColorAlpha(i + 1);
+			
+			player[i] = new Player("player " + i , spawns[i], c);
 			if(i > 2)
 				player[i].setAngle(-Math.PI/2);
 		}

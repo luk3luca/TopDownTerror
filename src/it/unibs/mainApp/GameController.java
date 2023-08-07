@@ -14,7 +14,7 @@ public class GameController {
 	protected Battlefield battlefield;
 	protected ArrayList<Tile> tiles;
 	
-	public GameController(JFrame frame, ArrayList<Tile> t ) {
+	public GameController(JFrame frame, ArrayList<Tile> t, Player[] players ) {
 		this.tiles = t;
 		this.frame = frame;
 //		frame.setBackground(Color.black);
@@ -54,7 +54,7 @@ public class GameController {
 		gridBagLayout.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 		
-		PlayerViewport playerViewport = new PlayerViewport(battlefield,tiles);
+		PlayerViewport playerViewport = new PlayerViewport(tiles, players);
 		GridBagConstraints gbc_playerViewport = new GridBagConstraints();
 		gbc_playerViewport.fill = GridBagConstraints.BOTH;
 		gbc_playerViewport.insets = new Insets(0, 0, 5, 5);
@@ -71,7 +71,7 @@ public class GameController {
 		frame.getContentPane().add(panel, gbc_panel);
 		panel.setLayout(new GridLayout(3, 1, 0, 10));
 		
-		MapViewport mapViewport = new MapViewport(tiles);
+		MapViewport mapViewport = new MapViewport(tiles, players);
 		panel.add(mapViewport);
 		
 		

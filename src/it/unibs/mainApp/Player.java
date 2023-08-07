@@ -47,15 +47,16 @@ public class Player extends MovingObject implements Serializable{
 	private long startReloadTime;
 
 
-	public Player(String name, T_Spawn spawn, Color color) {
-		super(M_VELOCITY, R_VELOCITY,color );
+	public Player(String name, T_Spawn spawn, Color c) {
+		super(M_VELOCITY, R_VELOCITY );
 		this.name = name;
 		this.spawn = spawn;
 		this.angle = Math.PI/2;
 		this.hp = HP;
 		this.kills = 0;
 		this.deaths = 0;
-
+		this.setColor(c);
+		
 		try {
 			this.gun = Gun.PISTOL.clone();
 		} catch (CloneNotSupportedException e) {

@@ -59,8 +59,8 @@ public class ClientController {
 	}
 
 	public void initializeGame() {
-		executor = Executors.newFixedThreadPool(1); // crea un pool thread
-		executor.execute(this::listenToServer);
+//		executor = Executors.newFixedThreadPool(1); // crea un pool thread
+//		executor.execute(this::listenToServer);
 		
 		listenToServer();
 		frame.getContentPane().removeAll();
@@ -73,16 +73,19 @@ public class ClientController {
 	private void listenToServer() {
 		
 		try {
+			
 			ArrayList<Tile> tiles = (ArrayList<Tile>) objInputStream.readObject();
+			Player[]  players = (Player[]) objInputStream.readObject();
+
+			 controller = new GameController(frame, tiles,players);
 			 
-			 controller = new GameController(frame, tiles);
-			 
-			 Player[]  players = (Player[]) objInputStream.readObject();
-			 		 
-				for(Player p: players)
-				{
-					System.out.println(p.getColor());
-				}
+//			 		 
+//				for(Player p: players)
+//				{
+//					System.out.println(p.getPosX());
+//					System.out.println(p.getPosY());
+//					System.out.println(p.getAngle()+"AAAAAAAA");
+//				}
 			
 			
 			System.out.println("Data received");

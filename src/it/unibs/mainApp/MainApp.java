@@ -107,7 +107,7 @@ public class MainApp {
 
 		if(serverController.startServer() == false) {
 			
-			lblDescription.setText("Timeout scaduto: nessun client si è connesso");
+			lblDescription.setText("Timeout scaduto: nessun client si ï¿½ connesso");
 		} else {
 			
 			lblDescription.setText("Client connesso");

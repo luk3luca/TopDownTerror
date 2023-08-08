@@ -62,14 +62,14 @@ public boolean startServer() {
 		
 		
 		
-		
-		 
-		for(Player p: model.player)
-		{
-			System.out.println(p.getPosX());
-			System.out.println(p.getPosY());
-			System.out.println(p.getAngle()+"AAAAAAAA");
-		}
+//		
+//		 
+//		for(Player p: model.player)
+//		{
+//			System.out.println(p.getPosX());
+//			System.out.println(p.getPosY());
+//			System.out.println(p.getAngle()+"AAAAAAAA");
+//		}
 		
 		
 //		sendToClient(battlefield.player);

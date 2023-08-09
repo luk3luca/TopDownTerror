@@ -11,7 +11,7 @@ import it.unibs.mainApp.Player;
 public class ClientKeyboard extends BaseModel implements KeyListener {
 
 		private Player p;
-		private Battlefield model;
+	//	private Battlefield model;
 
 		public ClientKeyboard(Player p) {
 			this.p = p;

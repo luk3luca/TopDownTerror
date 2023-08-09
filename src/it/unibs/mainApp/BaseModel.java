@@ -5,6 +5,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 public class BaseModel {
+	// commento
 	protected EventListenerList listenerList = new EventListenerList();
 
 	public void addChangeListener(ChangeListener l) {

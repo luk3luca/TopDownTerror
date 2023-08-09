@@ -1,19 +1,21 @@
-package it.unibs.client;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.ArrayList;
+	package it.unibs.mainApp;
 
-import it.unibs.mainApp.BaseModel;
-import it.unibs.mainApp.Battlefield;
-import it.unibs.mainApp.Player;
+	import java.awt.event.KeyEvent;
+	import java.awt.event.KeyListener;
+	import java.util.ArrayList;
 
-public class ClientKeyboard extends BaseModel implements KeyListener {
-
+	/**
+	 * PASSARE BULLET CLIENT-SERVER
+	 * @author marti
+	 *
+	 */
+	
+	public class MyKeyboard implements KeyListener{
 		private Player p;
 	//	private Battlefield model;
 
-		public ClientKeyboard(Player p) {
+		public MyKeyboard(Player p,Battlefield model) {
 			this.p = p;
 	//	this.model = model;
 		}
@@ -27,13 +29,11 @@ public class ClientKeyboard extends BaseModel implements KeyListener {
 		public void keyPressed(KeyEvent e) {
 			if(!currentActiveControls.contains(e.getKeyCode()))
 				currentActiveControls.add(e.getKeyCode());
-			this.fireValuesChange();
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
 			currentActiveControls.remove((Object)e.getKeyCode());
-			this.fireValuesChange();
 		}
 			
 		public void applyControls() {
@@ -97,4 +97,3 @@ public class ClientKeyboard extends BaseModel implements KeyListener {
 
 		
 	}
-

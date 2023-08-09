@@ -13,6 +13,7 @@ public class GameController {
 	protected JFrame frame2;
 	protected Battlefield battlefield;
 	protected ArrayList<Tile> tiles;
+	public PlayerViewport playerView;
 	
 	public GameController(JFrame frame, ArrayList<Tile> t, Player[] players ) {
 		this.tiles = t;

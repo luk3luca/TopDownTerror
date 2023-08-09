@@ -88,6 +88,10 @@ public class Player extends MovingObject implements Serializable{
 	public void setStartReloadTime(long startReloadTime) {
 		this.startReloadTime = startReloadTime;
 	}
+	
+//	public void addBullet() {
+//		
+//	}
 
 	// TODO fix doppio reload ranodmico, succede se si tiene premuta spara mentre ricarica
 	// probabilmente se coincidono degli istanti prende ancora come ammoLeft = 0 e fa un altro reload

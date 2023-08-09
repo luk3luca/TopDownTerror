@@ -10,14 +10,14 @@ public class PlayerViewport extends PnlMap {
     private static final long serialVersionUID = 1L;
 
     private Player p;
-    Battlefield model;
+   // Battlefield model;
     public PlayerViewport(  ArrayList<Tile> tiles, Player[] p) {
     	super(tiles,p);
         this.p = p[0];
         this.setFocusable(true);	
 		this.requestFocusInWindow();
 		
-		this.model = model;
+		//this.model = model;
 				
     }
     

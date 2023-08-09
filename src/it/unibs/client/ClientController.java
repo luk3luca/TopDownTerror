@@ -8,11 +8,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javax.swing.JFrame;
+import javax.swing.event.ChangeEvent;
 
 import it.unibs.mainApp.GameController;
 import it.unibs.mainApp.Player;
 import it.unibs.mainApp.PnlMap;
 import it.unibs.mainApp.Tile;
+import it.unibs.pajc.client.ClientKeyboard;
 import it.unibs.server.ServerController;
 
 public class ClientController {
@@ -23,7 +25,9 @@ public class ClientController {
 	private ObjectOutputStream objOutputStream;
 	private ExecutorService executor;
 	private JFrame frame;
-
+	
+	private ArrayList<Tile> tiles;
+	private Player[] players;
 	private GameController controller;
 	
 	public ClientController(JFrame frame) {
@@ -63,9 +67,28 @@ public class ClientController {
 //		executor.execute(this::listenToServer);
 		
 		listenToServer();
+		controller = new GameController(frame, tiles,players);
 		frame.getContentPane().removeAll();
+
+		
+		
+		ClientKeyboard kb = new ClientKeyboard(players[0]);
+		kb.addChangeListener(this::sendToServer);
+		controller.playerView.addKeyListener(kb);
 	
 		
+	}
+	
+	private void sendToServer(ChangeEvent e) {
+
+		try {
+
+			players = objOutputStream.writeUnshared( players[0]);
+			objOutputStream.flush();
+			
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 	
 	
@@ -74,11 +97,10 @@ public class ClientController {
 		
 		try {
 			
-			ArrayList<Tile> tiles = (ArrayList<Tile>) objInputStream.readObject();
-			Player[]  players = (Player[]) objInputStream.readObject();
-
-			 controller = new GameController(frame, tiles,players);
-			 
+			tiles =(ArrayList<Tile>) objInputStream.readObject();
+		    players = (Player[]) objInputStream.readObject();
+			
+			
 //			 		 
 //				for(Player p: players)
 //				{

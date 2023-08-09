@@ -5,8 +5,11 @@ import java.awt.Polygon;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.io.Serializable;
 
-public class Bullet extends MovingObject {
+public class Bullet extends MovingObject implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	private static final double M_VELOCITY = 15;
 	//private static final double R_VELOCITY = 0;
 

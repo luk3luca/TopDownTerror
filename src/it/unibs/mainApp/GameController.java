@@ -6,16 +6,17 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
+import it.unibs.client.ClientKeyboard;
 import it.unibs.view.*;
 
 public class GameController {
 	protected JFrame frame;
 	protected JFrame frame2;
-	protected Battlefield model;
 	protected ArrayList<Tile> tiles;
-	public PlayerViewport playerView;
-	
-	public GameController(Battlefield model,   JFrame frame, ArrayList<Tile> t, Player[] players ) {
+	public PlayerViewport playerViewport;
+	public MapViewport mapViewport ;
+	public GameController(   JFrame frame, ArrayList<Tile> t, Player[] players , int playerIndex) {
 		this.tiles = t;
 		this.frame = frame;
 //		frame.setBackground(Color.black);
@@ -55,7 +56,7 @@ public class GameController {
 		gridBagLayout.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 		
-		PlayerViewport playerViewport = new PlayerViewport(tiles, players);
+		playerViewport = new PlayerViewport(tiles, players,playerIndex );
 		GridBagConstraints gbc_playerViewport = new GridBagConstraints();
 		gbc_playerViewport.fill = GridBagConstraints.BOTH;
 		gbc_playerViewport.insets = new Insets(0, 0, 5, 5);
@@ -72,7 +73,7 @@ public class GameController {
 		frame.getContentPane().add(panel, gbc_panel);
 		panel.setLayout(new GridLayout(3, 1, 0, 10));
 		
-		MapViewport mapViewport = new MapViewport(tiles, players);
+		 mapViewport = new MapViewport(tiles, players);
 		panel.add(mapViewport);
 		
 		
@@ -85,27 +86,26 @@ public class GameController {
 		
 		
 		
-		if(model!=null)
-			gestioneTastieraLocalGame(playerViewport,mapViewport );
-		
-		
 			
 		
 	}
-
-	private void gestioneTastieraLocalGame(PlayerViewport playerViewport,MapViewport mapViewport ) {
-		//GESTIONE TASTIERA
-				MyKeyboard hostKeys = new MyKeyboard(model.player[2], model);
-				playerViewport.addKeyListener(hostKeys);
-				
-				Timer t1 = new Timer(10, e->{ // 10 MILLISECONDI
-					hostKeys.applyControls();
-					model.stepNext();
-					
-					playerViewport.repaint();
-					mapViewport.repaint();
-				});
-				t1.start(); 
-		
-	}
+//	private void viewUpdated() {
+//		playerViewport.repaint();
+//		mapViewport.repaint();
+//	}
+//	private void gestioneTastieraLocalGame(PlayerViewport playerViewport,MapViewport mapViewport ) {
+//		//GESTIONE TASTIERA
+//				MyKeyboard hostKeys = new MyKeyboard(model.player[2], model);
+//				playerViewport.addKeyListener(hostKeys);
+//				
+//				Timer t1 = new Timer(10, e->{ // 10 MILLISECONDI
+//					hostKeys.applyControls();
+//					model.stepNext();
+//					
+//					playerViewport.repaint();
+//					mapViewport.repaint();
+//				});
+//				t1.start(); 
+//		
+//	}
 }

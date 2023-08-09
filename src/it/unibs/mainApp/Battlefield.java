@@ -6,9 +6,13 @@ import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import javax.swing.Timer;
+
+import it.unibs.pajc.baseGame.SpaceObject;
 //MODEL
 //OK
-public class Battlefield {                                
+public class Battlefield extends BaseModel {                                
 	public static final int BATTLEFIELD_TILEDIM = 32 * 2;
 	public static final int BATTLEFIELD_WIDTH = BATTLEFIELD_TILEDIM * (MapMatrix.WIDTH + 1);
 	public static final int BATTLEFIELD_HEIGHT = BATTLEFIELD_TILEDIM * (MapMatrix.HEIGHT + 2);
@@ -18,12 +22,14 @@ public class Battlefield {
 	public ArrayList<Tile> wallsAndSpawn = new ArrayList<>();
 	public Player[] player = new Player[6];
 	public ArrayList<Bullet> bullet = new ArrayList<>();
-	
+	private Timer gameTimer;
 	private int[][] mapMatrix = MapMatrix.getMatrix();
 	
 	public Battlefield() {
 		buildMap();
-		buildPlayer();
+		buildPlayer(); 
+		gameTimer = new Timer(30, e -> stepNext());
+		
 	}
 	
 	private void buildMap() {
@@ -104,12 +110,22 @@ public class Battlefield {
 	}
 	
 	/*----------------GESTIONE COLLISIONI----------------*/
+	
+	public void startGame() {
+	
+		gameTimer.start();
+	}
+	
 	public void stepNext() {
         //checkBorder();
+		for(int i = 0; i < player.length; i++) {
+			
+		}
         for (Bullet bullet : bullet) {
             bullet.stepNext();
         }
         checkCollision();
+        this.fireValuesChange();
     }
 	
     private void removeDust() {

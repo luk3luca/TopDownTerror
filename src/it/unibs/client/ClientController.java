@@ -66,15 +66,21 @@ public class ClientController {
 //		executor.execute(this::listenToServer);
 		
 		listenToServer();
-		controller = new GameController(null,frame, tiles,players);
-		frame.getContentPane().removeAll();
+		
+		int playerIndex = 0;
+		controller = new GameController(frame, tiles,players, playerIndex);
 
+		//
+	    controller.playerViewport.revalidate();
+	    controller.mapViewport.revalidate();
+	    controller.playerViewport.repaint();
+	    controller.mapViewport.repaint();
 		
 		
-		ClientKeyboard kb = new ClientKeyboard(players[0]);
+		ClientKeyboard kb = new ClientKeyboard(players[playerIndex]);
 		kb.addChangeListener(this::sendToServer);
-		controller.playerView.addKeyListener(kb);
-	
+		controller.playerViewport.addKeyListener(kb);
+		
 		
 	}
 	
@@ -82,7 +88,7 @@ public class ClientController {
 
 		try {
 
-			objOutputStream.writeUnshared( players[0]);
+			objOutputStream.writeUnshared(players[0]);
 			objOutputStream.flush();
 			
 		} catch (IOException e1) {
@@ -97,18 +103,11 @@ public class ClientController {
 		try {
 			
 			tiles =(ArrayList<Tile>) objInputStream.readObject();
-		    players = (Player[]) objInputStream.readObject();
-			
-			
-//			 		 
-//				for(Player p: players)
-//				{
-//					System.out.println(p.getPosX());
-//					System.out.println(p.getPosY());
-//					System.out.println(p.getAngle()+"AAAAAAAA");
-//				}
-			
-			
+			Player[] tmpPlayers = (Player[]) objInputStream.readObject();
+		    
+		    players = new Player[tmpPlayers.length];
+		    System.arraycopy(tmpPlayers, 0, players, 0, tmpPlayers.length);
+		    
 			System.out.println("Data received");
 
 		} catch (IOException e) {

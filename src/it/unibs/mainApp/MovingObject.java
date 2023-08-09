@@ -13,6 +13,8 @@ public class MovingObject implements Serializable {
 	protected double m_velocity = 0;
 	protected double r_velocity = 0;
 	
+	
+	
 	protected boolean isAlive = true;
 	
 	protected Shape shape;

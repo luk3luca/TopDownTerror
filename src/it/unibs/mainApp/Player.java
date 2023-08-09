@@ -3,7 +3,6 @@ package it.unibs.mainApp;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.io.Serializable;
 

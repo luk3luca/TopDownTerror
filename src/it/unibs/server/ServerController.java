@@ -5,6 +5,7 @@ import java.net.*;
 import java.util.concurrent.ExecutorService;
 
 import javax.swing.JFrame;
+import javax.swing.event.ChangeEvent;
 
 import it.unibs.mainApp.Battlefield;
 import it.unibs.mainApp.Player;
@@ -57,10 +58,11 @@ public boolean startServer() {
 	
 	public void initializeGame() {
 		model = new Battlefield();
+		model.addChangeListener(this::modelUpdated);
 		sendToClient(model.tiles);
 		sendToClient(model.player);
-		
-		
+		listenToClient();
+		model.startGame();
 		
 //		
 //		 
@@ -73,6 +75,9 @@ public boolean startServer() {
 		
 		
 //		sendToClient(battlefield.player);
+		
+	}
+	private void modelUpdated(ChangeEvent e) {
 		
 	}
 	
@@ -89,5 +94,34 @@ public boolean startServer() {
 		}
 	}
 	
-	
+	private void listenToClient() {
+		
+		try {
+
+			while(client.isClosed() == false) {
+				
+				Player tmpPlayers = (Player) objInputStream.readObject();
+				
+				System.out.println(tmpPlayers.getPosX());
+//				Player tmpPlayer = (Player) objInputStream.readObject();
+//				Player remotePlayer = model.getRemotePlayer();
+//				
+//				remotePlayer.setXSpeed(tmpPlayer.getXSpeed());
+//				remotePlayer.setYSpeed(tmpPlayer.getYSpeed());
+//				
+//				if(tmpPlayer.isShooting())
+//					remotePlayer.shoot();
+//				
+//				System.out.println("xSpeed: " + battlefield.getRemotePlayer().getXSpeed() + ", ySpeed: " + battlefield.getRemotePlayer().getYSpeed());
+			}
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

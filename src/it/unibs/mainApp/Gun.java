@@ -45,10 +45,10 @@ public class Gun extends MovingObject implements Cloneable, Serializable {
 	
 	@Override
 	public Shape getShape() {
-		Area gunArea = new Area(new Rectangle2D.Double(Battlefield.BATTLEFIELD_TILEDIM/4, 
+		Rectangle2D.Double gunArea = new Rectangle2D.Double(Battlefield.BATTLEFIELD_TILEDIM/4, 
 				   Battlefield.BATTLEFIELD_TILEDIM/4 - GUN_WIDTH/2, 
 				   Battlefield.BATTLEFIELD_TILEDIM * this.range,
-				   GUN_WIDTH));
+				   GUN_WIDTH);
 		this.shape = gunArea;
 		AffineTransform t = new AffineTransform();
 		t.translate(posX, posY);

@@ -1,11 +1,12 @@
 package it.unibs.mainApp;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-public class PnlMap extends JPanel  {
+public class PnlMap extends JPanel implements Serializable  {
 	private static final long serialVersionUID = 1L;
 	
 	private ArrayList<Tile> tiles;
@@ -14,7 +15,7 @@ public class PnlMap extends JPanel  {
 	
 	public PnlMap(ArrayList<Tile> t,Player[] players) {
 		
-		circle = new CircleProgress(players[0]);
+//		circle = new CircleProgress(players[0]);
 		this.tiles = t;
 		this.players = players;
 		//EVENTI DELLA TASTIERA GIRATI SUL PANNELLO
@@ -58,7 +59,7 @@ public class PnlMap extends JPanel  {
 //			g2.fill(model.bullet.get(i).getShape());
 //		}
 //		
-		circle.setBar();
+//		circle.setBar();
 	}	
 
 }

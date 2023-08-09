@@ -1,10 +1,9 @@
-package it.unibs.mainApp;
+ package it.unibs.mainApp;
 
 import java.awt.Color;
 import java.awt.Polygon;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
 import java.io.Serializable;
 //OK
 public class Bullet extends MovingObject implements Serializable {
@@ -26,10 +25,10 @@ public class Bullet extends MovingObject implements Serializable {
 		this.setPosY(p.getPosY()+ Battlefield.BATTLEFIELD_TILEDIM/4);
 		this.setAngle(p.getAngle());
 		
-		this.shape = new Area (new Polygon(
+		this.shape = new Polygon(
 				new int[] {5,0,-5,-5,0},
 				new int[] {0,-3,-3,3,3},
-				5));
+				5);
 	}
 	
 	public Shape getShape() {

@@ -6,11 +6,11 @@ import java.util.ArrayList;
 
 public class MyKeyboard implements KeyListener{
 	private Player p;
-	private Battlefield model;
+//	private Battlefield model;
 
 	public MyKeyboard(Player p,Battlefield model) {
 		this.p = p;
-		this.model = model;
+//		this.model = model;
 	}
 	
 	private ArrayList<Integer> currentActiveControls = new ArrayList<>();
@@ -61,18 +61,18 @@ public class MyKeyboard implements KeyListener{
 					p.setPosX(p.getPosX() + p.getM_velocity()); 
 					break;
 				}
-				case KeyEvent.VK_I, KeyEvent.VK_UP: {
-	                try {
-						if(p.shoot()) {
-						    model.bullet.add(new Bullet(p, p.getGun()));
-						    System.out.println(p.getAmmoLeft());
-						}
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-	                break;
-	            }
+//				case KeyEvent.VK_I, KeyEvent.VK_UP: {
+//	                try {
+//						if(p.shoot()) {
+//						    model.bullet.add(new Bullet(p, p.getGun()));
+//						    System.out.println(p.getAmmoLeft());
+//						}
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//	                break;
+//	            }
 	            case KeyEvent.VK_J, KeyEvent.VK_LEFT: p.rotate(- p.getR_velocity()); break;
 	            case KeyEvent.VK_L, KeyEvent.VK_RIGHT: p.rotate(p.getR_velocity()); break;
 	            case KeyEvent.VK_K, KeyEvent.VK_DOWN: {

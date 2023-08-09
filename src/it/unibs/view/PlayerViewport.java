@@ -2,17 +2,18 @@
 package it.unibs.view;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import it.unibs.mainApp.*;
 
-public class PlayerViewport extends PnlMap {
+public class PlayerViewport extends PnlMap implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Player p;
-    public PlayerViewport(  ArrayList<Tile> tiles, Player[] p) {
+    public PlayerViewport(  ArrayList<Tile> tiles, Player[] p, int playerIndex) {
     	super(tiles,p);
-        this.p = p[2];
+        this.p = p[playerIndex];
         this.setFocusable(true);	
 		this.requestFocusInWindow();
     }

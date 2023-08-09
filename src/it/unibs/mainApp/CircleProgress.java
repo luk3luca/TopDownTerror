@@ -7,12 +7,13 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.geom.Arc2D;
+import java.io.Serializable;
 
 import javax.swing.JComponent;
 import javax.swing.JProgressBar;
 import javax.swing.plaf.basic.BasicProgressBarUI;
 //OK
-public class CircleProgress extends JProgressBar {
+public class CircleProgress extends JProgressBar implements Serializable {
 	
 	private Player p;
 	public CircleProgress(Player p) {

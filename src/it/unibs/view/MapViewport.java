@@ -1,14 +1,15 @@
 package it.unibs.view;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 import it.unibs.mainApp.*;
 
 public class MapViewport extends PnlMap {
     private static final long serialVersionUID = 1L;
 
-    public MapViewport(Battlefield model) {
-    	super(model);
+    public MapViewport(ArrayList<Tile> tiles,Player[] players) {
+    	super(tiles,players);
         this.setFocusable(true);	
 		this.requestFocusInWindow();
     }
@@ -17,6 +18,7 @@ public class MapViewport extends PnlMap {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		
 		g2.scale(1/6., 1/6.);
 		printMap(g2);

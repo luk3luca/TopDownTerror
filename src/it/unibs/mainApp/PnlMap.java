@@ -1,18 +1,22 @@
 package it.unibs.mainApp;
 
 import java.awt.*;
+import java.util.ArrayList;
+
 import javax.swing.JPanel;
 
 public class PnlMap extends JPanel  {
 	private static final long serialVersionUID = 1L;
 	
-	public Battlefield model;
+	private ArrayList<Tile> tiles;
+	private Player[] players;
 	CircleProgress circle;
 	
-	public PnlMap(Battlefield model) {
-		this.model = model;
-		circle = new CircleProgress(model.player[0]);
-	
+	public PnlMap(ArrayList<Tile> t,Player[] players) {
+		
+		circle = new CircleProgress(players[0]);
+		this.tiles = t;
+		this.players = players;
 		//EVENTI DELLA TASTIERA GIRATI SUL PANNELLO
 		this.setFocusable(true);	
 		this.requestFocusInWindow();
@@ -30,7 +34,7 @@ public class PnlMap extends JPanel  {
 	 
 	protected void printMap(Graphics2D g2) {
 		
-		for(Tile t: model.tiles) {
+		for(Tile t: tiles) {
 			g2.setColor(t.getColor());
 			g2.fill(t.getShape());
 			
@@ -39,8 +43,8 @@ public class PnlMap extends JPanel  {
 			} 
 		}
 		
-		for(int i=0; i < model.player.length; i++) {
-			Player p = model.player[i];
+		for(int i=0; i < players.length; i++) {
+			Player p = players[i];
 			p.getGun().setPlayerInfo(p.getPosX(), p.getPosY(), p.getAngle());
 			g2.setColor(p.getGun().getColor());
 			g2.fill(p.getGun().getShape());
@@ -49,11 +53,11 @@ public class PnlMap extends JPanel  {
 			g2.fill(p.getShape());
 		}
 		
-		for (int i = 0; i < model.bullet.size(); i++) {
-			g2.setColor(model.bullet.get(i).getColor());
-			g2.fill(model.bullet.get(i).getShape());
-		}
-		
+//		for (int i = 0; i < model.bullet.size(); i++) {
+//			g2.setColor(model.bullet.get(i).getColor());
+//			g2.fill(model.bullet.get(i).getShape());
+//		}
+//		
 		circle.setBar();
 	}	
 

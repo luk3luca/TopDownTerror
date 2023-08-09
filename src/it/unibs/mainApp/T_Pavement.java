@@ -1,8 +1,9 @@
 package it.unibs.mainApp;
 
 import java.awt.Color;
+import java.io.Serializable;
 //OK
-public class T_Pavement extends Tile {
+public class T_Pavement extends Tile implements Serializable {
 	
 	private static String imagePath = "src/images/smoothStone.png";
 	

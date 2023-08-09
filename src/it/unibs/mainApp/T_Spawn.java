@@ -1,8 +1,9 @@
 package it.unibs.mainApp;
 
-import java.awt.Color; 
+import java.awt.Color;
+import java.io.Serializable; 
 //OK
-public class T_Spawn extends Tile {
+public class T_Spawn extends Tile implements Serializable {
 	private static final String imagePath = null;
 	
 	private int spawnXCenter;

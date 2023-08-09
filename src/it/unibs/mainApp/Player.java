@@ -5,10 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.io.Serializable;
+
 import javax.swing.Timer;
 
 //OK
-public class Player extends MovingObject{
+public class Player extends MovingObject implements Serializable{
 	protected static final double M_VELOCITY = 2.;
 	private static final double R_VELOCITY = 0.02;
 	private static final int HP = 100;
@@ -66,10 +68,10 @@ public class Player extends MovingObject{
 		setPosX(spawn.getSpawnX() - Battlefield.BATTLEFIELD_TILEDIM/4 );
 		setPosY(spawn.getSpawnY() - Battlefield.BATTLEFIELD_TILEDIM/4);
 		
-		Area playerArea = new Area(new Ellipse2D.Double(0.,
-														0.,
-														Battlefield.BATTLEFIELD_TILEDIM/2, 
-														Battlefield.BATTLEFIELD_TILEDIM/2));
+		Ellipse2D.Double playerArea = new Ellipse2D.Double(0.,
+														   0.,
+														   Battlefield.BATTLEFIELD_TILEDIM/2, 
+														   Battlefield.BATTLEFIELD_TILEDIM/2);
 		
 		this.shape = playerArea;
 		this.gun.setPlayerInfo(getPosX(), getPosY(), getAngle());

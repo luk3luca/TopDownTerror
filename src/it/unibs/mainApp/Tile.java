@@ -1,11 +1,13 @@
 package it.unibs.mainApp;
 
 import java.awt.geom.Area;
+import java.io.Serializable;
+
 import javax.swing.ImageIcon;
 
 import java.awt.*;
 //OK
-public class Tile {
+public class Tile implements Serializable {
 	private int posX;
 	private int posY;
 	private int dimY;
@@ -23,7 +25,7 @@ public class Tile {
 		this.dimY = dimY;
 		this.dimX = dimX;
 		this.walkable = walkable;
-		this.shape = new Area(new Rectangle(x, y, this.dimX, this.dimY));
+		this.shape = new Rectangle(x, y, this.dimX, this.dimY);
 		this.imagePath = imagePath;
 	}
 
@@ -33,7 +35,7 @@ public class Tile {
 		this.dimY = dimY;
 		this.dimX = dimX;
 		this.walkable = walkable;
-		this.shape = new Area(new Rectangle(x, y, this.dimX, this.dimY));
+		this.shape = new Rectangle(x, y, this.dimX, this.dimY);
 	}
 	
 	//COLLISION DETECTION

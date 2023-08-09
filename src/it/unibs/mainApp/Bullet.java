@@ -5,8 +5,9 @@ import java.awt.Polygon;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.io.Serializable;
 //OK
-public class Bullet extends MovingObject {
+public class Bullet extends MovingObject implements Serializable {
 	private static final double M_VELOCITY = 20;
 
 	protected Player player;

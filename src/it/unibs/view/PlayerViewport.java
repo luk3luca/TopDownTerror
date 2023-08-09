@@ -2,6 +2,7 @@
 package it.unibs.view;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 import it.unibs.mainApp.*;
 
@@ -9,9 +10,9 @@ public class PlayerViewport extends PnlMap {
     private static final long serialVersionUID = 1L;
 
     private Player p;
-    public PlayerViewport(Battlefield model, Player p) {
-    	super(model);
-        this.p = p;
+    public PlayerViewport(  ArrayList<Tile> tiles, Player[] p) {
+    	super(tiles,p);
+        this.p = p[2];
         this.setFocusable(true);	
 		this.requestFocusInWindow();
     }

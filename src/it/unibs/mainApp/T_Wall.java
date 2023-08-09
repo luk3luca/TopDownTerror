@@ -1,8 +1,9 @@
 package it.unibs.mainApp;
 
 import java.awt.*;
+import java.io.Serializable;
 //OK
-public class T_Wall extends Tile{
+public class T_Wall extends Tile implements Serializable{
 	
 	private static String imagePath = "src/images/brick.png";
 	

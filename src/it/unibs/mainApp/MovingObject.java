@@ -4,8 +4,9 @@ import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.io.Serializable;
 //OK
-public class MovingObject {
+public class MovingObject implements Serializable {
 	protected double posX;
 	protected double posY;
 	protected double angle = 0;

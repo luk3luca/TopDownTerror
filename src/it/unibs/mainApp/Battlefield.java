@@ -1,6 +1,7 @@
 package it.unibs.mainApp;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.awt.geom.Area;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
@@ -9,7 +10,6 @@ import java.util.Iterator;
 
 import javax.swing.Timer;
 
-import it.unibs.pajc.baseGame.SpaceObject;
 //MODEL
 //OK
 public class Battlefield extends BaseModel {                                
@@ -18,17 +18,26 @@ public class Battlefield extends BaseModel {
 	public static final int BATTLEFIELD_HEIGHT = BATTLEFIELD_TILEDIM * (MapMatrix.HEIGHT + 2);
 		
 	public ArrayList<Tile> tiles = new ArrayList<Tile>();
-	public T_Spawn[] spawns = new T_Spawn[6];
-	public ArrayList<Tile> wallsAndSpawn = new ArrayList<>();
-	public Player[] player = new Player[6];
 	public ArrayList<Bullet> bullet = new ArrayList<>();
-	private Timer gameTimer;
+	public ArrayList<Tile> wallsAndSpawn = new ArrayList<>();
+	public T_Spawn[] spawns = new T_Spawn[6];
+	public Player[] player = new Player[6];
 	private int[][] mapMatrix = MapMatrix.getMatrix();
+	private Timer gameTimer;
+	ArrayList<Integer> currentActiveControls;
+	private boolean gameOver = false;
+	public boolean isGameOver() {return gameOver;}
+	public void stopGame() {
+		gameTimer.stop();
+	}
 	
 	public Battlefield() {
+		
 		buildMap();
 		buildPlayer(); 
-		gameTimer = new Timer(30, e -> stepNext());
+		gameTimer = new Timer(20, e ->{
+			stepNext();
+		});
 		
 	}
 	
@@ -117,16 +126,15 @@ public class Battlefield extends BaseModel {
 	}
 	
 	public void stepNext() {
-        //checkBorder();
-		for(int i = 0; i < player.length; i++) {
-			
-		}
+			player[0].nextStep();
+		
         for (Bullet bullet : bullet) {
             bullet.stepNext();
         }
         checkCollision();
         this.fireValuesChange();
     }
+	
 	
     private void removeDust() {
         ArrayList<Bullet> dust = new ArrayList<>();
@@ -153,7 +161,7 @@ public class Battlefield extends BaseModel {
 	        
 	        crossCollision(player[i], playerSquareX, playerSquareY);
 			angleCollision(player[i],playerSquareX, playerSquareY);		
-			checkGunRangeCollision(player[i], playerSquareX, playerSquareY, i);
+//			checkGunRangeCollision(player[i], playerSquareX, playerSquareY, i);
 			checkPlayerCollision(player[i]);	
 		}
 	}
@@ -371,5 +379,6 @@ public class Battlefield extends BaseModel {
 	    }
 
 	    return closestPoint;
-	}	
+	}
+		
 }

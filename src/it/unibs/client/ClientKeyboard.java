@@ -16,25 +16,78 @@ public class ClientKeyboard extends BaseModel implements KeyListener {
 		public ClientKeyboard(Player p) {
 			this.p = p;
 	//	this.model = model;
-		}
+		} 
 		
-		private ArrayList<Integer> currentActiveControls = new ArrayList<>();
+		public ArrayList<Integer> currentActiveControls = new ArrayList<>();
 		@Override
 		public void keyTyped(KeyEvent e) {
 		}  
 
+//		@Override
+//		public void keyPressed(KeyEvent e) {
+//			if(!currentActiveControls.contains(e.getKeyCode()))
+//				currentActiveControls.add(e.getKeyCode());
+//			this.fireValuesChange();
+//		}
+//
+//		@Override
+//		public void keyReleased(KeyEvent e) {
+//			currentActiveControls.remove((Object)e.getKeyCode());
+//			this.fireValuesChange();
+//		}
+		
+
 		@Override
 		public void keyPressed(KeyEvent e) {
-			if(!currentActiveControls.contains(e.getKeyCode()))
-				currentActiveControls.add(e.getKeyCode());
+			switch(e.getKeyCode()) {
+				
+				case KeyEvent.VK_W:
+		
+					p.setYSpeed(-Player.DEFAULT_Y_SPEED);
+					System.out.println(p.getYSpeed());
+					break;
+				case KeyEvent.VK_A:
+					p.setXSpeed(-Player.DEFAULT_X_SPEED);
+					break;
+				case KeyEvent.VK_S:
+		
+					p.setYSpeed(Player.DEFAULT_Y_SPEED);
+					break;
+				case KeyEvent.VK_D:
+					p.setXSpeed(Player.DEFAULT_X_SPEED);
+		
+					break;
+//				case KeyEvent.VK_SPACE:
+//					P.shoot();
+//					break;
+			}
+			
 			this.fireValuesChange();
 		}
+		
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			currentActiveControls.remove((Object)e.getKeyCode());
+		
+			switch(e.getKeyCode()) {
+			
+				case KeyEvent.VK_W:
+				case KeyEvent.VK_S:
+					
+					p.setYSpeed(0);
+					break;
+		
+				case KeyEvent.VK_A:
+				case KeyEvent.VK_D:
+				
+					p.setXSpeed(0);
+		
+					break;
+			}
+			
 			this.fireValuesChange();
 		}
+		
 			
 		public void applyControls() {
 			for(Integer keycode: currentActiveControls) {
@@ -52,6 +105,8 @@ public class ClientKeyboard extends BaseModel implements KeyListener {
 							p.setM_velocity(p.getM_velocity() / Math.sqrt(2));
 						
 						p.setPosX(p.getPosX() - p.getM_velocity());
+						
+						
 						break;
 					}
 					case KeyEvent.VK_S: {
@@ -78,7 +133,7 @@ public class ClientKeyboard extends BaseModel implements KeyListener {
 //							// TODO Auto-generated catch block
 //							e.printStackTrace();
 //						}
-//		                break;
+//		                break; 
 //		            }
 		            case KeyEvent.VK_J, KeyEvent.VK_LEFT: p.rotate(- p.getR_velocity()); break;
 		            case KeyEvent.VK_L, KeyEvent.VK_RIGHT: p.rotate(p.getR_velocity()); break;

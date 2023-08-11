@@ -12,13 +12,13 @@ import it.unibs.view.*;
 
 public class GameController {
 	protected JFrame frame;
-	protected JFrame frame2;
 	protected ArrayList<Tile> tiles;
 	public PlayerViewport playerViewport;
 	public MapViewport mapViewport ;
 	public GameController(   JFrame frame, ArrayList<Tile> t, Player[] players , int playerIndex) {
 		this.tiles = t;
 		this.frame = frame;
+		
 //		frame.setBackground(Color.black);
 //		frame.setBounds(100, 100, 1200, 900);
 //		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,19 +36,12 @@ public class GameController {
 		frame.getContentPane().removeAll();
 		frame.dispose();
 		frame = new JFrame("CLIENT VIEW");
-		
 		frame.setBounds(100, 100, 1200, 900);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setResizable(false);
-		
-		
-		
-		
-		
 		frame.getContentPane().setEnabled(false);
 		
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] {900, 0, 400};
 		gridBagLayout.rowHeights = new int[]{900, 0};

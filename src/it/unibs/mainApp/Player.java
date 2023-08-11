@@ -10,6 +10,8 @@ import javax.swing.Timer;
 
 //OK
 public class Player extends MovingObject implements Serializable{
+	public static final double DEFAULT_X_SPEED = 2., DEFAULT_Y_SPEED = 2.;
+	
 	protected static final double M_VELOCITY = 2.;
 	private static final double R_VELOCITY = 0.02;
 	private static final int HP = 100;
@@ -45,6 +47,17 @@ public class Player extends MovingObject implements Serializable{
 	private long lastReloadTime;
 	private long startReloadTime;
 
+	protected double xSpeed = 0.;
+	private double ySpeed = 0.;
+	public void setXSpeed(double xSpeed) { this.xSpeed = xSpeed;}
+	public void setYSpeed(double ySpeed) { this.ySpeed = ySpeed;}
+	public double getXSpeed() {return xSpeed;}
+	public double getYSpeed() {return ySpeed;}
+	
+	
+	public Player() {
+		
+	}
 
 	public Player(String name, T_Spawn spawn, Color color) {
 		super(M_VELOCITY, R_VELOCITY,color );
@@ -186,6 +199,10 @@ public class Player extends MovingObject implements Serializable{
 		p.setHp(HP);
 		setPosX(spawn.getSpawnX() - Battlefield.BATTLEFIELD_TILEDIM/4 );
 		setPosY(spawn.getSpawnY() - Battlefield.BATTLEFIELD_TILEDIM/4);
+	}
+	public void nextStep() {
+		setPosX(getPosX() + xSpeed);
+		setPosY(getPosY() + ySpeed);
 	}
 	
 	/*---GETTERS AND SETTERS---*/

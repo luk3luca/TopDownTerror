@@ -38,6 +38,7 @@ public class MyKeyboard implements KeyListener{
 						p.setM_velocity(p.getM_velocity() / Math.sqrt(2));
 						
 						p.setPosY(p.getPosY() - p.getM_velocity()); 
+						
 					break;
 				}
 				case KeyEvent.VK_A: {

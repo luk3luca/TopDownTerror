@@ -57,9 +57,18 @@ public class ClientKeyboard extends BaseModel implements KeyListener {
 					p.setXSpeed(Player.DEFAULT_X_SPEED);
 		
 					break;
-//				case KeyEvent.VK_SPACE:
-//					P.shoot();
-//					break;
+				case KeyEvent.VK_I, KeyEvent.VK_UP:
+					p.shoot();
+					break;
+					
+					
+				case KeyEvent.VK_J, KeyEvent.VK_LEFT:
+					p.setRotation(-Player.R_VELOCITY);
+				  	break;
+				case KeyEvent.VK_L, KeyEvent.VK_RIGHT:
+					p.setRotation(Player.R_VELOCITY);
+					break;
+		            
 			}
 			
 			this.fireValuesChange();
@@ -83,6 +92,12 @@ public class ClientKeyboard extends BaseModel implements KeyListener {
 					p.setXSpeed(0);
 		
 					break;
+				case KeyEvent.VK_J:
+				case KeyEvent.VK_LEFT:
+				case KeyEvent.VK_L:
+				case KeyEvent.VK_RIGHT:
+					p.setRotation(0);
+					
 			}
 			
 			this.fireValuesChange();

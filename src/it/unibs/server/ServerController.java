@@ -1,22 +1,13 @@
 package it.unibs.server;
 
-import java.awt.event.KeyEvent;
-import java.beans.PropertyChangeEvent;
 import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketTimeoutException;
-import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import javax.swing.*;
+import java.net.*;
+import java.util.concurrent.*;
 import javax.swing.event.ChangeEvent;
 
-import it.unibs.mainApp.Battlefield;
-import it.unibs.mainApp.Player;
+import it.unibs.mainApp.*;
 
-public class ServerController  {
+public class ServerController implements Runnable  {
 
 	public static final int PORT_NUMBER = 1234;
 	public static final int SERVER_TIIMEOUT_MILLISECONDS = 5000;
@@ -25,27 +16,11 @@ public class ServerController  {
 	private ObjectInputStream objInputStream;
 	private ObjectOutputStream objOutputStream;
 	
-	private Battlefield battlefield;
-	private JFrame frame;
+	private Battlefield model;
 	private ExecutorService executor;
-	ArrayList<Integer> currentActiveControls;
 	public ServerController() {
 
 	}
-	
-	
-	public void initializeGame() {
-		
-		battlefield = new Battlefield();
-		sendToClient(battlefield.tiles);
-		battlefield.addChangeListener(this::modelUpdated);
-		
-		executor = Executors.newFixedThreadPool(1);
-		executor.execute(this::listenToClient);
-		
-		battlefield.startGame();
-	}
-	
 	
 	public boolean startServer() {
 		
@@ -71,9 +46,19 @@ public class ServerController  {
 			System.err.println("Errore di comunicazione: " + e);
 		}
 
-		return isConnected;
+		return isConnected; 
 	}
-	
+	public void initializeGame() {
+		
+		model = new Battlefield();
+		sendToClient(model.tiles);
+		model.addChangeListener(this::modelUpdated);
+		
+		executor = Executors.newFixedThreadPool(1);
+		executor.execute(this::listenToClient);
+		
+		model.startGame();
+	}
 	
 	private void listenToClient() {
 	
@@ -81,16 +66,11 @@ public class ServerController  {
 
 			while(client.isClosed() == false) {
 				Player tmpPlayer = (Player) objInputStream.readObject();
-				Player remotePlayer = battlefield.player[0];
+				Player remotePlayer = model.player[0];
 				
 				remotePlayer.setXSpeed(tmpPlayer.getXSpeed());
 				remotePlayer.setYSpeed(tmpPlayer.getYSpeed());
-				
-				System.out.println(tmpPlayer.getXSpeed());
-				
-			
-				
-//				System.out.println("xSpeed: " + battlefield.getRemotePlayer().getXSpeed() + ", ySpeed: " + battlefield.getRemotePlayer().getYSpeed());
+				remotePlayer.setRotation(tmpPlayer.getRotation());
 			}
 
 		} catch (IOException e) {
@@ -122,35 +102,25 @@ public class ServerController  {
 	// (MODEL -----> CONTROLLER) -----> VIEW
 	private void modelUpdated(ChangeEvent e) {
 		
-		
-		if(battlefield.isGameOver()) {
-			
-			battlefield.stopGame();
+		if(model.isGameOver()) {
+			model.stopGame();
 			executor.shutdown();
-			
 			gameOverWindow();
 			
 		} else {			
-			sendToClient(battlefield.player);
+			sendToClient(model.player);
 		}
-	}
-	
-	
+	}	
 	
 	private void gameOverWindow() {
-	
 		//
 	}
-	
-	
-	private void viewUpdated(PropertyChangeEvent e) {
-		
-		// quando la view viene aggiornata potrebbe essere il momento migliore per lanciare l'aggiornamento del background
-		//controller.update(e);
-	}
-	
-	
 
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
 
@@ -169,7 +139,7 @@ public class ServerController  {
 
 
 
-
+//TENTATIVO INIZIALE 
 //package it.unibs.server;
 //
 //import java.io.*;

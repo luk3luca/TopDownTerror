@@ -8,6 +8,13 @@ import it.unibs.mainApp.*;
 public class MapViewport extends PnlMap {
     private static final long serialVersionUID = 1L;
 
+    public MapViewport() {
+    	
+    }
+    public void setObjects(ArrayList<Tile> tiles, Player[] p) {
+        super.setObjects(tiles, p);
+    }
+    
     public MapViewport(ArrayList<Tile> tiles,Player[] players) {
     	super(tiles,players);
         this.setFocusable(true);	

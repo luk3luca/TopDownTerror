@@ -1,30 +1,18 @@
 package it.unibs.client;
 
-import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
-import java.net.UnknownHostException;
+import java.io.*;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.Timer;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 
-import it.unibs.mainApp.Battlefield;
-import it.unibs.mainApp.Player;
-import it.unibs.mainApp.Tile;
+import it.unibs.mainApp.*;
 import it.unibs.server.ServerController;
 import it.unibs.view.MapViewport;
 import it.unibs.view.PlayerViewport;
@@ -89,11 +77,12 @@ public class ClientController {
 		frame.getContentPane().add(panel, gbc_panel);
 		panel.setLayout(new GridLayout(3, 1, 0, 10));
 		
-//		mapViewport = new MapViewport(tiles, players);
-//		panel.add(mapViewport);
+		mapViewport = new MapViewport();
+		panel.add(mapViewport);
 		
 		playerViewport.setObjects(tiles, players,0);
-		
+
+		mapViewport.setObjects(tiles, players);
 
 		
 		 try {
@@ -103,7 +92,7 @@ public class ClientController {
 			e.printStackTrace();
 		}
 		
-		executor = Executors.newFixedThreadPool(1); // crea un pool thread
+		executor = Executors.newFixedThreadPool(2); // crea un pool thread
 		executor.execute(this::listenToServer);
 		
 		try {
@@ -156,15 +145,19 @@ public class ClientController {
 			
 			while(clientSocket.isClosed() == false) {
 				
-				Player[] tmpPlayers = (Player[]) objInputStream.readObject();
+				Player[] players = (Player[]) objInputStream.readObject();
 			    
-			    players = new Player[tmpPlayers.length];
-			    System.arraycopy(tmpPlayers, 0, players, 0, tmpPlayers.length);
-				
+//			    players = new Player[tmpPlayers.length];
+//			    System.arraycopy(tmpPlayers, 0, players, 0, tmpPlayers.length);
+//				
 			  
 			    playerViewport.setObjects(tiles, players,0);
 				playerViewport.revalidate();
 				playerViewport.repaint();
+				
+				mapViewport.setObjects(tiles, players);
+				mapViewport.revalidate();
+				mapViewport.repaint();
 			}
 //				System.out.println("Data received");
 			// immettere l'oggetto nel model

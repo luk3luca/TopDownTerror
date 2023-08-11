@@ -13,9 +13,10 @@ public class Player extends MovingObject implements Serializable{
 	public static final double DEFAULT_X_SPEED = 2., DEFAULT_Y_SPEED = 2.;
 	
 	protected static final double M_VELOCITY = 2.;
-	private static final double R_VELOCITY = 0.02;
+	public static final double R_VELOCITY = 0.02;
 	private static final int HP = 100;
-
+	public boolean isShoot=false;
+	
 	private String name;
 	private Color color;
 	private int hp;
@@ -49,11 +50,13 @@ public class Player extends MovingObject implements Serializable{
 
 	protected double xSpeed = 0.;
 	private double ySpeed = 0.;
+	private double rotation = 0.;
 	public void setXSpeed(double xSpeed) { this.xSpeed = xSpeed;}
 	public void setYSpeed(double ySpeed) { this.ySpeed = ySpeed;}
 	public double getXSpeed() {return xSpeed;}
 	public double getYSpeed() {return ySpeed;}
-	
+	public void setRotation(double rotation) {this.rotation = rotation;}
+	public double getRotation() {return rotation;}
 	
 	public Player() {
 		
@@ -100,6 +103,9 @@ public class Player extends MovingObject implements Serializable{
 		this.startReloadTime = startReloadTime;
 	}
 
+	public void isShoot() {
+		isShoot = true;
+	}
 	// TODO fix doppio reload ranodmico, succede se si tiene premuta spara mentre ricarica
 	// probabilmente se coincidono degli istanti prende ancora come ammoLeft = 0 e fa un altro reload
 	public boolean shoot() throws InterruptedException {
@@ -203,6 +209,8 @@ public class Player extends MovingObject implements Serializable{
 	public void nextStep() {
 		setPosX(getPosX() + xSpeed);
 		setPosY(getPosY() + ySpeed);
+		
+		setAngle(getAngle()+rotation);
 	}
 	
 	/*---GETTERS AND SETTERS---*/
@@ -244,4 +252,5 @@ public class Player extends MovingObject implements Serializable{
 	public void setBottomRightCollision(boolean bottomRightCollision) {this.bottomRightCollision = bottomRightCollision;}
 
 	public T_Spawn getSpawn() {return spawn;}
+	
 }

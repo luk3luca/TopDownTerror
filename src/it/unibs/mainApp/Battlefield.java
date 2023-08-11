@@ -1,17 +1,11 @@
 package it.unibs.mainApp;
 
 import java.awt.Color;
-import java.awt.event.KeyEvent;
-import java.awt.geom.Area;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Point2D;
+import java.awt.geom.*;
 import java.util.ArrayList;
-import java.util.Iterator;
-
 import javax.swing.Timer;
 
 //MODEL
-//OK
 public class Battlefield extends BaseModel {                                
 	public static final int BATTLEFIELD_TILEDIM = 32 * 2;
 	public static final int BATTLEFIELD_WIDTH = BATTLEFIELD_TILEDIM * (MapMatrix.WIDTH + 1);
@@ -24,12 +18,10 @@ public class Battlefield extends BaseModel {
 	public Player[] player = new Player[6];
 	private int[][] mapMatrix = MapMatrix.getMatrix();
 	private Timer gameTimer;
-	ArrayList<Integer> currentActiveControls;
+	
 	private boolean gameOver = false;
 	public boolean isGameOver() {return gameOver;}
-	public void stopGame() {
-		gameTimer.stop();
-	}
+	public void stopGame() {gameTimer.stop();}
 	
 	public Battlefield() {
 		
@@ -126,7 +118,10 @@ public class Battlefield extends BaseModel {
 	}
 	
 	public void stepNext() {
-			player[0].nextStep();
+		for(Player p:player) {
+			p.nextStep();
+		}
+			
 		
         for (Bullet bullet : bullet) {
             bullet.stepNext();
@@ -207,7 +202,7 @@ public class Battlefield extends BaseModel {
     }
     
 	/*-------PLAYER <--> WALLS-------*/
-	// Controllo delle collisioni sui muri supra, sotto, destra, sisnistra del player
+	// Controllo delle collisioni sui muri sopra, sotto, destra, sinistra del player
 	private void crossCollision(Player player,int playerSquareX, int playerSquareY) {
 		// Coordinate delle Tile da controllare per collisioni, con controllo per out of bounds
 		int[] topSquare = {playerSquareY - 1 > 0 ? playerSquareY - 1 : 0, playerSquareX};

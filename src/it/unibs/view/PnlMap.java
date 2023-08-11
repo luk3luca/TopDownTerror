@@ -1,10 +1,15 @@
-package it.unibs.mainApp;
+package it.unibs.view;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
+
+import it.unibs.mainApp.Battlefield;
+import it.unibs.mainApp.CircleProgress;
+import it.unibs.mainApp.Player;
+import it.unibs.mainApp.Tile;
 
 public class PnlMap extends JPanel implements Serializable  {
 	private static final long serialVersionUID = 1L;
@@ -23,14 +28,12 @@ public class PnlMap extends JPanel implements Serializable  {
 	}
 	
 	public PnlMap(ArrayList<Tile> t,Player[] players) {
-		
 //		circle = new CircleProgress(players[0]);
 		this.tiles = t;
 		this.players = players;
 		//EVENTI DELLA TASTIERA GIRATI SUL PANNELLO
 		this.setFocusable(true);	
 		this.requestFocusInWindow();
-		//this.addKeyListener(this);
 	} 
 	
 	

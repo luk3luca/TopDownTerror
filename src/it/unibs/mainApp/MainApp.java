@@ -68,7 +68,7 @@ public class MainApp {
 		btnSinglePlayer.setFont(new Font("Arial Black", Font.PLAIN, 40));
 		btnSinglePlayer.setBounds(137, 203, 728, 96);
 		menuPanel.add(btnSinglePlayer);
-//		btnSinglePlayer.addActionListener(this::startLocalGame);
+		btnSinglePlayer.addActionListener(this::startLocalGame);
 		
 		JButton btnHostGame = new JButton("SERVER");
 		btnHostGame.addActionListener(this::hostGame);
@@ -130,9 +130,9 @@ public class MainApp {
 	}
 
 	
-//	private void startLocalGame(ActionEvent e) {
-//		frame = new JFrame();
-//		model = new Battlefield();
-//		controller = new GameController(model,frame, model.tiles, model.player);
-//	}
+	private void startLocalGame(ActionEvent e) {
+		frame = new JFrame();
+		model = new Battlefield();
+		controller = new GameController(model,frame, model.tiles, model.player, 0);
+	}
 }

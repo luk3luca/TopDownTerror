@@ -58,7 +58,7 @@ public class ClientKeyboard extends BaseModel implements KeyListener {
 		
 					break;
 				case KeyEvent.VK_I, KeyEvent.VK_UP:
-					p.shoot();
+					p.isShoot();
 					break;
 					
 					

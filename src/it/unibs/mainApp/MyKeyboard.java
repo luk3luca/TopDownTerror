@@ -6,9 +6,13 @@ import java.util.ArrayList;
 
 public class MyKeyboard implements KeyListener{
 	private Player p;
-
+	//private ArrayList<Bullet> bullet = new ArrayList<>();
+	//private Battlefield model;
+	
 	public MyKeyboard(Player p) {
 		this.p = p;
+	//	this.bullet = b;
+		
 	}
 	
 //	private ArrayList<Integer> currentActiveControls = new ArrayList<>();
@@ -35,9 +39,21 @@ public class MyKeyboard implements KeyListener{
 				p.setXSpeed(Player.DEFAULT_X_SPEED);
 	
 				break;
-//			case KeyEvent.VK_SPACE:
-//				P.shoot();
-//				break;
+			case KeyEvent.VK_I, KeyEvent.VK_UP:
+				p.shooting();
+			//bullet.add(new Bullet(p, p.getGun()));
+			System.out.println(p.getAmmoLeft());
+				break;
+				
+			case KeyEvent.VK_K, KeyEvent.VK_DOWN: {
+                try {
+					p.reloadAmmo();
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} 
+                break;
+            }
 		}
 		
 	}

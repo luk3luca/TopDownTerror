@@ -31,7 +31,8 @@ public class ClientController {
 	private ArrayList<Tile> tiles = new ArrayList<>();
 	private Player[] players = new Player[6];
 	private Player localPlayer = new Player();
-	public PlayerViewport playerViewport;
+	private ArrayList<Bullet> bullet = new ArrayList<>();
+ 	public PlayerViewport playerViewport;
 	public MapViewport mapViewport ;
 	int playerIndex=0;
 	ClientKeyboard kb;
@@ -80,9 +81,9 @@ public class ClientController {
 		mapViewport = new MapViewport();
 		panel.add(mapViewport);
 		
-		playerViewport.setObjects(tiles, players,0);
+		playerViewport.setObjects(tiles, players,0,bullet);
 
-		mapViewport.setObjects(tiles, players);
+		mapViewport.setObjects(tiles, players,bullet);
 
 		
 		 try {
@@ -146,16 +147,16 @@ public class ClientController {
 			while(clientSocket.isClosed() == false) {
 				
 				Player[] players = (Player[]) objInputStream.readObject();
-			    
-//			    players = new Player[tmpPlayers.length];
-//			    System.arraycopy(tmpPlayers, 0, players, 0, tmpPlayers.length);
-//				
-			  
-			    playerViewport.setObjects(tiles, players,0);
+				
+				ArrayList<Bullet> bull = (ArrayList<Bullet>)objInputStream.readObject();
+				bullet.clear();
+				bullet.addAll(bull);    
+				
+			    playerViewport.setObjects(tiles, players,0,bull);
 				playerViewport.revalidate();
 				playerViewport.repaint();
 				
-				mapViewport.setObjects(tiles, players);
+				mapViewport.setObjects(tiles, players,bull);
 				mapViewport.revalidate();
 				mapViewport.repaint();
 			}
@@ -180,7 +181,8 @@ public class ClientController {
 		try {
 			objOutputStream.writeUnshared(localPlayer);
 			objOutputStream.flush();
-			System.out.println(localPlayer.getXSpeed());
+			localPlayer.isShoot();
+			//System.out.println(localPlayer.getXSpeed());
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

@@ -15,7 +15,6 @@ public class Player extends MovingObject implements Serializable{
 	protected static final double M_VELOCITY = 2.;
 	public static final double R_VELOCITY = 0.02;
 	private static final int HP = 100;
-	public boolean isShoot=false;
 	
 	private String name;
 	private Color color;
@@ -44,6 +43,7 @@ public class Player extends MovingObject implements Serializable{
 	
 	// shooting logic
 	private boolean reloading = false;
+	private boolean shoots = false;
 	private long lastShotTime;
 	private long lastReloadTime;
 	private long startReloadTime;
@@ -57,7 +57,18 @@ public class Player extends MovingObject implements Serializable{
 	public double getYSpeed() {return ySpeed;}
 	public void setRotation(double rotation) {this.rotation = rotation;}
 	public double getRotation() {return rotation;}
+	public void setGun(Gun gun) {this.gun = gun;}
 	
+	
+	public int getMagMax() {
+		return magMax;
+	}
+	public void setMagMax(int magMax) {
+		this.magMax = magMax;
+	}
+	public void setAmmoLeft(int ammoLeft) {
+		this.ammoLeft = ammoLeft;
+	}
 	public Player() {
 		
 	}
@@ -103,9 +114,17 @@ public class Player extends MovingObject implements Serializable{
 		this.startReloadTime = startReloadTime;
 	}
 
-	public void isShoot() {
-		isShoot = true;
+	public boolean isShoot() {
+		boolean res = shoots;
+		
+		shoots = false;
+		return res;
+		
 	}
+	public void shooting() {
+		shoots = true;
+	}
+
 	// TODO fix doppio reload ranodmico, succede se si tiene premuta spara mentre ricarica
 	// probabilmente se coincidono degli istanti prende ancora come ammoLeft = 0 e fa un altro reload
 	public boolean shoot() throws InterruptedException {

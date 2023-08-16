@@ -80,6 +80,14 @@ public class Gun extends MovingObject implements Cloneable, Serializable {
 	public static Gun getSmg() {return SMG;}
 	public static Gun getBow() {return BOW;}
 	
+	
+	public void setName(String name) {this.name = name;}
+	public void setMaxRange(double maxRange) {this.maxRange = maxRange;}
+	public void setRate(double rate) {this.rate = rate;}
+	public void setReload(double reload) {this.reload = reload;}
+	public void setMaxAmmo(int maxAmmo) {this.maxAmmo = maxAmmo;}
+	public void setDmg(int dmg) {this.dmg = dmg;}
+
 	public double getMaxRange() {return maxRange;}
 	public double getRange() {return range;}
 	public void setRange(double range) {this.range = range;}

@@ -133,6 +133,6 @@ public class MainApp {
 	private void startLocalGame(ActionEvent e) {
 		frame = new JFrame();
 		model = new Battlefield();
-		controller = new GameController(model,frame, model.tiles, model.player, 0);
+		controller = new GameController(model,frame, model.tiles, model.player, 0, model.bullet);
 	}
 }

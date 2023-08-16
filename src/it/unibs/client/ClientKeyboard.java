@@ -6,16 +6,15 @@ import java.util.ArrayList;
 
 import it.unibs.mainApp.BaseModel;
 import it.unibs.mainApp.Battlefield;
+import it.unibs.mainApp.Bullet;
 import it.unibs.mainApp.Player;
 
 public class ClientKeyboard extends BaseModel implements KeyListener {
 
 		private Player p;
-	//	private Battlefield model;
 
 		public ClientKeyboard(Player p) {
 			this.p = p;
-	//	this.model = model;
 		} 
 		
 		public ArrayList<Integer> currentActiveControls = new ArrayList<>();
@@ -58,16 +57,25 @@ public class ClientKeyboard extends BaseModel implements KeyListener {
 		
 					break;
 				case KeyEvent.VK_I, KeyEvent.VK_UP:
-					p.isShoot();
+					p.shooting();
+				    //System.out.println(p.getAmmoLeft());
+					//bullet.add(new Bullet(p, p.getGun()));
 					break;
-					
-					
 				case KeyEvent.VK_J, KeyEvent.VK_LEFT:
 					p.setRotation(-Player.R_VELOCITY);
 				  	break;
 				case KeyEvent.VK_L, KeyEvent.VK_RIGHT:
 					p.setRotation(Player.R_VELOCITY);
 					break;
+				case KeyEvent.VK_K, KeyEvent.VK_DOWN: {
+	                try {
+						p.reloadAmmo();
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} 
+	                break;
+	            }
 		            
 			}
 			

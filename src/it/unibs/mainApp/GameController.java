@@ -11,12 +11,14 @@ import it.unibs.view.*;
 public class GameController {
 	protected JFrame frame;
 	protected ArrayList<Tile> tiles;
+	protected ArrayList<Bullet> bullet;
 	public PlayerViewport playerViewport;
 	public MapViewport mapViewport ;
 	public Battlefield model;
-	public GameController(Battlefield model,JFrame frame, ArrayList<Tile> t, Player[] players , int playerIndex) {
+	public GameController(Battlefield model,JFrame frame, ArrayList<Tile> t, Player[] players , int playerIndex,ArrayList<Bullet> b) {
 		this.tiles = t;
 		this.frame = frame;
+		this.bullet = b;
 		this.model = model;
 		
 		frame.getContentPane().removeAll();
@@ -55,8 +57,8 @@ public class GameController {
 		mapViewport = new MapViewport();
 		panel.add(mapViewport);
 		
-		playerViewport.setObjects(tiles, players,playerIndex);
-		mapViewport.setObjects(tiles, players);
+		playerViewport.setObjects(tiles, players,playerIndex,bullet);
+		mapViewport.setObjects(tiles, players,bullet);
 		
 		
 		//2 PANNELLI DA AGGIUNGERE : PLAYERINFO --- GAMEINFO

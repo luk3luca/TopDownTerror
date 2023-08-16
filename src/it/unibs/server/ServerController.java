@@ -71,6 +71,10 @@ public class ServerController implements Runnable  {
 				remotePlayer.setXSpeed(tmpPlayer.getXSpeed());
 				remotePlayer.setYSpeed(tmpPlayer.getYSpeed());
 				remotePlayer.setRotation(tmpPlayer.getRotation());
+				
+				if(tmpPlayer.isShoot())
+					remotePlayer.shooting();;
+				
 			}
 
 		} catch (IOException e) {
@@ -109,6 +113,7 @@ public class ServerController implements Runnable  {
 			
 		} else {			
 			sendToClient(model.player);
+			sendToClient(model.bullet);
 		}
 	}	
 	

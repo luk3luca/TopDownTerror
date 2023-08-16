@@ -11,12 +11,12 @@ public class MapViewport extends PnlMap {
     public MapViewport() {
     	
     }
-    public void setObjects(ArrayList<Tile> tiles, Player[] p) {
-        super.setObjects(tiles, p);
+    public void setObjects(ArrayList<Tile> tiles, Player[] p,ArrayList<Bullet> bullet) {
+        super.setObjects(tiles, p,bullet);
     }
     
-    public MapViewport(ArrayList<Tile> tiles,Player[] players) {
-    	super(tiles,players);
+    public MapViewport(ArrayList<Tile> tiles,Player[] players,ArrayList<Bullet> bullet) {
+    	super(tiles,players,bullet);
         this.setFocusable(true);	
 		this.requestFocusInWindow();
     }

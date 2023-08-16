@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import it.unibs.mainApp.Battlefield;
+import it.unibs.mainApp.Bullet;
 import it.unibs.mainApp.CircleProgress;
 import it.unibs.mainApp.Player;
 import it.unibs.mainApp.Tile;
@@ -16,21 +17,26 @@ public class PnlMap extends JPanel implements Serializable  {
 	
 	private ArrayList<Tile> tiles;
 	private Player[] players;
+	private ArrayList<Bullet> bullet;
 	CircleProgress circle;
 	
 	public PnlMap() {
 		this.setFocusable(true);	
 		this.requestFocusInWindow();
 	}
-	public void setObjects(ArrayList<Tile> t, Player[] p) {
+	public void setObjects(ArrayList<Tile> t, Player[] p,ArrayList<Bullet> b) {
 		this.tiles = t;
 		this.players = p;
+		this.bullet = b;
+		
+		
 	}
 	
-	public PnlMap(ArrayList<Tile> t,Player[] players) {
+	public PnlMap(ArrayList<Tile> t,Player[] players,ArrayList<Bullet> b) {
 //		circle = new CircleProgress(players[0]);
 		this.tiles = t;
 		this.players = players;
+		this.bullet = b;
 		//EVENTI DELLA TASTIERA GIRATI SUL PANNELLO
 		this.setFocusable(true);	
 		this.requestFocusInWindow();
@@ -71,12 +77,11 @@ public class PnlMap extends JPanel implements Serializable  {
 			
 		}
 		
+		for (int i = 0; i < bullet.size(); i++) {
+			g2.setColor(bullet.get(i).getColor());
+			g2.fill(bullet.get(i).getShape());
+		}
 		
-//		for (int i = 0; i < model.bullet.size(); i++) {
-//			g2.setColor(model.bullet.get(i).getColor());
-//			g2.fill(model.bullet.get(i).getShape());
-//		}
-//		
 //		circle.setBar();
 	}	
 

@@ -28,7 +28,11 @@ public class Battlefield extends BaseModel {
 		buildMap();
 		buildPlayer(); 
 		gameTimer = new Timer(20, e ->{
-			stepNext();
+				try {
+					stepNext();
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
 		});
 		
 	}
@@ -110,6 +114,12 @@ public class Battlefield extends BaseModel {
 		return 1;
 	}
 	
+	private void addShot(Player p) throws InterruptedException{
+		if (p.isShoot() && p.shoot()) {
+			bullet.add(new Bullet(p, p.getGun()));
+		}
+	}
+	
 	/*----------------GESTIONE COLLISIONI----------------*/
 	
 	public void startGame() {
@@ -117,12 +127,12 @@ public class Battlefield extends BaseModel {
 		gameTimer.start();
 	}
 	
-	public void stepNext() {
+	public void stepNext() throws InterruptedException {
 		for(Player p:player) {
+			addShot(p);
 			p.nextStep();
 		}
 			
-		
         for (Bullet bullet : bullet) {
             bullet.stepNext();
         }
@@ -251,7 +261,7 @@ public class Battlefield extends BaseModel {
 		}
 		else if(player.isTopCollision()) {
 			player.setPosY(player.getPosY() + player.getM_velocity());
-			//player.setPosX(player.getPosX());ì
+			//player.setPosX(player.getPosX());ï¿½
 		}
 		else if(player.isBottomCollision()) {
 			player.setPosY(player.getPosY() - player.getM_velocity());

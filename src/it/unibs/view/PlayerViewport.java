@@ -17,15 +17,15 @@ public class PlayerViewport extends PnlMap implements Serializable {
     	super();
     }
 
-	public void setObjects(ArrayList<Tile> tiles, Player[] p, int playerIndex) {
+	public void setObjects(ArrayList<Tile> tiles, Player[] p, int playerIndex,ArrayList<Bullet> bullet) {
         this.p = p[playerIndex];
-        super.setObjects(tiles, p);
+        super.setObjects(tiles, p,bullet);
 	}
     
     
     
-    public PlayerViewport(  ArrayList<Tile> tiles, Player[] p, int playerIndex) {
-    	super(tiles,p);
+    public PlayerViewport(  ArrayList<Tile> tiles, Player[] p, int playerIndex, ArrayList<Bullet> bullet) {
+    	super(tiles,p,bullet);
         this.p = p[playerIndex];
         this.setFocusable(true);	
 		this.requestFocusInWindow();

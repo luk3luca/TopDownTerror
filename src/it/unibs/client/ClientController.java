@@ -20,6 +20,8 @@ import it.unibs.view.PlayerViewport;
 
 public class ClientController {
 
+	private static final String LOCALHOST = "127.0.0.1";
+
 	Socket clientSocket;
  
 	private ObjectInputStream objInputStream;
@@ -32,13 +34,20 @@ public class ClientController {
 	private Player[] players = new Player[6];
 	private Player localPlayer = new Player();
 	private ArrayList<Bullet> bullet = new ArrayList<>();
- 	public PlayerViewport playerViewport;
+	private String ipAddress ;
+
+	public PlayerViewport playerViewport;
 	public MapViewport mapViewport ;
 	int playerIndex;
 	ClientKeyboard kb;
-	public ClientController(JFrame frame) {
-		
+	public ClientController(JFrame frame, String ip) {
 		this.frame = frame;
+		if(ip!= null) {
+			this.ipAddress = ip;
+		}
+		else {
+			this.ipAddress = LOCALHOST;
+		}
 	}
 	
 	
@@ -108,7 +117,7 @@ public class ClientController {
 		
 		try {
 			
-			clientSocket = new Socket("127.0.0.1", MyProtocol.PORT_NUMBER);
+			clientSocket = new Socket(ipAddress, MyProtocol.PORT_NUMBER);
 			
 			objInputStream = new ObjectInputStream(clientSocket.getInputStream());
 			objOutputStream = new ObjectOutputStream(clientSocket.getOutputStream());

@@ -20,7 +20,10 @@ public class MainApp {
 	
 	Battlefield model;
 	private JFrame frame;
-
+	private JButton btnJoinGame;
+	private JTextArea textArea;
+	private JComboBox<Integer> comboBox;
+	private JButton btnHostGame;
 	public static void main(String[] args) {
 		System.out.println("start");
 		EventQueue.invokeLater(new Runnable() {
@@ -65,28 +68,37 @@ public class MainApp {
 		lblTitle.setBounds(164, 16, 673, 153);
 		menuPanel.add(lblTitle);
 		
-		JButton btnSinglePlayer = new JButton("SINGLE PLAYER");
-		btnSinglePlayer.setFont(new Font("Arial Black", Font.PLAIN, 40));
-		btnSinglePlayer.setBounds(137, 203, 728, 96);
-		menuPanel.add(btnSinglePlayer);
-		btnSinglePlayer.addActionListener(this::startLocalGame);
-		
-		JButton btnHostGame = new JButton("SERVER");
+		btnHostGame = new JButton("SERVER");
 		btnHostGame.addActionListener(this::hostGame);
 		btnHostGame.setFont(new Font("Arial Black", Font.PLAIN, 40));
-		btnHostGame.setBounds(137, 301, 364, 96);
+		btnHostGame.setBounds(120, 201, 364, 96);
 		menuPanel.add(btnHostGame);
 		
-		JButton btnJoinGame = new JButton("JOIN GAME");
+		btnJoinGame = new JButton("JOIN GAME");
 		btnJoinGame.addActionListener(this::joinGame);
 		btnJoinGame.setFont(new Font("Arial Black", Font.PLAIN, 40));
-		btnJoinGame.setBounds(501, 301, 364, 96);
+		btnJoinGame.setBounds(529, 291, 364, 96);
 		menuPanel.add(btnJoinGame);
 		
 		lblDescription = new JLabel("");
 		lblDescription.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblDescription.setBounds(236, 457, 728, 30);
 		menuPanel.add(lblDescription);
+		
+		comboBox = new JComboBox();
+		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		comboBox.addItem(1);
+		comboBox.addItem(2);
+		comboBox.addItem(3);
+		comboBox.addItem(4);
+		comboBox.addItem(5);
+		comboBox.addItem(6);
+		comboBox.setBounds(52, 201, 68, 96);
+		menuPanel.add(comboBox); 
+		
+		 textArea = new JTextArea();
+		textArea.setBounds(529, 201, 364, 88);
+		menuPanel.add(textArea);
 	}
 	
 	
@@ -95,14 +107,18 @@ public class MainApp {
 	
 	private void hostGame(ActionEvent e) {
 		
-		serverController = new BaseServer(frame);
+		serverController = new BaseServer(frame,(int) comboBox.getSelectedItem());
 		serverController.startServer();
 	}
 	
 	
 	private void joinGame(ActionEvent e) {
+		String ipAddress ="127.0.0.1"; 
+				
+		String ip = textArea.getText();
+		
+		clientController = new ClientController(frame, ipAddress);
 
-		clientController = new ClientController(frame);
 		clientController.connectToServer();
 		
 	}

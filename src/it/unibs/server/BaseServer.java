@@ -16,9 +16,12 @@ import it.unibs.mainApp.Battlefield;
 public class BaseServer {
 	private Battlefield model;
 	private JFrame frame;
-	
-	public BaseServer(JFrame frame) {
+	private int realPlayer;
+
+
+	public BaseServer(JFrame frame, int realPlayer) {
 		this.frame = frame;
+		this.realPlayer = realPlayer;
 	}
 	
 	
@@ -34,7 +37,7 @@ public class BaseServer {
 			int id = 0;
 			long tempoScadenza = System.currentTimeMillis() + 2000; // 10 secondi in millisecondi
 
-	        while (!(id==2)) {
+	        while (!(id==realPlayer)) {
 				
 				Socket client = server.accept();
 				MyProtocol clientProtocol = new MyProtocol(client, model, id++);

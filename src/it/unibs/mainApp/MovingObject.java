@@ -25,7 +25,7 @@ public class MovingObject implements Serializable {
 		this.m_velocity = m_velocity;
 		this.r_velocity = r_velocity;
 		this.color = color;
-	}
+	} 
 	
 	public MovingObject() {}
 	

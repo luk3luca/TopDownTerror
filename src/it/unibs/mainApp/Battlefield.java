@@ -132,11 +132,11 @@ public class Battlefield extends BaseModel {
 			addShot(p);
 			p.nextStep();
 		}
-			
-        for (Bullet bullet : bullet) {
-            bullet.stepNext();
-        }
+		
+        bullet.forEach((b)->b.stepNext());
+        
         checkCollision();
+        
         this.fireValuesChange();
     }
 	

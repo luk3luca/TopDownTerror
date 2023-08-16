@@ -6,7 +6,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 import it.unibs.client.ClientController;
-import it.unibs.server.ServerController;
+import it.unibs.server.BaseServer;
+import it.unibs.server.MyProtocol;
 
 //import it.unibs.client.ClientController;
 //aggiunta di controller
@@ -14,7 +15,7 @@ public class MainApp {
 	
 	GameController controller;
 	ClientController clientController;
-	ServerController serverController;
+	BaseServer serverController;
 	public JLabel lblDescription;
 	
 	Battlefield model;
@@ -94,38 +95,15 @@ public class MainApp {
 	
 	private void hostGame(ActionEvent e) {
 		
-		serverController = new ServerController();
-		
-		lblDescription.setText("Waiting for a client to connect...");
-		frame.revalidate();
-		frame.repaint();
-
-		if(serverController.startServer() == false) {
-			 
-			lblDescription.setText("Timeout scaduto: nessun client si � connesso");
-		} else {
-			
-			lblDescription.setText("Client connesso");
-		}
+		serverController = new BaseServer(frame);
+		serverController.startServer();
 	}
 	
 	
 	private void joinGame(ActionEvent e) {
 
 		clientController = new ClientController(frame);
-		
-		lblDescription.setText("Looking for a host to connect to...");
-		
-		frame.revalidate();
-		frame.repaint();
-		
-		if(clientController.connectToServer() == false) {
-			lblDescription.setText("Couldn't connect to server");
-
-		} else {
-	
-			lblDescription.setText("Connected to server");
-		}
+		clientController.connectToServer();
 		
 	}
 

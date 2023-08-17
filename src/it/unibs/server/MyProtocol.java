@@ -130,8 +130,6 @@ public class MyProtocol implements Runnable  {
 			gameOverWindow();
 			
 		} else {			
-//			clientList.forEach((p) -> sendToClient(model.player));
-//			clientList.forEach((p) -> sendToClient(model.bullet));
 			sendToClient(model.player);
 			sendToClient(model.bullet);
 		}
@@ -140,6 +138,4 @@ public class MyProtocol implements Runnable  {
 	private void gameOverWindow() {
 		//
 	}
-
-	
 }

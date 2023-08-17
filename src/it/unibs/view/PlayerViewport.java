@@ -22,17 +22,12 @@ public class PlayerViewport extends PnlMap implements Serializable {
         super.setObjects(tiles, p,bullet);
 	}
     
-    
-    
     public PlayerViewport(  ArrayList<Tile> tiles, Player[] p, int playerIndex, ArrayList<Bullet> bullet) {
     	super(tiles,p,bullet);
         this.p = p[playerIndex];
         this.setFocusable(true);	
 		this.requestFocusInWindow();
     }
-    
-    
-    
 
     @Override
     public void paintComponent(Graphics g) {

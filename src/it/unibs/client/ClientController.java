@@ -22,12 +22,11 @@ public class ClientController {
 
 	private static final String LOCALHOST = "127.0.0.1";
 
-	Socket clientSocket;
+	private Socket clientSocket;
  
 	private ObjectInputStream objInputStream;
 	private ObjectOutputStream objOutputStream;
 	
-//	private GameView view;
 	private ExecutorService executor;
 	private JFrame frame;
 	private ArrayList<Tile> tiles = new ArrayList<>();
@@ -36,9 +35,9 @@ public class ClientController {
 	private ArrayList<Bullet> bullet = new ArrayList<>();
 	private String ipAddress ;
 
-	public PlayerViewport playerViewport;
-	public MapViewport mapViewport ;
-	int playerIndex;
+	private PlayerViewport playerViewport;
+	private MapViewport mapViewport ;
+	private int playerIndex;
 	ClientKeyboard kb;
 	public ClientController(JFrame frame, String ip) {
 		this.frame = frame;
@@ -49,7 +48,6 @@ public class ClientController {
 			this.ipAddress = LOCALHOST;
 		}
 	}
-	
 	
 	public void initializeGame() {
 
@@ -68,7 +66,6 @@ public class ClientController {
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0};
 		gridBagLayout.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
-		
 		
 		playerViewport = new PlayerViewport();
 		GridBagConstraints gbc_playerViewport = new GridBagConstraints();
@@ -89,10 +86,9 @@ public class ClientController {
 		
 		mapViewport = new MapViewport();
 		panel.add(mapViewport);
-		
+	
 		playerViewport.setObjects(tiles, players,0,bullet);
 		mapViewport.setObjects(tiles, players,bullet);
-
 		
 		 try {
 			playerIndex = (int) objInputStream.readObject();
@@ -105,11 +101,9 @@ public class ClientController {
 		executor = Executors.newFixedThreadPool(1);
 		executor.execute(this::listenToServer);
 		
-
 		kb = new ClientKeyboard(localPlayer);
 		kb.addChangeListener(this::sendToServer);
 		playerViewport.addKeyListener(kb);
-		
 		
 	}
 	
@@ -157,15 +151,9 @@ public class ClientController {
 				mapViewport.revalidate();
 				mapViewport.repaint();
 			}
-//				System.out.println("Data received");
-			// immettere l'oggetto nel model
 			
-			
-
 		} catch (IOException e) {
-
 			System.out.println(e.toString());
-		
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -185,12 +173,5 @@ public class ClientController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	
-	
-	private void viewUpdated(PropertyChangeEvent e) {
-		
-		// quando la view viene aggiornata potrebbe essere il momento migliore per lanciare l'aggiornamento del background
-		//controller.update(e);
 	}
 }

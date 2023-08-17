@@ -2,28 +2,24 @@ package it.unibs.mainApp;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-
 import javax.swing.*;
-
 import it.unibs.client.ClientController;
 import it.unibs.server.BaseServer;
-import it.unibs.server.MyProtocol;
 
-//import it.unibs.client.ClientController;
-//aggiunta di controller
 public class MainApp {
 	
-	GameController controller;
-	ClientController clientController;
-	BaseServer serverController;
-	public JLabel lblDescription;
+	private	Battlefield model;// single player model
+	private GameController controller;// single player controller
+	private ClientController clientController;
+	private BaseServer serverController;
 	
-	Battlefield model;
+	
 	private JFrame frame;
 	private JButton btnJoinGame;
 	private JTextArea textArea;
 	private JComboBox<Integer> comboBox;
 	private JButton btnHostGame;
+	
 	public static void main(String[] args) {
 		System.out.println("start");
 		EventQueue.invokeLater(new Runnable() {
@@ -38,12 +34,9 @@ public class MainApp {
 		});
 	}
 	
-
-	
 	public MainApp() {
 		startGameMenu();
 	}
-
 
 	private void startGameMenu() {
 		
@@ -52,10 +45,6 @@ public class MainApp {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//frame.requestFocus();
 		frame.setResizable(false);
-		
-		
-		
-		
 		
 		JPanel menuPanel = new JPanel();
 		menuPanel.setBackground(Color.GRAY);
@@ -80,11 +69,6 @@ public class MainApp {
 		btnJoinGame.setBounds(529, 291, 364, 96);
 		menuPanel.add(btnJoinGame);
 		
-		lblDescription = new JLabel("");
-		lblDescription.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblDescription.setBounds(236, 457, 728, 30);
-		menuPanel.add(lblDescription);
-		
 		comboBox = new JComboBox();
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		comboBox.addItem(1);
@@ -101,29 +85,18 @@ public class MainApp {
 		menuPanel.add(textArea);
 	}
 	
-	
-	
-
-	
 	private void hostGame(ActionEvent e) {
-		
 		serverController = new BaseServer(frame,(int) comboBox.getSelectedItem());
 		serverController.startServer();
 	}
 	
-	
 	private void joinGame(ActionEvent e) {
-		String ipAddress ="127.0.0.1"; 
-				
 		String ip = textArea.getText();
-		
-		clientController = new ClientController(frame, ipAddress);
-
+		clientController = new ClientController(frame, ip);
 		clientController.connectToServer();
 		
 	}
 
-	
 	private void startLocalGame(ActionEvent e) {
 		frame = new JFrame();
 		model = new Battlefield();

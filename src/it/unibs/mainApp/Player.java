@@ -228,7 +228,6 @@ public class Player extends MovingObject implements Serializable{
 	public void nextStep() {
 		setPosX(getPosX() + xSpeed);
 		setPosY(getPosY() + ySpeed);
-		
 		setAngle(getAngle()+rotation);
 	}
 	

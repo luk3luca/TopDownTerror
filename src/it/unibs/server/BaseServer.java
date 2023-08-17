@@ -10,9 +10,6 @@ import javax.swing.JFrame;
 
 import it.unibs.mainApp.Battlefield;
 
-
-
-
 public class BaseServer {
 	private Battlefield model;
 	private JFrame frame;
@@ -24,7 +21,6 @@ public class BaseServer {
 		this.realPlayer = realPlayer;
 	}
 	
-	
 	public void startServer() {
 		model = new Battlefield();
 		
@@ -35,15 +31,13 @@ public class BaseServer {
 		) {
 //			server.setSoTimeout(1000);
 			int id = 0;
-			long tempoScadenza = System.currentTimeMillis() + 2000; // 10 secondi in millisecondi
-
 	        while (!(id==realPlayer)) {
-				
+	        	
 				Socket client = server.accept();
 				MyProtocol clientProtocol = new MyProtocol(client, model, id++);
-				
 				Executor clientThread  = Executors.newFixedThreadPool(6);
 				clientThread.execute(clientProtocol);
+				
 			}
 			
 		} catch(IOException e) {

@@ -19,6 +19,9 @@ public class Battlefield extends BaseModel {
 	private int[][] mapMatrix = MapMatrix.getMatrix();
 	private Timer gameTimer;
 	
+	// TEST BOT
+	private Bot bot1;
+	
 	private boolean gameOver = false;
 	public boolean isGameOver() {return gameOver;}
 	public void stopGame() {gameTimer.stop();}
@@ -26,15 +29,16 @@ public class Battlefield extends BaseModel {
 	public Battlefield() {
 		
 		buildMap();
-		buildPlayer(); 
+		buildPlayer();
+		buildBot();
 		gameTimer = new Timer(20, e ->{
 				try {
 					stepNext();
+					//System.out.println(player[0].getAngle());
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
 		});
-		
 	}
 	
 	private void buildMap() {
@@ -75,6 +79,12 @@ public class Battlefield extends BaseModel {
 			if(i > 2)
 				player[i].setAngle(-Math.PI/2);
 		}
+	}
+	
+	// TEST BOT BUILD
+	private void buildBot() {
+		int id = 1;
+		bot1 = new Bot(player[id], player, id);
 	}
 	
 	private T_Pavement buildPavement(int y, int x, int tileDim) {
@@ -123,11 +133,13 @@ public class Battlefield extends BaseModel {
 	/*----------------GESTIONE COLLISIONI----------------*/
 	
 	public void startGame() {
-	
 		gameTimer.start();
 	}
 	
 	public void stepNext() throws InterruptedException {
+		//TEST BOT
+		bot1.stepNext();
+		
 		for(Player p:player) {
 			addShot(p);
 			p.nextStep();
@@ -157,7 +169,8 @@ public class Battlefield extends BaseModel {
 		for(int i = 0; i < player.length; i++) {
 			// Riquadro in cui si trova il centro del player
 			int playerSquareX = (int)((player[i].getPosX() + BATTLEFIELD_TILEDIM/4) / BATTLEFIELD_TILEDIM);
-			int playerSquareY = (int)((player[i].getPosY() + BATTLEFIELD_TILEDIM/4 )/ BATTLEFIELD_TILEDIM);
+			int playerSquareY = (int)((player[i].getPosY() + BATTLEFIELD_TILEDIM/4) / BATTLEFIELD_TILEDIM);
+			//System.out.println("square BTF: (" + playerSquareX + ", " + playerSquareY + ")");
 			player[i].resetCollision();
 			
 			bulletPlayerCollision();

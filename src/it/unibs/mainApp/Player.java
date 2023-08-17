@@ -51,14 +51,20 @@ public class Player extends MovingObject implements Serializable{
 	protected double xSpeed = 0.;
 	private double ySpeed = 0.;
 	private double rotation = 0.;
-	public void setXSpeed(double xSpeed) { this.xSpeed = xSpeed;}
-	public void setYSpeed(double ySpeed) { this.ySpeed = ySpeed;}
-	public double getXSpeed() {return xSpeed;}
-	public double getYSpeed() {return ySpeed;}
-	public void setRotation(double rotation) {this.rotation = rotation;}
-	public double getRotation() {return rotation;}
-	public void setGun(Gun gun) {this.gun = gun;}
 	
+	public void setXSpeed(double xSpeed) { this.xSpeed = xSpeed;}
+	
+	public void setYSpeed(double ySpeed) { this.ySpeed = ySpeed;}
+	
+	public double getXSpeed() {return xSpeed;}
+	
+	public double getYSpeed() {return ySpeed;}
+	
+	public void setRotation(double rotation) {this.rotation = rotation;}
+	
+	public double getRotation() {return rotation;}
+	
+	public void setGun(Gun gun) {this.gun = gun;}
 	
 	public int getMagMax() {
 		return magMax;
@@ -69,8 +75,8 @@ public class Player extends MovingObject implements Serializable{
 	public void setAmmoLeft(int ammoLeft) {
 		this.ammoLeft = ammoLeft;
 	}
+	
 	public Player() {
-		
 	}
 
 	public Player(String name, T_Spawn spawn, Color color) {
@@ -83,7 +89,7 @@ public class Player extends MovingObject implements Serializable{
 		this.deaths = 0;
 
 		try {
-			this.gun = Gun.PISTOL.clone();
+			this.gun = Gun.AR.clone();
 		} catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
@@ -119,8 +125,8 @@ public class Player extends MovingObject implements Serializable{
 		
 		shoots = false;
 		return res;
-		
 	}
+	
 	public void shooting() {
 		shoots = true;
 	}
@@ -225,6 +231,7 @@ public class Player extends MovingObject implements Serializable{
 		setPosX(spawn.getSpawnX() - Battlefield.BATTLEFIELD_TILEDIM/4 );
 		setPosY(spawn.getSpawnY() - Battlefield.BATTLEFIELD_TILEDIM/4);
 	}
+	
 	public void nextStep() {
 		setPosX(getPosX() + xSpeed);
 		setPosY(getPosY() + ySpeed);
@@ -236,6 +243,7 @@ public class Player extends MovingObject implements Serializable{
 	public Gun getGun() {return gun;}
 	
 	public int getHp() {return hp;}
+	
 	public void setHp(int hp) {this.hp=hp;}
 	
 	public void setReloading(boolean reloading) {this.reloading = reloading;	}

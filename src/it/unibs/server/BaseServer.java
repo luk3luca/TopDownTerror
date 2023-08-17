@@ -10,9 +10,6 @@ import javax.swing.JFrame;
 
 import it.unibs.mainApp.Battlefield;
 
-
-
-
 public class BaseServer {
 	private Battlefield model;
 	private JFrame frame;

@@ -15,6 +15,7 @@ public class GameController {
 	public PlayerViewport playerViewport;
 	public MapViewport mapViewport ;
 	public Battlefield model;
+	
 	public GameController(Battlefield model,JFrame frame, ArrayList<Tile> t, Player[] players , int playerIndex,ArrayList<Bullet> b) {
 		this.tiles = t;
 		this.frame = frame;

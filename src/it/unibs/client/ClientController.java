@@ -40,6 +40,7 @@ public class ClientController {
 	public MapViewport mapViewport ;
 	int playerIndex;
 	ClientKeyboard kb;
+	
 	public ClientController(JFrame frame, String ip) {
 		this.frame = frame;
 		if(ip!= null) {
@@ -94,7 +95,7 @@ public class ClientController {
 		mapViewport.setObjects(tiles, players,bullet);
 
 		
-		 try {
+		try {
 			playerIndex = (int) objInputStream.readObject();
 			tiles = (ArrayList<Tile>) objInputStream.readObject();
 		} catch (ClassNotFoundException | IOException e) {

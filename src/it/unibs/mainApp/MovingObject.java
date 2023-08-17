@@ -13,9 +13,6 @@ public class MovingObject implements Serializable {
 	protected double m_velocity ;
 	protected double r_velocity ;
 	
-	
-
-	
 	protected boolean isAlive = true;
 	
 	protected Shape shape;
@@ -39,8 +36,6 @@ public class MovingObject implements Serializable {
 		return t.createTransformedShape(shape);
 	}
 	
-	
-	
 	public void setShape(Shape shape) {
 		this.shape = shape;
 	}
@@ -62,9 +57,6 @@ public class MovingObject implements Serializable {
 		a.intersect(new Area(o.getShape()));
 		return !a.isEmpty();
 	}
-	
-	
-	
 	
 	
 	/*---GETTERS AND SETTERS---*/

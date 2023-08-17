@@ -34,13 +34,13 @@ public class Bot {
 		
 	/*
 	 * TODO:
-	 * check players in range
-	 * check direction
+	 * check players in range 	+
+	 * check direction			+
 	 * 		check collisons
-	 * set directional speed
+	 * set directional speed	
 	 * set angular speed,and rotation control
 	 * check ammo: reload if no left (or after time) 
-	 * check player in gun range
+	 * check player in gun range	+
 	 * 		shoot
 	 * 		random movement with player in range
 	 * */
@@ -126,9 +126,9 @@ public class Bot {
 			double maxDistance = 500;
 			
 			if(psX > lowX && psX < topX) {
-				System.out.println("in x: " + i);
+				//System.out.println("in x: " + i);
 				if(psY > lowY && psY < topY) {
-					System.out.println("in y: " + i);
+					//System.out.println("in y: " + i);
 					double distanceX = p.getPosX() - player[i].getPosX();
 					double distanceY = p.getPosY() - player[i].getPosY();
 					double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
@@ -258,15 +258,16 @@ public class Bot {
 	public void setRotation() {
 		double pAngle = splitCircleRotation();
 		int rotationDirection = calculateRotationDirection(pAngle, targetAngle);
+		
 		switch(rotationDirection) {
 			case 1:
-				p.setR_velocity(Player.R_VELOCITY);
+				p.setRotation(Player.R_VELOCITY);
 				break;
 			case 0:
-				p.setR_velocity(0);
+				p.setRotation(0);
 				break;
 			case -1:
-				p.setR_velocity(-Player.R_VELOCITY);
+				p.setRotation(-Player.R_VELOCITY);
 				break;
 			default:
 				break;

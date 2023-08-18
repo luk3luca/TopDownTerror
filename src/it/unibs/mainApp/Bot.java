@@ -15,10 +15,14 @@ public class Bot {
 	private double targetX;
 	private double targetY;
 	private double targetAngle;
+	private double magnitude;
+	private double normalizedDx;
+	private double normalizedDy;
 	
 	private int directionalX;
 	private int directionalY;
 	
+	private double oldDesiredDistance;
 	private boolean playerInRange = false;
 	private Player closerPlayer;
 	
@@ -29,6 +33,9 @@ public class Bot {
 		this.player = players;
 		this.targetX = CENTER_WIDTH;
 		this.targetY = CENTER_HEIGHT;
+		
+		// TEST GUN RANGE
+		this.oldDesiredDistance = 0;
 	}
 	
 		
@@ -43,6 +50,7 @@ public class Bot {
 	 * check player in gun range	+
 	 * 		shoot
 	 * 		random movement with player in range
+	 * 		if player comes closer backup + random movement
 	 * */
 	public void stepNext(){
 		checkPlayerInRange();
@@ -51,36 +59,52 @@ public class Bot {
 		setRotation();
 	}
 	
+	/*
+	 * TODO
+	 * IN QUESTO MOMENTO IL BOT NON SALTELLA PIU QWUANDO SEGUE UN PLAYER
+	 * FIXARE GUN RANGE
+	 * SISTEMARE IL PRIMO IF SETTANDO SOLO TARGETX-Y E TIRARE FUORI DX-DY
+	 * 
+	 */
+	
+	
 	// calculate direction to point to
 	public void calculateDirection() {
 		if(playerInRange) {
-			targetX = closerPlayer.getPosX();
-			targetY = closerPlayer.getPosY();
+			//keepAtGunRange();
+
+	        this.dx = closerPlayer.getPosX() - p.getPosX();
+	        this.dy = closerPlayer.getPosY() - p.getPosY();
 		}
 		else {
 			targetX = CENTER_WIDTH;
 			targetY = CENTER_HEIGHT;
 			// TODO if player is in the middle, choose a random direction
+			
+			this.dx = targetX - p.getPosX();
+	        this.dy = targetY - p.getPosY();
 		}
 		
-		System.out.println("target: (" + targetX + ", " + targetY + ")");
-		//System.out.println("position: (" + p.getPosX() + ", " + p.getPosY() + ")");
-		
 		if(playerInRange) {
-			System.out.println("in range");
 			keepAtGunRange();
 		}
 		
-        this.dx = targetX - p.getPosX();
-        this.dy = targetY - p.getPosY();
+		System.out.println("target: (" + targetX + ", " + targetY + ")");
+		System.out.println("position: (" + p.getPosX() + ", " + p.getPosY() + ")");
+		        
+//        this.dx = targetX - p.getPosX();
+//        this.dy = targetY - p.getPosY();
+//        System.out.println("dx: " + dx);
+//        System.out.println("dy: " + dy);
+        
+        magnitude = Math.sqrt(dx * dx + dy * dy);
+        normalizedDx = dx / magnitude;
+        normalizedDy = dy / magnitude;
 
-        double magnitude = Math.sqrt(dx * dx + dy * dy);
-        double normalizedDx = dx / magnitude;
-        double normalizedDy = dy / magnitude;
-
-        // horizontal angle, needs to be inverted
-        targetAngle = -Math.atan2(normalizedDy, normalizedDx);
-        //double angleDegrees = Math.toDegrees(targetAngle);
+        // horizontal angle between bot x axis and the targeted player
+        targetAngle = Math.atan2(normalizedDy, normalizedDx);
+        // double angleDegrees = Math.toDegrees(targetAngle);
+        
         this.directionalX = mapDirection(dx);
         this.directionalY = mapDirection(dy);
 	}
@@ -132,7 +156,7 @@ public class Bot {
 					double distanceX = p.getPosX() - player[i].getPosX();
 					double distanceY = p.getPosY() - player[i].getPosY();
 					double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-					System.out.println("distance:" + distance);
+					//System.out.println("distance:" + distance);
 					
 					if(distance < maxDistance) {
 						maxDistance = distance;
@@ -151,38 +175,38 @@ public class Bot {
 	private void keepAtGunRange() {
 		double rangeCut = 0.8;
 		double gunRange = p.getGun().getRange() * Battlefield.BATTLEFIELD_TILEDIM;
+
+		double desiredDistance = (gunRange * rangeCut);
 		
-		System.out.println(gunRange);
-		System.out.println(gunRange*rangeCut);
+		double deadzone = 4.0;
 		
-		if(directionalX == 1 && directionalY == 1) {
-			targetX -= (gunRange * rangeCut);
-			targetY -= (gunRange * rangeCut);
+		//if(Math.abs(desiredDistance - oldDesiredDistance) > deadzone) {
+		if(true) {
+	        // current and desired distances	        
+	        if (directionalX == 1) {
+		        targetX -= desiredDistance;
+		    } else if (directionalX == -1) {
+		        targetX += desiredDistance;
+		    }
+		    
+		    if (directionalY == 1) {
+		        targetY -= desiredDistance;
+		    } else if (directionalY == -1) {
+		        targetY += desiredDistance;
+		    }
+		    
+//		    targetX += desiredDistance * normalizedDx;
+//		    targetY += desiredDistance * normalizedDy;
+//		    
+//		    System.out.println("x offset: " + targetX);
+		    
+		    
+			//System.out.println("target gr: (" + targetX + ", " + targetY + ")");
+
 		}
-		else if(directionalX == -1 && directionalY == 1) {
-			targetX += (gunRange * rangeCut);
-			targetY -= (gunRange * rangeCut);
-		}
-		else if(directionalX == -1 && directionalY == -1) {
-			targetX += (gunRange * rangeCut);
-			targetY += (gunRange * rangeCut);
-		}
-		else if(directionalX == 1 && directionalY == -1) {
-			targetX -= (gunRange * rangeCut);
-			targetY += (gunRange * rangeCut);
-		}
-		else if(directionalX == 0 && directionalY == 1) {
-			targetY -= (gunRange * rangeCut);
-		}
-		else if(directionalX == 0 && directionalY == -1) {
-			targetY += (gunRange * rangeCut);
-		}
-		else if(directionalX == 1 && directionalY == 0) {
-			targetX -= (gunRange * rangeCut);
-		}
-		else if(directionalX == -1 && directionalY == 0) {
-			targetX += (gunRange * rangeCut);
-		}
+		//System.out.println(gunRange);
+		//System.out.println(gunRange*rangeCut);
+		oldDesiredDistance = desiredDistance;
 	}
 	
 	// set directional speed
@@ -223,11 +247,13 @@ public class Bot {
 	public double splitCircleRotation() {
         double normalizedAngle = p.getAngle() % (2 * Math.PI);
         
-        if (normalizedAngle <= Math.PI) {
-            return normalizedAngle;
-        } else {
-            return normalizedAngle - 2 * Math.PI;
+        normalizedAngle -= Math.PI;
+
+        if (normalizedAngle < -Math.PI) {
+            normalizedAngle += 2 * Math.PI;
         }
+        
+        return normalizedAngle;
     }
 	
 	// check closer delta
@@ -258,23 +284,28 @@ public class Bot {
 	public void setRotation() {
 		double pAngle = splitCircleRotation();
 		int rotationDirection = calculateRotationDirection(pAngle, targetAngle);
-		
-		switch(rotationDirection) {
-			case 1:
-				p.setRotation(Player.R_VELOCITY);
-				break;
-			case 0:
-				p.setRotation(0);
-				break;
-			case -1:
-				p.setRotation(-Player.R_VELOCITY);
-				break;
-			default:
-				break;
-		}
+//        System.out.println("norm p pointer: " + pAngle);
+//        System.out.println("norm t pointer: " + targetAngle);
+        double rotationThreshold = Math.toRadians(5); // 5 degrees
+        
+        if (Math.abs(targetAngle - pAngle) <= rotationThreshold) {
+            p.setRotation(0);
+        } else {
+            switch(rotationDirection) {
+                case 1:
+                    p.setRotation(-Player.R_VELOCITY);
+                    break;
+                case -1:
+                    p.setRotation(Player.R_VELOCITY);
+                    break;
+                case 0:
+                	p.setRotation(0);
+                default:
+                    break;
+            }
+        }
 	}
 
-	
 	// checks ammo to reload
 	private void checkAmmo() throws InterruptedException {
 		if(p.checkAmmo())

@@ -83,7 +83,7 @@ public class Battlefield extends BaseModel {
 	
 	// TEST BOT BUILD
 	private void buildBot() {
-		int id = 2;
+		int id = 1;
 		bot1 = new Bot(player[id], player, id);
 	}
 	

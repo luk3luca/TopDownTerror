@@ -180,7 +180,6 @@ public class Bot {
 		double gunRange = p.getGun().getRange() * Battlefield.BATTLEFIELD_TILEDIM;
 
 		double desiredDistance = (gunRange * rangeCut);
-		
 		double deadzone = 4.0;
 		
 		//if(Math.abs(desiredDistance - oldDesiredDistance) > deadzone) {
@@ -307,22 +306,25 @@ public class Bot {
         }
 	}
 	
+	/*
+	 * PLayer shooting condition:
+	 * target is player and is in range
+	 * player distance is lower than gun range
+	 * pointer is on the target
+	 */
 	private void shootTarget() {
-		checkPlayerInGunRange();
-		pointerOnTarget();
-		
 		if(playerInRange && checkPlayerInGunRange() && pointerOnTarget()) {
 			p.shooting();
-			System.out.println("shoot");
 		}
-			
 	}
 	
+	/*
+	 * If the pointer is on the target the sum of the angles is 3.14
+	 * Tolerance let bot shoot while the pointer is not in the middle
+	 */
 	private boolean pointerOnTarget() {
 		double angleSum = Math.abs(pAngle) + Math.abs(targetAngle);
-		double tolerance = 0.03;
-		
-		System.out.println("angle sum: " + angleSum);
+		double tolerance = 0.07;
 		
 		if(angleSum > (Math.PI - tolerance) && angleSum < (Math.PI + tolerance))
 			return true;
@@ -330,15 +332,12 @@ public class Bot {
 		return false;
 	}
 	
+	// If player distance is less than the gun range it can shoot
 	private boolean checkPlayerInGunRange() {
 		if(!playerInRange)
 			return false;
-		
-		//System.out.println("distance: " + magnitude);
-		//System.out.println("gun range: " + p.getGun().getRange());
-		
+
 		if(magnitude <= (p.getGun().getRange() * Battlefield.BATTLEFIELD_TILEDIM)) {
-			System.out.println("in gun range");
 			return true;
 		}
 					

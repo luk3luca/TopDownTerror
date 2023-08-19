@@ -1,14 +1,16 @@
 package it.unibs.mainApp;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class Bot {
 	private static final int CENTER_HEIGHT = Battlefield.BATTLEFIELD_HEIGHT / 2;
 	private static final int CENTER_WIDTH = Battlefield.BATTLEFIELD_WIDTH / 2;
 	
-	public Player p;
-	public int pId;
-	public Player[] player = new Player[6];
+	private Player p;
+	private int pId;
+	private Player[] player = new Player[6];
+	public ArrayList<Tile> tiles = new ArrayList<Tile>();
 	
 	private double dx;
 	private double dy;
@@ -19,24 +21,32 @@ public class Bot {
 	private double normalizedDx;
 	private double normalizedDy;
 	
-	private int directionalX;
-	private int directionalY;
+	private int directionalX = 0;
+	private int directionalY = 0;
 	private double pAngle;
 	
 	private double oldDesiredDistance;
+	
+	private int playerSquareX;
+	private int playerSquareY;
 	private boolean playerInRange = false;
 	private Player closerPlayer;
 	
+	private double oldPosX;
+	private double oldPosY;
 	
-	public Bot(Player p, Player[] players, int pId) {
+	public Bot(Player p, Player[] players, int pId, ArrayList<Tile> tiles) {
 		this.p = p;
 		this.pId = pId;
 		this.player = players;
 		this.targetX = CENTER_WIDTH;
 		this.targetY = CENTER_HEIGHT;
-		
+		this.tiles = tiles;
 		// TEST GUN RANGE
 		this.oldDesiredDistance = 0;
+		
+		this.oldPosX = p.getPosX();
+		this.oldPosY = p.getPosY();
 	}
 	
 		
@@ -58,7 +68,9 @@ public class Bot {
 		calculateDirection();
 		setSpeed();
 		setRotation();
-		shootTarget();
+		
+		collision();
+		//shootTarget();
 	}
 	
 	/*
@@ -69,35 +81,30 @@ public class Bot {
 	 * 
 	 */
 	
-	
 	// calculate direction to point to
 	public void calculateDirection() {
 		if(playerInRange) {
 			//keepAtGunRange();
 			//sum distance * normalized
-	        this.dx = closerPlayer.getPosX() - p.getPosX();
-	        this.dy = closerPlayer.getPosY() - p.getPosY();
+			targetX = closerPlayer.getPosX();
+			targetY = closerPlayer.getPosY();
 		}
 		else {
 			targetX = CENTER_WIDTH;
 			targetY = CENTER_HEIGHT;
 			// TODO if player is in the middle, choose a random direction
-			
-			this.dx = targetX - p.getPosX();
-	        this.dy = targetY - p.getPosY();
 		}
 		
-		if(playerInRange) {
-			keepAtGunRange();
-		}
+		this.dx = targetX - p.getPosX();
+        this.dy = targetY - p.getPosY();
 		
 //		System.out.println("target: (" + targetX + ", " + targetY + ")");
 //		System.out.println("position: (" + p.getPosX() + ", " + p.getPosY() + ")");
 		        
-//        this.dx = targetX - p.getPosX();
-//        this.dy = targetY - p.getPosY();
-//        System.out.println("dx: " + dx);
-//        System.out.println("dy: " + dy);
+//		this.dx = targetX - p.getPosX();
+//		this.dy = targetY - p.getPosY();
+//		System.out.println("dx: " + dx);
+//		System.out.println("dy: " + dy);
         
         magnitude = Math.sqrt(dx * dx + dy * dy);
         normalizedDx = dx / magnitude;
@@ -124,8 +131,8 @@ public class Bot {
 	
 	// check for player in range using matrix position in the visible grid of a player + 1
 	private boolean checkPlayerInRange() {
-		int playerSquareX = (int)((p.getPosX() + Battlefield.BATTLEFIELD_TILEDIM/4) / Battlefield.BATTLEFIELD_TILEDIM);
-		int playerSquareY = (int)((p.getPosY() + Battlefield.BATTLEFIELD_TILEDIM/4) / Battlefield.BATTLEFIELD_TILEDIM);
+		playerSquareX = (int)((p.getPosX() + Battlefield.BATTLEFIELD_TILEDIM/4) / Battlefield.BATTLEFIELD_TILEDIM);
+		playerSquareY = (int)((p.getPosY() + Battlefield.BATTLEFIELD_TILEDIM/4) / Battlefield.BATTLEFIELD_TILEDIM);
 		
 //		System.out.println("position: (" + p.getPosX() + ", " + p.getPosY() + ")");
 //		System.out.println("square: (" + playerSquareX + ", " + playerSquareY + ")");
@@ -180,33 +187,35 @@ public class Bot {
 		double gunRange = p.getGun().getRange() * Battlefield.BATTLEFIELD_TILEDIM;
 
 		double desiredDistance = (gunRange * rangeCut);
-		double deadzone = 4.0;
+		//double deadzone = 4.0;
 		
+		targetX = targetX + desiredDistance * (-directionalX);
+		targetY = targetY + desiredDistance * (-directionalY);
 		//if(Math.abs(desiredDistance - oldDesiredDistance) > deadzone) {
-		if(true) {
-	        // current and desired distances	        
-	        if (directionalX == 1) {
-		        targetX -= desiredDistance;
-		    } else if (directionalX == -1) {
-		        targetX += desiredDistance;
-		    }
-		    
-		    if (directionalY == 1) {
-		        targetY -= desiredDistance;
-		    } else if (directionalY == -1) {
-		        targetY += desiredDistance;
-		    }    
-//		    targetX += desiredDistance * normalizedDx;
-//		    targetY += desiredDistance * normalizedDy;
+//		if(true) {
+//	        // current and desired distances	        
+//	        if (directionalX == 1) {
+//		        targetX -= desiredDistance;
+//		    } else if (directionalX == -1) {
+//		        targetX += desiredDistance;
+//		    }
 //		    
-//		    System.out.println("x offset: " + targetX);
-
-		    //System.out.println("target gr: (" + targetX + ", " + targetY + ")");
-
-		}
+//		    if (directionalY == 1) {
+//		        targetY -= desiredDistance;
+//		    } else if (directionalY == -1) {
+//		        targetY += desiredDistance;
+//		    }    
+////		    targetX += desiredDistance * normalizedDx;
+////		    targetY += desiredDistance * normalizedDy;
+////		    
+////		    System.out.println("x offset: " + targetX);
+//
+//		    //System.out.println("target gr: (" + targetX + ", " + targetY + ")");
+//
+//		}
 		//System.out.println(gunRange);
 		//System.out.println(gunRange*rangeCut);
-		oldDesiredDistance = desiredDistance;
+		//oldDesiredDistance = desiredDistance;
 	}
 	
 	// set directional speed
@@ -283,8 +292,8 @@ public class Bot {
 	public void setRotation() {
 		int rotationDirection = calculateRotationDirection(pAngle, targetAngle);
         
-		System.out.println("norm p pointer: " + pAngle);
-        System.out.println("norm t pointer: " + targetAngle);
+//		System.out.println("norm p pointer: " + pAngle);
+//		System.out.println("norm t pointer: " + targetAngle);
         
         double rotationThreshold = Math.toRadians(5); // 5 degrees
         
@@ -307,7 +316,7 @@ public class Bot {
 	}
 	
 	/*
-	 * PLayer shooting condition:
+	 * PLayer shooting conditions:
 	 * target is player and is in range
 	 * player distance is lower than gun range
 	 * pointer is on the target
@@ -350,4 +359,87 @@ public class Bot {
 			p.reloadAmmo();
 	}
 
+	//useless with pathfinding
+	private void checkWalls() {
+		int[] topSquare = {playerSquareY - 1 > 0 ? playerSquareY - 1 : 0, playerSquareX};
+		int[] bottomSquare = {playerSquareY + 1 < MapMatrix.HEIGHT ? playerSquareY + 1 : MapMatrix.HEIGHT - 1, playerSquareX};
+		int[] leftSquare = {playerSquareY, playerSquareX - 1 > 0 ? playerSquareX - 1 : 0};
+		int[] rightSquare = {playerSquareY, playerSquareX + 1 < MapMatrix.WIDTH ? playerSquareX + 1 : MapMatrix.WIDTH - 1};
+		int[] topLeftSquare = {playerSquareY - 1 > 0 ? playerSquareY - 1 : 0, playerSquareX - 1 > 0 ? playerSquareX - 1 : 0};
+		int[] topRightSquare = {playerSquareY - 1 > 0 ? playerSquareY - 1 : 0, playerSquareX + 1 < MapMatrix.WIDTH ? playerSquareX + 1 : MapMatrix.WIDTH - 1};
+		int[] bottomLeftSquare = {playerSquareY + 1 < MapMatrix.HEIGHT ? playerSquareY + 1 : MapMatrix.HEIGHT - 1, playerSquareX - 1 > 0 ? playerSquareX - 1 : 0};
+		int[] bottomRightSquare = {playerSquareY + 1 < MapMatrix.HEIGHT ? playerSquareY + 1 : MapMatrix.HEIGHT - 1, playerSquareX + 1 < MapMatrix.WIDTH ? playerSquareX + 1 : MapMatrix.WIDTH - 1};
+	
+		Tile topTile = tiles.get(topSquare[0]*MapMatrix.WIDTH + topSquare[1]);
+		Tile bottomTile = tiles.get(bottomSquare[0]*MapMatrix.WIDTH + bottomSquare[1]);
+		Tile leftTile = tiles.get(leftSquare[0]*MapMatrix.WIDTH + leftSquare[1]);
+		Tile rightTile = tiles.get(rightSquare[0]*MapMatrix.WIDTH + rightSquare[1]);
+		Tile topLeftTile = tiles.get(topLeftSquare[0]*MapMatrix.WIDTH + topLeftSquare[1]);
+		Tile topRightTile = tiles.get(topRightSquare[0]*MapMatrix.WIDTH + topRightSquare[1]);
+		Tile bottomLeftTile = tiles.get(bottomLeftSquare[0]*MapMatrix.WIDTH + bottomLeftSquare[1]);
+		Tile bottomRightTile = tiles.get(bottomRightSquare[0]*MapMatrix.WIDTH + bottomRightSquare[1]);
+		
+		if(collision()) {
+			if(directionalX == 0) {
+				if(directionalY == 1) {		//bottom wall
+					//check top
+					//check left or right
+					//check bottom left or bottom right
+				}
+				if(directionalY == -1) {	//top wall
+					//check bottom
+					//check left or right
+					//check top left or top right
+				}
+			}
+			if(directionalY == 0) {
+				if(directionalX == 1) {
+					//check right
+					//check top or bottom
+					//check top right or bottom right
+				}
+				if(directionalX == -1) {
+					//check left
+					//check top or bottom
+					//check top left or bottom left				
+				}
+			}
+			if(directionalX == 1) {
+				if(directionalY == 1) {		//to br
+					//check top or left
+					//check top right or bottom left
+				}
+				if(directionalY == -1) {	//to tr
+					//check bottom or right
+					//check top left or bottom right
+				}
+			}
+			if(directionalX == -1) {
+				if(directionalY == 1) {		//to bl
+					//check top or right
+					//check top left or bottom right
+				}
+				if(directionalY == -1) {	//to tl
+					//check bottom or right
+					//check bottom left or top right
+				}
+			}
+		}
+	
+	}
+	
+	private boolean collision() {
+		
+		if(oldPosX == p.getPosX() && oldPosY == p.getPosY()) {
+			System.out.println("collison");
+			
+			return true;
+		}
+		
+		oldPosX = p.getPosX();
+		oldPosY = p.getPosY();
+		
+		return false;
+	}
+	
 }

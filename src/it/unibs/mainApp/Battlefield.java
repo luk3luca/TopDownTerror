@@ -84,7 +84,7 @@ public class Battlefield extends BaseModel {
 	// TEST BOT BUILD
 	private void buildBot() {
 		int id = 1;
-		bot1 = new Bot(player[id], player, id);
+		bot1 = new Bot(player[id], player, id, tiles);
 	}
 	
 	private T_Pavement buildPavement(int y, int x, int tileDim) {

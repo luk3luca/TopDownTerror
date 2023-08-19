@@ -21,6 +21,7 @@ public class Bot {
 	
 	private int directionalX;
 	private int directionalY;
+	private double pAngle;
 	
 	private double oldDesiredDistance;
 	private boolean playerInRange = false;
@@ -57,6 +58,7 @@ public class Bot {
 		calculateDirection();
 		setSpeed();
 		setRotation();
+		shootTarget();
 	}
 	
 	/*
@@ -72,7 +74,7 @@ public class Bot {
 	public void calculateDirection() {
 		if(playerInRange) {
 			//keepAtGunRange();
-
+			//sum distance * normalized
 	        this.dx = closerPlayer.getPosX() - p.getPosX();
 	        this.dy = closerPlayer.getPosY() - p.getPosY();
 		}
@@ -89,8 +91,8 @@ public class Bot {
 			keepAtGunRange();
 		}
 		
-		System.out.println("target: (" + targetX + ", " + targetY + ")");
-		System.out.println("position: (" + p.getPosX() + ", " + p.getPosY() + ")");
+//		System.out.println("target: (" + targetX + ", " + targetY + ")");
+//		System.out.println("position: (" + p.getPosX() + ", " + p.getPosY() + ")");
 		        
 //        this.dx = targetX - p.getPosX();
 //        this.dy = targetY - p.getPosY();
@@ -104,6 +106,7 @@ public class Bot {
         // horizontal angle between bot x axis and the targeted player
         targetAngle = Math.atan2(normalizedDy, normalizedDx);
         // double angleDegrees = Math.toDegrees(targetAngle);
+        pAngle = splitCircleRotation(p.getAngle());
         
         this.directionalX = mapDirection(dx);
         this.directionalY = mapDirection(dy);
@@ -193,15 +196,13 @@ public class Bot {
 		        targetY -= desiredDistance;
 		    } else if (directionalY == -1) {
 		        targetY += desiredDistance;
-		    }
-		    
+		    }    
 //		    targetX += desiredDistance * normalizedDx;
 //		    targetY += desiredDistance * normalizedDy;
 //		    
 //		    System.out.println("x offset: " + targetX);
-		    
-		    
-			//System.out.println("target gr: (" + targetX + ", " + targetY + ")");
+
+		    //System.out.println("target gr: (" + targetX + ", " + targetY + ")");
 
 		}
 		//System.out.println(gunRange);
@@ -244,7 +245,7 @@ public class Bot {
 	}
 	
 	// set player rotation angle in [-pi,pi]
-	public double splitCircleRotation() {
+	public double splitCircleRotation(double angle) {
         double normalizedAngle = p.getAngle() % (2 * Math.PI);
         
         normalizedAngle -= Math.PI;
@@ -268,7 +269,6 @@ public class Bot {
     }
 
 	// calculate rotation direction
-	// TODO: controllare se invertire +1 e -1
     public int calculateRotationDirection(double source, double target) {
         double angularDistance = shortestAngularDistance(source, target);
 
@@ -282,10 +282,11 @@ public class Bot {
 	
     // set rotation velocity based on closer way to reach the target
 	public void setRotation() {
-		double pAngle = splitCircleRotation();
 		int rotationDirection = calculateRotationDirection(pAngle, targetAngle);
-//        System.out.println("norm p pointer: " + pAngle);
-//        System.out.println("norm t pointer: " + targetAngle);
+        
+		System.out.println("norm p pointer: " + pAngle);
+        System.out.println("norm t pointer: " + targetAngle);
+        
         double rotationThreshold = Math.toRadians(5); // 5 degrees
         
         if (Math.abs(targetAngle - pAngle) <= rotationThreshold) {
@@ -304,6 +305,44 @@ public class Bot {
                     break;
             }
         }
+	}
+	
+	private void shootTarget() {
+		checkPlayerInGunRange();
+		pointerOnTarget();
+		
+		if(playerInRange && checkPlayerInGunRange() && pointerOnTarget()) {
+			p.shooting();
+			System.out.println("shoot");
+		}
+			
+	}
+	
+	private boolean pointerOnTarget() {
+		double angleSum = Math.abs(pAngle) + Math.abs(targetAngle);
+		double tolerance = 0.03;
+		
+		System.out.println("angle sum: " + angleSum);
+		
+		if(angleSum > (Math.PI - tolerance) && angleSum < (Math.PI + tolerance))
+			return true;
+		
+		return false;
+	}
+	
+	private boolean checkPlayerInGunRange() {
+		if(!playerInRange)
+			return false;
+		
+		//System.out.println("distance: " + magnitude);
+		//System.out.println("gun range: " + p.getGun().getRange());
+		
+		if(magnitude <= (p.getGun().getRange() * Battlefield.BATTLEFIELD_TILEDIM)) {
+			System.out.println("in gun range");
+			return true;
+		}
+					
+		return false;
 	}
 
 	// checks ammo to reload

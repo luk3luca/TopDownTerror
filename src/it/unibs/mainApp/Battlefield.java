@@ -5,6 +5,8 @@ import java.awt.geom.*;
 import java.util.ArrayList;
 import javax.swing.Timer;
 
+import it.unibs.bot.Bot;
+
 //MODEL
 public class Battlefield extends BaseModel {                                
 	public static final int BATTLEFIELD_TILEDIM = 32 * 2;

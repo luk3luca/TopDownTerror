@@ -1,7 +1,9 @@
-package it.unibs.mainApp;
+package it.unibs.bot;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+
+import it.unibs.mainApp.*;
 
 public class Bot {
 	private static final int CENTER_HEIGHT = Battlefield.BATTLEFIELD_HEIGHT / 2;
@@ -440,6 +442,10 @@ public class Bot {
 		oldPosY = p.getPosY();
 		
 		return false;
+	}
+	
+	private void pathFinding() {
+		
 	}
 	
 }

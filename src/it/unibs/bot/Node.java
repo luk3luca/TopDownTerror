@@ -2,30 +2,38 @@ package it.unibs.bot;
 
 import java.util.*;
 
+import it.unibs.mainApp.Battlefield;
+
 public class Node implements Comparable<Node> {
 	// Id for readability of result purposes
-	private static int idCounter = 0;
 	public int id;
-	public int x;
-	public int y;
+	public int row;
+	public int col;
 
 	// Parent in the path
 	public Node parent = null;
 
 	public List<Edge> neighbors;
 
-	// Evaluation functions
-	public double f = Double.MAX_VALUE;
-	public double g = Double.MAX_VALUE;
+	// Evaluation functions		Double.MAX_VALUE
+	public double f = 5000;
+	public double g = 3000;
 	// Hardcoded heuristic
-	public double h; 
+	public double h = 0; 
 
-	public Node(int x, int y){
-		this.x = x;
-		this.y = y;
-		//this.h = h;
-		this.id = idCounter++;
-		this.neighbors = new ArrayList<>();
+	public Node(int id, int row, int col) {
+	    this.id = id;
+	    this.row = row;
+	    this.col = col;
+	    this.neighbors = new ArrayList<>();
+	}
+	
+	public int getRow() {
+		return row;
+	}
+	
+	public int getCol() {
+		return col;
 	}
 
 	@Override
@@ -34,22 +42,22 @@ public class Node implements Comparable<Node> {
 	}
 
 	public class Edge {
-		public int weight;
+		public double weight;
 		public Node node;
 		
-		Edge(int weight, Node node){
+		Edge(double weight, Node node){
 			this.weight = weight;
 			this.node = node;
 		}
 	}
 
-	public void addBranch(int weight, Node node){
+	public void addBranch(double weight, Node node){
 		Edge newEdge = new Edge(weight, node);
 		neighbors.add(newEdge);
 	}
 
 	public double calculateHeuristic(Node target){
-		return this.h;
+		return Math.sqrt(Math.pow(target.getRow() - this.getRow(), 2) + Math.pow(target.getCol() - this.getCol(), 2)) * Battlefield.BATTLEFIELD_TILEDIM;
 	}
 
 

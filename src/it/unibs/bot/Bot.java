@@ -2,6 +2,7 @@ package it.unibs.bot;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Stack;
 
 import it.unibs.mainApp.*;
 
@@ -23,16 +24,36 @@ public class Bot {
 	private double normalizedDx;
 	private double normalizedDy;
 	
+	
 	private int directionalX = 0;
 	private int directionalY = 0;
 	private double pAngle;
 	
+	
 	private double oldDesiredDistance;
+	
 	
 	private int playerSquareX;
 	private int playerSquareY;
 	private boolean playerInRange = false;
 	private Player closerPlayer;
+	
+	
+	
+	private AStar astar;
+	private Stack<Node> path;
+	private int oldPlayerSquareX;
+	private int oldPlayerSquareY;
+	private int targetSquareX;
+	private int targetSquareY;
+	private int oldTargetSquareX;
+	private int oldTargetSquareY;
+	
+	private Node nextNode;
+	private int nextRow;
+	private int nextCol;
+	private double nextX;
+	private double nextY;
 	
 	private double oldPosX;
 	private double oldPosY;
@@ -49,6 +70,8 @@ public class Bot {
 		
 		this.oldPosX = p.getPosX();
 		this.oldPosY = p.getPosY();
+		
+		setSquareTarget();
 	}
 	
 		
@@ -66,12 +89,15 @@ public class Bot {
 	 * 		if player comes closer backup + random movement
 	 * */
 	public void stepNext(){
-		checkPlayerInRange();
+		//checkPlayerInRange();
+		
+		findTarget();
+		
 		calculateDirection();
 		setSpeed();
 		setRotation();
 		
-		collision();
+		//collision();
 		//shootTarget();
 	}
 	
@@ -83,43 +109,138 @@ public class Bot {
 	 * 
 	 */
 	
-	// calculate direction to point to
-	public void calculateDirection() {
-		if(playerInRange) {
-			//keepAtGunRange();
-			//sum distance * normalized
+	private void setSquareTarget() {
+		playerSquareX = (int)((p.getPosX() + Battlefield.BATTLEFIELD_TILEDIM/4) / Battlefield.BATTLEFIELD_TILEDIM);
+		playerSquareY = (int)((p.getPosY() + Battlefield.BATTLEFIELD_TILEDIM/4) / Battlefield.BATTLEFIELD_TILEDIM);
+		
+		oldPlayerSquareX = playerSquareX;
+		oldPlayerSquareY = playerSquareY;
+		
+		targetSquareX = (int)((targetX + Battlefield.BATTLEFIELD_TILEDIM/4) / Battlefield.BATTLEFIELD_TILEDIM);
+		targetSquareY = (int)((targetY + Battlefield.BATTLEFIELD_TILEDIM/4) / Battlefield.BATTLEFIELD_TILEDIM);
+		
+		oldTargetSquareX = targetSquareX;
+		oldTargetSquareY = targetSquareY;
+		
+		// Initialize first path
+		astar = new AStar(playerSquareX, playerSquareY, targetSquareX, targetSquareY);
+		path = astar.generatePath();
+		nextNode();
+	}
+	
+	// Change to next node to reach
+	//TODO: add random coordinates to reach within the square
+	private void nextNode() {
+		nextNode = path.peek();
+		nextCol = nextNode.getCol();
+		nextRow = nextNode.getRow();
+		
+		nextX = nextCol * Battlefield.BATTLEFIELD_TILEDIM + Battlefield.BATTLEFIELD_TILEDIM/4;
+		nextY = nextRow * Battlefield.BATTLEFIELD_TILEDIM + Battlefield.BATTLEFIELD_TILEDIM/4;
+		
+		System.out.println("next: (" + nextCol + ", " + nextRow + ")");
+	}
+	
+	// Find best path to target
+	//TODO: (?) use a different square than the one of the target
+	private void findTarget() {
+		playerSquareX = (int)((p.getPosX() + Battlefield.BATTLEFIELD_TILEDIM/4) / Battlefield.BATTLEFIELD_TILEDIM);
+		playerSquareY = (int)((p.getPosY() + Battlefield.BATTLEFIELD_TILEDIM/4) / Battlefield.BATTLEFIELD_TILEDIM);
+
+		if(playerInRange) {			
 			targetX = closerPlayer.getPosX();
-			targetY = closerPlayer.getPosY();
-		}
+			targetY = closerPlayer.getPosY();		}
 		else {
 			targetX = CENTER_WIDTH;
 			targetY = CENTER_HEIGHT;
-			// TODO if player is in the middle, choose a random direction
+		}
+
+		targetSquareX = (int)((targetX + Battlefield.BATTLEFIELD_TILEDIM/4) / Battlefield.BATTLEFIELD_TILEDIM);
+		targetSquareY = (int)((targetY + Battlefield.BATTLEFIELD_TILEDIM/4) / Battlefield.BATTLEFIELD_TILEDIM);
+
+		//TODO: only change if target is different
+		//if(playerSquareX != oldPlayerSquareX || playerSquareY != oldPlayerSquareY || targetSquareX != oldTargetSquareX || targetSquareY != oldTargetSquareY) {
+		if(targetSquareX != oldTargetSquareX || targetSquareY != oldTargetSquareY) {
+			astar = new AStar(playerSquareX, playerSquareY, targetSquareX, targetSquareY);
+			path = astar.generatePath();
+			nextNode();
 		}
 		
-		this.dx = targetX - p.getPosX();
-        this.dy = targetY - p.getPosY();
-		
-//		System.out.println("target: (" + targetX + ", " + targetY + ")");
-//		System.out.println("position: (" + p.getPosX() + ", " + p.getPosY() + ")");
-		        
-//		this.dx = targetX - p.getPosX();
-//		this.dy = targetY - p.getPosY();
-//		System.out.println("dx: " + dx);
-//		System.out.println("dy: " + dy);
-        
-        magnitude = Math.sqrt(dx * dx + dy * dy);
-        normalizedDx = dx / magnitude;
-        normalizedDy = dy / magnitude;
+		if(playerSquareX == nextCol && playerSquareY == nextRow) {
+			if(playerSquareX != targetSquareX && playerSquareY != targetSquareY)
+				path.pop();
+			nextNode();
+		}
 
-        // horizontal angle between bot x axis and the targeted player
-        targetAngle = Math.atan2(normalizedDy, normalizedDx);
-        // double angleDegrees = Math.toDegrees(targetAngle);
-        pAngle = splitCircleRotation(p.getAngle());
-        
-        this.directionalX = mapDirection(dx);
-        this.directionalY = mapDirection(dy);
+		oldPlayerSquareX = playerSquareX;
+		oldPlayerSquareY = playerSquareY;
+		oldTargetSquareX = targetSquareX;
+		oldTargetSquareY = targetSquareY;
 	}
+	
+	// calculate direction to point to
+	private void calculateDirection() {			
+		this.dx = nextX - p.getPosX();
+		this.dy = nextY - p.getPosY();
+
+		//			System.out.println("target: (" + targetX + ", " + targetY + ")");
+		//			System.out.println("position: (" + p.getPosX() + ", " + p.getPosY() + ")");
+
+		//			this.dx = targetX - p.getPosX();
+		//			this.dy = targetY - p.getPosY();
+		//			System.out.println("dx: " + dx);
+		//			System.out.println("dy: " + dy);
+
+		magnitude = Math.sqrt(dx * dx + dy * dy);
+		normalizedDx = dx / magnitude;
+		normalizedDy = dy / magnitude;
+
+		// horizontal angle between bot x axis and the targeted player
+		targetAngle = Math.atan2(normalizedDy, normalizedDx);
+		// double angleDegrees = Math.toDegrees(targetAngle);
+		pAngle = splitCircleRotation(p.getAngle());
+
+		this.directionalX = mapDirection(dx);
+		this.directionalY = mapDirection(dy);
+	}
+	
+//	// calculate direction to point to
+//	private void calculateDirection() {
+//		if(playerInRange) {
+//			//keepAtGunRange();
+//			//sum distance * normalized
+//			targetX = closerPlayer.getPosX();
+//			targetY = closerPlayer.getPosY();
+//		}
+//		else {
+//			targetX = CENTER_WIDTH;
+//			targetY = CENTER_HEIGHT;
+//			// TODO if player is in the middle, choose a random direction
+//		}
+//		
+//		this.dx = targetX - p.getPosX();
+//        this.dy = targetY - p.getPosY();
+//		
+////		System.out.println("target: (" + targetX + ", " + targetY + ")");
+////		System.out.println("position: (" + p.getPosX() + ", " + p.getPosY() + ")");
+//		        
+////		this.dx = targetX - p.getPosX();
+////		this.dy = targetY - p.getPosY();
+////		System.out.println("dx: " + dx);
+////		System.out.println("dy: " + dy);
+//        
+//        magnitude = Math.sqrt(dx * dx + dy * dy);
+//        normalizedDx = dx / magnitude;
+//        normalizedDy = dy / magnitude;
+//
+//        // horizontal angle between bot x axis and the targeted player
+//        targetAngle = Math.atan2(normalizedDy, normalizedDx);
+//        // double angleDegrees = Math.toDegrees(targetAngle);
+//        pAngle = splitCircleRotation(p.getAngle());
+//        
+//        this.directionalX = mapDirection(dx);
+//        this.directionalY = mapDirection(dy);
+//	}
 	
 	// map directional value to -1, +1, 0
 	private int mapDirection(double value) {
@@ -144,9 +265,7 @@ public class Bot {
 		int lowY = (playerSquareY - range > 0 ? playerSquareY - range : 0);
 		int topX = (playerSquareX + range < MapMatrix.WIDTH ? playerSquareX + range : MapMatrix.WIDTH - 1);
 		int topY = (playerSquareY + range < MapMatrix.HEIGHT ? playerSquareY + range : MapMatrix.HEIGHT - 1);
-		
-//		System.out.println("limits: (" + lowX + ", " + lowY + ")- (" + topX + ", " + topY + ")");
-		
+				
 		boolean pInRange = false;
 		
 		for(int i = 0; i < 6; i++) {
@@ -155,9 +274,6 @@ public class Bot {
 			
 			int psX = (int)((player[i].getPosX() + Battlefield.BATTLEFIELD_TILEDIM/4) / Battlefield.BATTLEFIELD_TILEDIM);
 			int psY = (int)((player[i].getPosY() + Battlefield.BATTLEFIELD_TILEDIM/4) / Battlefield.BATTLEFIELD_TILEDIM);
-			
-//			if(i == 4)
-//				System.out.println("player1: (" + psX + ", " + psY + ")");
 			
 			double maxDistance = 500;
 			
@@ -222,7 +338,7 @@ public class Bot {
 	
 	// set directional speed
 	private void setSpeed() {
-		System.out.println("direction: (" + directionalX + ", " + directionalY + ")");
+		//System.out.println("direction: (" + directionalX + ", " + directionalY + ")");
 		switch(directionalX) {
 			case 1:
 				p.setXSpeed(Player.DEFAULT_X_SPEED);
@@ -291,6 +407,7 @@ public class Bot {
     }
 	
     // set rotation velocity based on closer way to reach the target
+    //TODO: change targetAngle value, needs to be fixed to the end target, now is on the next tile target
 	public void setRotation() {
 		int rotationDirection = calculateRotationDirection(pAngle, targetAngle);
         
@@ -318,7 +435,7 @@ public class Bot {
 	}
 	
 	/*
-	 * PLayer shooting conditions:
+	 * Player shooting conditions:
 	 * target is player and is in range
 	 * player distance is lower than gun range
 	 * pointer is on the target

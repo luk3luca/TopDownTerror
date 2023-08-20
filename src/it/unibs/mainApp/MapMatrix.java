@@ -3,6 +3,7 @@ package it.unibs.mainApp;
 import java.util.*;
 
 import it.unibs.bot.Node;
+import it.unibs.bot.*;
 
 public class MapMatrix {
 	public static final int HEIGHT = 22;
@@ -17,7 +18,7 @@ public class MapMatrix {
 	private static final int SPAWN = 2;
 	private static final int SPAWN_ZONE = 3;
 	
-	private static ArrayList<Node> nodes = new ArrayList<Node>();
+	private static HashMap<Integer, Node> nodes = new HashMap<Integer, Node>();
 	//public static int[][] matrix = new int[HEIGHT][WIDTH];
 	
 //	public static int[][] matrix = {
@@ -72,19 +73,31 @@ public class MapMatrix {
 //	};
 	public static int[][] matrix = new int[HEIGHT][WIDTH];
 	
-	public static void main(String[] args) {
-		//fillTheMap();
-		//addSpawn();
-		//System.out.println(canReachAnotherSpawn(1, 15));
-		//System.out.println(all2sVisited());
-		//System.out.println(checkMap());
-		print();
-	}
-	
+//	public static void main(String[] args) {
+//		//matrix = getMatrix();
+//		buildNodeMap();
+//		int sx = 3;
+//		int sy = 1;
+//		int tx = 12;
+//		int ty = 4;
+//		
+//		//System.out.println(matrix[sy][sx]);
+//		//System.out.println(nodes.toString());
+//		//printNode();
+//		
+//		
+//		AStar a = new AStar(sx, sy, tx, ty);
+//		a.generatePath();
+//		//print();
+//	}
 	 
 	public static int[][] getMatrix() {
 		fillTheMap();
 		addSpawn();
+		
+		//clearCenter();
+		
+		buildNodeMap();
 		//if(!checkMap())
 			//getMatrix();
 		
@@ -131,6 +144,13 @@ public class MapMatrix {
 		}
 	}
 	
+	private static void clearCenter() {
+		matrix[HEIGHT/2 - 1][WIDTH/2 - 1] = 0;
+		matrix[HEIGHT/2 - 1][WIDTH/2] = 0;
+		matrix[HEIGHT/2][WIDTH/2 - 1] = 0;
+		matrix[HEIGHT/2][WIDTH/2] = 0;
+	}
+	
 	private static void print() {
 		for(int i = 0; i < HEIGHT; i++) {
 			for(int j = 0; j < WIDTH; j++) {
@@ -143,13 +163,64 @@ public class MapMatrix {
 	private static void buildNodeMap() {
 		for(int i = 0; i < HEIGHT; i++) {
 			for(int j = 0; j < WIDTH; j++) {
-				nodes.add(new Node(i, j));
+				if(matrix[i][j] != 1) {
+					int key = (i * WIDTH) + j;
+					nodes.put(key, new Node(key, i, j));
+				}
 			}
 		}
 		
 		
+		for(int i = 1; i < HEIGHT; i++) {
+			for(int j = 1; j < WIDTH; j++) {
+				if(matrix[i][j] != 1) {
+					int key = (i * WIDTH) + j;
+					Node n = nodes.get(key);
+					
+					int li = i - 1;
+					int ti = i + 1;
+					int lj = j - 1;
+					int tj = j + 1;
+					
+					for(int h = li; h <= ti; h++) {
+						for(int k = lj; k <= tj; k++) {
+							if(h == i && k == j)
+								continue;
+							
+							if(matrix[h][k] != 1) {
+								if(h == li && k == lj && matrix[h+1][k] == 1 && matrix[h][k+1] == 1)
+									continue;
+								if(h == li && k == tj && matrix[h][k-1] == 1 && matrix[h+1][k] == 1)
+									continue;
+								if(h == ti && k == lj && matrix[h-1][k] == 1 && matrix[h][k+1] == 1)
+									continue;
+								if(h == ti && k == tj && matrix[h-1][k] == 1 && matrix[h][k-1] == 1)
+									continue;
+								
+								int bKey = (h * WIDTH) + k;
+								Node branch = nodes.get(bKey);
+								// weight is tiledim, diagonal is tiledim * rad2
+								if(h != i && k != j)
+									n.addBranch(Math.sqrt(2) * Battlefield.BATTLEFIELD_TILEDIM, branch);
+								else
+									n.addBranch(Battlefield.BATTLEFIELD_TILEDIM, branch);
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 	
+	public static HashMap<Integer, Node> getNodes() {
+		return nodes;
+	}
+	
+	public static void printNode() {
+		for(HashMap.Entry<Integer, Node> n: nodes.entrySet()) {
+			System.out.println("key: " + n.getKey() + ", (" + n.getValue().getCol() + ", " + n.getValue().getRow() + ")");
+		}
+	}
 
 //	private static boolean checkMap() {
 //	    // Find all spawn points

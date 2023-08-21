@@ -142,9 +142,10 @@ public class AStar {
 
 		Collections.reverse(ids);
 
+		System.out.println("Path:");
 		for(int id : ids){
 			//System.out.print(id + " ");
-			System.out.println(id + " (" + nodes.get(id).getRow() + ", " + nodes.get(id).getCol() + ")");
+			System.out.println(id + " (" + nodes.get(id).getCol() + ", " + nodes.get(id).getRow() + ")");
 		}
 		System.out.println("");
 	}

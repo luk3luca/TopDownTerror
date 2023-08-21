@@ -35,6 +35,10 @@ public class Node implements Comparable<Node> {
 	public int getCol() {
 		return col;
 	}
+	
+	public int getId() {
+		return id;
+	}
 
 	@Override
 	public int compareTo(Node n) {
@@ -60,7 +64,11 @@ public class Node implements Comparable<Node> {
 		return Math.sqrt(Math.pow(target.getRow() - this.getRow(), 2) + Math.pow(target.getCol() - this.getCol(), 2)) * Battlefield.BATTLEFIELD_TILEDIM;
 	}
 
-
+	public void printEdge() {
+		for(Edge n: neighbors) {
+			System.out.println(n.node.getId() + ": (" + n.node.getCol() + ", " + n.node.getRow() + ")");
+		}
+	}
 
 
 }

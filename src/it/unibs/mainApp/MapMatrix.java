@@ -52,7 +52,7 @@ public class MapMatrix {
 //		    {1,2,3,0,0,0,0,0,0,0,0,0,0,0,0,2,3,1,0,1,0,0,0,0,0,1,1,1,0,2,3,1},
 //		    {1,3,3,0,1,1,1,1,1,1,1,1,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,0,3,3,1},
 //		    {1,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,1,1,0,0,0,0,0,1,0,0,0,0,0,0,1},
-//		    {1,1,1,1,1,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,0,0,0,1},
+//		    {1,1,1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,1},
 //		    {1,0,0,1,1,0,0,0,0,1,0,1,1,0,0,1,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,1},
 //		    {1,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,1,1,1,1,1},
 //		    {1,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1},
@@ -71,33 +71,42 @@ public class MapMatrix {
 //		    {1,3,3,1,1,0,1,1,0,0,0,0,0,0,0,3,3,0,0,1,0,1,0,0,0,0,0,0,0,3,3,1},
 //		    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 //	};
+
 	public static int[][] matrix = new int[HEIGHT][WIDTH];
 	
 //	public static void main(String[] args) {
 //		//matrix = getMatrix();
 //		buildNodeMap();
-//		int sx = 3;
-//		int sy = 1;
-//		int tx = 12;
-//		int ty = 4;
 //		
-//		//System.out.println(matrix[sy][sx]);
-//		//System.out.println(nodes.toString());
-//		//printNode();
-//		
-//		
-//		AStar a = new AStar(sx, sy, tx, ty);
-//		a.generatePath();
-//		//print();
+//		Node n = nodes.get((3*WIDTH + 16));
+//		n.printEdge();
+////		int sx = 16;
+////		int sy = 1;
+////		int tx = 16;
+////		int ty = 12;
+////		
+////		//System.out.println(matrix[sy][sx]);
+////		//System.out.println(nodes.toString());
+////		//printNode();
+////		
+////		
+////		AStar a = new AStar(sx, sy, tx, ty);
+////		a.generatePath();
+////		//print();
 //	}
 	 
 	public static int[][] getMatrix() {
 		fillTheMap();
 		addSpawn();
-		
-		//clearCenter();
+		clearCenter();
 		
 		buildNodeMap();
+		
+		if(matrix[3][16] != 1) {
+			System.out.println("[16;3] edges");
+			Node n = nodes.get((3*WIDTH + 16));
+			n.printEdge();
+		}
 		//if(!checkMap())
 			//getMatrix();
 		

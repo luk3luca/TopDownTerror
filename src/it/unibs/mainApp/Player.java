@@ -30,6 +30,10 @@ public class Player extends MovingObject implements Serializable{
 	private int kills;
 	private int deaths;
 	
+	// bot reset path
+	//public boolean isDead = false;
+	
+	
 	// collsion logic
 	private boolean topCollision = false;
 	private boolean bottomCollision = false;
@@ -218,6 +222,9 @@ public class Player extends MovingObject implements Serializable{
 	public void hitted(Gun gun, Player shooter) {
 		this.hp -= gun.getDmg();
 		if(hp<=0) {
+			
+			//isDead = true;
+			
 			this.dead(this);
 			deaths++;
 			shooter.kills++;
@@ -228,8 +235,10 @@ public class Player extends MovingObject implements Serializable{
 	//TODO EVENTUALMENTE METTERE TIMER PER RESPAWN 
 	private void dead(Player p) {
 		p.setHp(HP);
-		setPosX(spawn.getSpawnX() - Battlefield.BATTLEFIELD_TILEDIM/4 );
+		setPosX(spawn.getSpawnX() - Battlefield.BATTLEFIELD_TILEDIM/4);
 		setPosY(spawn.getSpawnY() - Battlefield.BATTLEFIELD_TILEDIM/4);
+		
+		//isDead = false;
 	}
 	
 	public void nextStep() {

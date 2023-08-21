@@ -9,16 +9,20 @@ import it.unibs.mainApp.MapMatrix;
 public class AStar {
 	private double cost;
 
-	private static HashMap<Integer, Node> nodes;
+	private HashMap<Integer, Node> nodes;
 
 	private int startX;
 	private int startY;
 	private int targetX;
 	private int targetY;
 
+	private Node start;
+	private Node target;
+	
+	private Stack<Node> nodePath;
 
 	public AStar(int startX, int startY, int targetX, int targetY) {
-		AStar.nodes = MapMatrix.getNodes();
+		this.nodes = MapMatrix.getNodes();
 		this.startX = startX;
 		this.startY = startY;
 		this.targetX = targetX;
@@ -34,19 +38,25 @@ public class AStar {
 	public void setTargetY(int targetY) {this.targetY = targetY;}
 
 	public Stack<Node> generatePath() {
-		Node start = nodes.get(calculateKey(startX, startY));
-		Node target = nodes.get(calculateKey(targetX, targetY));
 
-		aStar(start, target);
+		start = nodes.get(calculateKey(startX, startY));
+		target = nodes.get(calculateKey(targetX, targetY));
+		
+		aStarPath(start, target);
 		printPath(target);
-		return createNodePath(target);
+		nodePath = createNodePath(target);
+		
+		start = null;
+		target = null;
+		
+		return nodePath;
 	}
 
 	private int calculateKey(int x, int y) {
 		return (y * MapMatrix.WIDTH) + x;
 	}
 
-	public Node aStar(Node start, Node target){
+	public Node aStarPath(Node start, Node target){
 		PriorityQueue<Node> closedList = new PriorityQueue<>();
 		PriorityQueue<Node> openList = new PriorityQueue<>();
 
@@ -109,7 +119,7 @@ public class AStar {
 		//path.add(n.id);
 
 		Collections.reverse(path);
-
+		
 		return path;
 	}
 

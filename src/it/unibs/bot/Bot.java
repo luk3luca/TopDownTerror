@@ -46,6 +46,10 @@ public class Bot {
 	// Pathfinding
 	private AStar astar;
 	private Stack<Node> path;
+	
+	private Path astarPath;
+	private Path newAstarPath;
+	
 	private int oldPlayerSquareX;
 	private int oldPlayerSquareY;
 	private int targetSquareX;
@@ -158,9 +162,11 @@ public class Bot {
 	}
 	
 	private void generateNewPath() {
+		System.out.println("new path generation");
 		System.out.println("target: (" + targetSquareX + ", " + targetSquareY + ")");
-		astar = new AStar(playerSquareX, playerSquareY, targetSquareX, targetSquareY);
-		path = astar.generatePath();
+		astarPath = new Path(playerSquareX, playerSquareY, targetSquareX, targetSquareY);
+		astarPath.generatePath();
+		path = astarPath.getPath();
 		nextNode();
 	}
 	
@@ -192,8 +198,6 @@ public class Bot {
 		//System.out.println("target: (" + targetX + ", " + targetY + ")");
 
 		setTargetSquare();
-//		targetSquareX = (int)((targetX + Battlefield.BATTLEFIELD_TILEDIM/4) / Battlefield.BATTLEFIELD_TILEDIM);
-//		targetSquareY = (int)((targetY + Battlefield.BATTLEFIELD_TILEDIM/4) / Battlefield.BATTLEFIELD_TILEDIM);
 
 		if(targetSquareX != oldTargetSquareX || targetSquareY != oldTargetSquareY) {
 			generateNewPath();
@@ -219,10 +223,20 @@ public class Bot {
 			targetSquareX = 2;
 			targetSquareY = 2;
 			
-			astar.setStartX(playerSquareX);
-			astar.setStartY(playerSquareY);
-			astar.setTargetX(targetSquareX);
-			astar.setTargetY(targetSquareY);
+			System.out.println("next target: (" + targetSquareX + ", " + targetSquareY + ")");
+			try {
+				newAstarPath = new Path(15, 11, 2, 2);
+				newAstarPath.generatePath();
+				newPath = newAstarPath.getPath();
+			} catch (Exception e) {
+				System.out.println("error");
+			}
+			//path = newPath;
+//			
+//			astar.setStartX(playerSquareX);
+//			astar.setStartY(playerSquareY);
+//			astar.setTargetX(targetSquareX);
+//			astar.setTargetY(targetSquareY);
 //			
 //			System.out.println("new astar");
 //			newAstar = new AStar(playerSquareX, playerSquareY, 2, 2);
@@ -232,8 +246,8 @@ public class Bot {
 //			//path = newPath;
 //			System.out.println("new path");
 			
-			System.out.println("new path");
-			generateNewPath();
+			//System.out.println("new path");
+			//generateNewPath();
 			
 			nextNode();
 			//System.out.println("target");

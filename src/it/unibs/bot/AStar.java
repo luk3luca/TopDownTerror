@@ -24,7 +24,14 @@ public class AStar {
 		this.targetX = targetX;
 		this.targetY = targetY;
 	}
+	
+	public void setStartX(int startX) {this.startX = startX;}
 
+	public void setStartY(int startY) {this.startY = startY;}
+
+	public void setTargetX(int targetX) {this.targetX = targetX;}
+
+	public void setTargetY(int targetY) {this.targetY = targetY;}
 
 	public Stack<Node> generatePath() {
 		Node start = nodes.get(calculateKey(startX, startY));

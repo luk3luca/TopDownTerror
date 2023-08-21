@@ -102,11 +102,6 @@ public class MapMatrix {
 		
 		buildNodeMap();
 		
-		if(matrix[3][16] != 1) {
-			System.out.println("[16;3] edges");
-			Node n = nodes.get((3*WIDTH + 16));
-			n.printEdge();
-		}
 		//if(!checkMap())
 			//getMatrix();
 		

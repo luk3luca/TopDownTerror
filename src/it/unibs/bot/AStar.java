@@ -9,7 +9,7 @@ import it.unibs.mainApp.MapMatrix;
 public class AStar {
 	private double cost;
 
-	private HashMap<Integer, Node> nodes;
+	private static HashMap<Integer, Node> nodes;
 
 	private int startX;
 	private int startY;
@@ -19,7 +19,7 @@ public class AStar {
 	private Node start;
 	private Node target;
 	
-	private Stack<Node> nodePath;
+	private static Stack<Node> nodePath;
 
 	public AStar(int startX, int startY, int targetX, int targetY) {
 		this.nodes = MapMatrix.getNodes();
@@ -56,7 +56,7 @@ public class AStar {
 		return (y * MapMatrix.WIDTH) + x;
 	}
 
-	public Node aStarPath(Node start, Node target){
+	public static Node aStarPath(Node start, Node target){
 		PriorityQueue<Node> closedList = new PriorityQueue<>();
 		PriorityQueue<Node> openList = new PriorityQueue<>();
 
@@ -103,12 +103,12 @@ public class AStar {
 	}
 
 	// CHANGE TO STACK FOR LIFO STRUCTURE
-	public ArrayList<Integer> createPath(Node target){
+	public static ArrayList<Integer> createPath(Node target){
 		Node n = target;
 		if(n == null)
 			return null;
 		//Costo ugale a "f"
-		setCost(n.f);
+		//setCost(n.f);
 		ArrayList<Integer> path = new ArrayList<>();
 
 		while(n.parent != null){

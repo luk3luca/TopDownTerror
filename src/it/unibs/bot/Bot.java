@@ -173,7 +173,9 @@ public class Bot {
 	// Change to next node to reach
 	//TODO: add random coordinates to reach within the square
 	private void nextNode() {
-		nextNode = path.peek();
+		if(path != null)
+			nextNode = path.peek();
+		
 		nextCol = nextNode.getCol();
 		nextRow = nextNode.getRow();
 		
@@ -225,9 +227,12 @@ public class Bot {
 			
 			System.out.println("next target: (" + targetSquareX + ", " + targetSquareY + ")");
 			try {
-				newAstarPath = new Path(15, 11, 2, 2);
-				newAstarPath.generatePath();
-				newPath = newAstarPath.getPath();
+//				newAstarPath = new Path(15, 11, 2, 2);
+//				newAstarPath.generatePath();
+//				newPath = newAstarPath.getPath();
+				astarPath.setAstar(15, 11, 2, 2);
+				astarPath.generatePath();
+				path = astarPath.getPath();
 			} catch (Exception e) {
 				System.out.println("error");
 			}

@@ -214,4 +214,11 @@ public class MapMatrix {
 		
 		return false;
 	}
+	
+	public static boolean isWall(int x, int y) {
+		if(matrix[y][x] == 1)
+			return true;
+		
+		return false;
+	}
 }

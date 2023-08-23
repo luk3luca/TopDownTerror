@@ -165,8 +165,8 @@ public class Bot {
 		nextCol = nextNode.getCol();
 		nextRow = nextNode.getRow();
 		
-		nextX = nextCol * Battlefield.BATTLEFIELD_TILEDIM + Battlefield.BATTLEFIELD_TILEDIM/4;
-		nextY = nextRow * Battlefield.BATTLEFIELD_TILEDIM + Battlefield.BATTLEFIELD_TILEDIM/4;
+		nextX = nextCol * Battlefield.BATTLEFIELD_TILEDIM + getRandomOffset();
+		nextY = nextRow * Battlefield.BATTLEFIELD_TILEDIM + getRandomOffset();
 		
 		System.out.println("next (M): (" + nextCol + ", " + nextRow + ")");
 	}
@@ -179,7 +179,7 @@ public class Bot {
 			targetY = closerPlayer.getPosY();		
 		}
 		
-		//System.out.println("target: (" + targetX + ", " + targetY + ")");
+//		System.out.println("target: (" + targetX + ", " + targetY + ")");
 
 		setTargetSquare();
 
@@ -193,6 +193,12 @@ public class Bot {
 
 		if(playerSquareX == nextCol && playerSquareY == nextRow) {
 			if(!targetReached()) {
+				/*
+				 * a volte lo stack e' vuoto e da errore, cosi non si interrompe
+				 * penso succeda perche' player e bot si trovano nella stessa cella
+				 * e il getPath rimuove il nodo di parternza (coinciderebbe con arrivo)
+				 * quindi stack resta vuoto
+				 */
 				try {
 					path.pop();
 				} catch (Exception e) {
@@ -232,9 +238,15 @@ public class Bot {
 			sqY = centerY + getRandomRange(randY);
 		} while(!MapMatrix.isPavement(sqX, sqY));
 		
-		targetX = sqX * Battlefield.BATTLEFIELD_TILEDIM + Battlefield.BATTLEFIELD_TILEDIM/4;
-		targetY = sqY * Battlefield.BATTLEFIELD_TILEDIM + Battlefield.BATTLEFIELD_TILEDIM/4;
+		targetX = sqX * Battlefield.BATTLEFIELD_TILEDIM + getRandomOffset();
+		targetY = sqY * Battlefield.BATTLEFIELD_TILEDIM + getRandomOffset();
 	}
+	
+	// value between 0 and BATTLEFIELD_TILEDIM/2, random position inside the tile
+		private int getRandomOffset() {
+			Random rand = new Random();
+			return rand.nextInt(Battlefield.BATTLEFIELD_TILEDIM/2);
+		}
 	
 	// random int between [-n;n]
 	private int getRandomRange(int n) {
@@ -312,6 +324,10 @@ public class Bot {
 			int psX = (int)((player[i].getPosX() + Battlefield.BATTLEFIELD_TILEDIM/4) / Battlefield.BATTLEFIELD_TILEDIM);
 			int psY = (int)((player[i].getPosY() + Battlefield.BATTLEFIELD_TILEDIM/4) / Battlefield.BATTLEFIELD_TILEDIM);
 
+			// avoid target on player getting pushed over a wall
+			if(MapMatrix.isWall(psX, psY))
+				continue;
+			
 			if(inRange(lowX, lowY, topX, topY, psX, psY)) {
 				double distanceX = p.getPosX() - player[i].getPosX();
 				double distanceY = p.getPosY() - player[i].getPosY();

@@ -15,16 +15,19 @@ public class AStar {
 
 	public static Stack<Node> generatePath(int startX, int startY, int targetX, int targetY) {
 		clearNodes();
-		
-		Node start = nodes.get(calculateKey(startX, startY));
-		Node target = nodes.get(calculateKey(targetX, targetY));
-		
-		aStarPath(start, target);
-		printPath(target);
-		nodePath = createNodePath(target);
-		
-		start = null;
-		target = null;
+		try {
+			Node start = nodes.get(calculateKey(startX, startY));
+			Node target = nodes.get(calculateKey(targetX, targetY));
+			
+			aStarPath(start, target);
+			printPath(target);
+			nodePath = createNodePath(target);
+			
+			start = null;
+			target = null;
+		} catch (Exception e) {
+			//System.out.println(e);
+		}
 		
 		return nodePath;
 	}

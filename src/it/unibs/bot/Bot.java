@@ -1,8 +1,8 @@
 package it.unibs.bot;
 
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Stack;
+import java.nio.file.spi.FileSystemProvider;
+import java.util.*;
 
 import it.unibs.mainApp.*;
 
@@ -44,11 +44,9 @@ public class Bot {
 	
 	
 	// Pathfinding
-	private AStar astar;
 	private Stack<Node> path;
 	
 	private Path astarPath;
-	private Path newAstarPath;
 	
 	private int oldPlayerSquareX;
 	private int oldPlayerSquareY;
@@ -64,9 +62,6 @@ public class Bot {
 	private int nextCol;
 	private double nextX;
 	private double nextY;
-	
-	private AStar newAstar;
-	private Stack<Node> newPath;
 	
 	private double oldPosX;
 	private double oldPosY;
@@ -85,6 +80,7 @@ public class Bot {
 		this.oldPosY = p.getPosY();
 		
 		//setupPath();
+		setRandomTarget(4, 3);
 	}
 	
 	private boolean resetPath = true;
@@ -105,8 +101,6 @@ public class Bot {
 	 * */
 	public void stepNext(){
 		// set player and target square for the methods
-		//this.targetX = player[0].getPosX();
-		//this.targetY = player[0].getPosY();
 		setPlayerSquare();
 		setTargetSquare();
 		
@@ -116,7 +110,7 @@ public class Bot {
 			p.respawn = false;
 		}
 		
-		//checkPlayerInRange();
+		checkPlayerInRange();
 
 		findTarget();
 		
@@ -126,16 +120,8 @@ public class Bot {
 		setRotation();
 		
 		//collision();
-		//shootTarget();
+		shootTarget();
 	}
-	
-	/*
-	 * TODO
-	 * IN QUESTO MOMENTO IL BOT NON SALTELLA PIU QWUANDO SEGUE UN PLAYER
-	 * FIXARE GUN RANGE
-	 * SISTEMARE IL PRIMO IF SETTANDO SOLO TARGETX-Y E TIRARE FUORI DX-DY
-	 * 
-	 */
 	
 	private void setPlayerSquare() {
 		playerSquareX = (int)((p.getPosX() + Battlefield.BATTLEFIELD_TILEDIM/4) / Battlefield.BATTLEFIELD_TILEDIM);
@@ -149,9 +135,6 @@ public class Bot {
 	
 	// Initialize first path
 	private void setupPath() {
-		//setPlayerSquare();
-		//setTargetSquare();
-		
 		oldPlayerSquareX = playerSquareX;
 		oldPlayerSquareY = playerSquareY;
 		
@@ -173,8 +156,11 @@ public class Bot {
 	// Change to next node to reach
 	//TODO: add random coordinates to reach within the square
 	private void nextNode() {
-		if(path != null)
+		try {
 			nextNode = path.peek();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 		
 		nextCol = nextNode.getCol();
 		nextRow = nextNode.getRow();
@@ -192,10 +178,6 @@ public class Bot {
 			targetX = closerPlayer.getPosX();
 			targetY = closerPlayer.getPosY();		
 		}
-		else {
-			targetX = CENTER_WIDTH;
-			targetY = CENTER_HEIGHT;
-		}
 		
 		//System.out.println("target: (" + targetX + ", " + targetY + ")");
 
@@ -210,8 +192,14 @@ public class Bot {
 //		System.out.println("target: (" + targetSquareX + ", " + targetSquareY + ")");
 
 		if(playerSquareX == nextCol && playerSquareY == nextRow) {
-			if(!targetReached())
-				path.pop();
+			if(!targetReached()) {
+				try {
+					path.pop();
+				} catch (Exception e) {
+					System.out.println(e);
+				}
+
+			}
 			
 			nextNode();
 		}
@@ -222,57 +210,47 @@ public class Bot {
 		oldTargetSquareY = targetSquareY;
 		
 		if(targetReached()) {
-			targetSquareX = 2;
-			targetSquareY = 2;
-			
-			System.out.println("next target: (" + targetSquareX + ", " + targetSquareY + ")");
-			try {
-//				newAstarPath = new Path(15, 11, 2, 2);
-//				newAstarPath.generatePath();
-//				newPath = newAstarPath.getPath();
-				astarPath.setAstar(15, 11, 2, 2);
-				astarPath.generatePath();
-				path = astarPath.getPath();
-			} catch (Exception e) {
-				System.out.println("error");
+			if(!playerInRange) {
+				setRandomTarget(12, 6);
+				//generateNewPath();
 			}
-			//path = newPath;
-//			
-//			astar.setStartX(playerSquareX);
-//			astar.setStartY(playerSquareY);
-//			astar.setTargetX(targetSquareX);
-//			astar.setTargetY(targetSquareY);
-//			
-//			System.out.println("new astar");
-//			newAstar = new AStar(playerSquareX, playerSquareY, 2, 2);
-//			//path = null;
-//			
-//			//newPath = newAstar.generatePath();
-//			//path = newPath;
-//			System.out.println("new path");
-			
-			//System.out.println("new path");
-			//generateNewPath();
 			
 			nextNode();
-			//System.out.println("target");
 		}
+	}
+	
+	// obbiettivo casuale intorno al centro della mappa
+	private void setRandomTarget(int randX, int randY) {
+		int centerX = 15;
+		int centerY = 11;
+		
+		int sqX;
+		int sqY;
+		
+		do {
+			sqX = centerX + getRandomRange(randX);
+			sqY = centerY + getRandomRange(randY);
+		} while(!MapMatrix.isPavement(sqX, sqY));
+		
+		targetX = sqX * Battlefield.BATTLEFIELD_TILEDIM + Battlefield.BATTLEFIELD_TILEDIM/4;
+		targetY = sqY * Battlefield.BATTLEFIELD_TILEDIM + Battlefield.BATTLEFIELD_TILEDIM/4;
+	}
+	
+	// random int between [-n;n]
+	private int getRandomRange(int n) {
+		Random random = new Random();
+		return random.nextInt(2*n + 1) - n;
 	}
 	
 	// Check if player reached target, avoid last path Node to get popped
 	private boolean targetReached() {
 		if(playerSquareX == targetSquareX && playerSquareY == targetSquareY) {
-			//astar = null;
-			//path = null;
-			
 			return true;
 		}
 					
 		return false;
 	}
 	
-	
-	//TODO: split methods, one for next node direction and the other for target angle
 	// calculate direction to point to
 	private void calculateDirection() {			
 		this.dx = nextX - p.getPosX();
@@ -319,40 +297,50 @@ public class Bot {
 		int lowY = (playerSquareY - range > 0 ? playerSquareY - range : 0);
 		int topX = (playerSquareX + range < MapMatrix.WIDTH ? playerSquareX + range : MapMatrix.WIDTH - 1);
 		int topY = (playerSquareY + range < MapMatrix.HEIGHT ? playerSquareY + range : MapMatrix.HEIGHT - 1);
-				
+		
+		//debug closer player
+		//int closerId = 0;
+		
 		boolean pInRange = false;
+		
+		double maxDistance = 500;		//7*64=448
 		
 		for(int i = 0; i < 6; i++) {
 			if(i == pId)
 				continue;
-			
+
 			int psX = (int)((player[i].getPosX() + Battlefield.BATTLEFIELD_TILEDIM/4) / Battlefield.BATTLEFIELD_TILEDIM);
 			int psY = (int)((player[i].getPosY() + Battlefield.BATTLEFIELD_TILEDIM/4) / Battlefield.BATTLEFIELD_TILEDIM);
-			
-			double maxDistance = 500;
-			
-			if(psX > lowX && psX < topX) {
-				//System.out.println("in x: " + i);
-				if(psY > lowY && psY < topY) {
-					System.out.println("found");
-					//System.out.println("in y: " + i);
-					double distanceX = p.getPosX() - player[i].getPosX();
-					double distanceY = p.getPosY() - player[i].getPosY();
-					double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-					//System.out.println("distance:" + distance);
-					
-					if(distance < maxDistance) {
-						maxDistance = distance;
-						closerPlayer = player[i];
-						pInRange = true;
-					}
+
+			if(inRange(lowX, lowY, topX, topY, psX, psY)) {
+				double distanceX = p.getPosX() - player[i].getPosX();
+				double distanceY = p.getPosY() - player[i].getPosY();
+				double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+				//System.out.println("distance " + (i+1) + ": " + distance);
+				if(distance < maxDistance) {
+					maxDistance = distance;
+					closerPlayer = player[i];
+					pInRange = true;
+					//closerId = i+1;
 				}
 			}
 		}
 		
+//		if(pInRange)
+//			System.out.println("found: " + closerId);
+
 		playerInRange = pInRange;
-		//System.out.println(playerInRange);
+//		System.out.println(playerInRange);
 		return playerInRange;
+	}
+	
+	private boolean inRange(int lowX, int lowY, int topX, int topY, int psX, int psY) {
+		if((psX > lowX && psX < topX) && (psY > lowY && psY < topY))
+			return true;
+		
+		return false;
+		
 	}
 	
 	private void keepAtGunRange() {
@@ -496,8 +484,9 @@ public class Bot {
 	 * pointer is on the target
 	 */
 	private void shootTarget() {
-		if(playerInRange && checkPlayerInGunRange() && pointerOnTarget()) {
+		if(playerInRange && checkPlayerInGunRange() && pointerOnTarget() && MapMatrix.isPavement(playerSquareX, playerSquareY)) {
 			p.shooting();
+			System.out.println("shoot");
 		}
 	}
 	

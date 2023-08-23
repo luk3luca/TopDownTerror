@@ -19,8 +19,6 @@ public class Path {
 		this.startY = startY;
 		this.targetX = targetX;
 		this.targetY = targetY;
-		
-		this.astar = new AStar(startX, startY, targetX, targetY);
 	}
 	
 	public Stack<Node> getPath() {
@@ -28,15 +26,22 @@ public class Path {
 	}
 	
 	public void generatePath() {
-		path = astar.generatePath();
+		path = AStar.generatePath(startX, startY, targetX, targetY);
 	}
 
+	public void setStartX(int startX) {this.startX = startX;}
 	
+	public void setStartY(int startY) {this.startY = startY;}
+	
+	public void setTargetX(int targetX) {this.targetX = targetX;}
+
+	public void setTargetY(int targetY) {this.targetY = targetY;}
+
 	public void setAstar(int startX, int startY, int targetX, int targetY) {
-		astar.setStartX(startX);
-		astar.setStartY(startY);
-		astar.setTargetX(targetX);
-		astar.setTargetY(targetY);
+		setStartX(startX);
+		setStartY(startY);
+		setTargetX(targetX);
+		setTargetY(targetY);
 	}
 
 }

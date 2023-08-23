@@ -16,8 +16,8 @@ public class Node implements Comparable<Node> {
 	public List<Edge> neighbors;
 
 	// Evaluation functions		Double.MAX_VALUE
-	public double f = 5000;
-	public double g = 3000;
+	public double f = 10000;
+	public double g = 10000;
 	// Hardcoded heuristic
 	public double h = 0; 
 
@@ -26,6 +26,13 @@ public class Node implements Comparable<Node> {
 	    this.row = row;
 	    this.col = col;
 	    this.neighbors = new ArrayList<>();
+	}
+	
+	public void resetNode() {
+//		f = Double.MAX_VALUE;
+//		g = Double.MAX_VALUE;
+		h = 0;
+		parent = null;
 	}
 	
 	public int getRow() {

@@ -9,38 +9,15 @@ import it.unibs.mainApp.MapMatrix;
 public class AStar {
 	private double cost;
 
-	private static HashMap<Integer, Node> nodes;
-
-	private int startX;
-	private int startY;
-	private int targetX;
-	private int targetY;
-
-	private Node start;
-	private Node target;
+	private static HashMap<Integer, Node> nodes = MapMatrix.getNodes();
 	
 	private static Stack<Node> nodePath;
 
-	public AStar(int startX, int startY, int targetX, int targetY) {
-		this.nodes = MapMatrix.getNodes();
-		this.startX = startX;
-		this.startY = startY;
-		this.targetX = targetX;
-		this.targetY = targetY;
-	}
-	
-	public void setStartX(int startX) {this.startX = startX;}
-
-	public void setStartY(int startY) {this.startY = startY;}
-
-	public void setTargetX(int targetX) {this.targetX = targetX;}
-
-	public void setTargetY(int targetY) {this.targetY = targetY;}
-
-	public Stack<Node> generatePath() {
-
-		start = nodes.get(calculateKey(startX, startY));
-		target = nodes.get(calculateKey(targetX, targetY));
+	public static Stack<Node> generatePath(int startX, int startY, int targetX, int targetY) {
+		clearNodes();
+		
+		Node start = nodes.get(calculateKey(startX, startY));
+		Node target = nodes.get(calculateKey(targetX, targetY));
 		
 		aStarPath(start, target);
 		printPath(target);
@@ -51,8 +28,14 @@ public class AStar {
 		
 		return nodePath;
 	}
+	
+	private static void clearNodes() {
+		for(Node n: nodes.values()) {
+			n.resetNode();
+		}
+	}
 
-	private int calculateKey(int x, int y) {
+	private static int calculateKey(int x, int y) {
 		return (y * MapMatrix.WIDTH) + x;
 	}
 
@@ -123,12 +106,12 @@ public class AStar {
 		return path;
 	}
 
-	public Stack<Node> createNodePath(Node target){
+	public static Stack<Node> createNodePath(Node target){
 		Node n = target;
 		if(n == null)
 			return null;
 		//Costo ugale a "f"
-		setCost(n.f);
+		//setCost(n.f);
 		Stack<Node> path = new Stack<>();
 
 		while(n.parent != null){
@@ -142,7 +125,7 @@ public class AStar {
 		return path;
 	}
 
-	public void printPath(Node target){
+	public static void printPath(Node target){
 		Node n = target;
 
 		if(n==null)

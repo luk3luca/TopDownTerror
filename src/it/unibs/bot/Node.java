@@ -29,8 +29,6 @@ public class Node implements Comparable<Node> {
 	}
 	
 	public void resetNode() {
-//		f = Double.MAX_VALUE;
-//		g = Double.MAX_VALUE;
 		h = 0;
 		parent = null;
 	}

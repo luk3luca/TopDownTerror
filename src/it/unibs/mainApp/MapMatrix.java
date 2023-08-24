@@ -17,43 +17,57 @@ public class MapMatrix {
 	private static final int SPAWN = 2;
 	private static final int SPAWN_ZONE = 3;
 	
-	private static HashMap<Integer, Node> nodes = new HashMap<Integer, Node>();
-	//public static int[][] matrix = new int[HEIGHT][WIDTH];
+	private static final int CX = 15;
+	private static final int CY = 11;
 	
-	public static int[][] matrix = {
-		    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-		    {1,2,3,0,0,0,0,0,0,0,0,0,0,0,0,2,3,1,0,1,0,0,0,0,0,1,1,1,0,2,3,1},
-		    {1,3,3,0,1,1,1,1,1,1,1,1,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,0,3,3,1},
-		    {1,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,1,1,0,0,0,0,0,1,0,0,0,0,0,0,1},
-		    {1,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,1},
-		    {1,0,0,1,1,0,0,0,0,1,0,1,1,0,0,1,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,1},
-		    {1,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,1,1,1,1,1},
-		    {1,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1},
-		    {1,0,1,1,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,1,0,1},
-		    {1,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1},
-		    {1,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1},
-		    {1,1,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,1,1,0,0,1,0,0,0,0,1,0,0,0,0,1},
-		    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		    {1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1,0,1,0,1},
-		    {1,0,0,0,0,1,0,0,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,1,0,0,1,0,0,1},
-		    {1,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1},
-		    {1,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1},
-		    {1,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1},
-		    {1,2,3,0,0,0,0,0,1,0,0,1,0,1,0,2,3,0,0,0,0,0,0,0,0,0,0,0,0,2,3,1},
-		    {1,3,3,1,1,0,1,1,0,0,0,0,0,0,0,3,3,0,0,1,0,1,0,0,0,0,0,0,0,3,3,1},
-		    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-	};
+	private static HashMap<Integer, Node> nodes = new HashMap<Integer, Node>();
+	
+//	public static int[][] matrix = {
+//		    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+//		    {1,2,3,0,1,0,0,0,0,0,0,0,0,0,0,2,3,1,0,1,0,0,0,0,0,1,1,1,0,2,3,1},
+//		    {1,3,3,0,1,1,1,1,1,1,1,1,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,0,3,3,1},
+//		    {1,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,1,1,0,0,0,0,0,1,0,0,0,0,0,0,1},
+//		    {1,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,1},
+//		    {1,0,0,1,1,0,0,0,0,1,0,1,1,0,0,1,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,1},
+//		    {1,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,1,1,1,1,1},
+//		    {1,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1},
+//		    {1,0,1,1,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,1,0,1},
+//		    {1,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1},
+//		    {1,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1},
+//		    {1,1,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,1,1,0,0,1,0,0,0,0,1,0,0,0,0,1},
+//		    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//		    {1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1,0,1,0,1},
+//		    {1,0,0,0,0,1,0,0,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//		    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,1,0,0,1,0,0,1},
+//		    {1,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1},
+//		    {1,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1},
+//		    {1,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1},
+//		    {1,2,3,0,0,0,0,0,1,0,0,1,0,1,0,2,3,0,0,0,0,0,0,0,0,0,0,0,0,2,3,1},
+//		    {1,3,3,1,1,0,1,1,0,0,0,0,0,0,0,3,3,0,0,1,0,1,0,0,0,0,0,0,0,3,3,1},
+//		    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+//	};
 
-//	public static int[][] matrix = new int[HEIGHT][WIDTH];
+	public static int[][] matrix = new int[HEIGHT][WIDTH];
+	
+	private static int[][] spawn = {{1,1}, 
+									{1, WIDTH/2 - SPAWN_W/2},
+									{1, WIDTH - SPAWN_W - 1},
+									{HEIGHT - SPAWN_H - 1,1},
+									{HEIGHT - SPAWN_H - 1, WIDTH/2 - SPAWN_W/2},
+									{HEIGHT - SPAWN_H - 1, WIDTH - SPAWN_W - 1}};
 	
 	public static void main(String[] args) {
-		//matrix = getMatrix();
+		addSpawn();
 		clearCenter();
 		buildNodeMap();
-		
+		System.out.println(checkMap());
+		//matrix = getMatrix();
+				
+		buildNodeMap();
+		print();
 		//Node n = nodes.get((3*WIDTH + 16));
 		//n.printEdge();
+		
 		int sx = 16;
 		int sy = 3;
 		int tx = 15;
@@ -62,7 +76,6 @@ public class MapMatrix {
 		//System.out.println(matrix[sy][sx]);
 		//System.out.println(nodes.toString());
 		//printNode();
-		
 		
 		AStar.generatePath(sx, sy, tx, ty);
 		
@@ -76,9 +89,11 @@ public class MapMatrix {
 	}
 	 
 	public static int[][] getMatrix() {
-		fillTheMap();
-		addSpawn();
-		clearCenter();
+		do {
+			fillTheMap();
+			addSpawn();
+			clearCenter();
+		} while(checkMap());	
 		
 		buildNodeMap();
 		
@@ -104,15 +119,19 @@ public class MapMatrix {
 	private static int WallOrNot() {
 		return new Random().nextFloat() > WALL_PROBABILITY ? PAVEMENT : WALL;
 	}
-	
-	private static void addSpawn() {
-		fillSpawn(1, 1);
-		fillSpawn(1, WIDTH/2 - SPAWN_W/2);
-		fillSpawn(1, WIDTH - SPAWN_W - 1);
 		
-		fillSpawn(HEIGHT - SPAWN_H - 1,1);
-		fillSpawn(HEIGHT - SPAWN_H - 1, WIDTH/2 - SPAWN_W/2);
-		fillSpawn(HEIGHT - SPAWN_H - 1, WIDTH - SPAWN_W - 1);
+	private static void addSpawn() {
+		for(int[] s: spawn) {
+			fillSpawn(s[0], s[1]);
+		}
+		
+//		fillSpawn(1, 1);
+//		fillSpawn(1, WIDTH/2 - SPAWN_W/2);
+//		fillSpawn(1, WIDTH - SPAWN_W - 1);
+//		
+//		fillSpawn(HEIGHT - SPAWN_H - 1,1);
+//		fillSpawn(HEIGHT - SPAWN_H - 1, WIDTH/2 - SPAWN_W/2);
+//		fillSpawn(HEIGHT - SPAWN_H - 1, WIDTH - SPAWN_W - 1);
 	}
 	
 	private static void fillSpawn(int y, int x) {
@@ -217,6 +236,27 @@ public class MapMatrix {
 	
 	public static boolean isWall(int x, int y) {
 		if(matrix[y][x] == 1)
+			return true;
+		
+		return false;
+	}
+	
+	private static boolean checkMap() {
+		for(int[] s: spawn) {
+			if(isNull(s[0], s[1]))
+				return false;
+		}
+		
+		return true;
+	}
+	
+	private static boolean isNull(int x, int y) {
+		Stack<Node> n = new Stack<>();
+		Path p = new Path(x, y, CX, CY);
+		p.generatePath();
+		n = p.getPath();
+
+		if(n.isEmpty())
 			return true;
 		
 		return false;

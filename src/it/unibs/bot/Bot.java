@@ -93,17 +93,18 @@ public class Bot {
 	 * 		check collisons
 	 * set directional speed	+
 	 * set angular speed,and rotation control	+
-	 * check ammo: reload if no left (or after time) 
+	 * check ammo: reload if no left (or after time) +
 	 * check player in gun range	+
 	 * 		shoot					+
 	 * 		random movement with player in range
-	 * 		if player comes closer backup + random movement
+	 * 		if player comes closer backup + random movement	+
 	 * */
-	public void stepNext(){
+	public void stepNext() throws InterruptedException{
 		// set player and target square for the methods
 		setPlayerSquare();
 		setTargetSquare();
 		
+		// check to reset the path
 		if(resetPath || p.respawn) {
 			setupPath();
 			resetPath = false;
@@ -116,11 +117,12 @@ public class Bot {
 		
 		calculateDirection();
 		calculatePointerDirection();
+		
 		setSpeed();
 		setRotation();
-		
-		//collision();
+				
 		shootTarget();
+		checkAmmo();
 	}
 	
 	private void setPlayerSquare() {
@@ -154,7 +156,7 @@ public class Bot {
 	}
 	
 	// Change to next node to reach
-	//TODO: add random coordinates to reach within the square
+	//TODO: random offsetted only if the node changes, like this it bounces in the tile
 	private void nextNode() {
 		try {
 			nextNode = path.peek();
@@ -172,25 +174,20 @@ public class Bot {
 	}
 	
 	// Find best path to target
-	//TODO: (?) use a different square than the one of the target
 	private void findTarget() {
 		if(playerInRange) {			
 			targetX = closerPlayer.getPosX();
 			targetY = closerPlayer.getPosY();		
 		}
 		
-//		System.out.println("target: (" + targetX + ", " + targetY + ")");
-
 		setTargetSquare();
 
+		// If target changes it generates a new path
 		if(targetSquareX != oldTargetSquareX || targetSquareY != oldTargetSquareY) {
 			generateNewPath();
 		}
 		
-//		System.out.println("player: (" + playerSquareX + ", " + playerSquareY + ")");
-//		System.out.println("next: (" + nextCol + ", " + nextRow + ")");
-//		System.out.println("target: (" + targetSquareX + ", " + targetSquareY + ")");
-
+		// Node gets popped if it's not the target node
 		if(playerSquareX == nextCol && playerSquareY == nextRow) {
 			if(!targetReached()) {
 				/*
@@ -200,14 +197,13 @@ public class Bot {
 				 * quindi stack resta vuoto
 				 */
 				try {
-					path.pop();
+					if(!checkPlayerInGunRange())
+						path.pop();
 				} catch (Exception e) {
 					System.out.println(e);
 				}
 
 			}
-			
-			nextNode();
 		}
 
 		oldPlayerSquareX = playerSquareX;
@@ -220,9 +216,9 @@ public class Bot {
 				setRandomTarget(12, 6);
 				//generateNewPath();
 			}
-			
-			nextNode();
 		}
+		
+		nextNode();
 	}
 	
 	// obbiettivo casuale intorno al centro della mappa
@@ -243,11 +239,11 @@ public class Bot {
 	}
 	
 	// value between 0 and BATTLEFIELD_TILEDIM/2, random position inside the tile
-		private int getRandomOffset() {
-			Random rand = new Random();
-			return rand.nextInt(Battlefield.BATTLEFIELD_TILEDIM/2);
-		}
-	
+	private int getRandomOffset() {
+		Random rand = new Random();
+		return rand.nextInt(Battlefield.BATTLEFIELD_TILEDIM/2);
+	}
+
 	// random int between [-n;n]
 	private int getRandomRange(int n) {
 		Random random = new Random();
@@ -268,17 +264,32 @@ public class Bot {
 		this.dx = nextX - p.getPosX();
 		this.dy = nextY - p.getPosY();
 
-		this.directionalX = mapDirection(dx);
-		this.directionalY = mapDirection(dy);
+		int reverse = reverseSpeed();
+		
+		this.directionalX = reverse * mapDirection(dx);
+		this.directionalY = reverse * mapDirection(dy);
+	}
+	
+	// if enemy get closer bot reverse speed to escape
+	// TODO: if target is not moving do not stop or backoff, fix in findTarget() pop
+	private int reverseSpeed() {
+		double rangeCut = 0.5;
+		double gunRange = p.getGun().getRange() * Battlefield.BATTLEFIELD_TILEDIM;
+		
+		double desiredDistance = (gunRange * rangeCut);
+		
+		if(checkPlayerInGunRange()) {	
+			if(magnitude < desiredDistance)
+				return -1;
+		}
+		
+		return 1;
 	}
 	
 	// calculate pointer direction to the target
 	private void calculatePointerDirection() {
 		this.pointerX = targetX - p.getPosX();
         this.pointerY = targetY - p.getPosY();
-		
-//		System.out.println("target: (" + targetX + ", " + targetY + ")");
-//		System.out.println("position: (" + p.getPosX() + ", " + p.getPosY() + ")");
 
         magnitude = Math.sqrt(pointerX * pointerX + pointerY * pointerY);
         normalizedDx = pointerX / magnitude;
@@ -302,21 +313,16 @@ public class Bot {
 	
 	// check for player in range using matrix position in the visible grid of a player + 1
 	private boolean checkPlayerInRange() {
-//		System.out.println("position: (" + p.getPosX() + ", " + p.getPosY() + ")");
-//		System.out.println("square: (" + playerSquareX + ", " + playerSquareY + ")");
 		int range = 7;
 		int lowX = (playerSquareX - range > 0 ? playerSquareX - range : 0);
 		int lowY = (playerSquareY - range > 0 ? playerSquareY - range : 0);
 		int topX = (playerSquareX + range < MapMatrix.WIDTH ? playerSquareX + range : MapMatrix.WIDTH - 1);
 		int topY = (playerSquareY + range < MapMatrix.HEIGHT ? playerSquareY + range : MapMatrix.HEIGHT - 1);
-		
-		//debug closer player
-		//int closerId = 0;
-		
+
 		boolean pInRange = false;
-		
 		double maxDistance = 500;		//7*64=448
 		
+		// cycle through all players and find the closer target
 		for(int i = 0; i < 6; i++) {
 			if(i == pId)
 				continue;
@@ -333,24 +339,19 @@ public class Bot {
 				double distanceY = p.getPosY() - player[i].getPosY();
 				double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
-				//System.out.println("distance " + (i+1) + ": " + distance);
 				if(distance < maxDistance) {
 					maxDistance = distance;
 					closerPlayer = player[i];
 					pInRange = true;
-					//closerId = i+1;
 				}
 			}
 		}
-		
-//		if(pInRange)
-//			System.out.println("found: " + closerId);
 
 		playerInRange = pInRange;
-//		System.out.println(playerInRange);
 		return playerInRange;
 	}
 	
+	// check if player if the player is in range
 	private boolean inRange(int lowX, int lowY, int topX, int topY, int psX, int psY) {
 		if((psX > lowX && psX < topX) && (psY > lowY && psY < topY))
 			return true;
@@ -359,6 +360,7 @@ public class Bot {
 		
 	}
 	
+	//TODO: delete
 	private void keepAtGunRange() {
 		double rangeCut = 0.8;
 		double gunRange = p.getGun().getRange() * Battlefield.BATTLEFIELD_TILEDIM;
@@ -407,7 +409,6 @@ public class Bot {
 				break;
 			case 0:
 				p.setXSpeed(0);
-				//p.setXSpeed(p.getXSpeed());
 				break;
 			default:
 				break;
@@ -422,93 +423,90 @@ public class Bot {
 				break;
 			case 0:
 				p.setYSpeed(0);
-				//p.setXSpeed(p.getXSpeed());
 				break;
 			default:
 				break;
 		}
 	}
 	
-	// set player rotation angle in [-pi,pi]
+	// set player rotation angle between [-pi,pi]
 	public double splitCircleRotation(double angle) {
-        double normalizedAngle = p.getAngle() % (2 * Math.PI);
-        
-        normalizedAngle -= Math.PI;
+		double normalizedAngle = p.getAngle() % (2 * Math.PI);
 
-        if (normalizedAngle < -Math.PI) {
-            normalizedAngle += 2 * Math.PI;
-        }
-        
-        return normalizedAngle;
-    }
-	
-	// check closer delta
+		normalizedAngle -= Math.PI;
+
+		if (normalizedAngle < -Math.PI) {
+			normalizedAngle += 2 * Math.PI;
+		}
+
+		return normalizedAngle;
+	}
+
+	// check closer delta angle for faster rotation
 	public double shortestAngularDistance(double source, double target) {
-        double delta = target - source;
-        if (delta > Math.PI) {
-            delta -= 2 * Math.PI;
-        } else if (delta < -Math.PI) {
-            delta += 2 * Math.PI;
-        }
-        return delta;
-    }
+		double delta = target - source;
+		if (delta > Math.PI) {
+			delta -= 2 * Math.PI;
+		} else if (delta < -Math.PI) {
+			delta += 2 * Math.PI;
+		}
+		return delta;
+	}
 
 	// calculate rotation direction
-    public int calculateRotationDirection(double source, double target) {
-        double angularDistance = shortestAngularDistance(source, target);
+	public int calculateRotationDirection(double source, double target) {
+		double angularDistance = shortestAngularDistance(source, target);
 
-        if (angularDistance == 0)
-            return 0;
-        else if(angularDistance > 0)
-            return 1;
-        else
-        	return -1;
-    }
-	
-    // set rotation velocity based on closer way to reach the target
-    //TODO: change targetAngle value, needs to be fixed to the end target, now is on the next tile target
-	public void setRotation() {
-		int rotationDirection = calculateRotationDirection(pAngle, targetAngle);
-        
-//		System.out.println("norm p pointer: " + pAngle);
-//		System.out.println("norm t pointer: " + targetAngle);
-        
-        double rotationThreshold = Math.toRadians(5); // 5 degrees
-        
-        if (Math.abs(targetAngle - pAngle) <= rotationThreshold) {
-            p.setRotation(0);
-        } else {
-            switch(rotationDirection) {
-                case 1:
-                    p.setRotation(-Player.R_VELOCITY);
-                    break;
-                case -1:
-                    p.setRotation(Player.R_VELOCITY);
-                    break;
-                case 0:
-                	p.setRotation(0);
-                default:
-                    break;
-            }
-        }
+		if (angularDistance == 0)
+			return 0;
+		else if(angularDistance > 0)
+			return 1;
+		else
+			return -1;
 	}
 	
-	/*
-	 * Player shooting conditions:
-	 * target is player and is in range
-	 * player distance is lower than gun range
-	 * pointer is on the target
-	 */
-	private void shootTarget() {
-		if(playerInRange && checkPlayerInGunRange() && pointerOnTarget() && MapMatrix.isPavement(playerSquareX, playerSquareY)) {
-			p.shooting();
-			System.out.println("shoot");
+	// set rotation velocity based on the closer way to reach the target, with tolerance
+	public void setRotation() {
+		int rotationDirection = calculateRotationDirection(pAngle, targetAngle);
+		double rotationTolerance = Math.toRadians(5); // 5 degrees
+
+		if (Math.abs(targetAngle - pAngle) <= rotationTolerance) {
+			p.setRotation(0);
+		} else {
+			switch(rotationDirection) {
+				case 1:
+					p.setRotation(-Player.R_VELOCITY);
+					break;
+				case -1:
+					p.setRotation(Player.R_VELOCITY);
+					break;
+				case 0:
+					p.setRotation(0);
+				default:
+					break;
+			}
 		}
 	}
 	
 	/*
-	 * If the pointer is on the target the sum of the angles is 3.14
-	 * Tolerance let bot shoot while the pointer is not in the middle
+	 * Player shooting conditions:
+	 * 		target is player and is in range
+	 * 		player distance is lower than gun range
+	 * 		pointer is on the target
+	 * 		player is not on a spawn tile
+	 * 		TODO: do not shoot at players inside spawn, player can have a little out of spawn and be hittable
+	 */
+	private void shootTarget() {
+		if(playerInRange && checkPlayerInGunRange() && pointerOnTarget() && MapMatrix.isPavement(playerSquareX, playerSquareY)) {
+			p.shooting();
+			//System.out.println("shoot");
+		}
+	}
+	
+	/*
+	 * Check if pointer is on target with a 0.07 rad tolerance
+	 * 		If the pointer is on the target the sum of the absolute value of the angles is 3.14
+	 * 		Tolerance let bot shoot while the pointer is not in the middle
 	 */
 	private boolean pointerOnTarget() {
 		double angleSum = Math.abs(pAngle) + Math.abs(targetAngle);
@@ -534,10 +532,24 @@ public class Bot {
 
 	// checks ammo to reload
 	private void checkAmmo() throws InterruptedException {
-		if(p.checkAmmo())
+		int ammoLeft = p.getAmmoLeft();
+		int maxAmmo = p.getGun().getMaxAmmo();
+		
+		if(p.checkAmmo()) {
 			p.reloadAmmo();
+			return;
+		}
+		
+		if(!playerInRange) {
+			int minAmmo = (maxAmmo/3) * 2;
+			
+			if(ammoLeft < minAmmo)
+				p.reloadAmmo();
+		}
+			
 	}
 
+	//TODO: delete
 	//useless with pathfinding
 	private void checkWalls() {
 		int[] topSquare = {playerSquareY - 1 > 0 ? playerSquareY - 1 : 0, playerSquareX};

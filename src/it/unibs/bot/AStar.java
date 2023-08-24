@@ -1,26 +1,23 @@
 package it.unibs.bot;
 
-import java.nio.file.spi.FileSystemProvider;
 import java.util.*;
 
 import it.unibs.mainApp.Battlefield;
 import it.unibs.mainApp.MapMatrix;
 
 public class AStar {
-	private double cost;
-
 	private static HashMap<Integer, Node> nodes = MapMatrix.getNodes();
 	
 	private static Stack<Node> nodePath;
 
 	public static Stack<Node> generatePath(int startX, int startY, int targetX, int targetY) {
-		clearNodes();
+		// Avoid target being on a wall
 		try {
 			Node start = nodes.get(calculateKey(startX, startY));
 			Node target = nodes.get(calculateKey(targetX, targetY));
 			
 			aStarPath(start, target);
-			printPath(target);
+			//printPath(target);
 			nodePath = createNodePath(target);
 			
 			start = null;
@@ -29,6 +26,7 @@ public class AStar {
 			//System.out.println(e);
 		}
 		
+		clearNodes();
 		return nodePath;
 	}
 	
@@ -84,11 +82,7 @@ public class AStar {
 		return null;
 	}
 
-	public void setCost(double cost) {
-		this.cost = cost;
-	}
-
-	// CHANGE TO STACK FOR LIFO STRUCTURE
+	// TODO: delete
 	public static ArrayList<Integer> createPath(Node target){
 		Node n = target;
 		if(n == null)
@@ -113,17 +107,13 @@ public class AStar {
 		Node n = target;
 		if(n == null)
 			return null;
-		//Costo ugale a "f"
-		//setCost(n.f);
+
 		Stack<Node> path = new Stack<>();
 
 		while(n.parent != null){
 			path.push(nodes.get(n.id));
 			n = n.parent;
 		}
-		//starting position
-		//path.add(n.id);
-		//Collections.reverse(path);
 
 		return path;
 	}

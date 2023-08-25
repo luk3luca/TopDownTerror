@@ -56,49 +56,47 @@ public class MapMatrix {
 									{HEIGHT - SPAWN_H - 1, WIDTH/2 - SPAWN_W/2},
 									{HEIGHT - SPAWN_H - 1, WIDTH - SPAWN_W - 1}};
 	
-	public static void main(String[] args) {
-		addSpawn();
-		clearCenter();
-		buildNodeMap();
-		System.out.println(checkMap());
-		//matrix = getMatrix();
-				
-		buildNodeMap();
-		print();
-		//Node n = nodes.get((3*WIDTH + 16));
-		//n.printEdge();
-		
-		int sx = 16;
-		int sy = 3;
-		int tx = 15;
-		int ty = 11;
-		
-		//System.out.println(matrix[sy][sx]);
-		//System.out.println(nodes.toString());
-		//printNode();
-		
-		AStar.generatePath(sx, sy, tx, ty);
-		
-		//Node n = nodes.get((ty*WIDTH + tx));
-		//n.printEdge();
-		
-		//AStar.generatePath(sx, sy, tx, ty);
-		AStar.generatePath(tx, ty, 7, 3);
-		
-		//print();
-	}
+//	public static void main(String[] args) {
+//		addSpawn();
+//		clearCenter();
+//		buildNodeMap();
+//		System.out.println(checkMap());
+//		//matrix = getMatrix();
+//				
+//		buildNodeMap();
+//		print();
+//		//Node n = nodes.get((3*WIDTH + 16));
+//		//n.printEdge();
+//		
+//		int sx = 16;
+//		int sy = 3;
+//		int tx = 15;
+//		int ty = 11;
+//		
+//		//System.out.println(matrix[sy][sx]);
+//		//System.out.println(nodes.toString());
+//		//printNode();
+//		
+//		AStar.generatePath(sx, sy, tx, ty);
+//		
+//		//Node n = nodes.get((ty*WIDTH + tx));
+//		//n.printEdge();
+//		
+//		//AStar.generatePath(sx, sy, tx, ty);
+//		AStar.generatePath(tx, ty, 7, 3);
+//		
+//		//print();
+//	}
 	 
 	public static int[][] getMatrix() {
 		do {
 			fillTheMap();
 			addSpawn();
 			clearCenter();
+			
+			buildNodeMap();
 		} while(checkMap());	
 		
-		buildNodeMap();
-		
-		//if(!checkMap())
-			//getMatrix();
 		
 		return matrix;
 	}
@@ -124,14 +122,6 @@ public class MapMatrix {
 		for(int[] s: spawn) {
 			fillSpawn(s[0], s[1]);
 		}
-		
-//		fillSpawn(1, 1);
-//		fillSpawn(1, WIDTH/2 - SPAWN_W/2);
-//		fillSpawn(1, WIDTH - SPAWN_W - 1);
-//		
-//		fillSpawn(HEIGHT - SPAWN_H - 1,1);
-//		fillSpawn(HEIGHT - SPAWN_H - 1, WIDTH/2 - SPAWN_W/2);
-//		fillSpawn(HEIGHT - SPAWN_H - 1, WIDTH - SPAWN_W - 1);
 	}
 	
 	private static void fillSpawn(int y, int x) {
@@ -250,8 +240,10 @@ public class MapMatrix {
 		return true;
 	}
 	
+	private static Stack<Node> n = new Stack<>();
+
+	
 	private static boolean isNull(int x, int y) {
-		Stack<Node> n = new Stack<>();
 		Path p = new Path(x, y, CX, CY);
 		p.generatePath();
 		n = p.getPath();

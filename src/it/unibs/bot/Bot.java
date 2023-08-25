@@ -45,7 +45,6 @@ public class Bot {
 	
 	// Pathfinding
 	private Stack<Node> path;
-	
 	private Path astarPath;
 	
 	private int oldPlayerSquareX;
@@ -54,15 +53,19 @@ public class Bot {
 	private int targetSquareY;
 	private int oldTargetSquareX;
 	private int oldTargetSquareY;
-	
-	private boolean onTarget = false;
-	
+		
+	private boolean resetPath = true;
+
+	// next node in path
 	private Node nextNode;
 	private int nextRow;
 	private int nextCol;
 	private double nextX;
 	private double nextY;
-	
+	private int offsetX = Battlefield.BATTLEFIELD_TILEDIM/4;
+	private int offsetY = Battlefield.BATTLEFIELD_TILEDIM/4;
+
+		
 	private double oldPosX;
 	private double oldPosY;
 	
@@ -83,7 +86,6 @@ public class Bot {
 		setRandomTarget(4, 3);
 	}
 	
-	private boolean resetPath = true;
 	
 		
 	/*
@@ -99,6 +101,7 @@ public class Bot {
 	 * 		random movement with player in range
 	 * 		if player comes closer backup + random movement	+
 	 * */
+	
 	public void stepNext() throws InterruptedException{
 		// set player and target square for the methods
 		setPlayerSquare();
@@ -123,6 +126,12 @@ public class Bot {
 				
 		shootTarget();
 		checkAmmo();
+		
+		
+		// old target player position
+		if(playerInRange) {
+			
+		}
 	}
 	
 	private void setPlayerSquare() {
@@ -142,7 +151,7 @@ public class Bot {
 		
 		oldTargetSquareX = targetSquareX;
 		oldTargetSquareY = targetSquareY;
-		
+
 		generateNewPath();
 	}
 	
@@ -156,7 +165,6 @@ public class Bot {
 	}
 	
 	// Change to next node to reach
-	//TODO: random offsetted only if the node changes, like this it bounces in the tile
 	private void nextNode() {
 		try {
 			nextNode = path.peek();
@@ -167,17 +175,28 @@ public class Bot {
 		nextCol = nextNode.getCol();
 		nextRow = nextNode.getRow();
 		
-		nextX = nextCol * Battlefield.BATTLEFIELD_TILEDIM + getRandomOffset();
-		nextY = nextRow * Battlefield.BATTLEFIELD_TILEDIM + getRandomOffset();
+		//avoid changing direction in the same tile while following the path
+		if(nextCol != oldPlayerSquareX && nextRow != oldPlayerSquareY) {
+			offsetX = getRandomOffset();
+			offsetY = getRandomOffset();
+		}
+		
+		nextX = nextCol * Battlefield.BATTLEFIELD_TILEDIM + offsetX;
+		nextY = nextRow * Battlefield.BATTLEFIELD_TILEDIM + offsetY;	
 		
 		System.out.println("next (M): (" + nextCol + ", " + nextRow + ")");
 	}
 	
 	// Find best path to target
+	// TODO: if playerInRange is in spawn get another target
 	private void findTarget() {
 		if(playerInRange) {			
 			targetX = closerPlayer.getPosX();
 			targetY = closerPlayer.getPosY();		
+		}
+		else {
+			// test, probably useless now with only 1v1
+			setRandomTarget(12, 6);
 		}
 		
 		setTargetSquare();
@@ -196,8 +215,10 @@ public class Bot {
 				 * e il getPath rimuove il nodo di parternza (coinciderebbe con arrivo)
 				 * quindi stack resta vuoto
 				 */
+				// TODO: add control if player is static it pop
 				try {
-					if(!checkPlayerInGunRange())
+					//useless, if u hide behind a wall it wont move
+					//if(!checkPlayerInGunRange())
 						path.pop();
 				} catch (Exception e) {
 					System.out.println(e);
@@ -221,7 +242,21 @@ public class Bot {
 		nextNode();
 	}
 	
-	// obbiettivo casuale intorno al centro della mappa
+	
+	// probably useless
+	private double oldTargetPlayerX;
+	private double oldTargetPlayerY;
+	
+	private boolean isTargetStatic() {
+		if(playerInRange) {
+			if(closerPlayer.getPosX() == oldTargetPlayerX && closerPlayer.getPosY() == oldTargetPlayerY)
+				return true;
+		}
+		
+		return false;
+	}
+	
+	// random target around the center of the map
 	private void setRandomTarget(int randX, int randY) {
 		int centerX = 15;
 		int centerY = 11;
@@ -273,7 +308,7 @@ public class Bot {
 	// if enemy get closer bot reverse speed to escape
 	// TODO: if target is not moving do not stop or backoff, fix in findTarget() pop
 	private int reverseSpeed() {
-		double rangeCut = 0.5;
+		double rangeCut = 0.25;
 		double gunRange = p.getGun().getRange() * Battlefield.BATTLEFIELD_TILEDIM;
 		
 		double desiredDistance = (gunRange * rangeCut);
@@ -351,7 +386,7 @@ public class Bot {
 		return playerInRange;
 	}
 	
-	// check if player if the player is in range
+	// check if the player is in range
 	private boolean inRange(int lowX, int lowY, int topX, int topY, int psX, int psY) {
 		if((psX > lowX && psX < topX) && (psY > lowY && psY < topY))
 			return true;
@@ -398,6 +433,7 @@ public class Bot {
 	}
 	
 	// set directional speed
+	// TODO: move switch in separate method
 	private void setSpeed() {
 		//System.out.println("direction: (" + directionalX + ", " + directionalY + ")");
 		switch(directionalX) {

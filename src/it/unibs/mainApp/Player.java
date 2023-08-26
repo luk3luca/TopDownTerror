@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.io.Serializable;
+import java.util.Random;
 
 import javax.swing.Timer;
 
@@ -286,5 +287,21 @@ public class Player extends MovingObject implements Serializable{
 	public void setBottomRightCollision(boolean bottomRightCollision) {this.bottomRightCollision = bottomRightCollision;}
 
 	public T_Spawn getSpawn() {return spawn;}
+	
+	
+	public void setRandomGun() {
+		Random rand = new Random();
+		int gunRand = rand.nextInt(Gun.nGuns);
+		setPlayerGun(gunRand);
+	}
+	
+	public void setPlayerGun(int n) {
+		try {
+			this.gun = Gun.guns[n].clone();
+		} catch (Exception e) {
+            e.printStackTrace();
+        }
+
+	}
 	
 }

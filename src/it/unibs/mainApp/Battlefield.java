@@ -145,7 +145,6 @@ public class Battlefield extends BaseModel {
 		for(Player p:player) {
 			p.nextStep();
 			addShot(p);
-
 		}
 		
         bullet.forEach((b)->b.stepNext());

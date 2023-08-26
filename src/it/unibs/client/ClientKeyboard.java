@@ -20,7 +20,7 @@ public class ClientKeyboard extends BaseModel implements KeyListener {
 	public ArrayList<Integer> currentActiveControls = new ArrayList<>();
 	@Override
 	public void keyTyped(KeyEvent e) {
-	}  
+	}
 
 //	@Override
 //	public void keyPressed(KeyEvent e) {

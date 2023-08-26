@@ -114,6 +114,8 @@ public class Bot {
 			setupPath();
 			resetPath = false;
 			p.respawn = false;
+			p.setRandomGun();
+			
 		}
 		
 		checkPlayerInRange();
@@ -533,6 +535,7 @@ public class Bot {
 	 * 		pointer is on the target
 	 * 		player is not on a spawn tile
 	 * 		TODO: do not shoot at players inside spawn, player can have a little out of spawn and be hittable
+	 * 		TODO: fix slow shooting
 	 */
 	private void shootTarget() {
 		if(playerInRange && checkPlayerInGunRange() && pointerOnTarget() && MapMatrix.isPavement(playerSquareX, playerSquareY)) {

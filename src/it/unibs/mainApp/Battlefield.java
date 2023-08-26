@@ -143,8 +143,9 @@ public class Battlefield extends BaseModel {
 		bot1.stepNext();
 		
 		for(Player p:player) {
-			addShot(p);
 			p.nextStep();
+			addShot(p);
+
 		}
 		
         bullet.forEach((b)->b.stepNext());

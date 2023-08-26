@@ -33,7 +33,6 @@ public class Bot {
 	private double pointerX;
 	private double pointerY;
 	
-	
 	private double oldDesiredDistance;
 	
 	// Player position
@@ -100,10 +99,13 @@ public class Bot {
 	 * 		shoot					+
 	 * 		random movement with player in range
 	 * 		if player comes closer backup + random movement	+
+	 * 
+	 * set random gun
+	 * 		respawn reset gun
 	 * */
 	
 	public void stepNext() throws InterruptedException{
-		// set player and target square for the methods
+		// set player and target square
 		setPlayerSquare();
 		setTargetSquare();
 		
@@ -176,10 +178,10 @@ public class Bot {
 		nextRow = nextNode.getRow();
 		
 		//avoid changing direction in the same tile while following the path
-		if(nextCol != oldPlayerSquareX && nextRow != oldPlayerSquareY) {
+		//if(nextCol != oldPlayerSquareX && nextRow != oldPlayerSquareY) {
 			offsetX = getRandomOffset();
 			offsetY = getRandomOffset();
-		}
+		//}
 		
 		nextX = nextCol * Battlefield.BATTLEFIELD_TILEDIM + offsetX;
 		nextY = nextRow * Battlefield.BATTLEFIELD_TILEDIM + offsetY;	
@@ -196,7 +198,7 @@ public class Bot {
 		}
 		else {
 			// test, probably useless now with only 1v1
-			setRandomTarget(12, 6);
+			// setRandomTarget(12, 6);
 		}
 		
 		setTargetSquare();
@@ -546,7 +548,7 @@ public class Bot {
 	 */
 	private boolean pointerOnTarget() {
 		double angleSum = Math.abs(pAngle) + Math.abs(targetAngle);
-		double tolerance = 0.07;
+		double tolerance = 0.15;
 		
 		if(angleSum > (Math.PI - tolerance) && angleSum < (Math.PI + tolerance))
 			return true;

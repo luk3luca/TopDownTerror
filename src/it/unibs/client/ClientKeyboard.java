@@ -50,6 +50,9 @@ public class ClientKeyboard extends BaseModel implements KeyListener {
 			case KeyEvent.VK_D:
 				p.setXSpeed(Player.DEFAULT_X_SPEED);
 				break;
+		}
+		
+		switch(e.getKeyCode()) {
 			case KeyEvent.VK_I, KeyEvent.VK_UP:
 				p.shooting();
 				//System.out.println(p.getAmmoLeft());

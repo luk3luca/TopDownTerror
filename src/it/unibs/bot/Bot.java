@@ -110,6 +110,10 @@ public class Bot {
 		
 		// check to reset the path
 		if(resetPath || p.respawn) {
+			// avoid not resetting target if getting killed by non target player
+			if(p.respawn)
+				setRandomTarget(12, 6);
+			
 			setupPath();
 			resetPath = false;
 			p.respawn = false;
@@ -173,11 +177,11 @@ public class Bot {
 		nextCol = nextNode.getCol();
 		nextRow = nextNode.getRow();
 		
-		//avoid changing direction in the same tile while following the path
-		//if(nextCol != oldPlayerSquareX && nextRow != oldPlayerSquareY) {
+		// TODO: avoid changing direction in the same tile while following the path
+		if(nextCol != oldPlayerSquareX && nextRow != oldPlayerSquareY) {
 			offsetX = getRandomOffset();
 			offsetY = getRandomOffset();
-		//}
+		}
 		
 		nextX = nextCol * Battlefield.BATTLEFIELD_TILEDIM + offsetX;
 		nextY = nextRow * Battlefield.BATTLEFIELD_TILEDIM + offsetY;	

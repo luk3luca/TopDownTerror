@@ -110,7 +110,7 @@ public class Bot {
 		
 		// check to reset the path
 		if(resetPath || p.respawn) {
-			// avoid not resetting target if getting killed by non target player
+			// avoid not resetting target if getting killed by non targeted player
 			if(p.respawn)
 				setRandomTarget(12, 6);
 			
@@ -129,7 +129,7 @@ public class Bot {
 		
 		shootTarget();
 		checkAmmo();
-		
+				
 		// old target player position
 		if(playerInRange) {
 			
@@ -197,7 +197,11 @@ public class Bot {
 			targetY = closerPlayer.getPosY();		
 		}
 		else {
-			// test, probably useless now with only 1v1
+			/*
+			 * TODO: add controls if player targeted gets killed
+			 * test, probably useless now with only 1v1
+			 * like this the bot would reach the target position and then reset
+			 */
 			// setRandomTarget(12, 6);
 		}
 		
@@ -244,11 +248,11 @@ public class Bot {
 		nextNode();
 	}
 	
-	
 	// probably useless
 	private double oldTargetPlayerX;
 	private double oldTargetPlayerY;
 	
+	// TODO: DELETE
 	private boolean isTargetStatic() {
 		if(playerInRange) {
 			if(closerPlayer.getPosX() == oldTargetPlayerX && closerPlayer.getPosY() == oldTargetPlayerY)
@@ -308,7 +312,6 @@ public class Bot {
 	}
 	
 	// if enemy get closer bot reverse speed to escape
-	// TODO: if target is not moving do not stop or backoff, fix in findTarget() pop
 	private int reverseSpeed() {
 		double rangeCut = 0.25;
 		double gunRange = p.getGun().getRange() * Battlefield.BATTLEFIELD_TILEDIM;
@@ -348,7 +351,7 @@ public class Bot {
 	    	return 1;
 	}
 	
-	// check for player in range using matrix position in the visible grid of a player + 1
+	// check for player in range using matrix position in the visible grid of a player + 1 (7 squares)
 	private boolean checkPlayerInRange() {
 		int range = 7;
 		int lowX = (playerSquareX - range > 0 ? playerSquareX - range : 0);
@@ -359,7 +362,7 @@ public class Bot {
 		boolean pInRange = false;
 		double maxDistance = 500;		//7*64=448
 		
-		// cycle through all players and find the closer target
+		// cycle all players and find the closer target
 		for(int i = 0; i < 6; i++) {
 			if(i == pId)
 				continue;
@@ -367,8 +370,8 @@ public class Bot {
 			int psX = (int)((player[i].getPosX() + Battlefield.BATTLEFIELD_TILEDIM/4) / Battlefield.BATTLEFIELD_TILEDIM);
 			int psY = (int)((player[i].getPosY() + Battlefield.BATTLEFIELD_TILEDIM/4) / Battlefield.BATTLEFIELD_TILEDIM);
 
-			// avoid target on player getting pushed over a wall
-			if(MapMatrix.isWall(psX, psY))
+			// avoid target on player getting pushed over a wall or camping players in spawn
+			if(!MapMatrix.isPavement(psX, psY))
 				continue;
 			
 			if(inRange(lowX, lowY, topX, topY, psX, psY)) {
@@ -396,48 +399,10 @@ public class Bot {
 		return false;
 		
 	}
-	
-	//TODO: delete
-	private void keepAtGunRange() {
-		double rangeCut = 0.8;
-		double gunRange = p.getGun().getRange() * Battlefield.BATTLEFIELD_TILEDIM;
-
-		double desiredDistance = (gunRange * rangeCut);
-		//double deadzone = 4.0;
 		
-		targetX = targetX + desiredDistance * (-directionalX);
-		targetY = targetY + desiredDistance * (-directionalY);
-		//if(Math.abs(desiredDistance - oldDesiredDistance) > deadzone) {
-//		if(true) {
-//	        // current and desired distances	        
-//	        if (directionalX == 1) {
-//		        targetX -= desiredDistance;
-//		    } else if (directionalX == -1) {
-//		        targetX += desiredDistance;
-//		    }
-//		    
-//		    if (directionalY == 1) {
-//		        targetY -= desiredDistance;
-//		    } else if (directionalY == -1) {
-//		        targetY += desiredDistance;
-//		    }    
-////		    targetX += desiredDistance * normalizedDx;
-////		    targetY += desiredDistance * normalizedDy;
-////		    
-////		    System.out.println("x offset: " + targetX);
-//
-//		    //System.out.println("target gr: (" + targetX + ", " + targetY + ")");
-//
-//		}
-		//System.out.println(gunRange);
-		//System.out.println(gunRange*rangeCut);
-		//oldDesiredDistance = desiredDistance;
-	}
-	
 	// set directional speed
-	// TODO: move switch in separate method
+	// TODO: slower movement in diagonals if implemented to clients
 	private void setSpeed() {
-		//System.out.println("direction: (" + directionalX + ", " + directionalY + ")");
 		switch(directionalX) {
 			case 1:
 				p.setXSpeed(Player.DEFAULT_X_SPEED);
@@ -466,7 +431,7 @@ public class Bot {
 				break;
 		}
 	}
-	
+		
 	// set player rotation angle between [-pi,pi]
 	public double splitCircleRotation(double angle) {
 		double normalizedAngle = p.getAngle() % (2 * Math.PI);
@@ -588,76 +553,7 @@ public class Bot {
 			
 	}
 
-	//TODO: delete
-	//useless with pathfinding
-	private void checkWalls() {
-		int[] topSquare = {playerSquareY - 1 > 0 ? playerSquareY - 1 : 0, playerSquareX};
-		int[] bottomSquare = {playerSquareY + 1 < MapMatrix.HEIGHT ? playerSquareY + 1 : MapMatrix.HEIGHT - 1, playerSquareX};
-		int[] leftSquare = {playerSquareY, playerSquareX - 1 > 0 ? playerSquareX - 1 : 0};
-		int[] rightSquare = {playerSquareY, playerSquareX + 1 < MapMatrix.WIDTH ? playerSquareX + 1 : MapMatrix.WIDTH - 1};
-		int[] topLeftSquare = {playerSquareY - 1 > 0 ? playerSquareY - 1 : 0, playerSquareX - 1 > 0 ? playerSquareX - 1 : 0};
-		int[] topRightSquare = {playerSquareY - 1 > 0 ? playerSquareY - 1 : 0, playerSquareX + 1 < MapMatrix.WIDTH ? playerSquareX + 1 : MapMatrix.WIDTH - 1};
-		int[] bottomLeftSquare = {playerSquareY + 1 < MapMatrix.HEIGHT ? playerSquareY + 1 : MapMatrix.HEIGHT - 1, playerSquareX - 1 > 0 ? playerSquareX - 1 : 0};
-		int[] bottomRightSquare = {playerSquareY + 1 < MapMatrix.HEIGHT ? playerSquareY + 1 : MapMatrix.HEIGHT - 1, playerSquareX + 1 < MapMatrix.WIDTH ? playerSquareX + 1 : MapMatrix.WIDTH - 1};
-	
-		Tile topTile = tiles.get(topSquare[0]*MapMatrix.WIDTH + topSquare[1]);
-		Tile bottomTile = tiles.get(bottomSquare[0]*MapMatrix.WIDTH + bottomSquare[1]);
-		Tile leftTile = tiles.get(leftSquare[0]*MapMatrix.WIDTH + leftSquare[1]);
-		Tile rightTile = tiles.get(rightSquare[0]*MapMatrix.WIDTH + rightSquare[1]);
-		Tile topLeftTile = tiles.get(topLeftSquare[0]*MapMatrix.WIDTH + topLeftSquare[1]);
-		Tile topRightTile = tiles.get(topRightSquare[0]*MapMatrix.WIDTH + topRightSquare[1]);
-		Tile bottomLeftTile = tiles.get(bottomLeftSquare[0]*MapMatrix.WIDTH + bottomLeftSquare[1]);
-		Tile bottomRightTile = tiles.get(bottomRightSquare[0]*MapMatrix.WIDTH + bottomRightSquare[1]);
-		
-		if(collision()) {
-			if(directionalX == 0) {
-				if(directionalY == 1) {		//bottom wall
-					//check top
-					//check left or right
-					//check bottom left or bottom right
-				}
-				if(directionalY == -1) {	//top wall
-					//check bottom
-					//check left or right
-					//check top left or top right
-				}
-			}
-			if(directionalY == 0) {
-				if(directionalX == 1) {
-					//check right
-					//check top or bottom
-					//check top right or bottom right
-				}
-				if(directionalX == -1) {
-					//check left
-					//check top or bottom
-					//check top left or bottom left				
-				}
-			}
-			if(directionalX == 1) {
-				if(directionalY == 1) {		//to br
-					//check top or left
-					//check top right or bottom left
-				}
-				if(directionalY == -1) {	//to tr
-					//check bottom or right
-					//check top left or bottom right
-				}
-			}
-			if(directionalX == -1) {
-				if(directionalY == 1) {		//to bl
-					//check top or right
-					//check top left or bottom right
-				}
-				if(directionalY == -1) {	//to tl
-					//check bottom or right
-					//check bottom left or top right
-				}
-			}
-		}
-	
-	}
-	
+	// TODO: DELETE
 	private boolean collision() {
 		
 		if(oldPosX == p.getPosX() && oldPosY == p.getPosY()) {

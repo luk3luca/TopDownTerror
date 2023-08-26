@@ -57,6 +57,10 @@ public class Player extends MovingObject implements Serializable{
 	private double ySpeed = 0.;
 	private double rotation = 0.;
 	
+	public String getName() {
+		return name;
+	}
+	
 	public void setXSpeed(double xSpeed) { this.xSpeed = xSpeed;}
 	
 	public void setYSpeed(double ySpeed) { this.ySpeed = ySpeed;}
@@ -166,7 +170,7 @@ public class Player extends MovingObject implements Serializable{
 	        return;
 	    }
 
-	    System.out.println("Reloading");
+	    System.out.println(name + " Reloading");
 	    startReloadTime = currentTime;
 	    reloading = true;
 	    int reloadTime = (int) (this.gun.getReload()*1000);
@@ -226,7 +230,7 @@ public class Player extends MovingObject implements Serializable{
 			this.dead(this);
 			deaths++;
 			shooter.kills++;
-			System.out.println("shooter kills: " + shooter.kills);
+			System.out.println(name + " kills: " + shooter.kills);
 		}
 	}
 	

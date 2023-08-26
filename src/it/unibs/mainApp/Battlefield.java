@@ -128,6 +128,7 @@ public class Battlefield extends BaseModel {
 	
 	private void addShot(Player p) throws InterruptedException{
 		if (p.isShoot() && p.shoot()) {
+			System.out.println(p.getName() + " shot");
 			bullet.add(new Bullet(p, p.getGun()));
 		}
 	}

@@ -81,7 +81,6 @@ public class Bot {
 		this.oldPosX = p.getPosX();
 		this.oldPosY = p.getPosY();
 		
-		//setupPath();
 		setRandomTarget(4, 3);
 	}
 	
@@ -115,22 +114,17 @@ public class Bot {
 			resetPath = false;
 			p.respawn = false;
 			p.setRandomGun();
-			
 		}
 		
 		checkPlayerInRange();
-
 		findTarget();
-		
 		calculateDirection();
 		calculatePointerDirection();
-		
 		setSpeed();
 		setRotation();
-				
+		
 		shootTarget();
 		checkAmmo();
-		
 		
 		// old target player position
 		if(playerInRange) {
@@ -188,7 +182,7 @@ public class Bot {
 		nextX = nextCol * Battlefield.BATTLEFIELD_TILEDIM + offsetX;
 		nextY = nextRow * Battlefield.BATTLEFIELD_TILEDIM + offsetY;	
 		
-		System.out.println("next (M): (" + nextCol + ", " + nextRow + ")");
+		//System.out.println("next (M): (" + nextCol + ", " + nextRow + ")");
 	}
 	
 	// Find best path to target
@@ -576,7 +570,7 @@ public class Bot {
 		int ammoLeft = p.getAmmoLeft();
 		int maxAmmo = p.getGun().getMaxAmmo();
 		
-		if(p.checkAmmo()) {
+		if(!p.checkAmmo()) {
 			p.reloadAmmo();
 			return;
 		}

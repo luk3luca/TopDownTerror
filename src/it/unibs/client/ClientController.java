@@ -29,6 +29,7 @@ public class ClientController {
 	
 //	private GameView view;
 	private ExecutorService executor;
+	private ExecutorService ex_key;
 	private JFrame frame;
 	private ArrayList<Tile> tiles = new ArrayList<>();
 	private Player[] players = new Player[6];
@@ -103,11 +104,12 @@ public class ClientController {
 			e.printStackTrace();
 		}
 		
-		executor = Executors.newFixedThreadPool(1);
+		executor = Executors.newFixedThreadPool(8);
 		executor.execute(this::listenToServer);
 		
 
-		kb = new ClientKeyboard(localPlayer);
+//		ex_key = Executors.newFixedThreadPool(1);
+		kb = new ClientKeyboard(localPlayer,executor);
 		kb.addChangeListener(this::sendToServer);
 		playerViewport.addKeyListener(kb);
 		

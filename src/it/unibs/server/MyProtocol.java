@@ -90,8 +90,10 @@ public class MyProtocol implements Runnable  {
 				remotePlayer.setYSpeed(tmpPlayer.getYSpeed());
 				remotePlayer.setRotation(tmpPlayer.getRotation());
 				
+				
+				
 				if(tmpPlayer.isShoot())
-					remotePlayer.shooting();;
+					remotePlayer.shooting();
 				
 			}
 

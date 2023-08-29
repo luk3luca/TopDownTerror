@@ -3,6 +3,8 @@ package it.unibs.mainApp;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.geom.Ellipse2D;
 import java.io.Serializable;
 import java.util.Random;
@@ -52,6 +54,7 @@ public class Player extends MovingObject implements Serializable{
 	private long lastShotTime;
 	private long lastReloadTime;
 	private long startReloadTime;
+	private long tempoDiSparo;
 
 	protected double xSpeed = 0.;
 	private double ySpeed = 0.;
@@ -61,15 +64,23 @@ public class Player extends MovingObject implements Serializable{
 		return name;
 	}
 	
-	public void setXSpeed(double xSpeed) { this.xSpeed = xSpeed;}
+	public long getTempoDiSparo() {
+		return tempoDiSparo;
+	}
+
+	public void setTempoDiSparo(long tempoDiSparo) {
+		this.tempoDiSparo = tempoDiSparo;
+	}
+
+	public  void setXSpeed(double xSpeed) { this.xSpeed = xSpeed;}
 	
-	public void setYSpeed(double ySpeed) { this.ySpeed = ySpeed;}
+	public  void setYSpeed(double ySpeed) { this.ySpeed = ySpeed;}
 	
 	public double getXSpeed() {return xSpeed;}
 	
 	public double getYSpeed() {return ySpeed;}
 	
-	public void setRotation(double rotation) {this.rotation = rotation;}
+	public  void setRotation(double rotation) {this.rotation = rotation;}
 	
 	public double getRotation() {return rotation;}
 	
@@ -129,20 +140,20 @@ public class Player extends MovingObject implements Serializable{
 		this.startReloadTime = startReloadTime;
 	}
 
-	public boolean isShoot() {
+	public  boolean isShoot() {
 		boolean res = shoots;
 		
 		shoots = false;
 		return res;
 	}
 	
-	public void shooting() {
+	public  void shooting() {
 		shoots = true;
 	}
 
 	// TODO fix doppio reload ranodmico, succede se si tiene premuta spara mentre ricarica
 	// probabilmente se coincidono degli istanti prende ancora come ammoLeft = 0 e fa un altro reload
-	public boolean shoot() throws InterruptedException {
+	public  boolean shoot() throws InterruptedException {
 	    long currentTime = System.currentTimeMillis();
 
 	    if(isReloadingTime(currentTime)) {
@@ -155,7 +166,9 @@ public class Player extends MovingObject implements Serializable{
 	    }
 
 	    if(currentTime - lastShotTime > (this.gun.getRate() * 1000)) {
+	    	setTempoDiSparo(currentTime - lastShotTime);
 	        lastShotTime = currentTime;
+	        
 	        removeAmmo();
 	        return true;
 	    }
@@ -163,7 +176,7 @@ public class Player extends MovingObject implements Serializable{
 	    return false;
 	}
 	
-	public void reloadAmmo() throws InterruptedException {
+	public  void reloadAmmo() throws InterruptedException {
 	    long currentTime = System.currentTimeMillis();
 
 	    if(reloading == true || ammoLeft == magMax) {
@@ -307,5 +320,45 @@ public class Player extends MovingObject implements Serializable{
         }
 
 	}
+//	public void applyControls(Integer keycode) {
+//			switch(keycode) {
+//				case KeyEvent.VK_W: {
+//						this.setYSpeed(-Player.DEFAULT_Y_SPEED);
+//					break;
+//				}
+//				case KeyEvent.VK_A: {
+//						this.setXSpeed(-Player.DEFAULT_X_SPEED);
+//					break;
+//				}
+//				case KeyEvent.VK_S: {
+//						this.setYSpeed(Player.DEFAULT_Y_SPEED);
+//					break;
+//				} 
+//				case KeyEvent.VK_D: {
+//						this.setXSpeed(Player.DEFAULT_X_SPEED);
+//					break;
+//				}
+//				case KeyEvent.VK_I, KeyEvent.VK_UP: {
+//			    	this.shooting();
+//					break; 
+//				}
+//				case KeyEvent.VK_J, KeyEvent.VK_LEFT:
+//					this.setRotation(-Player.R_VELOCITY);
+//					break;
+//				case KeyEvent.VK_L, KeyEvent.VK_RIGHT:
+//					this.setRotation(Player.R_VELOCITY);
+//					break;
+//				case KeyEvent.VK_K, KeyEvent.VK_DOWN: {
+//					try {
+//						this.reloadAmmo();
+//					} catch (InterruptedException e) {
+//						e.printStackTrace();
+//					} 
+//					break;
+//				}
+//			}
+//		
+//	}
+
 	
 }

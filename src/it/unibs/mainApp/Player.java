@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.Ellipse2D;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.Timer;
@@ -320,45 +321,48 @@ public class Player extends MovingObject implements Serializable{
         }
 
 	}
-//	public void applyControls(Integer keycode) {
-//			switch(keycode) {
-//				case KeyEvent.VK_W: {
-//						this.setYSpeed(-Player.DEFAULT_Y_SPEED);
-//					break;
-//				}
-//				case KeyEvent.VK_A: {
-//						this.setXSpeed(-Player.DEFAULT_X_SPEED);
-//					break;
-//				}
-//				case KeyEvent.VK_S: {
-//						this.setYSpeed(Player.DEFAULT_Y_SPEED);
-//					break;
-//				} 
-//				case KeyEvent.VK_D: {
-//						this.setXSpeed(Player.DEFAULT_X_SPEED);
-//					break;
-//				}
-//				case KeyEvent.VK_I, KeyEvent.VK_UP: {
-//			    	this.shooting();
-//					break; 
-//				}
-//				case KeyEvent.VK_J, KeyEvent.VK_LEFT:
-//					this.setRotation(-Player.R_VELOCITY);
-//					break;
-//				case KeyEvent.VK_L, KeyEvent.VK_RIGHT:
-//					this.setRotation(Player.R_VELOCITY);
-//					break;
-//				case KeyEvent.VK_K, KeyEvent.VK_DOWN: {
-//					try {
-//						this.reloadAmmo();
-//					} catch (InterruptedException e) {
-//						e.printStackTrace();
-//					} 
-//					break;
-//				}
-//			}
-//		
-//	}
+	public void applyControls(ArrayList<Integer> keyCode) {
+		
+		for (Integer key : keyCode) {
+			switch(key) {
+				case KeyEvent.VK_W: {
+						this.setYSpeed(-Player.DEFAULT_Y_SPEED);
+					break;
+				}
+				case KeyEvent.VK_A: {
+						this.setXSpeed(-Player.DEFAULT_X_SPEED);
+					break;
+				}
+				case KeyEvent.VK_S: {
+						this.setYSpeed(Player.DEFAULT_Y_SPEED);
+					break;
+				} 
+				case KeyEvent.VK_D: {
+						this.setXSpeed(Player.DEFAULT_X_SPEED);
+					break;
+				}
+				case KeyEvent.VK_I, KeyEvent.VK_UP: {
+			    	this.shooting();
+					break; 
+				}
+				case KeyEvent.VK_J, KeyEvent.VK_LEFT:
+					this.setRotation(-Player.R_VELOCITY);
+					break;
+				case KeyEvent.VK_L, KeyEvent.VK_RIGHT:
+					this.setRotation(Player.R_VELOCITY);
+					break;
+				case KeyEvent.VK_K, KeyEvent.VK_DOWN: {
+					try {
+						this.reloadAmmo();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} 
+					break;
+				}
+			}
+		
+		}
+	}
 
 	
 }

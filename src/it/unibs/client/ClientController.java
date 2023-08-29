@@ -2,6 +2,7 @@ package it.unibs.client;
 
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.io.*;
 import java.net.*;
@@ -29,12 +30,12 @@ public class ClientController {
 	
 //	private GameView view;
 	private ExecutorService executor;
-	private ExecutorService ex_key;
 	private JFrame frame;
 	private ArrayList<Tile> tiles = new ArrayList<>();
 	private Player[] players = new Player[6];
 	private Player localPlayer = new Player();
 	private ArrayList<Bullet> bullet = new ArrayList<>();
+	private ArrayList<Integer> keyCode;
 	private String ipAddress ;
 
 	public PlayerViewport playerViewport;
@@ -104,12 +105,12 @@ public class ClientController {
 			e.printStackTrace();
 		}
 		
-		executor = Executors.newFixedThreadPool(8);
+		executor = Executors.newFixedThreadPool(1);
 		executor.execute(this::listenToServer);
 		
 
-//		ex_key = Executors.newFixedThreadPool(1);
-		kb = new ClientKeyboard(localPlayer,executor);
+		kb = new ClientKeyboard(localPlayer);
+		keyCode = kb.getCurrentActiveControls();
 		kb.addChangeListener(this::sendToServer);
 		playerViewport.addKeyListener(kb);
 		
@@ -180,6 +181,7 @@ public class ClientController {
 		
 		try {
 			objOutputStream.writeUnshared(localPlayer);
+			objOutputStream.writeUnshared(keyCode);
 			objOutputStream.flush();
 			localPlayer.isShoot();
 			//System.out.println(localPlayer.getXSpeed());

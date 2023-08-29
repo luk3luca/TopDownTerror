@@ -100,7 +100,7 @@ public class Battlefield extends BaseModel {
 	private T_Spawn buildSpawn(int y, int x, int tileDim, int spawnCounter) {
 		Color c = TeamColors.getColorAlpha(spawnCounter);
 		return new T_Spawn(y * tileDim, x * tileDim, tileDim * MapMatrix.SPAWN_H, tileDim * MapMatrix.SPAWN_W, true, c);
-		}
+	}
 	
 	private T_Spawn buildTransparentSpawn(int y, int x, int tileDim, int spawnCounter) {
 		Color c = TeamColors.getColorAlpha(spawnCounter);
@@ -127,7 +127,7 @@ public class Battlefield extends BaseModel {
 	}
 	
 	private void addShot(Player p) throws InterruptedException{
-		if (p.isShoot() && p.shoot()) {
+		if(p.isShoot() && p.shoot()) {
 			System.out.println(p.getName() + " shot - " + p.getAmmoLeft());
 			bullet.add(new Bullet(p, p.getGun()));
 		}
@@ -144,7 +144,7 @@ public class Battlefield extends BaseModel {
 		bot1.stepNext();
 		
 		for(Player p:player) {
-			p.nextStep();
+			p.stepNext();
 			addShot(p);
 		}
 		
@@ -208,8 +208,7 @@ public class Battlefield extends BaseModel {
     		bullet.forEach(o -> {
                 if (w.checkCollision(o)) {
                 	o.collided();
-                } 
-            });
+                }             });
     	}
     }
     

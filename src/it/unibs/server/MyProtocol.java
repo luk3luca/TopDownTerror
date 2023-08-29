@@ -32,27 +32,17 @@ public class MyProtocol implements Runnable  {
 		return client;
 	}
 
-	public void run() {
-		
-
-		try { // crea un socket server legato al port in argomento
-			
+	public void run() {	
+		// crea un socket server legato al port in argomento
+		try {	
 			objOutputStream = new ObjectOutputStream(client.getOutputStream());
 			objInputStream = new ObjectInputStream(client.getInputStream());
-			
 			initializeGame();
-
-		} catch (SocketTimeoutException e) {
-			
+		} catch (SocketTimeoutException e) {	
 			System.err.println("Timeout scaduto, nessun client connnesso: " + e);
-			
 		} catch (IOException e) {
-			
 			System.err.println("Errore di comunicazione: " + e);
 		}
-		finally {
-		}
-
 	}
 	
 	public void close() {
@@ -60,7 +50,6 @@ public class MyProtocol implements Runnable  {
 			try {
 				objOutputStream.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -79,61 +68,36 @@ public class MyProtocol implements Runnable  {
 	}
 	
 	private void listenToClient() {
-	
 		try {
-
 			while(client.isClosed() == false) {
+				// TODO: rimuovere tmpplayer
 				Player tmpPlayer = (Player) objInputStream.readObject();
 				ArrayList<Integer> keyCode = (ArrayList<Integer>) objInputStream.readObject();
 				Player remotePlayer = model.player[playerIndex];
-				
-				//remotePlayer.setXSpeed(tmpPlayer.getXSpeed());
-				//remotePlayer.setYSpeed(tmpPlayer.getYSpeed());
-				//remotePlayer.setRotation(tmpPlayer.getRotation());
+
 				remotePlayer.setControls(keyCode);
-				
-				if(tmpPlayer.isShoot())
-					remotePlayer.shooting();
-				
 			}
-
-		} catch (IOException e) {
-
-			e.printStackTrace();
-
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	
 	private void sendToClient(Serializable obj) {
-		
 		try {
-			
 			objOutputStream.writeObject(obj);
 			objOutputStream.reset();
-			
-
 		} catch (IOException e) {
-
 			System.err.println("Error, data not sent: " + e.toString());
 		}
 	}
 	
-	
 	// (MODEL -----> CONTROLLER) -----> VIEW
 	private void modelUpdated(ChangeEvent e) {
-		
 		if(model.isGameOver()) {
 			model.stopGame();
 			ex.shutdown();
-			gameOverWindow();
-			
+			gameOverWindow();	
 		} else {			
-//			clientList.forEach((p) -> sendToClient(model.player));
-//			clientList.forEach((p) -> sendToClient(model.bullet));
 			sendToClient(model.player);
 			sendToClient(model.bullet);
 		}

@@ -28,11 +28,10 @@ public class BaseServer {
 		System.out.println("Server in avvio...");
 		
 		try (
-				ServerSocket server = new ServerSocket(1234);
+			ServerSocket server = new ServerSocket(1234);
 		) {
 //			server.setSoTimeout(1000);
 			int id = 0;
-			long tempoScadenza = System.currentTimeMillis() + 2000; // 10 secondi in millisecondi
 
 	        while (!(id==realPlayer)) {
 				
@@ -48,7 +47,6 @@ public class BaseServer {
 		}
 		
 		System.out.println("Server terminato...");
-	
 	}
 
 }

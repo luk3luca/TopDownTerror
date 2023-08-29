@@ -101,7 +101,6 @@ public class ClientController {
 			playerIndex = (int) objInputStream.readObject();
 			tiles = (ArrayList<Tile>) objInputStream.readObject();
 		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -118,35 +117,24 @@ public class ClientController {
 	}
 	
 	public void connectToServer() {
-		
-		try {
-			
+		try {	
 			clientSocket = new Socket(ipAddress, MyProtocol.PORT_NUMBER);
 			
 			objInputStream = new ObjectInputStream(clientSocket.getInputStream());
 			objOutputStream = new ObjectOutputStream(clientSocket.getOutputStream());
 			
 			initializeGame();
-
-		} catch(UnknownHostException e) {
-			
-			System.err.println("IP address of the host could not be determined : " + e.toString());
-			
-		} catch(IOException e) {
-			
-			System.err.println("Error in creating socket: " + e.toString());
-			
+		} catch(UnknownHostException e) {	
+			System.err.println("IP address of the host could not be determined : " + e.toString());	
+		} catch(IOException e) {	
+			System.err.println("Error in creating socket: " + e.toString());	
 		}
-		
 	}
 
 
-	private void listenToServer() {
-			
+	private void listenToServer() {	
 		try {
-			
 			while(clientSocket.isClosed() == false) {
-				
 				Player[] players = (Player[]) objInputStream.readObject();
 				
 				ArrayList<Bullet> bull = (ArrayList<Bullet>)objInputStream.readObject();
@@ -161,17 +149,11 @@ public class ClientController {
 				mapViewport.revalidate();
 				mapViewport.repaint();
 			}
-//				System.out.println("Data received");
+//			System.out.println("Data received");
 			// immettere l'oggetto nel model
-			
-			
-
 		} catch (IOException e) {
-
 			System.out.println(e.toString());
-		
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

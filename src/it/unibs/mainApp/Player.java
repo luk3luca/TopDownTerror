@@ -139,6 +139,20 @@ public class Player extends MovingObject implements Serializable{
 		this.lastShotTime = 0;
 	}
 	
+	public void stepNext() {
+		setPosX(getPosX() + xSpeed);
+		setPosY(getPosY() + ySpeed);
+		setAngle(getAngle()+rotation);
+		
+		try {
+			applyControls(controls);
+		}
+		catch (Exception e) {
+		}
+		
+	}
+
+	
 	public long getStartReloadTime() {
 		return startReloadTime;
 	}
@@ -158,8 +172,6 @@ public class Player extends MovingObject implements Serializable{
 		shoots = true;
 	}
 
-	// TODO fix doppio reload ranodmico, succede se si tiene premuta spara mentre ricarica
-	// probabilmente se coincidono degli istanti prende ancora come ammoLeft = 0 e fa un altro reload
 	public  boolean shoot() throws InterruptedException {
 	    long currentTime = System.currentTimeMillis();
 
@@ -243,7 +255,7 @@ public class Player extends MovingObject implements Serializable{
 	public void hitted(Gun gun, Player shooter) {
 		this.hp -= gun.getDmg();
 		if(hp<=0) {			
-			this.dead(this);
+			dead();
 			deaths++;
 			shooter.kills++;
 			System.out.println(name + " kills: " + shooter.kills);
@@ -251,30 +263,16 @@ public class Player extends MovingObject implements Serializable{
 	}
 	
 	//TODO EVENTUALMENTE METTERE TIMER PER RESPAWN 
-	private void dead(Player p) {
-		p.setHp(HP);
-		p.setAmmoLeft(magMax);
+	private void dead() {
+		setHp(HP);
+		setAmmoLeft(magMax);
 		setPosX(spawn.getSpawnX() - Battlefield.BATTLEFIELD_TILEDIM/4);
 		setPosY(spawn.getSpawnY() - Battlefield.BATTLEFIELD_TILEDIM/4);
 		
 		// resppawn controller for bot path generation
 		respawn = true;
 	}
-	
-	public void nextStep() {
-		setPosX(getPosX() + xSpeed);
-		setPosY(getPosY() + ySpeed);
-		setAngle(getAngle()+rotation);
 		
-		try {
-			applyControls(controls);
-		}
-		catch (Exception e) {
-			// TODO: handle exception
-		}
-		
-	}
-	
 	/*---GETTERS AND SETTERS---*/
 	public Gun getGun() {return gun;}
 	
@@ -315,7 +313,6 @@ public class Player extends MovingObject implements Serializable{
 	public void setBottomRightCollision(boolean bottomRightCollision) {this.bottomRightCollision = bottomRightCollision;}
 
 	public T_Spawn getSpawn() {return spawn;}
-	
 	
 	public void setRandomGun() {
 		Random rand = new Random();

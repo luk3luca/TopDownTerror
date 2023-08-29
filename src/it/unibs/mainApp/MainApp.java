@@ -53,10 +53,7 @@ public class MainApp {
 		//frame.requestFocus();
 		frame.setResizable(false);
 		
-		
-		
-		
-		
+
 		JPanel menuPanel = new JPanel();
 		menuPanel.setBackground(Color.GRAY);
 		frame.getContentPane().add(menuPanel, BorderLayout.CENTER);
@@ -96,7 +93,7 @@ public class MainApp {
 		comboBox.setBounds(52, 201, 68, 96);
 		menuPanel.add(comboBox); 
 		
-		 textArea = new JTextArea();
+		textArea = new JTextArea();
 		textArea.setBounds(529, 201, 364, 88);
 		menuPanel.add(textArea);
 	}

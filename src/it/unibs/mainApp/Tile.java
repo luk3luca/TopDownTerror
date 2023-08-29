@@ -42,6 +42,7 @@ public class Tile implements Serializable {
 	public boolean checkCollision(MovingObject o) {
 		Area a = new Area(this.getShape());
 		a.intersect(new Area(o.getShape()));
+		
 		return !a.isEmpty();
 	}
 		

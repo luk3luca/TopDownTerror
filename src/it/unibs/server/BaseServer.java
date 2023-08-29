@@ -24,7 +24,6 @@ public class BaseServer {
 	
 	public void startServer() {
 		model = new Battlefield();
-		
 		System.out.println("Server in avvio...");
 		
 		try (
@@ -34,7 +33,6 @@ public class BaseServer {
 			int id = 0;
 
 	        while (!(id==realPlayer)) {
-				
 				Socket client = server.accept();
 				MyProtocol clientProtocol = new MyProtocol(client, model, id++);
 				

@@ -5,17 +5,16 @@ import java.util.*;
 import it.unibs.mainApp.Battlefield;
 
 public class Node implements Comparable<Node> {
-	// Id for readability of result purposes
+	// Id
 	public int id;
 	public int row;
 	public int col;
 
 	// Parent in the path
 	public Node parent = null;
-
 	public List<Edge> neighbors;
 
-	// Evaluation functions		Double.MAX_VALUE
+	// Evaluation functions
 	public double f = 10000;
 	public double g = 10000;
 	// Hardcoded heuristic
@@ -33,17 +32,9 @@ public class Node implements Comparable<Node> {
 		parent = null;
 	}
 	
-	public int getRow() {
-		return row;
-	}
-	
-	public int getCol() {
-		return col;
-	}
-	
-	public int getId() {
-		return id;
-	}
+	public int getRow() {return row;}
+	public int getCol() {return col;}
+	public int getId() {return id;}
 
 	@Override
 	public int compareTo(Node n) {

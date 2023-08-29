@@ -64,7 +64,7 @@ public class Bot {
 	private int offsetX = Battlefield.BATTLEFIELD_TILEDIM/4;
 	private int offsetY = Battlefield.BATTLEFIELD_TILEDIM/4;
 
-		
+	
 	private double oldPosX;
 	private double oldPosY;
 	
@@ -83,8 +83,6 @@ public class Bot {
 		
 		setRandomTarget(4, 3);
 	}
-	
-	
 		
 	/*
 	 * TODO:
@@ -129,11 +127,6 @@ public class Bot {
 		
 		shootTarget();
 		checkAmmo();
-				
-		// old target player position
-		if(playerInRange) {
-			
-		}
 	}
 	
 	private void setPlayerSquare() {
@@ -196,15 +189,7 @@ public class Bot {
 			targetX = closerPlayer.getPosX();
 			targetY = closerPlayer.getPosY();		
 		}
-		else {
-			/*
-			 * TODO: add controls if player targeted gets killed
-			 * test, probably useless now with only 1v1
-			 * like this the bot would reach the target position and then reset
-			 */
-			// setRandomTarget(12, 6);
-		}
-		
+				
 		setTargetSquare();
 
 		// If target changes it generates a new path
@@ -401,7 +386,6 @@ public class Bot {
 	}
 		
 	// set directional speed
-	// TODO: slower movement in diagonals if implemented to clients
 	private void setSpeed() {
 		switch(directionalX) {
 			case 1:
@@ -435,7 +419,6 @@ public class Bot {
 	// set player rotation angle between [-pi,pi]
 	public double splitCircleRotation(double angle) {
 		double normalizedAngle = p.getAngle() % (2 * Math.PI);
-
 		normalizedAngle -= Math.PI;
 
 		if (normalizedAngle < -Math.PI) {
@@ -555,10 +538,8 @@ public class Bot {
 
 	// TODO: DELETE
 	private boolean collision() {
-		
 		if(oldPosX == p.getPosX() && oldPosY == p.getPosY()) {
 			System.out.println("collison");
-			
 			return true;
 		}
 		

@@ -36,7 +36,6 @@ public class Battlefield extends BaseModel {
 		gameTimer = new Timer(20, e ->{
 				try {
 					stepNext();
-					//System.out.println(player[0].getAngle());
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}

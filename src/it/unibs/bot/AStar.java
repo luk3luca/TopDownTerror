@@ -9,9 +9,12 @@ public class AStar {
 	private static HashMap<Integer, Node> nodes = MapMatrix.getNodes();
 	
 	private static Stack<Node> nodePath;
+	private static ArrayList<Node> pathAL = new ArrayList<>();
 
 	public static Stack<Node> generatePath(int startX, int startY, int targetX, int targetY) {
 		// Avoid target being on a wall
+		clearNodes();
+
 		try {
 			Node start = nodes.get(calculateKey(startX, startY));
 			Node target = nodes.get(calculateKey(targetX, targetY));
@@ -26,7 +29,6 @@ public class AStar {
 			//System.out.println(e);
 		}
 		
-		clearNodes();
 		return nodePath;
 	}
 	
@@ -82,27 +84,6 @@ public class AStar {
 		return null;
 	}
 
-	// TODO: delete
-	public static ArrayList<Integer> createPath(Node target){
-		Node n = target;
-		if(n == null)
-			return null;
-		//Costo ugale a "f"
-		//setCost(n.f);
-		ArrayList<Integer> path = new ArrayList<>();
-
-		while(n.parent != null){
-			path.add(n.id);
-			n = n.parent;
-		}
-		//starting position
-		//path.add(n.id);
-
-		Collections.reverse(path);
-		
-		return path;
-	}
-
 	public static Stack<Node> createNodePath(Node target){
 		Node n = target;
 		if(n == null)
@@ -117,6 +98,22 @@ public class AStar {
 
 		return path;
 	}
+	
+	public static ArrayList<Node> createPath(Node target){
+		Node n = target;
+		if(n == null)
+			return null;
+
+		while(n.parent != null){
+			pathAL.add(nodes.get(n.id));
+			n = n.parent;
+		}
+
+		Collections.reverse(pathAL);
+		
+		return pathAL;
+	}
+
 
 	public static void printPath(Node target){
 		Node n = target;
@@ -130,8 +127,6 @@ public class AStar {
 			ids.add(n.id);
 			n = n.parent;
 		}
-		//starting position
-		//ids.add(n.id);
 
 		Collections.reverse(ids);
 
@@ -142,4 +137,16 @@ public class AStar {
 		}
 		System.out.println("");
 	}
+	
+	
+	public static boolean isTargetReached(int startX, int startY, int targetX, int targetY) {
+		AStar.generatePath(startX, startY, targetX, targetY);
+		Node target = nodes.get(calculateKey(targetX, targetY));
+
+		createPath(target);
+		//System.out.println(pathAL.isEmpty());
+		
+		return !pathAL.isEmpty();
+	}
+	
 }

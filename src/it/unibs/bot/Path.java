@@ -43,5 +43,9 @@ public class Path {
 		setTargetX(targetX);
 		setTargetY(targetY);
 	}
+	
+	public boolean targetReached() {
+		return AStar.isTargetReached(startX, startY, targetX, targetY);
+	}
 
 }

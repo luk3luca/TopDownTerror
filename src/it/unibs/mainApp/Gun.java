@@ -19,7 +19,6 @@ public class Gun extends MovingObject implements Cloneable, Serializable {
 	
 	public static Gun[] guns = {AR, PISTOL, SMG, SNIPER, BOW, SHOTGUN};
 	public static int nGuns = guns.length;
-
 	
 	private String name;
 	private double maxRange;

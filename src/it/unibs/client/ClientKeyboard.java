@@ -39,32 +39,10 @@ public class ClientKeyboard extends BaseModel implements KeyListener {
 		}
 		this.fireValuesChange();
 	}
-
+	
 	@Override
 	public void keyReleased(KeyEvent e) {
-		
-		switch(e.getKeyCode()) {
-		case KeyEvent.VK_W:
-		case KeyEvent.VK_S:
-			p.setYSpeed(0);
-			break;
-		case KeyEvent.VK_A:
-		case KeyEvent.VK_D:
-			p.setXSpeed(0);
-			break;
-		case KeyEvent.VK_J:
-		case KeyEvent.VK_LEFT:
-		case KeyEvent.VK_L:
-		case KeyEvent.VK_RIGHT:
-			p.setRotation(0);
-			break;
-	}
 		currentActiveControls.remove((Object)e.getKeyCode());
 		this.fireValuesChange();
 	}
-
-
-	
-
-
 }

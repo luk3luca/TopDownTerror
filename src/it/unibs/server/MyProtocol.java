@@ -87,11 +87,10 @@ public class MyProtocol implements Runnable  {
 				ArrayList<Integer> keyCode = (ArrayList<Integer>) objInputStream.readObject();
 				Player remotePlayer = model.player[playerIndex];
 				
-				remotePlayer.setXSpeed(tmpPlayer.getXSpeed());
-				remotePlayer.setYSpeed(tmpPlayer.getYSpeed());
-				remotePlayer.setRotation(tmpPlayer.getRotation());
-				remotePlayer.applyControls(keyCode);
-				
+				//remotePlayer.setXSpeed(tmpPlayer.getXSpeed());
+				//remotePlayer.setYSpeed(tmpPlayer.getYSpeed());
+				//remotePlayer.setRotation(tmpPlayer.getRotation());
+				remotePlayer.setControls(keyCode);
 				
 				if(tmpPlayer.isShoot())
 					remotePlayer.shooting();

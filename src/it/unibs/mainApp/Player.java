@@ -61,6 +61,12 @@ public class Player extends MovingObject implements Serializable{
 	private double ySpeed = 0.;
 	private double rotation = 0.;
 	
+	private ArrayList<Integer> controls;
+	
+	public void setControls(ArrayList<Integer> controls) {
+		this.controls = controls;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -234,10 +240,6 @@ public class Player extends MovingObject implements Serializable{
 		this.bottomRightCollision = false; 
 	}
 	
-	public void resetVelocity(){
-		this.setM_velocity(M_VELOCITY);
-	}
-	
 	public void hitted(Gun gun, Player shooter) {
 		this.hp -= gun.getDmg();
 		if(hp<=0) {			
@@ -251,6 +253,7 @@ public class Player extends MovingObject implements Serializable{
 	//TODO EVENTUALMENTE METTERE TIMER PER RESPAWN 
 	private void dead(Player p) {
 		p.setHp(HP);
+		p.setAmmoLeft(magMax);
 		setPosX(spawn.getSpawnX() - Battlefield.BATTLEFIELD_TILEDIM/4);
 		setPosY(spawn.getSpawnY() - Battlefield.BATTLEFIELD_TILEDIM/4);
 		
@@ -261,8 +264,15 @@ public class Player extends MovingObject implements Serializable{
 	public void nextStep() {
 		setPosX(getPosX() + xSpeed);
 		setPosY(getPosY() + ySpeed);
-		
 		setAngle(getAngle()+rotation);
+		
+		try {
+			applyControls(controls);
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 	}
 	
 	/*---GETTERS AND SETTERS---*/
@@ -321,30 +331,32 @@ public class Player extends MovingObject implements Serializable{
         }
 
 	}
+	
+	private void resetSpeed() {
+		setXSpeed(0);
+		setYSpeed(0);
+		setRotation(0);
+	}
+	
 	public void applyControls(ArrayList<Integer> keyCode) {
-		
+		resetSpeed();
 		for (Integer key : keyCode) {
 			switch(key) {
-				case KeyEvent.VK_W: {
-						this.setYSpeed(-Player.DEFAULT_Y_SPEED);
+				case KeyEvent.VK_W:
+					this.setYSpeed(-Player.DEFAULT_Y_SPEED);
 					break;
-				}
-				case KeyEvent.VK_A: {
-						this.setXSpeed(-Player.DEFAULT_X_SPEED);
+				case KeyEvent.VK_A:
+					this.setXSpeed(-Player.DEFAULT_X_SPEED);
 					break;
-				}
-				case KeyEvent.VK_S: {
-						this.setYSpeed(Player.DEFAULT_Y_SPEED);
+				case KeyEvent.VK_S:
+					this.setYSpeed(Player.DEFAULT_Y_SPEED);
 					break;
-				} 
-				case KeyEvent.VK_D: {
-						this.setXSpeed(Player.DEFAULT_X_SPEED);
+				case KeyEvent.VK_D:
+					this.setXSpeed(Player.DEFAULT_X_SPEED);
 					break;
-				}
-				case KeyEvent.VK_I, KeyEvent.VK_UP: {
+				case KeyEvent.VK_I, KeyEvent.VK_UP:
 			    	this.shooting();
 					break; 
-				}
 				case KeyEvent.VK_J, KeyEvent.VK_LEFT:
 					this.setRotation(-Player.R_VELOCITY);
 					break;
@@ -360,7 +372,6 @@ public class Player extends MovingObject implements Serializable{
 					break;
 				}
 			}
-		
 		}
 	}
 

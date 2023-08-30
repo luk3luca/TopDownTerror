@@ -29,6 +29,7 @@ public class Gun extends MovingObject implements Cloneable, Serializable {
 	private int dmg;
 	protected Shape shape;
 	
+	
 	public Gun(String name, double maxRange, double rate, int maxAmmo, double reload, int dmg, Color color) {
 		super();
 		this.name = name;
@@ -53,14 +54,11 @@ public class Gun extends MovingObject implements Cloneable, Serializable {
 				   Battlefield.BATTLEFIELD_TILEDIM/4 - GUN_WIDTH/2, 
 				   Battlefield.BATTLEFIELD_TILEDIM * this.range,
 				   GUN_WIDTH);
-		
 		this.shape = gunArea;
 		AffineTransform t = new AffineTransform();
-		
 		t.translate(posX, posY);
 		t.rotate(angle,Battlefield.BATTLEFIELD_TILEDIM/4, 
 				Battlefield.BATTLEFIELD_TILEDIM/4);
-		
 		return t.createTransformedShape(shape);
 	}
 	
@@ -86,6 +84,7 @@ public class Gun extends MovingObject implements Cloneable, Serializable {
 	public static Gun getPistol() {return PISTOL;}
 	public static Gun getSmg() {return SMG;}
 	public static Gun getBow() {return BOW;}
+	
 	
 	public void setName(String name) {this.name = name;}
 	public void setMaxRange(double maxRange) {this.maxRange = maxRange;}

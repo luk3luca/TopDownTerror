@@ -10,6 +10,7 @@ public enum TeamColors {
 	ORANGE(5, Color.ORANGE, new Color(255,210,130)),
 	CYAN(6, Color.CYAN, new Color(150,255,255));
 
+	
 	private int number;
     private Color color;
     private Color alpha;

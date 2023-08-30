@@ -188,16 +188,16 @@ public class Battlefield extends BaseModel {
     
     private void checkPlayerCollision(Player p1) {
     	for (Player p2 : player) {
-    		if (p1 != p2) {
-    			if(p1.checkCollision(p2)) {
-    				double dx = p1.getCenterX() - p2.getCenterX();
-    				double dy = p1.getCenterY() - p2.getCenterY();
-    				double tetha = Math.atan2(dy,dx) + Math.PI; // p1<-->p2 tetha = 0, con p1 sopra p2 tetha = 90
-
-    				p1.setPosX(p1.getPosX() - Player.M_VELOCITY *Math.cos(tetha));
-    				p1.setPosY(p1.getPosY() - Player.M_VELOCITY * Math.sin(tetha));	
-    			}
-    		}
+            if (p1 != p2) {
+			    if(p1.checkCollision(p2)) {
+			    	double dx = p1.getCenterX() - p2.getCenterX();
+                    double dy = p1.getCenterY() - p2.getCenterY();
+			    	double tetha = Math.atan2(dy,dx) + Math.PI; // p1<-->p2 tetha = 0, con p1 sopra p2 tetha = 90
+			    	
+			    	p1.setPosX(p1.getPosX() - Player.M_VELOCITY *Math.cos(tetha));
+			    	p1.setPosY(p1.getPosY() - Player.M_VELOCITY * Math.sin(tetha));	
+			    }
+            }
     	}
     }
     
@@ -205,10 +205,9 @@ public class Battlefield extends BaseModel {
     private void bullletWallsCollision() {
     	for(Tile w:wallsAndSpawn) {
     		bullet.forEach(o -> {
-    			if (w.checkCollision(o)) {
-    				o.collided();
-    			}             
-    		});
+                if (w.checkCollision(o)) {
+                	o.collided();
+                }             });
     	}
     }
     
@@ -327,10 +326,12 @@ public class Battlefield extends BaseModel {
 		if(player.isTopRightCollision()) {
 			player.setPosY(player.getPosY() + player.getM_velocity());
 			player.setPosX(player.getPosX() - player.getM_velocity());
+
 		}
 		if(player.isBottomLeftCollision()) {
 			player.setPosY(player.getPosY() - player.getM_velocity());
 			player.setPosX(player.getPosX() + player.getM_velocity());
+
 		}
 		if(player.isBottomRightCollision()) {
 			player.setPosY(player.getPosY() - player.getM_velocity());
@@ -371,9 +372,8 @@ public class Battlefield extends BaseModel {
 							path.next();
 						}
 					}
-					else {
+					else
 					    player.getGun().resetRange();
-					}
 				}
 			}
 		}
@@ -391,7 +391,6 @@ public class Battlefield extends BaseModel {
 
 	    for (Point2D point : collisionsP) {
 	        double distance = targetPoint.distance(point);
-	        
 	        if (distance < closestDistance) {
 	            closestDistance = distance;
 	            closestPoint = point;

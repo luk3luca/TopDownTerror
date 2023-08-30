@@ -75,9 +75,10 @@ public class GameController {
 		model.startGame();
 		
 	}
-	
 	private void modelUpdated(ChangeEvent e) {
-		mapViewport.repaint();
-		playerViewport.repaint();
+		
+			mapViewport.repaint();
+			playerViewport.repaint();
+		
 	}
 }

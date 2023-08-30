@@ -4,7 +4,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
-// TODO: DELETE
 public class MyKeyboard implements KeyListener{
 	private Player p;
 	//private ArrayList<Bullet> bullet = new ArrayList<>();
@@ -19,12 +18,13 @@ public class MyKeyboard implements KeyListener{
 //	private ArrayList<Integer> currentActiveControls = new ArrayList<>();
 	@Override
 	public void keyTyped(KeyEvent e) {
-	}
-	
+	}  
 	@Override
 	public void keyPressed(KeyEvent e) {
 		switch(e.getKeyCode()) {
+			
 			case KeyEvent.VK_W:
+	
 				p.setYSpeed(-Player.DEFAULT_Y_SPEED);
 				System.out.println(p.getYSpeed());
 				break;
@@ -32,18 +32,24 @@ public class MyKeyboard implements KeyListener{
 				p.setXSpeed(-Player.DEFAULT_X_SPEED);
 				break;
 			case KeyEvent.VK_S:
+	
 				p.setYSpeed(Player.DEFAULT_Y_SPEED);
 				break;
 			case KeyEvent.VK_D:
 				p.setXSpeed(Player.DEFAULT_X_SPEED);
+	
 				break;
 			case KeyEvent.VK_I, KeyEvent.VK_UP:
 				p.shooting();
+			//bullet.add(new Bullet(p, p.getGun()));
+			System.out.println(p.getAmmoLeft());
 				break;
+				
 			case KeyEvent.VK_K, KeyEvent.VK_DOWN: {
                 try {
 					p.reloadAmmo();
 				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} 
                 break;

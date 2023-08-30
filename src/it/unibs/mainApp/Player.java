@@ -15,7 +15,6 @@ import javax.swing.Timer;
 //OK
 public class Player extends MovingObject implements Serializable{
 	public static final double DEFAULT_X_SPEED = 2., DEFAULT_Y_SPEED = 2.;
-	
 	protected static final double M_VELOCITY = 2.;
 	public static final double R_VELOCITY = 0.02;
 	private static final int HP = 100;
@@ -63,45 +62,22 @@ public class Player extends MovingObject implements Serializable{
 	
 	private ArrayList<Integer> controls;
 	
-	public void setControls(ArrayList<Integer> controls) {
-		this.controls = controls;
-	}
+	public void setControls(ArrayList<Integer> controls) {this.controls = controls;}
 	
-	public String getName() {
-		return name;
-	}
-	
-	public long getTempoDiSparo() {
-		return tempoDiSparo;
-	}
-
-	public void setTempoDiSparo(long tempoDiSparo) {
-		this.tempoDiSparo = tempoDiSparo;
-	}
-
-	public  void setXSpeed(double xSpeed) { this.xSpeed = xSpeed;}
-	
-	public  void setYSpeed(double ySpeed) { this.ySpeed = ySpeed;}
-	
+	public String getName() {return name;}
+	public void setXSpeed(double xSpeed) { this.xSpeed = xSpeed;}
+	public void setYSpeed(double ySpeed) { this.ySpeed = ySpeed;}
 	public double getXSpeed() {return xSpeed;}
-	
 	public double getYSpeed() {return ySpeed;}
-	
-	public  void setRotation(double rotation) {this.rotation = rotation;}
-	
+	public void setRotation(double rotation) {this.rotation = rotation;}
 	public double getRotation() {return rotation;}
-	
 	public void setGun(Gun gun) {this.gun = gun;}
-	
-	public int getMagMax() {
-		return magMax;
-	}
-	public void setMagMax(int magMax) {
-		this.magMax = magMax;
-	}
-	public void setAmmoLeft(int ammoLeft) {
-		this.ammoLeft = ammoLeft;
-	}
+	public int getMagMax() {return magMax;}
+	public void setMagMax(int magMax) {this.magMax = magMax;}
+	public void setAmmoLeft(int ammoLeft) {this.ammoLeft = ammoLeft;}
+
+	public long getTempoDiSparo() {return tempoDiSparo;}
+	public void setTempoDiSparo(long tempoDiSparo) {this.tempoDiSparo = tempoDiSparo;}
 	
 	public Player() {
 	}
@@ -149,7 +125,6 @@ public class Player extends MovingObject implements Serializable{
 		}
 		catch (Exception e) {
 		}
-		
 	}
 
 	
@@ -163,8 +138,8 @@ public class Player extends MovingObject implements Serializable{
 
 	public  boolean isShoot() {
 		boolean res = shoots;
-		
 		shoots = false;
+		
 		return res;
 	}
 	
@@ -184,6 +159,7 @@ public class Player extends MovingObject implements Serializable{
 	        return false;
 	    }
 
+	    // TODO: a cosa serve tempo di sparo?
 	    if(currentTime - lastShotTime > (this.gun.getRate() * 1000)) {
 	    	setTempoDiSparo(currentTime - lastShotTime);
 	        lastShotTime = currentTime;
@@ -214,6 +190,7 @@ public class Player extends MovingObject implements Serializable{
                 reloading = false;
             }
         });
+	    
         timer.setRepeats(false);
         timer.start();
 	}	
@@ -254,7 +231,8 @@ public class Player extends MovingObject implements Serializable{
 	
 	public void hitted(Gun gun, Player shooter) {
 		this.hp -= gun.getDmg();
-		if(hp<=0) {			
+		
+		if(hp <= 0) {			
 			dead();
 			deaths++;
 			shooter.kills++;
@@ -270,23 +248,19 @@ public class Player extends MovingObject implements Serializable{
 		setPosY(spawn.getSpawnY() - Battlefield.BATTLEFIELD_TILEDIM/4);
 		
 		// resppawn controller for bot path generation
+		// TODO: farlo diventare false se il player esce dalla zona di spawn
 		respawn = true;
 	}
 		
 	/*---GETTERS AND SETTERS---*/
 	public Gun getGun() {return gun;}
-	
 	public int getHp() {return hp;}
-	
 	public void setHp(int hp) {this.hp=hp;}
-	
 	public void setReloading(boolean reloading) {this.reloading = reloading;	}
-	
 	public int getAmmoLeft() {return ammoLeft;}
-	
 	public double getCenterX() { return posX + Battlefield.BATTLEFIELD_TILEDIM/4; }
-
 	public double getCenterY() { return posY + Battlefield.BATTLEFIELD_TILEDIM/4; }
+	public T_Spawn getSpawn() {return spawn;}
 
 	public boolean isTopCollision() {return topCollision;}
 	public void setTopCollision(boolean topCollision) {this.topCollision = topCollision;}
@@ -311,8 +285,6 @@ public class Player extends MovingObject implements Serializable{
 
 	public boolean isBottomRightCollision() {return bottomRightCollision;}
 	public void setBottomRightCollision(boolean bottomRightCollision) {this.bottomRightCollision = bottomRightCollision;}
-
-	public T_Spawn getSpawn() {return spawn;}
 	
 	public void setRandomGun() {
 		Random rand = new Random();
@@ -324,9 +296,8 @@ public class Player extends MovingObject implements Serializable{
 		try {
 			this.gun = Gun.guns[n].clone();
 		} catch (Exception e) {
-            e.printStackTrace();
+			
         }
-
 	}
 	
 	private void resetSpeed() {

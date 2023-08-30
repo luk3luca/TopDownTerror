@@ -12,30 +12,25 @@ public class AStar {
 	private static ArrayList<Node> pathAL = new ArrayList<>();
 
 	public static Stack<Node> generatePath(int startX, int startY, int targetX, int targetY) {
-		// Avoid target being on a wall
-		clearNodes();
-
 		try {
 			Node start = nodes.get(calculateKey(startX, startY));
 			Node target = nodes.get(calculateKey(targetX, targetY));
 			
 			aStarPath(start, target);
-			//printPath(target);
 			nodePath = createNodePath(target);
 			
 			start = null;
 			target = null;
 		} catch (Exception e) {
-			//System.out.println(e);
 		}
 		
+		clearNodes();
 		return nodePath;
 	}
 	
 	private static void clearNodes() {
-		for(Node n: nodes.values()) {
+		for(Node n: nodes.values())
 			n.resetNode();
-		}
 	}
 
 	private static int calculateKey(int x, int y) {
@@ -81,6 +76,7 @@ public class AStar {
 			openList.remove(n);
 			closedList.add(n);
 		}
+		
 		return null;
 	}
 
@@ -144,7 +140,6 @@ public class AStar {
 		Node target = nodes.get(calculateKey(targetX, targetY));
 
 		createPath(target);
-		//System.out.println(pathAL.isEmpty());
 		
 		return !pathAL.isEmpty();
 	}

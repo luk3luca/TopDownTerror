@@ -20,7 +20,6 @@ import it.unibs.view.PlayerViewport;
 
 
 public class ClientController {
-
 	private static final String LOCALHOST = "127.0.0.1";
 
 	Socket clientSocket;
@@ -53,9 +52,7 @@ public class ClientController {
 		}
 	}
 	
-	
 	public void initializeGame() {
-
 		frame.getContentPane().removeAll();
 		frame.dispose();
 		frame = new JFrame("CLIENT VIEW");
@@ -107,12 +104,11 @@ public class ClientController {
 		executor = Executors.newFixedThreadPool(1);
 		executor.execute(this::listenToServer);
 		
-
+		
 		kb = new ClientKeyboard(localPlayer);
 		keyCode = kb.getCurrentActiveControls();
 		kb.addChangeListener(this::sendToServer);
 		playerViewport.addKeyListener(kb);
-		
 		
 	}
 	
@@ -130,7 +126,6 @@ public class ClientController {
 			System.err.println("Error in creating socket: " + e.toString());	
 		}
 	}
-
 
 	private void listenToServer() {	
 		try {
@@ -158,9 +153,7 @@ public class ClientController {
 		}
 	}
 	
-	
-	private void sendToServer(ChangeEvent c) {
-		
+	private void sendToServer(ChangeEvent c) {	
 		try {
 			objOutputStream.writeUnshared(localPlayer);
 			objOutputStream.writeUnshared(keyCode);
@@ -173,7 +166,6 @@ public class ClientController {
 			e.printStackTrace();
 		}
 	}
-	
 	
 	private void viewUpdated(PropertyChangeEvent e) {
 		

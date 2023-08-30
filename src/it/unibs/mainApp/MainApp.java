@@ -12,7 +12,6 @@ import it.unibs.server.MyProtocol;
 //import it.unibs.client.ClientController;
 //aggiunta di controller
 public class MainApp {
-	
 	GameController controller;
 	ClientController clientController;
 	BaseServer serverController;
@@ -24,6 +23,7 @@ public class MainApp {
 	private JTextArea textArea;
 	private JComboBox<Integer> comboBox;
 	private JButton btnHostGame;
+	
 	public static void main(String[] args) {
 		System.out.println("start");
 		EventQueue.invokeLater(new Runnable() {
@@ -38,15 +38,11 @@ public class MainApp {
 		});
 	}
 	
-
-	
 	public MainApp() {
 		startGameMenu();
 	}
 
-
 	private void startGameMenu() {
-		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1000, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -98,26 +94,17 @@ public class MainApp {
 		menuPanel.add(textArea);
 	}
 	
-	
-	
-
-	
 	private void hostGame(ActionEvent e) {
-		
 		serverController = new BaseServer(frame,(int) comboBox.getSelectedItem());
 		serverController.startServer();
 	}
 	
-	
 	private void joinGame(ActionEvent e) {
-		String ipAddress ="127.0.0.1"; 
-				
+		String ipAddress ="127.0.0.1"; 	
 		String ip = textArea.getText();
 		
 		clientController = new ClientController(frame, ipAddress);
-
 		clientController.connectToServer();
-		
 	}
 
 	

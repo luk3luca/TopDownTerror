@@ -92,7 +92,7 @@ public class ClientController {
 		mapViewport = new MapViewport();
 		panel.add(mapViewport);
 		
-		playerInfo = new PlayerInfo(players[playerIndex]);
+		playerInfo = new PlayerInfo();
 		panel.add(playerInfo);
 		
 		playerViewport.setObjects(tiles, players,0,bullet);

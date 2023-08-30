@@ -97,7 +97,7 @@ public class MapMatrix {
 			clearCenter();
 			
 			buildNodeMap();
-		} while(!checkMap());	
+		} while(checkMap());	
 		
 		return matrix;
 	}

@@ -82,7 +82,7 @@ public class PnlMap extends JPanel implements Serializable  {
 			g2.fill(bullet.get(i).getShape());
 		}
 		
-//		circle.setBar();
+		
 	}	
 
 }

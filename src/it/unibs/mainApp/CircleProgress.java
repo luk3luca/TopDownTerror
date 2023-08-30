@@ -15,11 +15,11 @@ import javax.swing.plaf.basic.BasicProgressBarUI;
 //OK
 public class CircleProgress extends JProgressBar implements Serializable {
 	
-	private Player p;
-	public CircleProgress(Player p) {
+	
+	public CircleProgress() {
 		super();
-		this.p = p;
 		setPreferredSize(new Dimension(60, 60));
+		setBorderPainted(false);
 		setUI(new CustomProgressBarUI());
 	}
 
@@ -34,11 +34,12 @@ public class CircleProgress extends JProgressBar implements Serializable {
 			g2.fillArc(0, 0, c.getWidth(), c.getHeight(), 0, -arcAngle);
 			
 			g2.setColor(Color.BLACK);
-			g2.drawString(Integer.toString(p.getAmmoLeft()), c.getWidth()/2 - 5 ,c.getHeight()/2 + 5);
+//			g2.drawString(Integer.toString(p.getAmmoLeft()), c.getWidth()/2 - 5 ,c.getHeight()/2 + 5);
 		}
 	}
 	
-	public void setBar() {
+	public void setBar(Player p) {
+		
 		if(!p.isReloading()) {
 			setMinimum(0);
 			setMaximum(p.getGun().getMaxAmmo());

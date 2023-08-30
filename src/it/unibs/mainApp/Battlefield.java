@@ -20,15 +20,20 @@ public class Battlefield extends BaseModel {
 	public Player[] player = new Player[6];
 	private int[][] mapMatrix = MapMatrix.getMatrix();
 	private Timer gameTimer;
+	private int realPlayer;
 	
 	// TEST BOT
+	private int nBot;
 	private Bot bot1;
+	private ArrayList<Bot> bot = new ArrayList<>();
 	
 	private boolean gameOver = false;
 	public boolean isGameOver() {return gameOver;}
 	public void stopGame() {gameTimer.stop();}
 	
-	public Battlefield() {
+	public Battlefield(int realPlayer) {
+		this.realPlayer = realPlayer;
+		nBot = player.length - realPlayer;
 		
 		buildMap();
 		buildPlayer();
@@ -84,8 +89,11 @@ public class Battlefield extends BaseModel {
 	
 	// TEST BOT BUILD
 	private void buildBot() {
-		int id = 1;
-		bot1 = new Bot(player[id], player, id, tiles);
+		int id = player.length - nBot;
+		//bot1 = new Bot(player[id], player, id, tiles);
+		
+		for(int i = id; i < player.length; i++)
+			bot.add(new Bot(player[i], player, i, tiles));
 	}
 	
 	private T_Pavement buildPavement(int y, int x, int tileDim) {
@@ -140,9 +148,11 @@ public class Battlefield extends BaseModel {
 	
 	public void stepNext() throws InterruptedException {
 		//TEST BOT
-		bot1.stepNext();
+		//bot1.stepNext();
+		for(Bot b: bot)
+			b.stepNext();
 		
-		for(Player p:player) {
+		for(Player p: player) {
 			p.stepNext();
 			addShot(p);
 		}

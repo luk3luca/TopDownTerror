@@ -151,7 +151,7 @@ public class Bot {
 	}
 	
 	private void generateNewPath() {
-		System.out.println("new path generation");
+		System.out.println(pId + " new path generation");
 		System.out.println("target: (" + targetSquareX + ", " + targetSquareY + ")");
 		astarPath = new Path(playerSquareX, playerSquareY, targetSquareX, targetSquareY);
 		astarPath.generatePath();

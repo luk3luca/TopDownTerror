@@ -23,7 +23,7 @@ public class BaseServer {
 	
 	
 	public void startServer() {
-		model = new Battlefield();
+		model = new Battlefield(realPlayer);
 		System.out.println("Server in avvio...");
 		
 		try (

@@ -153,9 +153,13 @@ public class Bot {
 	private void generateNewPath() {
 		System.out.println(pId + " new path generation");
 		System.out.println("target: (" + targetSquareX + ", " + targetSquareY + ")");
-		astarPath = new Path(playerSquareX, playerSquareY, targetSquareX, targetSquareY);
-		astarPath.generatePath();
-		path = astarPath.getPath();
+		
+		if(!targetReached()) {
+			astarPath = new Path(playerSquareX, playerSquareY, targetSquareX, targetSquareY);
+			astarPath.generatePath();
+			path = astarPath.getPath();
+		}
+		
 		nextNode();
 	}
 	
@@ -206,15 +210,11 @@ public class Bot {
 				 * e il getPath rimuove il nodo di parternza (coinciderebbe con arrivo)
 				 * quindi stack resta vuoto
 				 */
-				// TODO: add control if player is static it pop
 				try {
-					//useless, if u hide behind a wall it wont move
-					//if(!checkPlayerInGunRange())
-						path.pop();
+					path.pop();
 				} catch (Exception e) {
 					System.out.println(e);
 				}
-
 			}
 		}
 
@@ -226,25 +226,10 @@ public class Bot {
 		if(targetReached()) {
 			if(!playerInRange) {
 				setRandomTarget(12, 6);
-				//generateNewPath();
 			}
 		}
 		
 		nextNode();
-	}
-	
-	// probably useless
-	private double oldTargetPlayerX;
-	private double oldTargetPlayerY;
-	
-	// TODO: DELETE
-	private boolean isTargetStatic() {
-		if(playerInRange) {
-			if(closerPlayer.getPosX() == oldTargetPlayerX && closerPlayer.getPosY() == oldTargetPlayerY)
-				return true;
-		}
-		
-		return false;
 	}
 	
 	// random target around the center of the map
@@ -304,19 +289,25 @@ public class Bot {
 	
 	// if enemy get closer bot reverse speed to escape
 	private int reverseSpeed() {
-		//double rangeCut = 0.25;
-		//double gunRange = p.getGun().getRange() * Battlefield.BATTLEFIELD_TILEDIM;
-		double rangeCut = 1;
-		double gunRange = Battlefield.BATTLEFIELD_TILEDIM;
+		double rangeCut = 0.4;
+		double gunRange = p.getGun().getRange() * Battlefield.BATTLEFIELD_TILEDIM;
+		//double rangeCut = 1;
+		//double gunRange = Battlefield.BATTLEFIELD_TILEDIM;
 
 		double desiredDistance = (gunRange * rangeCut);
 		
 		if(checkPlayerInGunRange()) {	
 			if(magnitude < desiredDistance)
-				return -1;
+				return -1 * getRandomProbability();
 		}
 		
 		return 1;
+	}
+	
+	private int getRandomProbability() {
+	    Random rand = new Random();
+	    //return (rand.nextBoolean()) ? 1 : -1;		// 50/50
+	    return (rand.nextDouble() < 0.95) ? 1 : -1;	// 90/10
 	}
 	
 	// calculate pointer direction to the target

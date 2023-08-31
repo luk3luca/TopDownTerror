@@ -55,8 +55,10 @@ public class ClientController {
 		else {
 			this.ipAddress = LOCALHOST;
 		}
-		
-		this.playerName = playerName;
+		if (playerName.equalsIgnoreCase(""))
+			this.playerName = "Player" + playerIndex;
+		else
+			this.playerName = playerName;
 		
 		
 	}

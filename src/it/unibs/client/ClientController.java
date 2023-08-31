@@ -15,6 +15,7 @@ import javax.swing.event.ChangeEvent;
 
 import it.unibs.mainApp.*;
 import it.unibs.server.MyProtocol;
+import it.unibs.view.GameInfo;
 import it.unibs.view.MapViewport;
 import it.unibs.view.PlayerInfo;
 import it.unibs.view.PlayerViewport;
@@ -41,6 +42,7 @@ public class ClientController {
 	public PlayerViewport playerViewport;
 	public MapViewport mapViewport ;
 	public PlayerInfo playerInfo ;
+	public GameInfo gameInfo;
 	int playerIndex;
 	ClientKeyboard kb;
 	
@@ -95,9 +97,12 @@ public class ClientController {
 		playerInfo = new PlayerInfo();
 		panel.add(playerInfo);
 		
-		playerViewport.setObjects(tiles, players,0,bullet);
-		mapViewport.setObjects(tiles, players,bullet);
-//		playerInfo.setObjects(players[playerIndex]);
+		gameInfo = new GameInfo();
+		panel.add(gameInfo);
+		
+		
+//		playerViewport.setObjects(tiles, players,0,bullet);
+//		mapViewport.setObjects(tiles, players,bullet);
 		
 		try {
 			playerIndex = (int) objInputStream.readObject();
@@ -150,8 +155,12 @@ public class ClientController {
 				mapViewport.repaint();
 				
 				playerInfo.setObjects(players[playerIndex]);
-				playerInfo.revalidate();
-				playerInfo.repaint();
+//				playerInfo.revalidate();
+//				playerInfo.repaint();
+				
+				gameInfo.setObjects(players);
+//				gameInfo.revalidate();
+//				gameInfo.repaint();
 			}
 //			System.out.println("Data received");
 			// immettere l'oggetto nel model

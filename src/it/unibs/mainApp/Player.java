@@ -31,6 +31,8 @@ public class Player extends MovingObject implements Serializable{
 	private int spawnY;
 
 	private int kills;
+	
+
 	private int deaths;
 	
 	// bot reset path
@@ -236,6 +238,13 @@ public class Player extends MovingObject implements Serializable{
 			dead();
 			deaths++;
 			shooter.kills++;
+			
+			//hp + 50 x kill
+			int plusHp = shooter.getHp() + 50;
+			if(plusHp>100) 
+				plusHp = 100;
+			shooter.setHp(plusHp);
+			
 			System.out.println(name + " kills: " + shooter.kills);
 		}
 	}
@@ -253,6 +262,12 @@ public class Player extends MovingObject implements Serializable{
 	}
 		
 	/*---GETTERS AND SETTERS---*/
+	
+	public int getKills() {return kills;}
+	public int getDeaths() {return deaths;}
+	
+	public void setName(String name) {this.name = name;}
+
 	public Gun getGun() {return gun;}
 	public int getHp() {return hp;}
 	public void setHp(int hp) {this.hp=hp;}

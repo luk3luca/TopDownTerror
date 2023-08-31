@@ -18,10 +18,13 @@ import java.awt.Font;
 import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class test {
 
 	private JFrame frame;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -59,21 +62,42 @@ public class test {
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(73, 16, 112, 91);
-		panel.add(lblNewLabel);
-		
-		JProgressBar progressBar_1 = new JProgressBar();
-		progressBar_1.setBounds(168, 16, 146, 91);
-		panel.add(progressBar_1);
-		
-		JLabel lblNewLabel_1 = new JLabel("New label2");
-		lblNewLabel_1.setBounds(73, 16, 146, 102);
-		panel.add(lblNewLabel_1);
-		
-		JProgressBar progressBar = new JProgressBar();
-		progressBar.setBounds(202, 140, 112, 65);
-		panel.add(progressBar);
+		table = new JTable();
+		table.setBorder(null);
+		table.setCellSelectionEnabled(true);
+		table.setFont(new Font("Tahoma", Font.BOLD, 16));
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+			},
+			new String[] {
+				"name ", "kills", "deaths"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, String.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+			boolean[] columnEditables = new boolean[] {
+				false, true, true
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		table.getColumnModel().getColumn(0).setResizable(false);
+		table.getColumnModel().getColumn(0).setPreferredWidth(36);
+		table.getColumnModel().getColumn(1).setResizable(false);
+		table.getColumnModel().getColumn(2).setResizable(false);
+		table.setBounds(51, 59, 291, 103);
+		panel.add(table);
 //		
 //		PlayerViewport playerViewport = new PlayerViewport((Battlefield) null, (Player) null);
 //		GridBagConstraints gbc_playerViewport = new GridBagConstraints();
@@ -105,5 +129,4 @@ public class test {
 		
 		
 	}
-
 }

@@ -92,8 +92,10 @@ public class Battlefield extends BaseModel {
 		int id = player.length - nBot;
 		//bot1 = new Bot(player[id], player, id, tiles);
 		
-		for(int i = id; i < player.length; i++)
+		for(int i = id; i < player.length; i++) {
 			bot.add(new Bot(player[i], player, i, tiles));
+			player[i].setName("BOT" + (i+1));
+		}
 	}
 	
 	private T_Pavement buildPavement(int y, int x, int tileDim) {

@@ -108,9 +108,4 @@ public class MainApp {
 	}
 
 	
-	private void startLocalGame(ActionEvent e) {
-		frame = new JFrame();
-		model = new Battlefield((int) comboBox.getSelectedItem());
-		controller = new GameController(model,frame, model.tiles, model.player, 0, model.bullet);
-	}
 }

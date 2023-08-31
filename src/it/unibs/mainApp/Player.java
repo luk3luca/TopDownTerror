@@ -325,7 +325,7 @@ public class Player extends MovingObject implements Serializable{
 		}
 	}
 
-	
+	//TODO fix coordinates control
 	private void canChangeGun() {
 		if(changeGun && respawn) {
 			double[][] points = {

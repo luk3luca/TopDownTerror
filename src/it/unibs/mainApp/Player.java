@@ -99,8 +99,7 @@ public class Player extends MovingObject implements Serializable{
             e.printStackTrace();
         }
 		
-		this.magMax = gun.getMaxAmmo();
-		this.ammoLeft = magMax;
+		setGunStat();
 		
 		setPosX(spawn.getSpawnX() - Battlefield.BATTLEFIELD_TILEDIM/4 );
 		setPosY(spawn.getSpawnY() - Battlefield.BATTLEFIELD_TILEDIM/4);
@@ -115,6 +114,11 @@ public class Player extends MovingObject implements Serializable{
 		
 		this.startReloadTime = System.currentTimeMillis() - (long)(this.gun.getReload()*1000);
 		this.lastShotTime = 0;
+	}
+	
+	private void setGunStat() {
+		this.magMax = gun.getMaxAmmo();
+		this.ammoLeft = magMax;
 	}
 	
 	public void stepNext() {
@@ -317,6 +321,8 @@ public class Player extends MovingObject implements Serializable{
 			this.gun = Gun.guns[n].clone();
 		} catch (Exception e) {
         }
+		
+		setGunStat();
 	}
 	
 	public void setPlayerGunControl(int n) {

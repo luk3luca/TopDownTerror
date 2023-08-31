@@ -87,12 +87,13 @@ public class MyProtocol implements Runnable  {
 			model.player[playerIndex].setName(playerName);
 			
 			while(client.isClosed() == false) {
-				// TODO: rimuovere tmpplayer
 				Player tmpPlayer = (Player) objInputStream.readObject();
 				ArrayList<Integer> keyCode = (ArrayList<Integer>) objInputStream.readObject();
 				Player remotePlayer = model.player[playerIndex];
 
 				remotePlayer.setControls(keyCode);
+				//System.out.println(tmpPlayer.getGunId());
+				remotePlayer.setPlayerGunControl(tmpPlayer.getGunId());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

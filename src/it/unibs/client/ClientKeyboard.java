@@ -30,19 +30,52 @@ public class ClientKeyboard extends BaseModel implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+	    char typedChar = e.getKeyChar();
+	    int gunId = -1;
+
+	    switch (typedChar) {
+	        case '1':
+	            gunId = 0;
+	            break;
+	        case '2':
+	            gunId = 1;
+	            break;
+	        case '3':
+	            gunId = 2;
+	            break;
+	        case '4':
+	            gunId = 3;
+	            break;
+	        case '5':
+	            gunId = 4;
+	            break;
+	        case '6':
+	            gunId = 5;
+	            break;
+	        default:
+	            break;
+	    }
+
+	    if (gunId != -1) {
+	        p.setGunId(gunId);
+	        this.fireValuesChange();
+	    }
 	}
+	
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if(!currentActiveControls.contains(e.getKeyCode())) {
 			currentActiveControls.add(e.getKeyCode());
 		}
+		
 		this.fireValuesChange();
 	}
 	
 	@Override
 	public void keyReleased(KeyEvent e) {
 		currentActiveControls.remove((Object)e.getKeyCode());
+		
 		this.fireValuesChange();
 	}
 }

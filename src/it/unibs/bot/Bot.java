@@ -109,7 +109,7 @@ public class Bot {
 		// check to reset the path
 		if(resetPath || p.respawn) {
 			// avoid not resetting target if getting killed by non targeted player
-			if(p.respawn)
+			if(p.respawn && !resetPath)
 				setRandomTarget(12, 6);
 			
 			setupPath();

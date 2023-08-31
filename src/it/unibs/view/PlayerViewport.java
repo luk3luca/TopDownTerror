@@ -11,6 +11,8 @@ public class PlayerViewport extends PnlMap implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Player p;
+    private Gun[] guns = Gun.guns;
+
     
     //
     public PlayerViewport() {
@@ -64,6 +66,22 @@ public class PlayerViewport extends PnlMap implements Serializable {
 		    
 		    // Ripristina il rettangolo di clipping
 		    g2.setClip(null);
+		    
+		    int offset = 0;
+
+            for(int i=0;i<guns.length;i++) {
+                g2.setColor(Color.BLUE);
+
+                if(guns[i].getName().equals(p.getGun().getName())) {
+                    g2.setColor(Color.RED);
+                }
+
+                g2.setFont(new Font("Tahoma", Font.BOLD, 20));
+                g2.drawString((i+1) + ":"+ guns[i].getName() + "    " , -240 + i*140, 540);
+
+                g2.setColor(Color.BLUE);
+            }
+
 		}
 		
     }

@@ -154,19 +154,19 @@ public class Battlefield extends BaseModel {
 		//bot1.stepNext();
 		for(Bot b: bot)
 			b.stepNext();
-		
+
 		for(Player p: player) {
 			p.stepNext();
 			addShot(p);
 		}
-		
-        bullet.forEach((b)->b.stepNext());
-        
-        checkCollision();
-        checkWin();
-        
-        this.fireValuesChange();
-    }
+
+		bullet.forEach((b)->b.stepNext());
+
+		checkCollision();
+		checkWin();
+
+		this.fireValuesChange();
+	}
 	
 	
     private void removeDust() {

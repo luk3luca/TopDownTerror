@@ -31,13 +31,13 @@ public class Player extends MovingObject implements Serializable{
 	private int spawnY;
 
 	private int kills;
-	
-
 	private int deaths;
 	
-	// bot reset path
-	public boolean respawn = false;
+	private boolean changeGun = true;
+	private int gunId;
 	
+	// bot reset path
+	public boolean respawn = true;
 	
 	// collsion logic
 	private boolean topCollision = false;
@@ -120,16 +120,17 @@ public class Player extends MovingObject implements Serializable{
 	public void stepNext() {
 		setPosX(getPosX() + xSpeed);
 		setPosY(getPosY() + ySpeed);
-		setAngle(getAngle()+rotation);
-		
+		setAngle(getAngle() + rotation);		
+
 		try {
 			applyControls(controls);
 		}
 		catch (Exception e) {
 		}
+		
+		canChangeGun();
 	}
 
-	
 	public long getStartReloadTime() {
 		return startReloadTime;
 	}
@@ -257,8 +258,8 @@ public class Player extends MovingObject implements Serializable{
 		setPosY(spawn.getSpawnY() - Battlefield.BATTLEFIELD_TILEDIM/4);
 		
 		// resppawn controller for bot path generation
-		// TODO: farlo diventare false se il player esce dalla zona di spawn
 		respawn = true;
+		changeGun = true;
 	}
 		
 	/*---GETTERS AND SETTERS---*/
@@ -301,6 +302,10 @@ public class Player extends MovingObject implements Serializable{
 	public boolean isBottomRightCollision() {return bottomRightCollision;}
 	public void setBottomRightCollision(boolean bottomRightCollision) {this.bottomRightCollision = bottomRightCollision;}
 	
+	
+	public int getGunId() {return gunId;}
+	public void setGunId(int gunId) {this.gunId = gunId;}
+	
 	public void setRandomGun() {
 		Random rand = new Random();
 		int gunRand = rand.nextInt(Gun.nGuns);
@@ -311,8 +316,37 @@ public class Player extends MovingObject implements Serializable{
 		try {
 			this.gun = Gun.guns[n].clone();
 		} catch (Exception e) {
-			
         }
+	}
+	
+	public void setPlayerGunControl(int n) {
+		if(changeGun) {
+			setPlayerGun(n);
+		}
+	}
+
+	
+	private void canChangeGun() {
+		if(changeGun && respawn) {
+			double[][] points = {
+					{getPosX(), getPosY() - Battlefield.BATTLEFIELD_TILEDIM/4},
+					{getPosX(), getPosY() + Battlefield.BATTLEFIELD_TILEDIM/4},
+					{getPosX() - Battlefield.BATTLEFIELD_TILEDIM/4, getPosY()},
+					{getPosX() + Battlefield.BATTLEFIELD_TILEDIM/4, getPosY()}
+			};
+			
+			for(double[] p: points) {
+				int x = (int) p[0] / Battlefield.BATTLEFIELD_TILEDIM;
+				int y = (int) p[1] / Battlefield.BATTLEFIELD_TILEDIM;
+
+				if(MapMatrix.isPavement(x, y)) {
+					changeGun = false;
+					respawn = false;
+					//System.out.println("false");
+					return;
+				}
+			}
+		}
 	}
 	
 	private void resetSpeed() {

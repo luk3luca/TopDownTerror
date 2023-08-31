@@ -86,7 +86,6 @@ public class ClientController {
 		
 		JPanel panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
-//		gbc_panel.insets = new Insets(0, 0, 30, 0);
 		gbc_panel.insets = new Insets(0, 0, 30, 0);
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 2;
@@ -97,17 +96,11 @@ public class ClientController {
 		mapViewport = new MapViewport();
 		panel.add(mapViewport);
 		
-		
-		gbc_panel.insets.top = 500;  // Spazio sopra la prima riga
-		gbc_panel.insets.bottom = 10;
 		playerInfo = new PlayerInfo();
 		panel.add(playerInfo);
 		gameInfo = new GameInfo();
 		panel.add(gameInfo);
 		
-		
-//		playerViewport.setObjects(tiles, players,0,bullet);
-//		mapViewport.setObjects(tiles, players,bullet);
 		
 		try {
 			playerIndex = (int) objInputStream.readObject();
@@ -163,8 +156,6 @@ public class ClientController {
 				
 				gameInfo.setObjects(players);
 			}
-//			System.out.println("Data received");
-			// immettere l'oggetto nel model
 		} catch (IOException e) {
 			System.out.println(e.toString());
 		} catch (ClassNotFoundException e) {
@@ -178,7 +169,6 @@ public class ClientController {
 			objOutputStream.writeUnshared(keyCode);
 			objOutputStream.flush();
 			localPlayer.isShoot();
-			//System.out.println(localPlayer.getXSpeed());
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -186,9 +176,5 @@ public class ClientController {
 		}
 	}
 	
-	private void viewUpdated(PropertyChangeEvent e) {
-		
-		// quando la view viene aggiornata potrebbe essere il momento migliore per lanciare l'aggiornamento del background
-		//controller.update(e);
-	}
+
 }

@@ -60,15 +60,6 @@ public class MyProtocol implements Runnable  {
 	public void initializeGame() {
 		sendToClient(playerIndex);
 		sendToClient(model.tiles);
-//		try {
-//			 playerName = (String) objInputStream.readObject();
-//			
-//		} catch (ClassNotFoundException | IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
-		
 		
 		model.addChangeListener(this::modelUpdated);
 		
@@ -76,13 +67,16 @@ public class MyProtocol implements Runnable  {
 		ex.execute(this::listenToClient);
 		
 		
-		
-//		model.player[playerIndex].setName(playerName);
 		model.startGame();
 	}
 	
 	private void listenToClient() {
 		try {
+			
+			playerName = (String) objInputStream.readObject();
+//			if(playerName!=null)
+			model.player[playerIndex].setName(playerName);
+			
 			while(client.isClosed() == false) {
 				// TODO: rimuovere tmpplayer
 				Player tmpPlayer = (Player) objInputStream.readObject();

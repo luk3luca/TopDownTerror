@@ -56,8 +56,7 @@ public class ClientController {
 			this.ipAddress = LOCALHOST;
 		}
 		
-		
-//			this.playerName = playerName;
+		this.playerName = playerName;
 		
 		
 	}
@@ -111,14 +110,15 @@ public class ClientController {
 		try {
 			playerIndex = (int) objInputStream.readObject();
 			tiles = (ArrayList<Tile>) objInputStream.readObject();
-//			objOutputStream.writeUnshared(playerName);
-//			objOutputStream.flush();
+
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
 		
 		executor = Executors.newFixedThreadPool(1);
 		executor.execute(this::listenToServer);
+		
+		sendToServerName();
 		
 		
 		kb = new ClientKeyboard(localPlayer);
@@ -184,5 +184,14 @@ public class ClientController {
 		}
 	}
 	
+	private void sendToServerName() {	
+		try {
+			objOutputStream.writeUnshared(playerName);
+			objOutputStream.flush();
 
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

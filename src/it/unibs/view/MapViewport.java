@@ -9,7 +9,6 @@ public class MapViewport extends PnlMap {
     private static final long serialVersionUID = 1L;
 
     public MapViewport() {
-    	
     }
     public void setObjects(ArrayList<Tile> tiles, Player[] p,ArrayList<Bullet> bullet) {
         super.setObjects(tiles, p,bullet);

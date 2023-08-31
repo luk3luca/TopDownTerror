@@ -20,7 +20,7 @@ public class PlayerInfo extends JPanel{
 		inizializeLifeBar();
 		
 		setLayout(null);
-		setBounds(0, 0, 300, 10);
+		
 		JLabel lblAmmo = new JLabel("AMMO: " );
 		lblAmmo.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblAmmo.setBounds(0, circle.getHeight()/2, 100, 100);
@@ -36,6 +36,8 @@ public class PlayerInfo extends JPanel{
 		
 		progressBar.setBounds(80, 120,200, 30);
 		add(progressBar);
+//		progressBar.setBounds(this.getHeight()-10, 120,200, 30);
+//		add(progressBar);
 	}
 	
 	public void setObjects(Player p) {

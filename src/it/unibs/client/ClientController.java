@@ -40,7 +40,7 @@ public class ClientController {
 	private String ipAddress ;
 
 	public PlayerViewport playerViewport;
-	public MapViewport mapViewport ;
+	public MapViewport mapViewport ;public MapViewport mapViewport2 ;public MapViewport mapViewport3 ;
 	public PlayerInfo playerInfo ;
 	public GameInfo gameInfo;
 	int playerIndex;
@@ -57,10 +57,12 @@ public class ClientController {
 	}
 	
 	public void initializeGame() {
+		int x = frame.getX(); 
+		int y = frame.getY();
 		frame.getContentPane().removeAll();
 		frame.dispose();
 		frame = new JFrame("CLIENT VIEW");
-		frame.setBounds(100, 100, 1200, 900);
+		frame.setBounds(x, y, 1200, 900);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setResizable(false);
@@ -89,15 +91,18 @@ public class ClientController {
 		gbc_panel.gridx = 2;
 		gbc_panel.gridy = 0;
 		frame.getContentPane().add(panel, gbc_panel);
-		panel.setLayout(new GridLayout(3, 1, 0, 10));
+		panel.setLayout(new GridLayout(3, 1, 0, 0));
 		
 		mapViewport = new MapViewport();
 		panel.add(mapViewport);
+		
+		
 		
 		playerInfo = new PlayerInfo();
 		panel.add(playerInfo);
 		
 		gameInfo = new GameInfo();
+		gameInfo.setBounds(-100, 0, 100, 100);
 		panel.add(gameInfo);
 		
 		
@@ -155,12 +160,8 @@ public class ClientController {
 				mapViewport.repaint();
 				
 				playerInfo.setObjects(players[playerIndex]);
-//				playerInfo.revalidate();
-//				playerInfo.repaint();
 				
 				gameInfo.setObjects(players);
-//				gameInfo.revalidate();
-//				gameInfo.repaint();
 			}
 //			System.out.println("Data received");
 			// immettere l'oggetto nel model

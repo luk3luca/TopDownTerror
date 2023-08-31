@@ -7,6 +7,8 @@ import java.util.Comparator;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -25,23 +27,24 @@ public class GameInfo extends JPanel{
         model.addColumn("Kills");
         model.addColumn("Deaths");
         JTable table = new JTable(model);
-        table.getTableHeader().setFont(new Font("Tahoma", Font.BOLD,18));
-        table.setFont(new Font("Tahoma", Font.CENTER_BASELINE,15));
+        table.getTableHeader().setFont(new Font("Tahoma", Font.BOLD,24));
+        table.setFont(new Font("Tahoma", Font.CENTER_BASELINE,20));
+        table.setRowHeight(27);
         
-        table.setRowHeight(22);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer); // Aligns "Kills" column
+        table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        
         for(int i=0; i<3;i++) {
-        	table.getColumnModel().getColumn(i).setPreferredWidth(15);
+        	table.getColumnModel().getColumn(i).setPreferredWidth(20);
             table.getColumnModel().getColumn(i).setResizable(false);
             
         }
-        
+       
         table.setBorder(null);
-        
-        
-        
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(0, 0, 300, 161);
-        scrollPane.setPreferredSize(new Dimension(200,120));
+        scrollPane.setBounds(0, 0, 342, 198);
         
         add(scrollPane);
 	}

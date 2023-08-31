@@ -44,7 +44,7 @@ public class MainApp {
 
 	private void startGameMenu() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1000, 500);
+		frame.setBounds(100, 100, 1200, 900);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//frame.requestFocus();
 		frame.setResizable(false);
@@ -64,13 +64,13 @@ public class MainApp {
 		btnHostGame = new JButton("SERVER");
 		btnHostGame.addActionListener(this::hostGame);
 		btnHostGame.setFont(new Font("Arial Black", Font.PLAIN, 40));
-		btnHostGame.setBounds(120, 201, 364, 96);
+		btnHostGame.setBounds(194, 185, 364, 96);
 		menuPanel.add(btnHostGame);
 		
 		btnJoinGame = new JButton("JOIN GAME");
 		btnJoinGame.addActionListener(this::joinGame);
 		btnJoinGame.setFont(new Font("Arial Black", Font.PLAIN, 40));
-		btnJoinGame.setBounds(529, 291, 364, 96);
+		btnJoinGame.setBounds(705, 277, 364, 96);
 		menuPanel.add(btnJoinGame);
 		
 		lblDescription = new JLabel("");
@@ -86,11 +86,11 @@ public class MainApp {
 		comboBox.addItem(4);
 		comboBox.addItem(5);
 		comboBox.addItem(6);
-		comboBox.setBounds(52, 201, 68, 96);
+		comboBox.setBounds(123, 185, 68, 96);
 		menuPanel.add(comboBox); 
 		
 		textArea = new JTextArea();
-		textArea.setBounds(529, 201, 364, 88);
+		textArea.setBounds(705, 187, 364, 88);
 		menuPanel.add(textArea);
 	}
 	

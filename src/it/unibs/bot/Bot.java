@@ -265,9 +265,15 @@ public class Bot {
 	}
 	
 	// value between 0 and BATTLEFIELD_TILEDIM/2, random position inside the tile
+//	private int getRandomOffset() {
+//		Random rand = new Random();
+//		return rand.nextInt(Battlefield.BATTLEFIELD_TILEDIM/2);
+//	}
 	private int getRandomOffset() {
-		Random rand = new Random();
-		return rand.nextInt(Battlefield.BATTLEFIELD_TILEDIM/2);
+	    Random rand = new Random();
+	    int lowerBound = 10;
+	    int upperBound = Battlefield.BATTLEFIELD_TILEDIM / 2 - lowerBound;
+	    return rand.nextInt(upperBound - lowerBound + 1) + lowerBound;
 	}
 
 	// random int between [-n;n]
@@ -298,9 +304,11 @@ public class Bot {
 	
 	// if enemy get closer bot reverse speed to escape
 	private int reverseSpeed() {
-		double rangeCut = 0.25;
-		double gunRange = p.getGun().getRange() * Battlefield.BATTLEFIELD_TILEDIM;
-		
+		//double rangeCut = 0.25;
+		//double gunRange = p.getGun().getRange() * Battlefield.BATTLEFIELD_TILEDIM;
+		double rangeCut = 1;
+		double gunRange = Battlefield.BATTLEFIELD_TILEDIM;
+
 		double desiredDistance = (gunRange * rangeCut);
 		
 		if(checkPlayerInGunRange()) {	

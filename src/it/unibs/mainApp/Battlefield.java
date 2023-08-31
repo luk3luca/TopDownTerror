@@ -147,6 +147,7 @@ public class Battlefield extends BaseModel {
 	public void startGame() {
 		gameTimer.start();
 	}
+
 	
 	public void stepNext() throws InterruptedException {
 		//TEST BOT
@@ -162,6 +163,7 @@ public class Battlefield extends BaseModel {
         bullet.forEach((b)->b.stepNext());
         
         checkCollision();
+        checkWin();
         
         this.fireValuesChange();
     }
@@ -412,5 +414,23 @@ public class Battlefield extends BaseModel {
 
 	    return closestPoint;
 	}
+	
+	
+	
+////////////// CHECK WIN   ///////////////
+	
+	private void checkWin() {
+		for (Player py : player) {
+			if (py.getKills() == 5) {
+				gameOver = true;
+				stopGame();
+			}
+		}
+	}
+	
+	
+	
+	
+	
 		
 }

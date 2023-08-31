@@ -20,8 +20,16 @@ public class BaseServer {
 		this.frame = frame;
 		this.realPlayer = realPlayer;
 	}
-	
-	
+
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
+
+
 	public void startServer() {
 		model = new Battlefield(realPlayer);
 		System.out.println("Server in avvio...");

@@ -20,6 +20,7 @@ public class MyProtocol implements Runnable  {
 	private ExecutorService ex;
 	private Battlefield model;
 	private int playerIndex;
+	String playerName ;
 	
 	public MyProtocol(Socket client, Battlefield model, int playerIndex) {
 		this.model = model;
@@ -59,11 +60,24 @@ public class MyProtocol implements Runnable  {
 	public void initializeGame() {
 		sendToClient(playerIndex);
 		sendToClient(model.tiles);
+//		try {
+//			 playerName = (String) objInputStream.readObject();
+//			
+//		} catch (ClassNotFoundException | IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		
+		
 		model.addChangeListener(this::modelUpdated);
 		
 		ex = Executors.newFixedThreadPool(1);
 		ex.execute(this::listenToClient);
 		
+		
+		
+//		model.player[playerIndex].setName(playerName);
 		model.startGame();
 	}
 	

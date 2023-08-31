@@ -12,6 +12,7 @@ import javax.swing.*;
 import it.unibs.client.ClientController;
 import it.unibs.server.BaseServer;
 import it.unibs.server.MyProtocol;
+import it.unibs.view.CommandImg;
 
 //import it.unibs.client.ClientController;
 //aggiunta di controller
@@ -24,9 +25,12 @@ public class MainApp {
 	Battlefield model;
 	private JFrame frame;
 	private JButton btnJoinGame;
-	private JTextArea textArea;
+	private JTextField txtIP;
+	private JTextField txtPlayerName;
 	private JComboBox<Integer> comboBox;
 	private JButton btnHostGame;
+	private JLabel lblNewLabel;
+	private JLabel lblName;
 	
 	public static void main(String[] args) {
 		System.out.println("start");
@@ -62,19 +66,19 @@ public class MainApp {
 		JLabel lblTitle = new JLabel("Top Down Terror");
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setFont(new Font("Arial Black", Font.PLAIN, 70));
-		lblTitle.setBounds(164, 16, 673, 153);
+		lblTitle.setBounds(249, 16, 673, 153);
 		menuPanel.add(lblTitle);
 		
 		btnHostGame = new JButton("SERVER");
 		btnHostGame.addActionListener(this::hostGame);
-		btnHostGame.setFont(new Font("Arial Black", Font.PLAIN, 40));
+		btnHostGame.setFont(new Font("Tahoma", Font.BOLD, 60));
 		btnHostGame.setBounds(194, 185, 364, 96);
 		menuPanel.add(btnHostGame);
 		
-		btnJoinGame = new JButton("JOIN GAME");
+		btnJoinGame = new JButton("JOIN");
 		btnJoinGame.addActionListener(this::joinGame);
-		btnJoinGame.setFont(new Font("Arial Black", Font.PLAIN, 40));
-		btnJoinGame.setBounds(705, 277, 364, 96);
+		btnJoinGame.setFont(new Font("Tahoma", Font.BOLD, 60));
+		btnJoinGame.setBounds(705, 185, 364, 96);
 		menuPanel.add(btnJoinGame);
 		
 		lblDescription = new JLabel("");
@@ -93,19 +97,30 @@ public class MainApp {
 		comboBox.setBounds(123, 185, 68, 96);
 		menuPanel.add(comboBox); 
 		
-		textArea = new JTextArea();
-		textArea.setBounds(705, 187, 364, 88);
-		menuPanel.add(textArea);
+		txtIP = new JTextField();
+		txtIP.setFont(new Font("Tahoma", Font.PLAIN, 36));
+		txtIP.setBounds(194, 297, 364, 88);
+		menuPanel.add(txtIP);
+		frame.getContentPane().add(menuPanel);
 		
-		BufferedImage myPicture = null;
-		try {
-			myPicture = ImageIO.read(new File("src/images/keyboard.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		JLabel picLabel = new JLabel(new ImageIcon(myPicture));
-		menuPanel.add(picLabel);
+		CommandImg commandImg = new CommandImg();
+		commandImg.setBounds(63, 423, 1006, 371);
+		menuPanel.add(commandImg);
+		
+		txtPlayerName = new JTextField();
+		txtPlayerName.setFont(new Font("Tahoma", Font.PLAIN, 36));
+		txtPlayerName.setBounds(705, 297, 364, 88);
+		menuPanel.add(txtPlayerName);
+		
+		lblNewLabel = new JLabel("IP: ");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 33));
+		lblNewLabel.setBounds(123, 297, 58, 88);
+		menuPanel.add(lblNewLabel);
+		
+		lblName = new JLabel("NAME: ");
+		lblName.setFont(new Font("Tahoma", Font.PLAIN, 33));
+		lblName.setBounds(592, 297, 117, 88);
+		menuPanel.add(lblName);
 	}
 	
 	private void hostGame(ActionEvent e) {
@@ -114,12 +129,9 @@ public class MainApp {
 	}
 	
 	private void joinGame(ActionEvent e) {
-		String ipAddress ="127.0.0.1"; 	
-		String ip = textArea.getText();
-		
-		clientController = new ClientController(frame, ipAddress);
+		String ip = txtIP.getText();
+		String name = txtPlayerName.getText();
+		clientController = new ClientController(frame, ip, name );
 		clientController.connectToServer();
 	}
-
-	
 }

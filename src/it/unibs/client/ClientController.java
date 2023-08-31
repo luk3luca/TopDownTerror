@@ -38,22 +38,28 @@ public class ClientController {
 	private ArrayList<Bullet> bullet = new ArrayList<>();
 	private ArrayList<Integer> keyCode;
 	private String ipAddress ;
-
+	private String playerName ;
+	
 	public PlayerViewport playerViewport;
-	public MapViewport mapViewport ;public MapViewport mapViewport2 ;public MapViewport mapViewport3 ;
+	public MapViewport mapViewport ;
 	public PlayerInfo playerInfo ;
 	public GameInfo gameInfo;
 	int playerIndex;
 	ClientKeyboard kb;
 	
-	public ClientController(JFrame frame, String ip) {
+	public ClientController(JFrame frame, String ip, String playerName) {
 		this.frame = frame;
-		if(ip!= null) {
+		if(ip!= "") {
 			this.ipAddress = ip;
 		}
 		else {
 			this.ipAddress = LOCALHOST;
 		}
+		
+		
+//			this.playerName = playerName;
+		
+		
 	}
 	
 	public void initializeGame() {
@@ -105,6 +111,8 @@ public class ClientController {
 		try {
 			playerIndex = (int) objInputStream.readObject();
 			tiles = (ArrayList<Tile>) objInputStream.readObject();
+//			objOutputStream.writeUnshared(playerName);
+//			objOutputStream.flush();
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}

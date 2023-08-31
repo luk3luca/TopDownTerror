@@ -153,6 +153,8 @@ public class ClientController {
 				ArrayList<Bullet> bull = (ArrayList<Bullet>)objInputStream.readObject();
 				bullet.clear();
 				bullet.addAll(bull);    
+
+				
 				
 			    playerViewport.setObjects(tiles, players,playerIndex,bull);
 				playerViewport.revalidate();
@@ -162,9 +164,15 @@ public class ClientController {
 				mapViewport.revalidate();
 				mapViewport.repaint();
 				
+				
 				playerInfo.setObjects(players[playerIndex]);
 				
 				gameInfo.setObjects(players);
+				
+				Boolean gameOver = objInputStream.readBoolean();
+				
+				if (gameOver) 
+					gameOverWindow();
 			}
 		} catch (IOException e) {
 			System.out.println(e.toString());
@@ -179,6 +187,7 @@ public class ClientController {
 			objOutputStream.writeUnshared(keyCode);
 			objOutputStream.flush();
 			localPlayer.isShoot();
+			
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -196,4 +205,24 @@ public class ClientController {
 			e.printStackTrace();
 		}
 	}
+	private void gameOverWindow() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 1200, 900);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+		frame.setResizable(false);
+		
+		JPanel menuPanel = new JPanel();
+		menuPanel.setBackground(Color.GRAY);
+		frame.getContentPane().add(menuPanel, BorderLayout.CENTER);
+		menuPanel.setLayout(null);
+		
+		JLabel lblGameOver = new JLabel("Game Over");
+		lblGameOver.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGameOver.setFont(new Font("Arial Black", Font.PLAIN, 70));
+		lblGameOver.setBounds(291, 47, 673, 153);
+		menuPanel.add(lblGameOver);
+		
+	}
+	
 }

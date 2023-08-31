@@ -23,7 +23,7 @@ public class MyProtocol implements Runnable  {
 	
 	private static ArrayList<MyProtocol> clientList = new ArrayList<>(); // lista in cui vengono registrati i client collegati al server 
 	private Socket client;
-	private JFrame frame;
+//	private JFrame frame;
 	private ObjectInputStream objInputStream;
 	private ObjectOutputStream objOutputStream;
 	private ExecutorService ex;
@@ -110,34 +110,19 @@ public class MyProtocol implements Runnable  {
 	
 	// (MODEL -----> CONTROLLER) -----> VIEW
 	private void modelUpdated(ChangeEvent e) {
-		if(model.isGameOver()) {
-			model.stopGame();
-			gameOverWindow();	
-			ex.shutdown();
-		} else {			
-			sendToClient(model.player);
-			sendToClient(model.bullet);
-		}
+//		ex.shutdown();
+
+		sendToClient(model.player);
+		sendToClient(model.bullet);
+		sendToClientGameOver(model.isGameOver());
 	}	
-	
-	private void gameOverWindow() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 1200, 900);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-		frame.setResizable(false);
-		
-		JPanel menuPanel = new JPanel();
-		menuPanel.setBackground(Color.GRAY);
-		frame.getContentPane().add(menuPanel, BorderLayout.CENTER);
-		menuPanel.setLayout(null);
-		
-		JLabel lblGameOver = new JLabel("Game Over");
-		lblGameOver.setHorizontalAlignment(SwingConstants.CENTER);
-		lblGameOver.setFont(new Font("Arial Black", Font.PLAIN, 70));
-		lblGameOver.setBounds(291, 47, 673, 153);
-		menuPanel.add(lblGameOver);
-		
+	private void sendToClientGameOver(Boolean bool) {
+		try {
+			objOutputStream.writeBoolean(bool);
+			objOutputStream.reset();
+		} catch (IOException e) {
+			System.err.println("Error, data not sent: " + e.toString());
+		}
 	}
 
 	

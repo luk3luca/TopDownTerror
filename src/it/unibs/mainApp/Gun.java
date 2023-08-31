@@ -10,12 +10,13 @@ import java.io.Serializable;
 public class Gun extends MovingObject implements Cloneable, Serializable {
 	public final static double GUN_WIDTH = 4.;
 	
-	public final static Gun AR = new Gun("AK-47", 4, 0.4, 25, 4., 20, new Color(128, 0, 32));					// #800020
-	public final static Gun PISTOL = new Gun("Tac-45", 4, 0.4, 12, 3., 15, new Color(0, 191, 255));				// #00BFFF
+//	public final static Gun AR = new Gun(name, range, rate, ammo, reload, dmg, color);
+	public final static Gun AR = new Gun("M4A1", 4, 0.4, 25, 4., 20, new Color(22, 224, 130));					// #16e082
+	public final static Gun PISTOL = new Gun("Tac-45", 3.5, 0.35, 12, 3., 15, new Color(0, 191, 255));			// #00BFFF
 	public final static Gun SMG = new Gun("MP7", 3, 0.2, 30, 4., 12, new Color(130, 38, 176));					// #8226b0
-	public final static Gun SNIPER = new Gun("Ballista", 6, 3., 7, 6., 80, new Color(0,0,102)); 				// #000066
-	public final static Gun BOW = new Gun("Bow", 6, 1, 1, 5., 100, new Color(255,255,255));					// #FFFFFF
-	public final static Gun SHOTGUN = new Gun("Il pompa del nonno", 2, 0.8, 5, 3., 50, new Color(135, 38, 87));	// #872657
+	public final static Gun SNIPER = new Gun("Barret M82", 6, 3., 7, 6., 75, new Color(7, 96, 250)); 			// #0760fa
+	public final static Gun BOW = new Gun("Bow", 5, 1., 1, 6., 95, new Color(240, 240, 240));					// #f0f0f0
+	public final static Gun SHOTGUN = new Gun("Pompa del nonno", 2, 0.8, 5, 3., 50, new Color(135, 38, 87));	// #872657
 	
 	public static Gun[] guns = {AR, PISTOL, SMG, SNIPER, BOW, SHOTGUN};
 	public static int nGuns = guns.length;

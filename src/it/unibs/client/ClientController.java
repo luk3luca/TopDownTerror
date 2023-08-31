@@ -79,14 +79,15 @@ public class ClientController {
 		playerViewport = new PlayerViewport();
 		GridBagConstraints gbc_playerViewport = new GridBagConstraints();
 		gbc_playerViewport.fill = GridBagConstraints.BOTH;
-		gbc_playerViewport.insets = new Insets(0, 0, 5, 5);
+		gbc_playerViewport.insets = new Insets(0, 0, 0, 0);
 		gbc_playerViewport.gridx = 0;
 		gbc_playerViewport.gridy = 0;
 		frame.getContentPane().add(playerViewport, gbc_playerViewport);
 		
 		JPanel panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(0, 0, 5, 0);
+//		gbc_panel.insets = new Insets(0, 0, 30, 0);
+		gbc_panel.insets = new Insets(0, 0, 30, 0);
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 2;
 		gbc_panel.gridy = 0;
@@ -97,12 +98,11 @@ public class ClientController {
 		panel.add(mapViewport);
 		
 		
-		
+		gbc_panel.insets.top = 500;  // Spazio sopra la prima riga
+		gbc_panel.insets.bottom = 10;
 		playerInfo = new PlayerInfo();
 		panel.add(playerInfo);
-		
 		gameInfo = new GameInfo();
-		gameInfo.setBounds(-100, 0, 100, 100);
 		panel.add(gameInfo);
 		
 		

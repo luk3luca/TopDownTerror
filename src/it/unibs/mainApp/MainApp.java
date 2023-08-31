@@ -2,7 +2,11 @@ package it.unibs.mainApp;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import it.unibs.client.ClientController;
@@ -92,6 +96,16 @@ public class MainApp {
 		textArea = new JTextArea();
 		textArea.setBounds(705, 187, 364, 88);
 		menuPanel.add(textArea);
+		
+		BufferedImage myPicture = null;
+		try {
+			myPicture = ImageIO.read(new File("src/images/keyboard.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		JLabel picLabel = new JLabel(new ImageIcon(myPicture));
+		menuPanel.add(picLabel);
 	}
 	
 	private void hostGame(ActionEvent e) {

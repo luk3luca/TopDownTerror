@@ -3,6 +3,7 @@ package it.unibs.view;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.text.Format;
 import java.util.ArrayList;
 
 import it.unibs.mainApp.*;
@@ -67,20 +68,22 @@ public class PlayerViewport extends PnlMap implements Serializable {
 		    // Ripristina il rettangolo di clipping
 		    g2.setClip(null);
 		    
-//		    int offset = 0;
-//
-//            for(int i=0;i<guns.length;i++) {
-//                g2.setColor(Color.BLUE);
-//
-//                if(guns[i].getName().equals(p.getGun().getName())) {
-//                    g2.setColor(Color.RED);
-//                }
-//
-//                g2.setFont(new Font("Tahoma", Font.BOLD, 20));
-//                g2.drawString((i+1) + ":"+ guns[i].getName() + "    " , -240 + i*140, 540);
-//
-//                g2.setColor(Color.BLUE);
-//            }
+		    
+		    // GRAFICA GUNS 
+	        for(int i=0;i<guns.length;i++) {
+	            g2.setColor(Color.BLUE);
+	            if(p!=null) 
+		            if(guns[i].getName().equals(p.getGun().getName())) 
+		                g2.setColor(Color.RED);
+		            
+	            g2.setFont(new Font("Tahoma", Font.BOLD, 20));
+	            
+	            
+	            String str = String.format("%s", (i+1) + ":" + guns[i].getName());
+	            
+	            g2.drawString(str , viewportX + i*140 , viewportY + viewportSize + 30);
+	            g2.setColor(Color.BLUE);
+	        }
 
 		}
 		

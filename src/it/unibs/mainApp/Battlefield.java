@@ -421,7 +421,7 @@ public class Battlefield extends BaseModel {
 	
 	private void checkWin() {
 		for (Player py : player) {
-			if (py.getKills() == 2) {
+			if (py.getKills() == 20) {
 				gameOver = true;
 				stopGame();
 			}

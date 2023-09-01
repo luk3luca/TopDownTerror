@@ -234,23 +234,20 @@ public class ClientController {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setResizable(false);
+		frame.setLayout(null);
+		frame.setBackground(Color.red);
 		
-		JPanel menuPanel = new JPanel();
-		menuPanel.setBackground(Color.WHITE);
-		frame.getContentPane().add(menuPanel, BorderLayout.CENTER);
-		menuPanel.setLayout(null);
-		menuPanel.setBounds(0,0, 100,300);
 		
 		Player winner = gameInfo.getWinner();
 		
-		JLabel lblGameOver = new JLabel("The winnner is:" + winner.getName() );
+		JLabel lblGameOver = new JLabel("WINNER: " + winner.getName() );
 		lblGameOver.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGameOver.setFont(new Font("Arial Black", Font.PLAIN, 60));
-		lblGameOver.setBounds(10, 47, 900, 300);
-		menuPanel.add(lblGameOver);
+		lblGameOver.setBounds(140, 0, 900, 300);
+		frame.add(lblGameOver);
 		
-
-		menuPanel.add(gameInfo);
+		gameInfo.setBounds(425, 300, 900, 300);
+		frame.add(gameInfo);
 		
 		
 		

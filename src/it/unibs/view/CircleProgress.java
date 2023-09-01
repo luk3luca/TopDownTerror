@@ -1,4 +1,4 @@
-package it.unibs.mainApp;
+package it.unibs.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,6 +12,8 @@ import java.io.Serializable;
 import javax.swing.JComponent;
 import javax.swing.JProgressBar;
 import javax.swing.plaf.basic.BasicProgressBarUI;
+
+import it.unibs.mainApp.Player;
 //OK
 public class CircleProgress extends JProgressBar implements Serializable {
 	
@@ -34,7 +36,6 @@ public class CircleProgress extends JProgressBar implements Serializable {
 			g2.fillArc(0, 0, c.getWidth(), c.getHeight(), 0, -arcAngle);
 			
 			g2.setColor(Color.BLACK);
-//			g2.drawString(Integer.toString(p.getAmmoLeft()), c.getWidth()/2 - 5 ,c.getHeight()/2 + 5);
 		}
 	}
 	

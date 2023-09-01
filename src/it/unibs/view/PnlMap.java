@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 
 import it.unibs.mainApp.Battlefield;
 import it.unibs.mainApp.Bullet;
-import it.unibs.mainApp.CircleProgress;
 import it.unibs.mainApp.Player;
 import it.unibs.mainApp.Tile;
 

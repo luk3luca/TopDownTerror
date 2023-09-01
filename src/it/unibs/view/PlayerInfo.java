@@ -5,14 +5,15 @@ import javax.swing.*;
 import javax.swing.JProgressBar;
 import javax.swing.plaf.basic.BasicProgressBarUI;
 
-import it.unibs.mainApp.CircleProgress;
 import it.unibs.mainApp.Player;
 
 
 
 public class PlayerInfo extends JPanel{
+	
 	private JProgressBar progressBar;
 	private CircleProgress circle;
+	private JLabel ammoLabel;
 	
 	public PlayerInfo() {
 		
@@ -25,6 +26,14 @@ public class PlayerInfo extends JPanel{
 		lblAmmo.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblAmmo.setBounds(0, circle.getHeight()/2, 100, 100);
 		add(lblAmmo);
+		
+		ammoLabel = new JLabel(); // Inizializza con il numero di munizioni desiderato
+		ammoLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
+		int ammoLabelX = 190; // Imposta la posizione x desiderata
+	    int ammoLabelY = circle.getHeight() / 2; // Imposta la posizione y desiderata
+	    
+	    ammoLabel.setBounds(ammoLabelX, ammoLabelY, 100, 100); // Imposta le dimensioni desiderate
+	    add(ammoLabel);
 		
 		circle.setBounds(80, 0, 100, 100);
 		add(circle);
@@ -43,6 +52,7 @@ public class PlayerInfo extends JPanel{
 	public void setObjects(Player p) {
 		progressBar.setValue(p.getHp());
 		circle.setBar(p);
+		ammoLabel.setText(String.valueOf(p.getAmmoLeft() + "/" + String.valueOf(p.getGun().getMaxAmmo())));
 	}
 	
 	private void inizializeLifeBar() {

@@ -22,7 +22,7 @@ public class GameInfo extends JPanel{
 	
 	
 	
-	public Player getWinner() {{
+	public Player getWinner() {
 		return p[5];
 	}
 

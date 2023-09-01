@@ -63,7 +63,7 @@ public class MapMatrix {
 //		
 //		System.out.println(checkMap());
 //	}
-	 
+	
 	public static int[][] getMatrix() {
 		do {
 			fillTheMap();

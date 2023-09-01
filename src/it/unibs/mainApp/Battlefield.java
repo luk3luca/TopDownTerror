@@ -416,7 +416,6 @@ public class Battlefield extends BaseModel {
 	}
 	
 	
-	
 ////////////// CHECK WIN   ///////////////
 	
 	private void checkWin() {

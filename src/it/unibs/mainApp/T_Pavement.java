@@ -17,6 +17,4 @@ public class T_Pavement extends Tile implements Serializable {
 	public boolean checkCollision(MovingObject o) {
 		return (o instanceof Player) ? false : super.checkCollision(o);
 	}
-
-
 }

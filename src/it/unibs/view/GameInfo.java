@@ -22,7 +22,7 @@ public class GameInfo extends JPanel{
 	
 	
 	
-	public Player getWinner() {
+	public Player getWinner() {{
 		return p[5];
 	}
 
@@ -59,18 +59,14 @@ public class GameInfo extends JPanel{
 	
 	
 	public void setObjects(Player[] players){
-		this.players = players;
-		this.p = selectionSort(this.players);
-		
-		model.setRowCount(0);//mette il numero di righe=0, quindi le toglie
-//		for(Player p: sortedPlayers) {
-//			model.addRow(new Object[]{p.getName(),p.getKills(),p.getDeaths()});
-//		}
-		
-		for(int i=5;i>=0;i--) {
-			model.addRow(new Object[]{p[i].getName(),p[i].getKills(),p[i].getDeaths()});
+		if(players.length == 6) {
+			this.players = players;
+			this.p = selectionSort(this.players);
+			model.setRowCount(0);//mette il numero di righe=0, quindi le toglie
+			for(int i=5;i>=0;i--) {
+				model.addRow(new Object[]{p[i].getName(),p[i].getKills(),p[i].getDeaths()});
+			}
 		}
-		
 	}
 	
 	public  Player[] selectionSort(Player[] arr) {

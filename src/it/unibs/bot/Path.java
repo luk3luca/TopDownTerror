@@ -41,7 +41,7 @@ public class Path {
 	}
 	
 	public boolean targetReached() {
-		return AStar.isTargetReached(startX, startY, targetX, targetY);
+		return AStar.targetNotReached(startX, startY, targetX, targetY);
 	}
 
 }

@@ -12,6 +12,8 @@ public class AStar {
 	private static ArrayList<Node> pathAL = new ArrayList<>();
 
 	public static Stack<Node> generatePath(int startX, int startY, int targetX, int targetY) {
+		clearNodes();
+
 		try {
 			Node start = nodes.get(calculateKey(startX, startY));
 			Node target = nodes.get(calculateKey(targetX, targetY));
@@ -24,7 +26,6 @@ public class AStar {
 		} catch (Exception e) {
 		}
 		
-		clearNodes();
 		return nodePath;
 	}
 	
@@ -128,20 +129,28 @@ public class AStar {
 
 		System.out.println("Path:");
 		for(int id : ids){
-			//System.out.print(id + " ");
 			System.out.println(id + " (" + nodes.get(id).getCol() + ", " + nodes.get(id).getRow() + ")");
 		}
 		System.out.println("");
 	}
 	
 	
-	public static boolean isTargetReached(int startX, int startY, int targetX, int targetY) {
-		AStar.generatePath(startX, startY, targetX, targetY);
-		Node target = nodes.get(calculateKey(targetX, targetY));
+	public static boolean targetNotReached(int startX, int startY, int targetX, int targetY) {
+		clearNodes();
 
-		createPath(target);
-		
-		return !pathAL.isEmpty();
+		try {
+			Node start = nodes.get(calculateKey(startX, startY));
+			Node target = nodes.get(calculateKey(targetX, targetY));
+			
+			Node result = aStarPath(start, target);
+			
+			start = null;
+			target = null;
+			
+			return result == null;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 	
 }

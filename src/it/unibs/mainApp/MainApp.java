@@ -2,27 +2,19 @@ package it.unibs.mainApp;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
-
 import it.unibs.client.ClientController;
 import it.unibs.server.BaseServer;
-import it.unibs.server.MyProtocol;
 import it.unibs.view.CommandImg;
+import it.unibs.view.LogoImg;
 
-//import it.unibs.client.ClientController;
-//aggiunta di controller
 public class MainApp {
-	GameController controller;
-	ClientController clientController;
-	BaseServer serverController;
+	private GameController controller;
+	private ClientController clientController;
+	private BaseServer serverController;
 	public JLabel lblDescription;
 	
-	Battlefield model;
+	private Battlefield model;
 	private JFrame frame;
 	private JButton btnJoinGame;
 	private JTextField txtIP;
@@ -54,20 +46,26 @@ public class MainApp {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1200, 900);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//frame.requestFocus();
 		frame.setResizable(false);
 		
-
 		JPanel menuPanel = new JPanel();
 		menuPanel.setBackground(Color.GRAY);
 		frame.getContentPane().add(menuPanel, BorderLayout.CENTER);
+		menuPanel.setBackground(new Color(43, 43, 43));
 		menuPanel.setLayout(null);
 		
-		JLabel lblTitle = new JLabel("Top Down Terror");
-		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTitle.setFont(new Font("Arial Black", Font.PLAIN, 70));
-		lblTitle.setBounds(249, 16, 673, 153);
-		menuPanel.add(lblTitle);
+		
+		LogoImg logoImg = new LogoImg();
+		logoImg.setBounds(405, 20, 1623/4,566/4);
+		logoImg.setBackground(new Color(43, 43, 43));
+		menuPanel.add(logoImg);
+		
+//		JLabel lblTitle = new JLabel("Top Down Terror");
+//		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
+//		lblTitle.setForeground(new Color(178, 178, 178));
+//		lblTitle.setFont(new Font("Arial Black", Font.PLAIN, 70));
+//		lblTitle.setBounds(249, 16, 673, 153);
+//		menuPanel.add(lblTitle);
 		
 		btnHostGame = new JButton("SERVER");
 		btnHostGame.addActionListener(this::hostGame);
@@ -80,11 +78,7 @@ public class MainApp {
 		btnJoinGame.setFont(new Font("Tahoma", Font.BOLD, 60));
 		btnJoinGame.setBounds(705, 185, 364, 96);
 		menuPanel.add(btnJoinGame);
-		
-		lblDescription = new JLabel("");
-		lblDescription.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblDescription.setBounds(236, 457, 728, 30);
-		menuPanel.add(lblDescription);
+	
 		
 		comboBox = new JComboBox();
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 22));
@@ -104,7 +98,7 @@ public class MainApp {
 		frame.getContentPane().add(menuPanel);
 		
 		CommandImg commandImg = new CommandImg();
-		commandImg.setBounds(63, 423, 1006, 371);
+		commandImg.setBounds(83, 423, 1006, 371);
 		menuPanel.add(commandImg);
 		
 		txtPlayerName = new JTextField();
@@ -113,11 +107,13 @@ public class MainApp {
 		menuPanel.add(txtPlayerName);
 		
 		lblNewLabel = new JLabel("IP: ");
+		lblNewLabel.setForeground(new Color(178, 178, 178));
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 33));
 		lblNewLabel.setBounds(123, 297, 58, 88);
 		menuPanel.add(lblNewLabel);
 		
 		lblName = new JLabel("NAME: ");
+		lblName.setForeground(new Color(178, 178, 178));
 		lblName.setFont(new Font("Tahoma", Font.PLAIN, 33));
 		lblName.setBounds(592, 297, 117, 88);
 		menuPanel.add(lblName);

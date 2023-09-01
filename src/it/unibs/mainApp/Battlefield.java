@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.geom.*;
 import java.util.ArrayList;
 import javax.swing.Timer;
-
 import it.unibs.bot.Bot;
 
 //MODEL

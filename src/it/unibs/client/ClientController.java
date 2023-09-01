@@ -12,6 +12,8 @@ import java.util.concurrent.Executors;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 import it.unibs.mainApp.*;
 import it.unibs.server.MyProtocol;
@@ -120,7 +122,7 @@ public class ClientController {
 		executor = Executors.newFixedThreadPool(1);
 		executor.execute(this::listenToServer);
 		
-		sendToServerName();
+		sendNameToServer();
 		
 		
 		kb = new ClientKeyboard(localPlayer);
@@ -195,7 +197,7 @@ public class ClientController {
 		}
 	}
 	
-	private void sendToServerName() {	
+	private void sendNameToServer() {	
 		try {
 			objOutputStream.writeUnshared(playerName);
 			objOutputStream.flush();
@@ -206,23 +208,52 @@ public class ClientController {
 		}
 	}
 	private void gameOverWindow() {
+//		frame = new JFrame();
+//		frame.setBounds(100, 100, 1200, 900);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setVisible(true);
+//		frame.setResizable(false);
+//		
+//		JPanel menuPanel = new JPanel();
+//		menuPanel.setBackground(Color.GRAY);
+//		frame.getContentPane().add(menuPanel, BorderLayout.CENTER);
+//		menuPanel.setLayout(null);
+//		
+//		JLabel lblGameOver = new JLabel("Game Over");
+//		lblGameOver.setHorizontalAlignment(SwingConstants.CENTER);
+//		lblGameOver.setFont(new Font("Arial Black", Font.PLAIN, 70));
+//		lblGameOver.setBounds(291, 47, 673, 153);
+//		menuPanel.add(lblGameOver);
+		
+		
+		int x = frame.getX(), y= frame.getY();
+		
+		frame.dispose();
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1200, 900);
+		frame.setBounds(x, y,1200, 900);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setResizable(false);
 		
 		JPanel menuPanel = new JPanel();
-		menuPanel.setBackground(Color.GRAY);
+		menuPanel.setBackground(Color.WHITE);
 		frame.getContentPane().add(menuPanel, BorderLayout.CENTER);
 		menuPanel.setLayout(null);
+		menuPanel.setBounds(0,0, 100,300);
 		
-		JLabel lblGameOver = new JLabel("Game Over");
+		Player winner = gameInfo.getWinner();
+		
+		JLabel lblGameOver = new JLabel("The winnner is:" + winner.getName() );
 		lblGameOver.setHorizontalAlignment(SwingConstants.CENTER);
-		lblGameOver.setFont(new Font("Arial Black", Font.PLAIN, 70));
-		lblGameOver.setBounds(291, 47, 673, 153);
+		lblGameOver.setFont(new Font("Arial Black", Font.PLAIN, 60));
+		lblGameOver.setBounds(10, 47, 900, 300);
 		menuPanel.add(lblGameOver);
 		
+
+		menuPanel.add(gameInfo);
+		
+		
+		
 	}
-	
+		
 }

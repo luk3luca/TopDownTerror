@@ -2,6 +2,7 @@ package it.unibs.view;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.Arrays;
 import java.util.Comparator;
 
 import javax.swing.JPanel;
@@ -17,7 +18,15 @@ import it.unibs.mainApp.Player;
 public class GameInfo extends JPanel{
 	private DefaultTableModel model;
 	private Player[] players;
+	private Player[] p;
 	
+	
+	
+	public Player getWinner() {
+		return p[5];
+	}
+
+
 	public GameInfo() {
 		setLayout(null);
 		
@@ -39,7 +48,6 @@ public class GameInfo extends JPanel{
         for(int i=0; i<3;i++) {
         	table.getColumnModel().getColumn(i).setPreferredWidth(20);
             table.getColumnModel().getColumn(i).setResizable(false);
-            
         }
        
         table.setBorder(null);
@@ -52,10 +60,37 @@ public class GameInfo extends JPanel{
 	
 	public void setObjects(Player[] players){
 		this.players = players;
+		this.p = selectionSort(this.players);
+		
 		model.setRowCount(0);//mette il numero di righe=0, quindi le toglie
-		for(Player p: players) {
-			model.addRow(new Object[]{p.getName(),p.getKills(),p.getDeaths()});
+//		for(Player p: sortedPlayers) {
+//			model.addRow(new Object[]{p.getName(),p.getKills(),p.getDeaths()});
+//		}
+		
+		for(int i=5;i>=0;i--) {
+			model.addRow(new Object[]{p[i].getName(),p[i].getKills(),p[i].getDeaths()});
 		}
+		
 	}
+	
+	public  Player[] selectionSort(Player[] arr) {
+        int n = arr.length;
+        
+        for (int i = 0; i < n - 1; i++) {
+            int indiceMinimo = i;
+            
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j].getKills() < arr[indiceMinimo].getKills()) {
+                    indiceMinimo = j;
+                }
+            }
+            
+            // Scambia l'elemento corrente con il minimo
+            Player temp = arr[i];
+            arr[i] = arr[indiceMinimo];
+            arr[indiceMinimo] = temp;
+        }
+        return arr;
+    }
 	
 }

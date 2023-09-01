@@ -61,19 +61,21 @@ public class PnlMap extends JPanel implements Serializable  {
 				} 
 			}
 		}
-		if(players.length == 6) {
-			for(int i=0; i < players.length; i++) {
-				Player p = players[i];
-				
-				if(p!=null) {
+		if(players!=null) {
+			if(players.length == 6  ) {
+				for(int i=0; i < players.length; i++) {
+					Player p = players[i];
+					
 					p.getGun().setPlayerInfo(p.getPosX(), p.getPosY(), p.getAngle());
 					g2.setColor(p.getGun().getColor());
 					g2.fill(p.getGun().getShape());
 					
 					g2.setColor(p.getColor());
 					g2.fill(p.getShape());
-				}
+			}
 		}
+		
+		
 			
 				
 			

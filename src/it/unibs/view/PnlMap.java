@@ -81,10 +81,13 @@ public class PnlMap extends JPanel implements Serializable  {
 			
 		}
 		
-		for (int i = 0; i < bullet.size(); i++) {
-			g2.setColor(bullet.get(i).getColor());
-			g2.fill(bullet.get(i).getShape());
+		if(bullet!=null) {
+			for (int i = 0; i < bullet.size(); i++) {
+				g2.setColor(bullet.get(i).getColor());
+				g2.fill(bullet.get(i).getShape());
+			}
 		}
+		
 		
 		
 	}	

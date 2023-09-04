@@ -151,12 +151,15 @@ public class Bot {
 	}
 	
 	private void generateNewPath() {
-		System.out.println(pId + " new path generation");
-		System.out.println("target: (" + targetSquareX + ", " + targetSquareY + ")");
+		//System.out.println(pId + " new path generation");
+		//System.out.println("target: (" + targetSquareX + ", " + targetSquareY + ")");
 		astarPath = new Path(playerSquareX, playerSquareY, targetSquareX, targetSquareY);
 		astarPath.generatePath();
 		path = astarPath.getPath();
-		nextNode();
+		try {
+			nextNode();
+		} catch (Exception e) {
+		}
 	}
 	
 	// Change to next node to reach
@@ -164,13 +167,12 @@ public class Bot {
 		try {
 			nextNode = path.peek();
 		} catch (Exception e) {
-			System.out.println(e);
+			//System.out.println(e);
 		}
 		
 		nextCol = nextNode.getCol();
 		nextRow = nextNode.getRow();
 		
-		// TODO: avoid changing direction in the same tile while following the path
 		if(nextCol != oldPlayerSquareX && nextRow != oldPlayerSquareY) {
 			offsetX = getRandomOffset();
 			offsetY = getRandomOffset();
@@ -178,12 +180,9 @@ public class Bot {
 		
 		nextX = nextCol * Battlefield.BATTLEFIELD_TILEDIM + offsetX;
 		nextY = nextRow * Battlefield.BATTLEFIELD_TILEDIM + offsetY;	
-		
-		//System.out.println("next (M): (" + nextCol + ", " + nextRow + ")");
 	}
 	
 	// Find best path to target
-	// TODO: if playerInRange is in spawn get another target
 	private void findTarget() {
 		if(playerInRange) {			
 			targetX = closerPlayer.getPosX();
@@ -206,15 +205,11 @@ public class Bot {
 				 * e il getPath rimuove il nodo di parternza (coinciderebbe con arrivo)
 				 * quindi stack resta vuoto
 				 */
-				// TODO: add control if player is static it pop
 				try {
-					//useless, if u hide behind a wall it wont move
-					//if(!checkPlayerInGunRange())
-						path.pop();
+					path.pop();
 				} catch (Exception e) {
-					System.out.println(e);
+					//System.out.println(e);
 				}
-
 			}
 		}
 
@@ -232,21 +227,7 @@ public class Bot {
 		
 		nextNode();
 	}
-	
-	// probably useless
-	private double oldTargetPlayerX;
-	private double oldTargetPlayerY;
-	
-	// TODO: DELETE
-	private boolean isTargetStatic() {
-		if(playerInRange) {
-			if(closerPlayer.getPosX() == oldTargetPlayerX && closerPlayer.getPosY() == oldTargetPlayerY)
-				return true;
-		}
-		
-		return false;
-	}
-	
+			
 	// random target around the center of the map
 	private void setRandomTarget(int randX, int randY) {
 		int centerX = 15;
@@ -265,10 +246,6 @@ public class Bot {
 	}
 	
 	// value between 0 and BATTLEFIELD_TILEDIM/2, random position inside the tile
-//	private int getRandomOffset() {
-//		Random rand = new Random();
-//		return rand.nextInt(Battlefield.BATTLEFIELD_TILEDIM/2);
-//	}
 	private int getRandomOffset() {
 	    Random rand = new Random();
 	    int lowerBound = 10;
@@ -279,6 +256,7 @@ public class Bot {
 	// random int between [-n;n]
 	private int getRandomRange(int n) {
 		Random random = new Random();
+		
 		return random.nextInt(2*n + 1) - n;
 	}
 	
@@ -488,8 +466,8 @@ public class Bot {
 	 * 		player distance is lower than gun range
 	 * 		pointer is on the target
 	 * 		player is not on a spawn tile
-	 * 		TODO: do not shoot at players inside spawn, player can have a little out of spawn and be hittable
-	 * 		TODO: fix slow shooting
+	 * 		not shooting at players inside spawn, player can have a little out of spawn and be hittable
+	 * 		fix slow shooting
 	 */
 	private void shootTarget() {
 		if(playerInRange && checkPlayerInGunRange() && pointerOnTarget() && MapMatrix.isPavement(playerSquareX, playerSquareY)) {
@@ -499,7 +477,7 @@ public class Bot {
 	}
 	
 	/*
-	 * Check if pointer is on target with a 0.07 rad tolerance
+	 * Check if pointer is on target with a 0.15 rad tolerance
 	 * 		If the pointer is on the target the sum of the absolute value of the angles is 3.14
 	 * 		Tolerance let bot shoot while the pointer is not in the middle
 	 */
@@ -540,22 +518,7 @@ public class Bot {
 			
 			if(ammoLeft < minAmmo)
 				p.reloadAmmo();
-		}
-			
+		}	
 	}
-
-	// TODO: DELETE
-	private boolean collision() {
-		if(oldPosX == p.getPosX() && oldPosY == p.getPosY()) {
-			System.out.println("collison");
-			return true;
-		}
-		
-		oldPosX = p.getPosX();
-		oldPosY = p.getPosY();
-		
-		return false;
-	}
-
 	
 }

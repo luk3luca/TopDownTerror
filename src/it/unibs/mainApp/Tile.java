@@ -28,7 +28,7 @@ public class Tile implements Serializable {
 		this.shape = new Rectangle(x, y, this.dimX, this.dimY);
 		this.imagePath = imagePath;
 	}
-
+	
 	public Tile(int y, int x, int dimY, int dimX, boolean walkable) {
 		this.posX = x;
 		this.posY = y;

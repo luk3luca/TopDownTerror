@@ -55,15 +55,7 @@ public class MapMatrix {
 									{HEIGHT - SPAWN_H - 1,1},
 									{HEIGHT - SPAWN_H - 1, WIDTH/2 - SPAWN_W/2},
 									{HEIGHT - SPAWN_H - 1, WIDTH - SPAWN_W - 1}};
-	
-//	public static void main(String[] args) {
-//		addSpawn();
-//		clearCenter();
-//		buildNodeMap();
-//		
-//		System.out.println(checkMap());
-//	}
-	
+
 	public static int[][] getMatrix() {
 		do {
 			fillTheMap();

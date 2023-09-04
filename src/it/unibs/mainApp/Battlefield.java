@@ -23,7 +23,6 @@ public class Battlefield extends BaseModel {
 	
 	// TEST BOT
 	private int nBot;
-	private Bot bot1;
 	private ArrayList<Bot> bot = new ArrayList<>();
 	
 	private boolean gameOver = false;
@@ -32,7 +31,7 @@ public class Battlefield extends BaseModel {
 	
 	public Battlefield(int realPlayer) {
 		this.realPlayer = realPlayer;
-		nBot = player.length - realPlayer;
+		nBot = player.length - this.realPlayer;
 		
 		buildMap();
 		buildPlayer();
@@ -86,11 +85,9 @@ public class Battlefield extends BaseModel {
 		}
 	}
 	
-	// TEST BOT BUILD
 	private void buildBot() {
 		int id = player.length - nBot;
-		//bot1 = new Bot(player[id], player, id, tiles);
-		
+
 		for(int i = id; i < player.length; i++) {
 			bot.add(new Bot(player[i], player, i, tiles));
 			player[i].setName("BOT" + (i+1));
@@ -142,15 +139,12 @@ public class Battlefield extends BaseModel {
 	}
 	
 	/*----------------GESTIONE COLLISIONI----------------*/
-	
 	public void startGame() {
 		gameTimer.start();
 	}
 
 	
 	public void stepNext() throws InterruptedException {
-		//TEST BOT
-		//bot1.stepNext();
 		for(Bot b: bot)
 			b.stepNext();
 
@@ -352,83 +346,75 @@ public class Battlefield extends BaseModel {
 	}
 	
 	//COLLISIONI GUN RANGE <--> WALLS
-	// TODO fix controllo sull'angolo del player quando avviene collisione
-	private void checkGunRangeCollision(Player player, int playerSquareX, int playerSquareY, int n) {
-		int range = (int)Math.ceil(player.getGun().getRange());
-		int lowerY = Math.max(0, playerSquareY - range - 1);
-		int lowerX = Math.max(0, playerSquareX - range - 1);
-		int upperY = Math.min(MapMatrix.HEIGHT, playerSquareY + range + 1);
-		int upperX = Math.min(MapMatrix.WIDTH, playerSquareX + range + 1);
-		
-		Point2D playerP = new Point2D.Double(player.getCenterX(), player.getCenterY());
-		ArrayList<Point2D> collisionsP = new ArrayList<>();
-
-		for(int i = lowerY; i < upperY; i++) {
-			for(int j = lowerX; j < upperX; j++) {
-				Tile t = tiles.get(i*MapMatrix.WIDTH + j);
-
-				if(!t.isWalkable()) {
-					if(t.checkCollision(player.getGun())) {
-						Area area1 = new Area(player.getGun().getShape());
-						Area area2 = new Area(t.getShape());
-						area1.intersect(area2);
-
-						PathIterator path = area1.getPathIterator(null);
-						while (!path.isDone()) {
-							double[] coords = new double[6];
-							int type = path.currentSegment(coords);
-							if (type == PathIterator.SEG_LINETO) {
-								Point2D point = new Point2D.Double(coords[0], coords[1]);
-								collisionsP.add(point);
-							}
-							path.next();
-						}
-					}
-					else {
-					    player.getGun().resetRange();
-					}
-				}
-			}
-		}
-
-		if(collisionsP.size() > 0) {
-		    Point2D closestPoint = findClosestPoint(collisionsP, playerP);
-		    double newRange = closestPoint.distance(playerP);
-		    player.getGun().setRange(newRange / BATTLEFIELD_TILEDIM);
-		}
-	}
-
-	private Point2D findClosestPoint(ArrayList<Point2D> collisionsP, Point2D targetPoint) {
-	    Point2D closestPoint = null;
-	    double closestDistance = Double.MAX_VALUE;
-
-	    for (Point2D point : collisionsP) {
-	        double distance = targetPoint.distance(point);
-	        
-	        if (distance < closestDistance) {
-	            closestDistance = distance;
-	            closestPoint = point;
-	        }
-	    }
-
-	    return closestPoint;
-	}
+//	private void checkGunRangeCollision(Player player, int playerSquareX, int playerSquareY, int n) {
+//		int range = (int)Math.ceil(player.getGun().getRange());
+//		int lowerY = Math.max(0, playerSquareY - range - 1);
+//		int lowerX = Math.max(0, playerSquareX - range - 1);
+//		int upperY = Math.min(MapMatrix.HEIGHT, playerSquareY + range + 1);
+//		int upperX = Math.min(MapMatrix.WIDTH, playerSquareX + range + 1);
+//		
+//		Point2D playerP = new Point2D.Double(player.getCenterX(), player.getCenterY());
+//		ArrayList<Point2D> collisionsP = new ArrayList<>();
+//
+//		for(int i = lowerY; i < upperY; i++) {
+//			for(int j = lowerX; j < upperX; j++) {
+//				Tile t = tiles.get(i*MapMatrix.WIDTH + j);
+//
+//				if(!t.isWalkable()) {
+//					if(t.checkCollision(player.getGun())) {
+//						Area area1 = new Area(player.getGun().getShape());
+//						Area area2 = new Area(t.getShape());
+//						area1.intersect(area2);
+//
+//						PathIterator path = area1.getPathIterator(null);
+//						while (!path.isDone()) {
+//							double[] coords = new double[6];
+//							int type = path.currentSegment(coords);
+//							if (type == PathIterator.SEG_LINETO) {
+//								Point2D point = new Point2D.Double(coords[0], coords[1]);
+//								collisionsP.add(point);
+//							}
+//							path.next();
+//						}
+//					}
+//					else {
+//					    player.getGun().resetRange();
+//					}
+//				}
+//			}
+//		}
+//
+//		if(collisionsP.size() > 0) {
+//		    Point2D closestPoint = findClosestPoint(collisionsP, playerP);
+//		    double newRange = closestPoint.distance(playerP);
+//		    player.getGun().setRange(newRange / BATTLEFIELD_TILEDIM);
+//		}
+//	}
+//
+//	private Point2D findClosestPoint(ArrayList<Point2D> collisionsP, Point2D targetPoint) {
+//	    Point2D closestPoint = null;
+//	    double closestDistance = Double.MAX_VALUE;
+//
+//	    for (Point2D point : collisionsP) {
+//	        double distance = targetPoint.distance(point);
+//	        
+//	        if (distance < closestDistance) {
+//	            closestDistance = distance;
+//	            closestPoint = point;
+//	        }
+//	    }
+//
+//	    return closestPoint;
+//	}
 	
-	
-////////////// CHECK WIN   ///////////////
-	
+	// Check win	
 	private void checkWin() {
 		for (Player py : player) {
-			if (py.getKills() == 5) {
+			if (py.getKills() == 20) {
 				gameOver = true;
 				stopGame();
 			}
 		}
 	}
 	
-	
-	
-	
-	
-		
 }

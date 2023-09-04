@@ -209,7 +209,7 @@ public class Player extends MovingObject implements Serializable{
 			return true;
 		}	
 	}
-	
+
 	public boolean isReloading() {
 		return reloading;
 	}
@@ -335,10 +335,10 @@ public class Player extends MovingObject implements Serializable{
 	private void canChangeGun() {
 		if(changeGun && respawn) {
 			double[][] points = {
-					{getPosX(), getPosY() - Battlefield.BATTLEFIELD_TILEDIM/4},
-					{getPosX(), getPosY() + Battlefield.BATTLEFIELD_TILEDIM/4},
-					{getPosX() - Battlefield.BATTLEFIELD_TILEDIM/4, getPosY()},
-					{getPosX() + Battlefield.BATTLEFIELD_TILEDIM/4, getPosY()}
+					{getPosX() - Battlefield.BATTLEFIELD_TILEDIM/4, getPosY() - Battlefield.BATTLEFIELD_TILEDIM/4},
+					{getPosX() - Battlefield.BATTLEFIELD_TILEDIM/4, getPosY() + Battlefield.BATTLEFIELD_TILEDIM/4},
+					{getPosX() + Battlefield.BATTLEFIELD_TILEDIM/4, getPosY() - Battlefield.BATTLEFIELD_TILEDIM/4},
+					{getPosX() + Battlefield.BATTLEFIELD_TILEDIM/4, getPosY() + Battlefield.BATTLEFIELD_TILEDIM/4}
 			};
 			
 			for(double[] p: points) {

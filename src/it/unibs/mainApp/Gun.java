@@ -29,7 +29,7 @@ public class Gun extends MovingObject implements Cloneable, Serializable {
 	private int maxAmmo;
 	private int dmg;
 	protected Shape shape;
-	
+
 	public Gun(String name, double maxRange, double rate, int maxAmmo, double reload, int dmg, Color color) {
 		super();
 		this.name = name;

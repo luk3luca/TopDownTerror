@@ -9,7 +9,7 @@ public class T_Spawn extends Tile implements Serializable {
 	private int spawnXCenter;
 	private int spawnYCenter;
 	private boolean isTop;
-	
+
 	public T_Spawn(int y, int x, int dimY, int dimX, boolean walkable, Color c) {
 		//super(y, x, dimY, dimX, walkable, imagePath);
 		super(y, x, dimY / MapMatrix.SPAWN_H, dimX / MapMatrix.SPAWN_W, walkable);

@@ -29,7 +29,12 @@ public class GameInfo extends JPanel{
 //		        // Gestire il caso in cui non ci sono abbastanza elementi in p
 //		    	return null;
 //		    }
-		return p[5];
+		try {
+			return p[5];
+		} catch (Exception e) {
+		}
+		
+		return p[p.length-1];
 	}
 
 
@@ -68,9 +73,10 @@ public class GameInfo extends JPanel{
 		if(players.length == 6) {
 			this.players = players;
 			this.p = selectionSort(this.players);
+			
 			model.setRowCount(0);//mette il numero di righe=0, quindi le toglie
-			for(int i=5; i >= 0; i--) {
-				
+			
+			for(int i = p.length-1; i >= 0; i--) {
 				model.addRow(new Object[]{p[i].getName(),p[i].getKills(),p[i].getDeaths()});
 			}
 		}
@@ -93,6 +99,7 @@ public class GameInfo extends JPanel{
             arr[i] = arr[indiceMinimo];
             arr[indiceMinimo] = temp;
         }
+        
         return arr;
     }
 	

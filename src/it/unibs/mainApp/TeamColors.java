@@ -19,7 +19,7 @@ public enum TeamColors {
         this.color = color;
         this.alpha = alpha;
     }
-	 
+    
 	public static Color getColor(int i) {
 	    switch (i) {
 	        case 1:

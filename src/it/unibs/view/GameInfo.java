@@ -23,12 +23,13 @@ public class GameInfo extends JPanel{
 	
 	
 	public Player getWinner() {
-		 if (p != null  && p.length >= 6) {
-		        return p[0];
-		    } else {
-		        // Gestire il caso in cui non ci sono abbastanza elementi in p
-		    	return null;
-		    }
+//		 if (p != null  && p.length >= 6) {
+//		        return p[0];
+//		    } else {
+//		        // Gestire il caso in cui non ci sono abbastanza elementi in p
+//		    	return null;
+//		    }
+		return p[5];
 	}
 
 
@@ -66,9 +67,10 @@ public class GameInfo extends JPanel{
 	public void setObjects(Player[] players){
 		if(players.length == 6) {
 			this.players = players;
-			this.p = reverseArray(selectionSort(this.players));
+			this.p = selectionSort(this.players);
 			model.setRowCount(0);//mette il numero di righe=0, quindi le toglie
-			for(int i=0;i <= 5; i++) {
+			for(int i=5; i >= 0; i--) {
+				
 				model.addRow(new Object[]{p[i].getName(),p[i].getKills(),p[i].getDeaths()});
 			}
 		}
@@ -94,15 +96,15 @@ public class GameInfo extends JPanel{
         return arr;
     }
 	
-	public Player[] reverseArray(Player[] arr) {
-	    int n = arr.length;
-	    Player[] reversedArray = new Player[n];
-
-	    for (int i = 0; i < n; i++) {
-	        reversedArray[i] = arr[n - i - 1];
-	    }
-
-	    return reversedArray;
-	}
+//	public Player[] reverseArray(Player[] arr) {
+//	    int n = arr.length;
+//	    Player[] reversedArray = new Player[n];
+//
+//	    for (int i = 0; i < n; i++) {
+//	        reversedArray[i] = arr[n - i - 1];
+//	    }
+//
+//	    return reversedArray;
+//	}
 	
 }

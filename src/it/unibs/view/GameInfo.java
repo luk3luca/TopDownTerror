@@ -32,6 +32,7 @@ public class GameInfo extends JPanel{
 		try {
 			return p[5];
 		} catch (Exception e) {
+			System.out.println("Non ci sono abbastanza elementi in p ");
 		}
 		
 		return p[p.length-1];
@@ -56,10 +57,15 @@ public class GameInfo extends JPanel{
         table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer); // Aligns "Kills" column
         table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         
-        for(int i=0; i<3;i++) {
-        	table.getColumnModel().getColumn(i).setPreferredWidth(20);
-            table.getColumnModel().getColumn(i).setResizable(false);
-        }
+        try {
+        	for(int i=0; i<3;i++) {
+            	table.getColumnModel().getColumn(i).setPreferredWidth(20);
+                table.getColumnModel().getColumn(i).setResizable(false);
+            }
+		} catch (Exception e) {
+			System.out.println("Errore colonne");
+		}
+        
        
         table.setBorder(null);
         JScrollPane scrollPane = new JScrollPane(table);
@@ -70,16 +76,21 @@ public class GameInfo extends JPanel{
 	
 	
 	public void setObjects(Player[] players){
-		if(players.length == 6) {
-			this.players = players;
-			this.p = selectionSort(this.players);
-			
-			model.setRowCount(0);//mette il numero di righe=0, quindi le toglie
-			
-			for(int i = p.length-1; i >= 0; i--) {
-				model.addRow(new Object[]{p[i].getName(),p[i].getKills(),p[i].getDeaths()});
+		try {
+			if(players.length == 6) {
+				this.players = players;
+				this.p = selectionSort(this.players);
+				
+				model.setRowCount(0);//mette il numero di righe=0, quindi le toglie
+				
+				for(int i = p.length-1; i >= 0; i--) {
+					model.addRow(new Object[]{p[i].getName(),p[i].getKills(),p[i].getDeaths()});
+				}
 			}
+		} catch (Exception e) {
+			System.out.println("Errore setObjects");
 		}
+		
 	}
 	
 	public  Player[] selectionSort(Player[] arr) {

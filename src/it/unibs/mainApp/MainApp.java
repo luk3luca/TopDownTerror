@@ -9,7 +9,6 @@ import it.unibs.view.CommandImg;
 import it.unibs.view.LogoImg;
 
 public class MainApp {
-	private GameController controller;
 	private ClientController clientController;
 	private BaseServer serverController;
 	public JLabel lblDescription;

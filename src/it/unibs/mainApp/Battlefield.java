@@ -406,7 +406,7 @@ public class Battlefield extends BaseModel {
 //
 //	    return closestPoint;
 //	}
-	
+//	
 	// Check win	
 	private void checkWin() {
 		for (Player py : player) {

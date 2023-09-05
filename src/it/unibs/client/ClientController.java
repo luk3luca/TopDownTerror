@@ -169,6 +169,7 @@ public class ClientController {
 				
 				playerInfo.setObjects(players[playerIndex]);
 				
+
 				gameInfo.setObjects(players);
 			
 				

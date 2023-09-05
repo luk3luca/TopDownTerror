@@ -15,11 +15,13 @@ import javax.swing.table.TableRowSorter;
 
 import it.unibs.mainApp.Player;
 
+
+
 public class GameInfo extends JPanel{
+	
 	private DefaultTableModel model;
 	private Player[] players;
 	private Player[] p;
-	
 	
 	
 	public Player getWinner() {
@@ -57,16 +59,12 @@ public class GameInfo extends JPanel{
         table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer); // Aligns "Kills" column
         table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         
-        try {
-        	for(int i=0; i<3;i++) {
-            	table.getColumnModel().getColumn(i).setPreferredWidth(20);
-                table.getColumnModel().getColumn(i).setResizable(false);
-            }
-		} catch (Exception e) {
-			System.out.println("Errore colonne");
-		}
+    	for(int i=0; i<3;i++) {
+        	table.getColumnModel().getColumn(i).setPreferredWidth(20);
+            table.getColumnModel().getColumn(i).setResizable(false);
+        }
+		
         
-       
         table.setBorder(null);
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBounds(0, 0, 342, 198);
@@ -76,20 +74,20 @@ public class GameInfo extends JPanel{
 	
 	
 	public void setObjects(Player[] players){
-		try {
-			if(players.length == 6) {
+			if( players != null && players.length == 6) {
 				this.players = players;
 				this.p = selectionSort(this.players);
 				
 				model.setRowCount(0);//mette il numero di righe=0, quindi le toglie
 				
+//				System.out.println("Dimensione dell'array players: " + players.length);
+
 				for(int i = p.length-1; i >= 0; i--) {
 					model.addRow(new Object[]{p[i].getName(),p[i].getKills(),p[i].getDeaths()});
 				}
+				
+				
 			}
-		} catch (Exception e) {
-			System.out.println("Errore setObjects");
-		}
 		
 	}
 	

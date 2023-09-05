@@ -3,13 +3,15 @@ package it.unibs.mainApp;
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
-
-public class MovingObject {
+import java.awt.geom.Area;
+import java.io.Serializable;
+//OK
+public class MovingObject implements Serializable {
 	protected double posX;
 	protected double posY;
 	protected double angle = 0;
-	protected double m_velocity = 0;
-	protected double r_velocity = 0;
+	protected double m_velocity ;
+	protected double r_velocity ;
 	
 	protected boolean isAlive = true;
 	
@@ -22,10 +24,42 @@ public class MovingObject {
 		this.color = color;
 	}
 	
-	public MovingObject() {
-	}
-
+	public MovingObject() {}
 	
+	public Shape getShape() {
+		AffineTransform t = new AffineTransform();
+		t.translate(this.posX, this.posY);		
+		t.rotate(this.angle, 
+				Battlefield.BATTLEFIELD_TILEDIM/4, 
+				Battlefield.BATTLEFIELD_TILEDIM/4);
+
+		return t.createTransformedShape(shape);
+	}
+	
+	public void setShape(Shape shape) {
+		this.shape = shape;
+	}
+	
+	public void rotate (double r) {
+		this.angle += r;
+	}
+	
+	public boolean isAlive() {
+		return isAlive;
+	}
+	
+	public void collided() {
+		isAlive = false;
+	}
+	
+	public boolean checkCollision(MovingObject o) {
+		Area a = new Area(this.getShape());
+		a.intersect(new Area(o.getShape()));
+		return !a.isEmpty();
+	}
+	
+	
+	/*---GETTERS AND SETTERS---*/
 	public double getPosX() { return posX; }
 	public void setPosX(double posX) { this.posX = posX; }
 
@@ -45,30 +79,6 @@ public class MovingObject {
 	public void setColor(Color color) { this.color = color; }
 	
 	
-	public boolean isAlive() {
-		return isAlive;
-	}
-	
-	public void rotate (double r) {
-		this.angle += r;
-	}
-	
-	public Shape getShape() {
-		AffineTransform t = new AffineTransform();
-		t.translate(this.posX, this.posY);		
-		t.rotate(this.angle, 
-				Battlefield.BATTLEFIELD_TILEDIM/4, 
-				Battlefield.BATTLEFIELD_TILEDIM/4);
 
-		return t.createTransformedShape(shape);
-	}
-
-	public void setShape(Shape shape) {
-		this.shape = shape;
-	}
-	//TODO metodi per le collisioni  
 	
-	public void collided() {
-		isAlive = false;
-	}
 }

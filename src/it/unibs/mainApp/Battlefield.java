@@ -1,32 +1,48 @@
 package it.unibs.mainApp;
 
 import java.awt.Color;
-import java.awt.geom.Area;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 import java.util.ArrayList;
-import java.util.Iterator;
+import javax.swing.Timer;
+import it.unibs.bot.Bot;
 
-public class Battlefield {                                
-	protected static final int BATTLEFIELD_TILEDIM = 32;
-	protected static final int BATTLEFIELD_WIDTH = BATTLEFIELD_TILEDIM * (MapMatrix.WIDTH + 1);
-	protected static final int BATTLEFIELD_HEIGHT = BATTLEFIELD_TILEDIM * (MapMatrix.HEIGHT + 2);
-	 
-	protected ArrayList<Tile> tiles = new ArrayList<Tile>();
-	protected T_Spawn[] spawns = new T_Spawn[6];
-	protected Player[] player = new Player[6];
-	protected ArrayList<Tile> wallsAndSpawn = new ArrayList<>();
-
-	protected ArrayList<Bullet> bullet = new ArrayList<>();
-	//protected Rectangle2D.Double borders = new Rectangle2D.Double(0.,0.,BATTLEFIELD_WIDTH,BATTLEFIELD_HEIGHT); //bordi logici dell'universo 
-	 
-
+//MODEL
+public class Battlefield extends BaseModel {                                
+	public static final int BATTLEFIELD_TILEDIM = 32 * 2 ;
+	public static final int BATTLEFIELD_WIDTH = BATTLEFIELD_TILEDIM * (MapMatrix.WIDTH + 1);
+	public static final int BATTLEFIELD_HEIGHT = BATTLEFIELD_TILEDIM * (MapMatrix.HEIGHT + 2);
+		
+	public ArrayList<Tile> tiles = new ArrayList<Tile>();
+	public ArrayList<Bullet> bullet = new ArrayList<>();
+	public ArrayList<Tile> wallsAndSpawn = new ArrayList<>();
+	public T_Spawn[] spawns = new T_Spawn[6];
+	public Player[] player = new Player[6];
 	private int[][] mapMatrix = MapMatrix.getMatrix();
+	private Timer gameTimer;
+	private int realPlayer;
 	
-	public Battlefield() {
+	// TEST BOT
+	private int nBot;
+	private ArrayList<Bot> bot = new ArrayList<>();
+	
+	private boolean gameOver = false;
+	public boolean isGameOver() {return gameOver;}
+	public void stopGame() {gameTimer.stop();}
+	
+	public Battlefield(int realPlayer) {
+		this.realPlayer = realPlayer;
+		nBot = player.length - this.realPlayer;
+		
 		buildMap();
 		buildPlayer();
+		buildBot();
+		gameTimer = new Timer(20, e ->{
+				try {
+					stepNext();
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+		});
 	}
 	
 	private void buildMap() {
@@ -49,10 +65,13 @@ public class Battlefield {
 						spawnCounter++;
 						break;
 					case 3:
-						tiles.add(buildPavement(y, x, BATTLEFIELD_TILEDIM));
+						int nC = getSpawnColor(y, x);						
+						T_Spawn s2 = buildTransparentSpawn(y, x, BATTLEFIELD_TILEDIM, nC);
+						tiles.add(s2);
+						wallsAndSpawn.add(s2);
 						break;
 					default:
-						break;
+						break; 
 				}
 			}
 		}
@@ -63,6 +82,15 @@ public class Battlefield {
 			player[i] = new Player("player " + i , spawns[i], TeamColors.getColor(i + 1));
 			if(i > 2)
 				player[i].setAngle(-Math.PI/2);
+		}
+	}
+	
+	private void buildBot() {
+		int id = player.length - nBot;
+
+		for(int i = id; i < player.length; i++) {
+			bot.add(new Bot(player[i], player, i, tiles));
+			player[i].setName("BOT" + (i+1));
 		}
 	}
 	
@@ -79,17 +107,61 @@ public class Battlefield {
 		return new T_Spawn(y * tileDim, x * tileDim, tileDim * MapMatrix.SPAWN_H, tileDim * MapMatrix.SPAWN_W, true, c);
 	}
 	
+	private T_Spawn buildTransparentSpawn(int y, int x, int tileDim, int spawnCounter) {
+		Color c = TeamColors.getColorAlpha(spawnCounter);
+		return new T_Spawn(y * tileDim, x * tileDim, tileDim, true, c);
+	}
+	
+	private int getSpawnColor(int y, int x) {
+		if(y < MapMatrix.SPAWN_H + 1) {
+			if(x < MapMatrix.SPAWN_W + 1)
+				return 1;
+			else if(x > MapMatrix.WIDTH/2 - 2 && x < MapMatrix.WIDTH/2 + 1)
+				return 2;
+			else if(x > MapMatrix.WIDTH - MapMatrix.SPAWN_W - 2)
+				return 3;
+		} else if(y > MapMatrix.SPAWN_H - 2) {
+			if(x < MapMatrix.SPAWN_W + 1)
+				return 4;
+			else if(x > MapMatrix.WIDTH/2 - 2 && x < MapMatrix.WIDTH/2 + 1)
+				return 5;
+			else if(x > MapMatrix.WIDTH - MapMatrix.SPAWN_W - 2)
+				return 6;
+		}
+		return 1;
+	}
+	
+	private void addShot(Player p) throws InterruptedException{
+		if(p.isShoot() && p.shoot()) {
+			System.out.println(p.getName() + " shot - " + p.getAmmoLeft());
+			bullet.add(new Bullet(p, p.getGun()));
+		}
+	}
+	
 	/*----------------GESTIONE COLLISIONI----------------*/
-	public void stepNext() {
-        //checkBorder();
-        for (Bullet bullet : bullet) {
-            bullet.stepNext();
-        }
-        checkCollision();
-        bullletWallsCollision();
-        removeDust();
+	public void startGame() {
+		gameTimer.start();
+	}
 
-    }
+	
+	public void stepNext() throws InterruptedException {
+		for(Bot b: bot)
+			b.stepNext();
+
+		for(Player p: player) {
+			p.stepNext();
+			addShot(p);
+		}
+
+		bullet.forEach((b)->b.stepNext());
+
+		checkCollision();
+		checkWin();
+
+		this.fireValuesChange();
+	}
+	
+	
     private void removeDust() {
         ArrayList<Bullet> dust = new ArrayList<>();
  
@@ -100,39 +172,69 @@ public class Battlefield {
         });
         
         dust.forEach(bullet::remove);
-
     } 
     
     private void checkCollision() {
-		for(int i=0; i<player.length ; i++) {
+		for(int i = 0; i < player.length; i++) {
 			// Riquadro in cui si trova il centro del player
 			int playerSquareX = (int)((player[i].getPosX() + BATTLEFIELD_TILEDIM/4) / BATTLEFIELD_TILEDIM);
-			int playerSquareY = (int)((player[i].getPosY() + BATTLEFIELD_TILEDIM/4 )/ BATTLEFIELD_TILEDIM);
-
+			int playerSquareY = (int)((player[i].getPosY() + BATTLEFIELD_TILEDIM/4) / BATTLEFIELD_TILEDIM);
+			//System.out.println("square BTF: (" + playerSquareX + ", " + playerSquareY + ")");
 			player[i].resetCollision();
-			crossCollision(player[i], playerSquareX, playerSquareY);
+			
+			bulletPlayerCollision();
+			bullletWallsCollision();
+	        removeDust();
+	        
+	        crossCollision(player[i], playerSquareX, playerSquareY);
 			angleCollision(player[i],playerSquareX, playerSquareY);		
-			checkGunRangeCollision(player[i], playerSquareX, playerSquareY, i);
-			
-			
+//			checkGunRangeCollision(player[i], playerSquareX, playerSquareY, i);
+			checkPlayerCollision(player[i]);	
 		}
 	}
-	// TODO COLLISIONI MOVING OBJECT <--> MOVING OBJECT 
+    
+    private void checkPlayerCollision(Player p1) {
+    	for (Player p2 : player) {
+    		if (p1 != p2) {
+    			if(p1.checkCollision(p2)) {
+    				double dx = p1.getCenterX() - p2.getCenterX();
+    				double dy = p1.getCenterY() - p2.getCenterY();
+    				double tetha = Math.atan2(dy,dx) + Math.PI; // p1<-->p2 tetha = 0, con p1 sopra p2 tetha = 90
 
-    private void bullletWallsCollision() {
-    	for(Tile w:wallsAndSpawn) {
-    		bullet.forEach(o -> {
-                if (w.checkCollision(o)) {
-                	o.collided();
-                } 
-            });
+    				p1.setPosX(p1.getPosX() - Player.M_VELOCITY *Math.cos(tetha));
+    				p1.setPosY(p1.getPosY() - Player.M_VELOCITY * Math.sin(tetha));	
+    			}
+    		}
     	}
     }
     
+    // Controllo collisione bullet-muro
+    private void bullletWallsCollision() {
+    	for(Tile w:wallsAndSpawn) {
+    		bullet.forEach(o -> {
+    			if (w.checkCollision(o)) {
+    				o.collided();
+    			}             
+    		});
+    	}
+    }
+    
+    // Controllo collisione bullet-player, con damage
+    private void bulletPlayerCollision() {
+    	for (Player p: player) {
+    		bullet.forEach(o ->{
+    			// p == player che ha sparato, o.getPlayer() == player colpito. 
+    			if(o.getPlayer()!= p && p.checkCollision(o)) { 
+    				o.collided();
+    				p.hitted(o.getGun(), o.getPlayer());
+    			}
+    		});
+    		removeDust();
+		}
+    }
     
 	/*-------PLAYER <--> WALLS-------*/
-		
-	// Controllo delle collisioni sui muri supra, sotto, destra, sisnistra del player
+	// Controllo delle collisioni sui muri sopra, sotto, destra, sinistra del player
 	private void crossCollision(Player player,int playerSquareX, int playerSquareY) {
 		// Coordinate delle Tile da controllare per collisioni, con controllo per out of bounds
 		int[] topSquare = {playerSquareY - 1 > 0 ? playerSquareY - 1 : 0, playerSquareX};
@@ -181,7 +283,7 @@ public class Battlefield {
 		}
 		else if(player.isTopCollision()) {
 			player.setPosY(player.getPosY() + player.getM_velocity());
-			//player.setPosX(player.getPosX());
+			//player.setPosX(player.getPosX());�
 		}
 		else if(player.isBottomCollision()) {
 			player.setPosY(player.getPosY() - player.getM_velocity());
@@ -232,12 +334,10 @@ public class Battlefield {
 		if(player.isTopRightCollision()) {
 			player.setPosY(player.getPosY() + player.getM_velocity());
 			player.setPosX(player.getPosX() - player.getM_velocity());
-
 		}
 		if(player.isBottomLeftCollision()) {
 			player.setPosY(player.getPosY() - player.getM_velocity());
 			player.setPosX(player.getPosX() + player.getM_velocity());
-
 		}
 		if(player.isBottomRightCollision()) {
 			player.setPosY(player.getPosY() - player.getM_velocity());
@@ -246,69 +346,75 @@ public class Battlefield {
 	}
 	
 	//COLLISIONI GUN RANGE <--> WALLS
-		// TODO fix controllo sull'angolo del player quando avviene collisione
-		// TODO fix repaint top e left 
-		private void checkGunRangeCollision(Player player, int playerSquareX, int playerSquareY, int n) {
-			int range = (int)Math.ceil(player.getGun().getRange());
-			int lowerY = Math.max(0, playerSquareY - range);
-			int lowerX = Math.max(0, playerSquareX - range);
-			int upperY = Math.min(MapMatrix.HEIGHT, playerSquareY + range + 1);
-			int upperX = Math.min(MapMatrix.WIDTH, playerSquareX + range + 1);
-			//System.out.println("(" + lowerX + "," + lowerY + ") ("+ upperX + "," + upperY + ")");
-			Point2D playerP = new Point2D.Double(player.getPosX() + BATTLEFIELD_TILEDIM/4, player.getPosY() + BATTLEFIELD_TILEDIM/4);
-			ArrayList<Point2D> collisionsP = new ArrayList<>();
-			
-			for(int i = lowerY; i < upperY; i++) {
-				for(int j = lowerX; j < upperX; j++) {
-					Tile t = tiles.get(i*MapMatrix.WIDTH + j);
-					
-					if(!t.isWalkable()) {
-						player.getGun().setPlayerInfo(player.getPosX(), player.getPosY(), player.getAngle());
-						if(t.checkCollision(player.getGun())) {
-							Area area1 = new Area(player.getGun().getShape());
-							Area area2 = new Area(t.getShape());
-							area1.intersect(area2);
-							//System.out.println(area1.isEmpty());
-							
-							PathIterator path = area1.getPathIterator(null);
-					        while (!path.isDone()) {
-					            double[] coords = new double[6];
-					            int type = path.currentSegment(coords);
-					            if (type == PathIterator.SEG_LINETO) {
-					                Point2D point = new Point2D.Double(coords[0], coords[1]);
-					                collisionsP.add(point);
-					                //System.out.println("Intersection point: (" + (coords[0]) + ", " + (coords[1]) + ")");
-					                //System.out.println("Intersection point: " + point);
-					            }
-					            path.next();
-					        }
-						}
-					}
-				}
+//	private void checkGunRangeCollision(Player player, int playerSquareX, int playerSquareY, int n) {
+//		int range = (int)Math.ceil(player.getGun().getRange());
+//		int lowerY = Math.max(0, playerSquareY - range - 1);
+//		int lowerX = Math.max(0, playerSquareX - range - 1);
+//		int upperY = Math.min(MapMatrix.HEIGHT, playerSquareY + range + 1);
+//		int upperX = Math.min(MapMatrix.WIDTH, playerSquareX + range + 1);
+//		
+//		Point2D playerP = new Point2D.Double(player.getCenterX(), player.getCenterY());
+//		ArrayList<Point2D> collisionsP = new ArrayList<>();
+//
+//		for(int i = lowerY; i < upperY; i++) {
+//			for(int j = lowerX; j < upperX; j++) {
+//				Tile t = tiles.get(i*MapMatrix.WIDTH + j);
+//
+//				if(!t.isWalkable()) {
+//					if(t.checkCollision(player.getGun())) {
+//						Area area1 = new Area(player.getGun().getShape());
+//						Area area2 = new Area(t.getShape());
+//						area1.intersect(area2);
+//
+//						PathIterator path = area1.getPathIterator(null);
+//						while (!path.isDone()) {
+//							double[] coords = new double[6];
+//							int type = path.currentSegment(coords);
+//							if (type == PathIterator.SEG_LINETO) {
+//								Point2D point = new Point2D.Double(coords[0], coords[1]);
+//								collisionsP.add(point);
+//							}
+//							path.next();
+//						}
+//					}
+//					else {
+//					    player.getGun().resetRange();
+//					}
+//				}
+//			}
+//		}
+//
+//		if(collisionsP.size() > 0) {
+//		    Point2D closestPoint = findClosestPoint(collisionsP, playerP);
+//		    double newRange = closestPoint.distance(playerP);
+//		    player.getGun().setRange(newRange / BATTLEFIELD_TILEDIM);
+//		}
+//	}
+//
+//	private Point2D findClosestPoint(ArrayList<Point2D> collisionsP, Point2D targetPoint) {
+//	    Point2D closestPoint = null;
+//	    double closestDistance = Double.MAX_VALUE;
+//
+//	    for (Point2D point : collisionsP) {
+//	        double distance = targetPoint.distance(point);
+//	        
+//	        if (distance < closestDistance) {
+//	            closestDistance = distance;
+//	            closestPoint = point;
+//	        }
+//	    }
+//
+//	    return closestPoint;
+//	}
+//	
+	// Check win	
+	private void checkWin() {
+		for (Player py : player) {
+			if (py.getKills() == 20) {
+				gameOver = true;
+				stopGame();
 			}
-			
-			if(collisionsP.size() > 0) {
-				double newRange = findClosestPoint(collisionsP, playerP);
-				player.getGun().setRange(newRange / BATTLEFIELD_TILEDIM);
-			}
-			else
-				player.getGun().resetRange();
-			//System.out.println(player.getGun().getRange());
 		}
-		
-		private double findClosestPoint(ArrayList<Point2D> collisionsP, Point2D targetPoint) {
-	        Point2D closestPoint = null;
-	        double closestDistance = Double.MAX_VALUE;
-	        
-	        for (Point2D point : collisionsP) {
-	            double distance = targetPoint.distance(point);
-	            if (distance < closestDistance) {
-	                closestDistance = distance;
-	                closestPoint = point;
-	            }
-	        }
-	        
-	        return closestDistance;
-	    }
+	}
 	
 }

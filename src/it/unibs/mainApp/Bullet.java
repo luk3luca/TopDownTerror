@@ -1,40 +1,34 @@
-package it.unibs.mainApp;
+ package it.unibs.mainApp;
 
 import java.awt.Color;
 import java.awt.Polygon;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
-
-public class Bullet extends MovingObject {
-	private static final double M_VELOCITY = 15;
-	//private static final double R_VELOCITY = 0;
+import java.io.Serializable;
+//OK
+public class Bullet extends MovingObject implements Serializable {
+	private static final double M_VELOCITY = 20;
 
 	protected Player player;
 	protected Gun gun;
-
+	
 	private int fuel;
-		
+	
 	public Bullet(Player p, Gun g) {
 		super(M_VELOCITY, 0,Color.RED);
 
 		this.player = p;
 		this.gun = g;
 		this.fuel = (int) (gun.getRange() * Battlefield.BATTLEFIELD_TILEDIM/M_VELOCITY);
-		//TODO velocitA fissa in base alla velocita del player
 		
 		this.setPosX(p.getPosX() + Battlefield.BATTLEFIELD_TILEDIM/4);
 		this.setPosY(p.getPosY()+ Battlefield.BATTLEFIELD_TILEDIM/4);
-		
 		this.setAngle(p.getAngle());
 		
-		
-		
-		this.shape = new Area (new Polygon(
+		this.shape = new Polygon(
 				new int[] {5,0,-5,-5,0},
 				new int[] {0,-3,-3,3,3},
-				5						 
-				));
+				5);
 	}
 	
 	public Shape getShape() {
@@ -45,12 +39,9 @@ public class Bullet extends MovingObject {
 		return t.createTransformedShape(shape);
 	}
 
-	
-	//TODO morte del proiettile in base a distanza percorsa
-	
 	public void stepNext() {
 		this.accelerate();
-		if(--fuel <=0) {
+		if(--fuel < 0) {
 			isAlive = false;
 		}
 	}	
@@ -59,4 +50,7 @@ public class Bullet extends MovingObject {
 		this.setPosX(this.getPosX() + M_VELOCITY * Math.cos(this.angle));
 		this.setPosY(this.getPosY() + M_VELOCITY * Math.sin(this.angle));
 	}
+
+	public Player getPlayer() {return player;}
+	public Gun getGun() {return gun;}
 }

@@ -1,9 +1,9 @@
 package it.unibs.mainApp;
 
 import java.awt.Color;
-
-public class T_Pavement extends Tile {
-	
+import java.io.Serializable;
+//OK
+public class T_Pavement extends Tile implements Serializable {
 	private static String imagePath = "src/images/smoothStone.png";
 	
 	public T_Pavement(int y, int x, int dimension, boolean walkable) {
@@ -14,10 +14,7 @@ public class T_Pavement extends Tile {
 	
 	@Override
 	public boolean checkCollision(MovingObject o) {
-		return (o instanceof Player) ? 
-				false: 
-				super.checkCollision(o);
+		return (o instanceof Player) ? false : super.checkCollision(o);
 	}
-
-
+	
 }

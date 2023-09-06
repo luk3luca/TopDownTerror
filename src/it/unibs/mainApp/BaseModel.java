@@ -2,7 +2,7 @@ package it.unibs.mainApp;
 
 import javax.swing.event.*;
 
-/// attenzione a non infragere (troppo) il "single responsibility principle"
+
 
 public class BaseModel {
 	protected EventListenerList listenerList = new EventListenerList();

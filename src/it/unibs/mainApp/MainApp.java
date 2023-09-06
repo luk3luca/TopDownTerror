@@ -122,7 +122,7 @@ public class MainApp {
 		serverController = new BaseServer(frame,(int) comboBox.getSelectedItem());
 		serverController.startServer();
 	}
-	
+	  
 	private void joinGame(ActionEvent e) {
 		String ip = txtIP.getText();
 		String name = txtPlayerName.getText();

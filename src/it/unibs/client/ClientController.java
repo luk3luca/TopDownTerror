@@ -119,7 +119,7 @@ public class ClientController {
 			e.printStackTrace();
 		}
 		
-		executor = Executors.newFixedThreadPool(1);
+		executor = Executors.newFixedThreadPool(2);
 		executor.execute(this::listenToServer);
 		
 		sendNameToServer();

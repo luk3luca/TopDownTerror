@@ -26,7 +26,7 @@ public class Player extends MovingObject implements Serializable{
 	private T_Spawn spawn;
 	private int magMax;
 	private int ammoLeft;
-	
+
 	private int spawnX;
 	private int spawnY;
 
